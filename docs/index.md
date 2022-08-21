@@ -1,7 +1,7 @@
 --- 
 title: "Applied Linear Models"
 author: "Nick Syring"
-date: "2022-01-18"
+date: "2022-08-21"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
@@ -19,4 +19,4 @@ This is a collection of notes intended for students studying applied linear mode
 
 <br><br>
 
-Some relevant textbook references include Applied Linear Statistical Models, 5th ed., by Kutner, Nachtsheim, Neter, and Li, and The Statistical Sleuth, 3rd ed. by Ransey and Schafer.
+Some relevant textbook references include Applied Linear Statistical Models, 5th ed., by Kutner, Nachtsheim, Neter, and Li, and The Statistical Sleuth, 3rd ed. by Ramsey and Schafer.

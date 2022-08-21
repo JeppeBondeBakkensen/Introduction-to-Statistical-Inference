@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Tests Based on a Random Sample | Applied Linear Models</title>
+  <meta name="description" content="These are a collection of notes related to STAT 500 at Iowa State University. This is a work in progress." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Tests Based on a Random Sample | Applied Linear Models" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="These are a collection of notes related to STAT 500 at Iowa State University. This is a work in progress." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Tests Based on a Random Sample | Applied Linear Models" />
+  
+  <meta name="twitter:description" content="These are a collection of notes related to STAT 500 at Iowa State University. This is a work in progress." />
+  
+
+<meta name="author" content="Nick Syring" />
+
+
+<meta name="date" content="2022-08-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="data-analysis-and-statistical-inference.html"/>
+<link rel="next" href="blocks.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Applied Linear Models</a></li>
+
+<li class="divider"></li>
+<li><a href="index.html#about" id="toc-about"><span class="toc-section-number">1</span> About</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#data-analysis-and-statistical-inference" id="toc-data-analysis-and-statistical-inference"><span class="toc-section-number">2</span> Data Analysis and Statistical Inference</a>
+<ul>
+<li><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies" id="toc-data-experiments-and-studies"><span class="toc-section-number">2.1</span> Data, Experiments, and Studies</a>
+<ul>
+<li><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial" id="toc-james-linds-scurvy-trial"><span class="toc-section-number">2.1.1</span> James Lind’s Scurvy Trial</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#framingham-heart-study" id="toc-framingham-heart-study"><span class="toc-section-number">2.1.2</span> Framingham Heart Study</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study" id="toc-harris-bank-sex-pay-study"><span class="toc-section-number">2.1.3</span> Harris Bank Sex Pay Study</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets" id="toc-large-aggregated-data-sets"><span class="toc-section-number">2.1.4</span> Large, Aggregated Data Sets</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#study-concepts" id="toc-study-concepts"><span class="toc-section-number">2.1.5</span> Study Concepts</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation" id="toc-randomization-control-and-causation"><span class="toc-section-number">2.1.6</span> Randomization, control, and causation</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference" id="toc-populations-and-scope-of-inference"><span class="toc-section-number">2.1.7</span> Populations and scope of inference</a></li>
+</ul></li>
+<li><a href="data-analysis-and-statistical-inference.html#data-summaries" id="toc-data-summaries"><span class="toc-section-number">2.2</span> Data Summaries</a>
+<ul>
+<li><a href="data-analysis-and-statistical-inference.html#numerical-summaries" id="toc-numerical-summaries"><span class="toc-section-number">2.2.1</span> Numerical Summaries</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#visual-summaries" id="toc-visual-summaries"><span class="toc-section-number">2.2.2</span> Visual Summaries</a></li>
+</ul></li>
+<li><a href="data-analysis-and-statistical-inference.html#statistical-inference" id="toc-statistical-inference"><span class="toc-section-number">2.3</span> Statistical Inference</a></li>
+</ul></li>
+<li><a href="tests-based-on-a-random-sample.html#tests-based-on-a-random-sample" id="toc-tests-based-on-a-random-sample"><span class="toc-section-number">3</span> Tests Based on a Random Sample</a>
+<ul>
+<li><a href="tests-based-on-a-random-sample.html#pivotal-inference" id="toc-pivotal-inference"><span class="toc-section-number">3.1</span> Pivotal Inference</a></li>
+<li><a href="tests-based-on-a-random-sample.html#approximate-pivots" id="toc-approximate-pivots"><span class="toc-section-number">3.2</span> Approximate Pivots</a></li>
+<li><a href="tests-based-on-a-random-sample.html#asymptotic-pivots-and-likelihood-based-tests" id="toc-asymptotic-pivots-and-likelihood-based-tests"><span class="toc-section-number">3.3</span> Asymptotic Pivots and Likelihood-based Tests</a></li>
+<li><a href="tests-based-on-a-random-sample.html#bootstrap-based-tests" id="toc-bootstrap-based-tests"><span class="toc-section-number">3.4</span> Bootstrap-based Tests</a></li>
+<li><a href="tests-based-on-a-random-sample.html#randomization-and-permutation-tests" id="toc-randomization-and-permutation-tests"><span class="toc-section-number">3.5</span> Randomization and Permutation Tests</a></li>
+<li><a href="tests-based-on-a-random-sample.html#exercises" id="toc-exercises"><span class="toc-section-number">3.6</span> Exercises</a></li>
+</ul></li>
+<li><a href="blocks.html#blocks" id="toc-blocks"><span class="toc-section-number">4</span> Blocks</a>
+<ul>
+<li><a href="blocks.html#equations" id="toc-equations"><span class="toc-section-number">4.1</span> Equations</a></li>
+<li><a href="blocks.html#theorems-and-proofs" id="toc-theorems-and-proofs"><span class="toc-section-number">4.2</span> Theorems and proofs</a></li>
+<li><a href="blocks.html#callout-blocks" id="toc-callout-blocks"><span class="toc-section-number">4.3</span> Callout blocks</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Applied Linear Models</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tests-based-on-a-random-sample" class="section level1" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Tests Based on a Random Sample</h1>
+<p>In this section we briefly review methods for constructing tests about hypothesis tests. To keep things fairly simple, consider measuring one variable and suppose we obtain a simple random sample of such measurements/observations, denoted <span class="math inline">\(x_1, \ldots, x_n\)</span>. We’ll refer to the random variable versions (yet to be observed versions) of such observations by <span class="math inline">\(X_1, \ldots, X_n\)</span>, per usual.</p>
+<p>First we discuss the pivotal method for statistical inference, including approximate and asymptotic pivots. Next we’ll briefly describe the bootstrap method, which, unlike the pivotal method, does not require a full sampling model of the data. Finally, we consider so-called “randomization tests” which are not exactly hypothesis tests, but provide a means for assessing whether interventions or observed differences are associated with significant response differences in both experiments and observational studies.</p>
+<p>In terms of setup, suppose <span class="math inline">\(X^n := (X_1, \ldots, X_n)\)</span> is a random sample of size <span class="math inline">\(n\)</span> from a population equivalent to a probability distribution <span class="math inline">\(P\)</span>, and that we are interested in making inferences about a parameter <span class="math inline">\(\theta = \theta(P)\)</span>, a functional of <span class="math inline">\(P\)</span>. We’ll consider special cases below. Also, for now we will consider only a “point null” hypothesis, <span class="math inline">\(H_0: \theta = \theta_0\)</span> versus <span class="math inline">\(H_a:\theta \ne \theta_0\)</span> where <span class="math inline">\(\theta_0\)</span> is a singleton.</p>
+<div id="pivotal-inference" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Pivotal Inference</h2>
+<p>Suppose <span class="math inline">\(H_0:\theta = \theta_0\)</span>. A pivot with respect to <span class="math inline">\(H_0\)</span> is a function, say, <span class="math inline">\(g\)</span>, of data and parameter with a distribution <span class="math inline">\(F\)</span> under <span class="math inline">\(H_0\)</span> depending on no unknown parameters. We can write this relationship as
+<span class="math display">\[g(X_1, \ldots, X_n;\theta_0)\stackrel{H_0}\sim F.\]</span></p>
+<p>You are likely familiar with several examples of pivots. If <span class="math inline">\(X^n\)</span> is a random sample from a normal distribution with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, i.e., <span class="math inline">\(X_i\stackrel{iid}{\sim}N(\mu, \sigma^2), \,i=1,\ldots, n\)</span>, then
+<span class="math display">\[g(X^n;\mu):=\frac{\overline X - \mu}{\sqrt{S^2/n}}\stackrel{d}{=}t_{n-1}\]</span>
+where <span class="math inline">\(S^2\)</span> is the sample variance of <span class="math inline">\(X^n\)</span> and <span class="math inline">\(t_{n-1}\)</span> is a Student’s <span class="math inline">\(t\)</span> random variable with <span class="math inline">\(n-1\)</span> degrees of freedom.</p>
+<p>A pivot for a point-null hypothesis admits a level-<span class="math inline">\(\alpha\)</span> test by the following general rule:
+<span class="math display">\[\text{Reject }H_0\text{ if }g(x^n;\theta_0)\notin(U_{\alpha/2}, \, U_{1-\alpha/2})\]</span>
+where <span class="math inline">\(U\sim F\)</span> and <span class="math inline">\(U_\alpha\)</span> denotes the <span class="math inline">\(\alpha\)</span> quantile of <span class="math inline">\(U\)</span>. The logic is as follows: if <span class="math inline">\(g(x^n;\theta_0)\notin(U_{\alpha/2}, \, U_{1-\alpha/2})\)</span> then either <span class="math inline">\(g(x^n;\theta_0)\)</span> is an unlikely realization of <span class="math inline">\(g(X^n;\theta_0)\)</span> or <span class="math inline">\(H_0\)</span> is false. Concluding <span class="math inline">\(H_0\)</span> false in such an event is erroneous with probability
+<span class="math display">\[P_{H_0}(g(X^n;\theta_0)\leq U_{\alpha/2}) + P_{H_0}(g(X^n;\theta_0)\geq U_{1-\alpha/2}) = \alpha/2 + \alpha/2 = \alpha\]</span>
+by design. In the case of the normal random sample and point-null regarding <span class="math inline">\(\mu\)</span> the general rule gives way to the <em>one-sample t-test</em>
+<span class="math display">\[\text{Reject }H_0\text{ if }\frac{\overline X - \mu}{\sqrt{S^2/n}}\notin(t_{n-1, \alpha/2}, \, t_{n-1, 1-\alpha/2})\]</span></p>
+<p>Pivot-based tests for point nulls have a one-to-one correspondence with <em>confidence intervals</em>. Given data <span class="math inline">\(X^n = x^n\)</span> define the confidence set <span class="math inline">\(C_{\alpha}(x^n):=\{\theta: g(x^n;\theta)\in(U_{\alpha/2}, \, U_{1-\alpha/2})\}\)</span>. The <em>coverage probability</em> of <span class="math inline">\(C_\alpha(x^n)\)</span> is equal to
+<span class="math display">\[P_{\theta_0}(\theta_0 \in C_\alpha(X^n))\]</span>
+where <span class="math inline">\(\theta_0\)</span> is the true parameter value, i.e., in a point-null hypothesis test it is the null value and <span class="math inline">\(P_{\theta_0}\)</span> means the same as <span class="math inline">\(P_{H_0}\)</span>.<br />
+<span class="math display">\[\begin{align*}
+P_{\theta_0}(\theta_0 \in C_\alpha(X^n)) &amp;= 1-P_{\theta_0}(\theta_0 \notin C_\alpha(X^n))\\
+&amp; = P_{\theta_0}(g(X^n;\theta_0)\notin(U_{\alpha/2}, \, U_{1-\alpha/2}))\\
+&amp; = 1-\alpha.
+\end{align*}\]</span>
+Therefore, the confidence set given above (which is usually an interval) has the <em>confidence property</em>
+<span class="math display">\[P_{\theta_0}(\theta_0 \in C_\alpha(X^n))\geq 1-\alpha.\]</span>
+Therefore, level-<span class="math inline">\(\alpha\)</span> tests of point null hypotheses enjoy a one-to-one correspondence with valid/exact confidence sets (these being adjectives to describe sets with the confidence property).</p>
+</div>
+<div id="approximate-pivots" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Approximate Pivots</h2>
+<p>Introductory statistics courses often give students the impression pivots are common, and available in most problems. Rather, pivots are the exception, and pivot-based tests, for a variety of reasons, are simply the only tests covered in such courses. An early exception to the perceived rule is the two-sample t-test when population variances are unequal. Let’s briefly entertain this slightly more complicated example involving two populations and two random samples, <span class="math inline">\(X^n\)</span> and <span class="math inline">\(Y^m\)</span> where <span class="math inline">\(X_i\stackrel{iid}{\sim}N(\mu_x, \sigma_x^2)\)</span> and <span class="math inline">\(Y_j\stackrel{iid}{\sim}N(\mu_y, \sigma_y^2)\)</span>. As always, we want to test <span class="math inline">\(H_0:\mu_x-\mu_y = 0\)</span>, and a near-pivot is the expression
+<span class="math display">\[\frac{\overline X - \overline Y}{\sqrt{S_x^2/n + S_y^2/m}}.\]</span>
+We can rewrite this as
+<span class="math display">\[\frac{\overline X - \overline Y}{\sqrt{\sigma_x^2/n + \sigma_y^2/m}} \times \left[\frac{\sqrt{S_x^2/n + S_y^2/m}}{\sqrt{\sigma_x^2/n + \sigma_y^2/m}}\right]^{-1}.\]</span>
+Under <span class="math inline">\(H_0\)</span>, <span class="math inline">\(\frac{\overline X - \overline Y}{\sqrt{\sigma_x^2/n + \sigma_y^2/m}}\)</span> has a standard normal distribution and <span class="math inline">\(S_x^2/n + S_y^2/m\)</span> is equal in distribution to <span class="math inline">\(\sigma_x^2 V_{n-1} /[n(n-1)] + \sigma_y^2 U_{m-1} /[m(m-1)]\)</span> where <span class="math inline">\(V_{n-1}\)</span> and <span class="math inline">\(U_{m-1}\)</span> are independent <span class="math inline">\(\chi^2\)</span> r.v.’s with <span class="math inline">\(n-1\)</span> and <span class="math inline">\(m-1\)</span> degrees of freedom, respectively. The problem is that the denominator term in brackets is not equal in distribution to the square root of a <span class="math inline">\(\chi^2\)</span> r.v. divided by its degrees of freedom. To get around this inconvenience, Satterthwaite suggested the following: find a <span class="math inline">\(\chi^2\)</span> random variable <span class="math inline">\(R\)</span> such that
+<span class="math display">\[\left[\frac{\sigma_x^2 V}{n(n-1)} + \frac{\sigma_y^2 U}{m(m-1)}\right]\cdot \left[\frac{\sigma_x^2}{n} + \frac{\sigma_y^2}{m}\right]^{-1}\stackrel{d}{\approx} R.\]</span>
+Satterthwaite’s strategy for finding <span class="math inline">\(R\)</span> was to choose the degrees of freedom of <span class="math inline">\(R\)</span>, denote <span class="math inline">\(\nu\)</span> such that the mean of <span class="math inline">\(R\)</span> and the variance of <span class="math inline">\(R\)</span> match the mean and variance of the above expression. Let this degrees of freedom be <span class="math inline">\(\nu\)</span> and note:
+<span class="math display">\[\nu = \left(\frac{s_x^2}{n} + \frac{s_y^2}{m}\right)^2\left[\frac{s_x^4}{n^2(n-1)}+\frac{s_y^4}{m^2(m-1)}\right]^{-1}.\]</span>
+Then, Sattethwaite showed
+<span class="math display">\[\frac{\overline X - \overline Y}{\sqrt{S_x^2/n + S_y^2/m}}\stackrel{d}{\approx} R_\nu,\]</span>
+which is the approximate pivot used in the two-sample t-test when the variances are not assumed equal.</p>
+<p>It is often the case that tests based on approximate pivots are not level-<span class="math inline">\(\alpha\)</span> tests, but depending on the case some, like the two-sample t-test, perform very well with respect to nominal Type 1 error. Just to be clear, we’ll define an approximate pivot as a function of statistics and parameters approximated by a known distribution:
+<span class="math display">\[g(X^n; \theta_0)\stackrel{\cdot}{\sim} F, \quad \text{under }H_0\]</span>
+where the dot above the tilde denotes “approximately follows distribution function <span class="math inline">\(F\)</span>”. A special case of an approximate pivot is one whose approximation improves as the sample size <span class="math inline">\(n\)</span> increases—we call these asymptotic pivots as we discuss next.</p>
+</div>
+<div id="asymptotic-pivots-and-likelihood-based-tests" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Asymptotic Pivots and Likelihood-based Tests</h2>
+<p>Define an asymptotic pivot as follows:
+<span class="math display">\[g(X^n; \theta_0)\stackrel{d}{\rightarrow} F, \quad \text{under }H_0, \, \text{as }n\rightarrow\infty.\]</span>
+This simply says that the distribution function of <span class="math inline">\(g(X^n; \theta_0)\)</span> converges to <span class="math inline">\(F\)</span> as <span class="math inline">\(n\rightarrow \infty\)</span> when <span class="math inline">\(H_0\)</span> is true. For “large” <span class="math inline">\(n\)</span> we would expect a test based on this asymptotic pivot to be nearly a level-<span class="math inline">\(\alpha\)</span> test—but sometimes it may be difficult to determine what values of <span class="math inline">\(n\)</span> are sufficiently large for this good behavior to “kick in”.</p>
+<p>Here’s an asymptotic-pivot based test you’ve hear of: consider the one-sample t-test that rejects <span class="math inline">\(H_0:\mu = \mu_0\)</span> when <span class="math inline">\((\overline x - \mu_0)/\sqrt{s^n/n} \notin (t_{n-1,\alpha/2}, t_{n-1,1-\alpha/2})\)</span>. Now, replace the Student’s <span class="math inline">\(t\)</span> quantiles with standard normal quantiles. Since <span class="math inline">\(t_{n-1}\stackrel{d}{\rightarrow}N(0,1)\)</span> as <span class="math inline">\(n\rightarrow \infty\)</span>, the “z-test” is approximately a level-<span class="math inline">\(\alpha\)</span> test for “large” <span class="math inline">\(n\)</span>, usually <span class="math inline">\(n&gt;50\)</span> is plenty.</p>
+<p>Fortunately, there is a powerful way to derive asymptotic pivots in a wide variety of situations using maximum likelihood. For review, recall the likelihood function for a random sample is
+<span class="math display">\[L(\theta;x^n) = \prod_{i=1}^n f(x_i;\theta)\]</span>
+where <span class="math inline">\(f(x;\theta)\)</span> denotes the density of <span class="math inline">\(X\)</span>. The loglikelihood is simply <span class="math inline">\(\ell(\theta;x^n) = \log(L(\theta;x^n))\)</span> where log always denotes the natural log. The maximum likelihood estimator <span class="math inline">\(\hat\theta_{mle}\)</span> is the (usually unique) value <span class="math inline">\(\hat\theta_{mle} = \arg\min \ell(\theta;x^n)\)</span>. Also, recall the Fisher information (for one sample) is given by <span class="math inline">\(I(\theta) = -E(\frac{\partial^2}{\partial\theta^2}\ell(\theta;X^n))\)</span>. Then, the following is an asymptotic pivot:
+<span class="math display">\[n^{1/2}\sqrt{I(\hat\theta_{mle})}(\hat\theta_{mle} - \theta_0)\stackrel{d}{\rightarrow}N(0,1).\]</span>
+Tests based on such a pivot are called asymptotic Wald tests. There are other ways of constructing likelihood-based tests, such as likelihood ratio tests and score-based tests. But, we will not discuss those here.</p>
+</div>
+<div id="bootstrap-based-tests" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Bootstrap-based Tests</h2>
+<p>The <em>bootstrap</em> (and related jackknife) are a collection of techniques for statistical inference that (usually) do not require one to specify the sampling distribution of the data. For example, consider inference on the population median, <span class="math inline">\(\theta\)</span>. Regardless of <span class="math inline">\(P\)</span>, the median satisfies <span class="math inline">\(\theta = \theta(P) = \text{argsolve}\left\{0.5=\int_{-\infty}^\theta dP\right\}\)</span>. The median always exists, independently of the sampling distribution <span class="math inline">\(P\)</span>; so, the concept of inference on <span class="math inline">\(\theta\)</span> is sensible whether anything about <span class="math inline">\(P\)</span> is known or not. Should we choose some particular form of <span class="math inline">\(P\)</span>, say, normal, when in fact <span class="math inline">\(P\)</span> is not normal, then we are likely to make poor (biased) inferences regarding <span class="math inline">\(\theta\)</span>. It behooves us not to <em>misspecify</em> <span class="math inline">\(P\)</span>. But, then we need statistical inference techniques that do not require specifying <span class="math inline">\(P\)</span>. Enter the bootstrap.</p>
+<p>The bootstrap typically centers around a point estimator. Carrying on the median example, let <span class="math inline">\(\hat\theta\)</span> denote the sample median with respect to <span class="math inline">\(x^n\)</span>. The bootstrap instructs us to generate <em>resamples</em> of <span class="math inline">\(x^n\)</span> by sampling from <span class="math inline">\(x^n\)</span> with replacement, <span class="math inline">\(n\)</span> times, and repeat this process <span class="math inline">\(B\)</span> times, generating the <em>bootstrapped</em> data sets <span class="math inline">\(x^{n,1}, x^{n,2}, \ldots, x^{n,B}\)</span>. An illustration of this is given below for <span class="math inline">\(n=10\)</span> and <span class="math inline">\(B = 5\)</span>; typically, <span class="math inline">\(B\)</span> is very large.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="tests-based-on-a-random-sample.html#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb2-2"><a href="tests-based-on-a-random-sample.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&#39;original data&#39;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;original data&quot;</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="tests-based-on-a-random-sample.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">sort</span>(<span class="fu">round</span>(x,<span class="dv">2</span>)))</span></code></pre></div>
+<pre><code>##  [1] -1.48 -1.03 -0.81 -0.56 -0.08 -0.01  0.03  0.32  0.84  1.14</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="tests-based-on-a-random-sample.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&#39;bootstrapped data sets&#39;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;bootstrapped data sets&quot;</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="tests-based-on-a-random-sample.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>){</span>
+<span id="cb8-2"><a href="tests-based-on-a-random-sample.html#cb8-2" aria-hidden="true" tabindex="-1"></a> y <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">round</span>(x,<span class="dv">2</span>),<span class="dv">10</span>,<span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-3"><a href="tests-based-on-a-random-sample.html#cb8-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">print</span>(<span class="fu">sort</span>(y))</span>
+<span id="cb8-4"><a href="tests-based-on-a-random-sample.html#cb8-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>##  [1] -1.48 -1.03 -0.81 -0.56 -0.56 -0.56 -0.01  0.03  0.32  0.32
+##  [1] -1.48 -1.48 -1.03 -0.81 -0.08 -0.08  0.03  0.03  1.14  1.14
+##  [1] -1.03 -1.03 -1.03 -1.03 -0.81 -0.08 -0.01  0.32  0.32  0.32
+##  [1] -1.03 -1.03 -0.81 -0.81 -0.81 -0.81 -0.56 -0.01 -0.01  0.84
+##  [1] -1.48 -1.03 -1.03 -0.81 -0.81 -0.81 -0.08 -0.01  0.03  0.03</code></pre>
+<p>For each bootstrapped data set, we compute its corresponding point estimator, in this case the sample median, and call it <span class="math inline">\(\hat\theta^b\)</span> for <span class="math inline">\(b = 1, \ldots, B\)</span>. These represent a sample of size <span class="math inline">\(B\)</span> from the bootstrap sampling distribution of the point estimator. For large <span class="math inline">\(n\)</span> and <span class="math inline">\(B\)</span>, and under certain other conditions, the bootstrap sampling distribution of <span class="math inline">\(\hat\theta\)</span> is a very good approximation of the true sampling distribution of <span class="math inline">\(\hat\theta\)</span>, which is unknown because <span class="math inline">\(P\)</span> is unknown. See a histogram of <span class="math inline">\(1000\)</span> bootstrapped sample medians based on an original sample of <span class="math inline">\(n=10\)</span> from a standard normal population.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="tests-based-on-a-random-sample.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(boot)</span>
+<span id="cb10-2"><a href="tests-based-on-a-random-sample.html#cb10-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb10-3"><a href="tests-based-on-a-random-sample.html#cb10-3" aria-hidden="true" tabindex="-1"></a>fun <span class="ot">=</span> <span class="cf">function</span>(data, i){</span>
+<span id="cb10-4"><a href="tests-based-on-a-random-sample.html#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">median</span>(data[i]))</span>
+<span id="cb10-5"><a href="tests-based-on-a-random-sample.html#cb10-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-6"><a href="tests-based-on-a-random-sample.html#cb10-6" aria-hidden="true" tabindex="-1"></a>booted.medians <span class="ot">&lt;-</span> <span class="fu">boot</span>(<span class="at">data =</span> x, <span class="at">statistic =</span> fun, <span class="at">R =</span> <span class="dv">1000</span>, <span class="at">stype =</span> <span class="st">&#39;i&#39;</span>)</span>
+<span id="cb10-7"><a href="tests-based-on-a-random-sample.html#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(booted.medians<span class="sc">$</span>t, <span class="at">xlab =</span> <span class="st">&#39;Bootstrapped sample medians&#39;</span>, <span class="at">main =</span> <span class="st">&#39;&#39;</span>)</span></code></pre></div>
+<p><img src="02-Tests_based_on_One_Random_Sample_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Given the bootstrap sampling distribution of <span class="math inline">\(\hat\theta\)</span>, sall it <span class="math inline">\(\hat F\)</span>, there are many ways to proceed with inference on <span class="math inline">\(\theta\)</span>. The most straightforward method is to treat the extreme quantiles of <span class="math inline">\(\hat F\)</span> as implausible values of <span class="math inline">\(\theta\)</span>. Let <span class="math inline">\(\hat\theta_\alpha\)</span> denote the <span class="math inline">\(\alpha\)</span> quantile of the bootstrap sampling distribution of <span class="math inline">\(\hat\theta\)</span>. Then, <span class="math inline">\((\hat\theta_{\alpha/2}, \,\hat\theta_{1-\alpha/2})\)</span> constitutes an approximate <span class="math inline">\(95\%\)</span> bootstrap CI for <span class="math inline">\(\theta\)</span>, and, similarly, the complement of that set is a rejection region for the point null <span class="math inline">\(H_0:\theta = \theta_0\)</span>. These quantiles are estimated by the corresponding sample quantiles of the <span class="math inline">\(\hat\theta^b\)</span> values. This is called the <em>percentile bootstrap method</em>. For various reason we will not discuss here, a different method is usually preferred for deriving bootstrap CIs and tests. Let <span class="math inline">\(\hat\theta_\alpha\)</span> denote the <span class="math inline">\(\alpha\)</span> quantile of the bootstrap sampling distribution of <span class="math inline">\(\hat\theta\)</span>. Let <span class="math inline">\(\overline \theta\)</span> denote the bootstrap sample mean <span class="math inline">\(B^{-1}\sum_{b=1}^B \hat\theta^b\)</span>. Then, <span class="math inline">\((2\overline \theta - \hat\theta_{1-\alpha/2}, \,2\overline \theta - \hat\theta_{\alpha/2})\)</span> is the so-called <em>basic bootstrap CI</em> for <span class="math inline">\(\theta\)</span>. Again, its complement set may be used as a rejection region for a point null.</p>
+<p>Many other bootstrap techniques are available for different resampling schemes, different constructions of intervals and tests, and different assumptions regarding the sampling distribution. The basic message to keep in mind is that the bootstrap is a general-purpose method with wide applicability, like mle, but for use when the sampling distribution is totally unknown.</p>
+</div>
+<div id="randomization-and-permutation-tests" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Randomization and Permutation Tests</h2>
+<p>We finish our general discussion of constructing tests and confidence intervals with randomization tests, which is a bit of a misnomer. In fact, these are not really tests at all. As defined above, tests concern evaluating statements about the population, which involves generalizing from the sample to the population. Randomization tests attempt to evaluate whether an intervention or observed characteristic is responsible for observed differences in responses <strong>within the observed data set</strong>. The following illustration helps to clarify the difference between hypothesis tests and randomization tests.</p>
+<p>Suppose <span class="math inline">\(x^n\)</span> is an observed random sample from a population. Let <span class="math inline">\(y^n \in \{0,1\}^n\)</span> denote a binary grouping variable identifying the observations in <span class="math inline">\(x^n\)</span> with one of two groups. For a concrete example, we can think of <span class="math inline">\(y^n\)</span> indicating a randomized treatment with one of two drugs, and <span class="math inline">\(x^n\)</span> recording an outcome, like reduction in blood pressure after treatment for patients with high blood pressure. A hypothesis about the population may claim something like “there is no difference in average reduction in blood pressure between the two drugs at the population level”. Of course, this data set would be relevant for evaluating such a hypothesis. A subtly different claim is the following: “the observed difference in mean blood pressure reduction is not attributable to which treatment/drug was received”. The latter is a claim only about the observed treatment effects, and not the population-level effects. A randomization test is used to evaluate this second type of claim.</p>
+<p>To perform a randomization test, one simply permutes the values in <span class="math inline">\(y^n\)</span>—which, if the claim is true, is simply equivalent to the randomization of patients into the two treatment groups having come out differently than observed—and re-compute the difference of sample means. Of course, now we have jumbled up the responses of patients in the two treatment groups, but that’s the point. The claim is that the effects of the two treatments are indistinguishable, and so it shouldn’t matter if we re-label/re-randomize the patients. If we repeat these two steps many, many times (similar to the bootstrap) we obtain a <em>randomization distribution</em> or <em>permutation distribution</em> of the difference of sample means. To evaluate the claim, similar to the bootstrap, we simply look at the extreme quantiles of this distribution and see if they contain the observed difference in sample means. If so, then the observed difference is a value typical of the distribution that we realized under the assumption that the treatment labels were exchangeable, and, hence, the claim of no difference is reasonable. On the other hand, if the observed difference in means is outside the randomization distribution, then it is implausible that the treatment labels are not associated with the observed difference. The example below shows the randomization difference as well as the observed difference for randomly generated data sets of size ten from two normal distributions, <span class="math inline">\(N(0,1)\)</span> and <span class="math inline">\(N(1,2)\)</span>. The blue points show the middle <span class="math inline">\(95\%\)</span> of re-randomized differences of sample means and the vertical line shows the observed difference.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="tests-based-on-a-random-sample.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb11-2"><a href="tests-based-on-a-random-sample.html#cb11-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb11-3"><a href="tests-based-on-a-random-sample.html#cb11-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>,<span class="dv">1</span>,<span class="dv">2</span>)</span>
+<span id="cb11-4"><a href="tests-based-on-a-random-sample.html#cb11-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">mean</span>(x) <span class="sc">-</span> <span class="fu">mean</span>(y)</span>
+<span id="cb11-5"><a href="tests-based-on-a-random-sample.html#cb11-5" aria-hidden="true" tabindex="-1"></a>rerandomize <span class="ot">&lt;-</span> <span class="cf">function</span>(B){</span>
+<span id="cb11-6"><a href="tests-based-on-a-random-sample.html#cb11-6" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">c</span>(x,y)</span>
+<span id="cb11-7"><a href="tests-based-on-a-random-sample.html#cb11-7" aria-hidden="true" tabindex="-1"></a>  zs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,B)</span>
+<span id="cb11-8"><a href="tests-based-on-a-random-sample.html#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B){</span>
+<span id="cb11-9"><a href="tests-based-on-a-random-sample.html#cb11-9" aria-hidden="true" tabindex="-1"></a>    indices <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb11-10"><a href="tests-based-on-a-random-sample.html#cb11-10" aria-hidden="true" tabindex="-1"></a>    new.x <span class="ot">&lt;-</span> data[indices]</span>
+<span id="cb11-11"><a href="tests-based-on-a-random-sample.html#cb11-11" aria-hidden="true" tabindex="-1"></a>    new.y <span class="ot">&lt;-</span> data[<span class="sc">-</span>indices]</span>
+<span id="cb11-12"><a href="tests-based-on-a-random-sample.html#cb11-12" aria-hidden="true" tabindex="-1"></a>    new.z <span class="ot">&lt;-</span> <span class="fu">mean</span>(new.x) <span class="sc">-</span> <span class="fu">mean</span>(new.y)</span>
+<span id="cb11-13"><a href="tests-based-on-a-random-sample.html#cb11-13" aria-hidden="true" tabindex="-1"></a>    zs[i] <span class="ot">&lt;-</span> new.z</span>
+<span id="cb11-14"><a href="tests-based-on-a-random-sample.html#cb11-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-15"><a href="tests-based-on-a-random-sample.html#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(zs)</span>
+<span id="cb11-16"><a href="tests-based-on-a-random-sample.html#cb11-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-17"><a href="tests-based-on-a-random-sample.html#cb11-17" aria-hidden="true" tabindex="-1"></a>zs <span class="ot">&lt;-</span> <span class="fu">rerandomize</span>(<span class="dv">1000</span>)</span>
+<span id="cb11-18"><a href="tests-based-on-a-random-sample.html#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(zs, <span class="at">main =</span> <span class="st">&#39;&#39;</span>, <span class="at">xlab =</span> <span class="st">&#39;re-randomized differences of group sample means&#39;</span>)</span>
+<span id="cb11-19"><a href="tests-based-on-a-random-sample.html#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> z)</span>
+<span id="cb11-20"><a href="tests-based-on-a-random-sample.html#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(zs, <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))  </span></code></pre></div>
+<pre><code>##      2.5%     97.5% 
+## -1.301027  1.400158</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="tests-based-on-a-random-sample.html#cb13-1" aria-hidden="true" tabindex="-1"></a>z  </span></code></pre></div>
+<pre><code>## [1] -1.7049</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="tests-based-on-a-random-sample.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="fu">c</span>(<span class="fu">quantile</span>(zs, <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>)</span></code></pre></div>
+<p><img src="02-Tests_based_on_One_Random_Sample_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>As hinted above, randomization tests are often performed on data from observational studies, where the grouping variables does not represent an intervention. A common example is evaluating male/female differences. In this context the same test is usually called a permutation test, because the relation to randomization of an intervention over subjects is lost, but the idea of permuting class labels is the same.</p>
+<p>Finally, we describe the construction of (something like) confidence intervals from randomization/permutation tests. If we keep the correspondence, i.e., that the confidence interval is simply the set of point null values for which the point null is not rejected at level <span class="math inline">\(\alpha\)</span>, then it turns out to be fairly complicated to obtain the interval, at least numerically speaking. Before going further, note that the use of the phrase “point null” is rather loose here. The null hypothesis of no difference described above is specifically in relation to the observed data set, i.e., that the labeling is not associated with a response difference in the observed data. It’s not really a hypothesis in the sense of a claim about the population; rather, it’s a claim about the sample. Now, to obtain an interval of “plausible” values of differences, we have to amend our statement. Let’s say that the effect of labeling is a difference of <span class="math inline">\(\theta\)</span> in the observed data, with respect to the group 1 minus group 0 comparison. To evaluate this claim we would subtract <span class="math inline">\(\theta\)</span> from every response with an original label of 1, the idea being that we have then removed the overall effect of labeling. Then, we perform the randomization test as before for the data set with <span class="math inline">\(\theta\)</span> subtracted from the first group’s responses, comparing the randomization distribution of this difference to the realized value. We have to repeat the randomization test over a range of <span class="math inline">\(\theta\)</span> values, recording which are rejected and which are not. In this manner we can build an interval from the smallest to the largest <span class="math inline">\(\theta\)</span> values not rejected by the randomization test procedure. Be careful implementing this procedure as it can take a good deal of time!</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="tests-based-on-a-random-sample.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb16-2"><a href="tests-based-on-a-random-sample.html#cb16-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb16-3"><a href="tests-based-on-a-random-sample.html#cb16-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>,<span class="dv">1</span>,<span class="dv">2</span>)</span>
+<span id="cb16-4"><a href="tests-based-on-a-random-sample.html#cb16-4" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">mean</span>(x) <span class="sc">-</span> <span class="fu">mean</span>(y)</span>
+<span id="cb16-5"><a href="tests-based-on-a-random-sample.html#cb16-5" aria-hidden="true" tabindex="-1"></a>theta.seq <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="sc">-</span><span class="dv">4</span>, <span class="at">to =</span> <span class="dv">4</span>, <span class="at">length.out =</span> <span class="dv">100</span>)</span>
+<span id="cb16-6"><a href="tests-based-on-a-random-sample.html#cb16-6" aria-hidden="true" tabindex="-1"></a>rejects<span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,<span class="fu">length</span>(theta.seq))</span>
+<span id="cb16-7"><a href="tests-based-on-a-random-sample.html#cb16-7" aria-hidden="true" tabindex="-1"></a>z.h0 <span class="ot">&lt;-</span> rejects</span>
+<span id="cb16-8"><a href="tests-based-on-a-random-sample.html#cb16-8" aria-hidden="true" tabindex="-1"></a>rerandomize <span class="ot">&lt;-</span> <span class="cf">function</span>(B, theta){</span>
+<span id="cb16-9"><a href="tests-based-on-a-random-sample.html#cb16-9" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">c</span>(x<span class="sc">-</span>theta,y)</span>
+<span id="cb16-10"><a href="tests-based-on-a-random-sample.html#cb16-10" aria-hidden="true" tabindex="-1"></a>  zs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,B)</span>
+<span id="cb16-11"><a href="tests-based-on-a-random-sample.html#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B){</span>
+<span id="cb16-12"><a href="tests-based-on-a-random-sample.html#cb16-12" aria-hidden="true" tabindex="-1"></a>    indices <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb16-13"><a href="tests-based-on-a-random-sample.html#cb16-13" aria-hidden="true" tabindex="-1"></a>    new.x <span class="ot">&lt;-</span> data[indices]</span>
+<span id="cb16-14"><a href="tests-based-on-a-random-sample.html#cb16-14" aria-hidden="true" tabindex="-1"></a>    new.y <span class="ot">&lt;-</span> data[<span class="sc">-</span>indices]</span>
+<span id="cb16-15"><a href="tests-based-on-a-random-sample.html#cb16-15" aria-hidden="true" tabindex="-1"></a>    new.z <span class="ot">&lt;-</span> <span class="fu">mean</span>(new.x) <span class="sc">-</span> <span class="fu">mean</span>(new.y)</span>
+<span id="cb16-16"><a href="tests-based-on-a-random-sample.html#cb16-16" aria-hidden="true" tabindex="-1"></a>    zs[i] <span class="ot">&lt;-</span> new.z</span>
+<span id="cb16-17"><a href="tests-based-on-a-random-sample.html#cb16-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb16-18"><a href="tests-based-on-a-random-sample.html#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(zs)</span>
+<span id="cb16-19"><a href="tests-based-on-a-random-sample.html#cb16-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-20"><a href="tests-based-on-a-random-sample.html#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(theta.seq)){</span>
+<span id="cb16-21"><a href="tests-based-on-a-random-sample.html#cb16-21" aria-hidden="true" tabindex="-1"></a>  z.h0[j] <span class="ot">=</span> <span class="fu">mean</span>(x) <span class="sc">-</span> theta.seq[j] <span class="sc">-</span> <span class="fu">mean</span>(y)</span>
+<span id="cb16-22"><a href="tests-based-on-a-random-sample.html#cb16-22" aria-hidden="true" tabindex="-1"></a>  zs <span class="ot">&lt;-</span> <span class="fu">rerandomize</span>(<span class="dv">1000</span>, theta.seq[j])</span>
+<span id="cb16-23"><a href="tests-based-on-a-random-sample.html#cb16-23" aria-hidden="true" tabindex="-1"></a>  qzs <span class="ot">&lt;-</span> <span class="fu">quantile</span>(zs, <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))  </span>
+<span id="cb16-24"><a href="tests-based-on-a-random-sample.html#cb16-24" aria-hidden="true" tabindex="-1"></a>  rejects[j] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(z.h0[j] <span class="sc">&lt;</span> qzs[<span class="dv">1</span>] <span class="sc">||</span> z.h0[j] <span class="sc">&gt;</span> qzs[<span class="dv">2</span>], <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb16-25"><a href="tests-based-on-a-random-sample.html#cb16-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-26"><a href="tests-based-on-a-random-sample.html#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">min</span>(theta.seq[rejects<span class="sc">==</span><span class="dv">0</span>]), <span class="fu">max</span>(theta.seq[rejects<span class="sc">==</span><span class="dv">0</span>]))</span></code></pre></div>
+<pre><code>## [1] -2.8686869 -0.5252525</code></pre>
+</div>
+<div id="exercises" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Exercises</h2>
+<ol style="list-style-type: decimal">
+<li><p>Verify the Welch-Satterthwaite degrees of freedom for the two-sample t-test by Satterthwaite’s method of moments as describes above.</p></li>
+<li><p>Recall that a level-<span class="math inline">\(\alpha\)</span> test must limit Type 1 error probability to no more than <span class="math inline">\(\alpha\%\)</span>, not necessarily reach exactly <span class="math inline">\(\alpha\%\)</span>, although equality is better (otherwise the test is conservative). reconsider the two-sample t-test. Hsu and Scheffe showed that a (conservative) level-<span class="math inline">\(\alpha\)</span> test is based on the approximate pivot
+<span class="math display">\[\frac{\overline X - \overline Y}{\sqrt{S_x^2/n + S_y^2/m}}\leq_{st} t_m\]</span>
+where <span class="math inline">\(m:=\min\{n-1, m-1\}\)</span>, <span class="math inline">\(t_m\)</span> is a Student’s <span class="math inline">\(t\)</span> r.v. with <span class="math inline">\(m\)</span> df, and <span class="math inline">\(X\leq_{st} Y\)</span> means <span class="math inline">\(X\)</span> is stochastically smaller than <span class="math inline">\(Y\)</span>. If you’re not familiar with the term, <span class="math inline">\(X\)</span> is stochastically smaller than <span class="math inline">\(Y\)</span> if <span class="math inline">\(P(X&gt;s)\leq P(Y&gt;s)\)</span> for <span class="math inline">\(s\in \mathbb{R}\)</span>. In other words, the <span class="math inline">\(t_m\)</span> distribution has heavier tails than the approximate pivotal quantity, which explains why the test is conservative.<br><br></p></li>
+</ol>
+<p>Do either of the following:</p>
+<ul>
+<li>Implement a Monte Carlo simulation to verify the claim that Hsu and Scheffe’s test is valid, albeit conservative.</li>
+<li>Verify the claim analytically.</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Let <span class="math inline">\(X^n\)</span> denote a random sample of size <span class="math inline">\(n\)</span> from and exponential distribution with rate parameter <span class="math inline">\(\lambda\)</span>. Find the mle, the Fisher information, and a <span class="math inline">\(95\%\)</span> CI for <span class="math inline">\(\lambda\)</span> based on the asymptotic Wald test.</p></li>
+<li><p>Let <span class="math inline">\(X^n\)</span> denote a random sample of size <span class="math inline">\(n\)</span> from a normal distribution with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. Find the mle of <span class="math inline">\((\mu, \sigma^2)\)</span>; recall this is the vector of values such that the gradient of the (log)likelihood is zero. Find the Fisher information matrix for <span class="math inline">\((\mu, \sigma^3)\)</span>; recall this is minus one times the expectation of the second derivative matrix of the loglikelihood. And, finally, find a <span class="math inline">\(95\%\)</span> CI for <span class="math inline">\(\mu\)</span> based on the asymptotic Wald test. Hint: recall the marginal variance of <span class="math inline">\(\hat\mu_{mle}\)</span> is the corresponding diagonal entry of the inverse of the Fisher information matrix.</p></li>
+<li><p>Recall the delta method: let <span class="math inline">\(g(\theta)\)</span> be a smooth function of a vector parameter. Then, the mle of <span class="math inline">\(g(\theta)\)</span> is <span class="math inline">\(g(\hat\theta_{mle})\)</span>, and it has the following large sample normal behavior:
+<span class="math display">\[n^{1/2}(g(\hat\theta_{mle})-g(\theta)) \stackrel{\cdot}{\sim} N(0, g&#39;(\theta)^\top I(\theta)^{-1}g(\theta)).\]</span>
+Use the delta method to find a <span class="math inline">\(95\%\)</span> confidence interval for the signal-to-noise ratio <span class="math inline">\(\mu/\sigma\)</span> based on a random sample <span class="math inline">\(X^n\)</span> of size <span class="math inline">\(n\)</span> from <span class="math inline">\(N(\mu, \sigma^2)\)</span>.</p></li>
+<li><p>Besides the above delta method, you probably can’t think of another way to construct a test or CI for the signal-to-noise ratio <span class="math inline">\(\eta:=\mu/\sigma\)</span> of a normal population; certainly, you probably can’t think of a pivot for such a quantity. Towards deriving a (non-asymptotic) level-<span class="math inline">\(\alpha\)</span> test for <span class="math inline">\(H_0:\eta = \eta_0\)</span> write down the following <em>data-generating equations</em> in terms of the sufficient statistics <span class="math inline">\((\overline X, S^2)\)</span>:
+<span class="math display">\[\begin{align*}
+\overline X &amp;= \mu + n^{-1/2}\sigma Z, \quad Z\sim N(0,1)\\
+(n-1)S^2 &amp;= \sigma^2 V, \quad V\sim \chi^2(n-1), \quad V\perp Z.
+\end{align*}\]</span>
+Make the one-to-one transformation <span class="math inline">\((\mu, \sigma^2)\mapsto(\eta, \sigma^2)\)</span> and re-write the equations equivalently in terms of the new parametrization:
+<span class="math display">\[\begin{align*}
+\overline X &amp;= \sigma \eta + n^{-1/2}\sigma Z, \quad Z\sim N(0,1)\\
+(n-1)S^2 &amp;= \sigma^2 V, \quad V\sim \chi^2(n-1), \quad V\perp Z.
+\end{align*}\]</span>
+Into the first equation, plug in <span class="math inline">\(\sigma = \sqrt{(n-1)S^2/V}\)</span> to arrive at
+<span class="math display">\[\begin{align*}
+\overline X &amp;= \eta\sqrt{(n-1)S^2/V} + n^{-1/2}\sqrt{(n-1)S^2/V} Z, \quad Z\sim N(0,1)\\
+(n-1)S^2 &amp;= \sigma^2 V, \quad V\sim \chi^2(n-1), \quad V\perp Z.
+\end{align*}\]</span>
+Now, make the following observation, keeping in mind we are only interested in <span class="math inline">\(\eta\)</span>, not <span class="math inline">\(\sigma^2\)</span>. Fix any values of <span class="math inline">\((\overline X, \eta, S^2, V, Z)\)</span> such that the first equation is satisfied. It follows that there exists a value of <span class="math inline">\(\sigma^2&gt;0\)</span> simultaneously satisfying the second equation. Therefore, we can ignore the second equation. This is similar to what happens in the case of the one-sample t-test where we find a pivot not depending on <span class="math inline">\(\sigma^2\)</span>. Divide by <span class="math inline">\(\sqrt{S^2}\)</span> on both sides of the first equation: we are left with the following:
+<span class="math display">\[\frac{\overline X}{\sqrt{S^2}} = \sqrt{(n-1)/V}\left (\eta + n^{-1/2}Z\right), \quad Z\sim N(0,1)\quad V\sim \chi^2(n-1), \quad V\perp Z.\]</span>
+If you stare at this equation long enough, you will convince yourself you cannot solve for a pivot. Nevertheless, we have something similar, namely, a single equation involving the parameter of interest, the sufficient statistics, and random variables with known distributions. Define the following function:
+<span class="math display">\[\pi(\eta) = 1-\left|2P_{Z,V}\left(\frac{\overline x}{\sqrt{s^2}} \leq \sqrt{(n-1)/V}\left (\eta + n^{-1/2}Z\right)\right) - 1\right|.\]</span>
+Claim: the test that rejects <span class="math inline">\(H_0:\eta= \eta_0\)</span> when <span class="math inline">\(\pi(\eta_0) &lt;\alpha\)</span> is a level-alpha test. Similarly, the set <span class="math inline">\(\{\eta: \pi(\eta) &gt; \alpha\}\)</span> is a valid <span class="math inline">\((1-\alpha)\)</span> confidence set.</p></li>
+</ol>
+<p><br><br></p>
+<p>Do either one the following:<br></p>
+<ul>
+<li>Implement a Monte Carlo simulation to verify the claim.</li>
+<li>Verify the claim analytically.</li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-analysis-and-statistical-inference.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="blocks.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-Tests_based_on_One_Random_Sample.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

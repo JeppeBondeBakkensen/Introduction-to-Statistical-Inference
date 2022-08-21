@@ -24,7 +24,7 @@
 <meta name="author" content="Nick Syring" />
 
 
-<meta name="date" content="2022-01-18" />
+<meta name="date" content="2022-08-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,9 @@
   
   
 <link rel="prev" href="index.html"/>
-<link rel="next" href="cross.html"/>
-<script src="libs/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+<link rel="next" href="review-of-statistical-inference.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -55,41 +56,68 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -106,44 +134,49 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">Applied Linear Models</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
-<li class="chapter" data-level="2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html"><i class="fa fa-check"></i><b>2</b> Data Analysis and Statistical Inference</a><ul>
-<li class="chapter" data-level="2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies"><i class="fa fa-check"></i><b>2.1</b> Data, Experiments, and Studies</a><ul>
-<li class="chapter" data-level="2.1.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial"><i class="fa fa-check"></i><b>2.1.1</b> James Lind's Scurvy Trial</a></li>
-<li class="chapter" data-level="2.1.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#framingham-heart-study"><i class="fa fa-check"></i><b>2.1.2</b> Framingham Heart Study</a></li>
-<li class="chapter" data-level="2.1.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study"><i class="fa fa-check"></i><b>2.1.3</b> Harris Bank Sex Pay Study</a></li>
-<li class="chapter" data-level="2.1.4" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#study-concepts"><i class="fa fa-check"></i><b>2.1.4</b> Study Concepts</a></li>
-<li class="chapter" data-level="2.1.5" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation"><i class="fa fa-check"></i><b>2.1.5</b> Randomization, control, and causation</a></li>
-<li class="chapter" data-level="2.1.6" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference"><i class="fa fa-check"></i><b>2.1.6</b> Populations and scope of inference</a></li>
+<li><a href="index.html#about" id="toc-about"><span class="toc-section-number">1</span> About</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#data-analysis-and-statistical-inference" id="toc-data-analysis-and-statistical-inference"><span class="toc-section-number">2</span> Data Analysis and Statistical Inference</a>
+<ul>
+<li><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies" id="toc-data-experiments-and-studies"><span class="toc-section-number">2.1</span> Data, Experiments, and Studies</a>
+<ul>
+<li><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial" id="toc-james-linds-scurvy-trial"><span class="toc-section-number">2.1.1</span> James Lind’s Scurvy Trial</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#framingham-heart-study" id="toc-framingham-heart-study"><span class="toc-section-number">2.1.2</span> Framingham Heart Study</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study" id="toc-harris-bank-sex-pay-study"><span class="toc-section-number">2.1.3</span> Harris Bank Sex Pay Study</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets" id="toc-large-aggregated-data-sets"><span class="toc-section-number">2.1.4</span> Large, Aggregated Data Sets</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#study-concepts" id="toc-study-concepts"><span class="toc-section-number">2.1.5</span> Study Concepts</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation" id="toc-randomization-control-and-causation"><span class="toc-section-number">2.1.6</span> Randomization, control, and causation</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference" id="toc-populations-and-scope-of-inference"><span class="toc-section-number">2.1.7</span> Populations and scope of inference</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#statistical-inference-in-randomly-sampled-randomized-experiments"><i class="fa fa-check"></i><b>2.2</b> Statistical Inference in randomly sampled, randomized experiments</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#one--and-two-sample-inference-for-a-population-mean"><i class="fa fa-check"></i><b>2.2.1</b> One- and Two-sample inference for a population mean</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#data-summaries" id="toc-data-summaries"><span class="toc-section-number">2.2</span> Data Summaries</a>
+<ul>
+<li><a href="data-analysis-and-statistical-inference.html#numerical-summaries" id="toc-numerical-summaries"><span class="toc-section-number">2.2.1</span> Numerical Summaries</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#visual-summaries" id="toc-visual-summaries"><span class="toc-section-number">2.2.2</span> Visual Summaries</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#exercises"><i class="fa fa-check"></i><b>2.3</b> Exercises</a></li>
+<li><a href="data-analysis-and-statistical-inference.html#statistical-inference" id="toc-statistical-inference"><span class="toc-section-number">2.3</span> Statistical Inference</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="cross.html"><a href="cross.html"><i class="fa fa-check"></i><b>3</b> Cross-references</a><ul>
-<li class="chapter" data-level="3.1" data-path="cross.html"><a href="cross.html#chapters-and-sub-chapters"><i class="fa fa-check"></i><b>3.1</b> Chapters and sub-chapters</a></li>
-<li class="chapter" data-level="3.2" data-path="cross.html"><a href="cross.html#captioned-figures-and-tables"><i class="fa fa-check"></i><b>3.2</b> Captioned figures and tables</a></li>
+<li><a href="review-of-statistical-inference.html#review-of-statistical-inference" id="toc-review-of-statistical-inference"><span class="toc-section-number">3</span> Review of Statistical Inference</a>
+<ul>
+<li><a href="review-of-statistical-inference.html#pivotal-inference" id="toc-pivotal-inference"><span class="toc-section-number">3.1</span> Pivotal Inference</a></li>
+<li><a href="review-of-statistical-inference.html#approximate-pivots" id="toc-approximate-pivots"><span class="toc-section-number">3.2</span> Approximate Pivots</a></li>
+<li><a href="review-of-statistical-inference.html#asymptotic-pivots-and-likelihood-based-tests" id="toc-asymptotic-pivots-and-likelihood-based-tests"><span class="toc-section-number">3.3</span> Asymptotic Pivots and Likelihood-based Tests</a></li>
+<li><a href="review-of-statistical-inference.html#bootstrap-based-tests" id="toc-bootstrap-based-tests"><span class="toc-section-number">3.4</span> Bootstrap-based Tests</a></li>
+<li><a href="review-of-statistical-inference.html#randomization-and-permutation-tests" id="toc-randomization-and-permutation-tests"><span class="toc-section-number">3.5</span> Randomization and Permutation Tests</a></li>
+<li><a href="review-of-statistical-inference.html#exercises" id="toc-exercises"><span class="toc-section-number">3.6</span> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="parts.html"><a href="parts.html"><i class="fa fa-check"></i><b>4</b> Parts</a></li>
-<li class="chapter" data-level="5" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html"><i class="fa fa-check"></i><b>5</b> Footnotes and citations</a><ul>
-<li class="chapter" data-level="5.1" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#footnotes"><i class="fa fa-check"></i><b>5.1</b> Footnotes</a></li>
-<li class="chapter" data-level="5.2" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#citations"><i class="fa fa-check"></i><b>5.2</b> Citations</a></li>
+<li><a href="introduction-to-linear-models.html#introduction-to-linear-models" id="toc-introduction-to-linear-models"><span class="toc-section-number">4</span> Introduction to Linear Models</a>
+<ul>
+<li><a href="introduction-to-linear-models.html#defining-the-linear-model" id="toc-defining-the-linear-model"><span class="toc-section-number">4.1</span> Defining the linear model</a></li>
+<li><a href="introduction-to-linear-models.html#gauss-markov-model-for-one-sample" id="toc-gauss-markov-model-for-one-sample"><span class="toc-section-number">4.2</span> Gauss-Markov model for one-sample</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="blocks.html"><a href="blocks.html"><i class="fa fa-check"></i><b>6</b> Blocks</a><ul>
-<li class="chapter" data-level="6.1" data-path="blocks.html"><a href="blocks.html#equations"><i class="fa fa-check"></i><b>6.1</b> Equations</a></li>
-<li class="chapter" data-level="6.2" data-path="blocks.html"><a href="blocks.html#theorems-and-proofs"><i class="fa fa-check"></i><b>6.2</b> Theorems and proofs</a></li>
-<li class="chapter" data-level="6.3" data-path="blocks.html"><a href="blocks.html#callout-blocks"><i class="fa fa-check"></i><b>6.3</b> Callout blocks</a></li>
+<li><a href="blocks.html#blocks" id="toc-blocks"><span class="toc-section-number">5</span> Blocks</a>
+<ul>
+<li><a href="blocks.html#equations" id="toc-equations"><span class="toc-section-number">5.1</span> Equations</a></li>
+<li><a href="blocks.html#theorems-and-proofs" id="toc-theorems-and-proofs"><span class="toc-section-number">5.2</span> Theorems and proofs</a></li>
+<li><a href="blocks.html#callout-blocks" id="toc-callout-blocks"><span class="toc-section-number">5.3</span> Callout blocks</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="sharing-your-book.html"><a href="sharing-your-book.html"><i class="fa fa-check"></i><b>7</b> Sharing your book</a><ul>
-<li class="chapter" data-level="7.1" data-path="sharing-your-book.html"><a href="sharing-your-book.html#publishing"><i class="fa fa-check"></i><b>7.1</b> Publishing</a></li>
-<li class="chapter" data-level="7.2" data-path="sharing-your-book.html"><a href="sharing-your-book.html#pages"><i class="fa fa-check"></i><b>7.2</b> 404 pages</a></li>
-<li class="chapter" data-level="7.3" data-path="sharing-your-book.html"><a href="sharing-your-book.html#metadata-for-sharing"><i class="fa fa-check"></i><b>7.3</b> Metadata for sharing</a></li>
-</ul></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -164,73 +197,140 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="data-analysis-and-statistical-inference" class="section level1">
+<div id="data-analysis-and-statistical-inference" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data Analysis and Statistical Inference</h1>
 <p>In this first chapter we define and discuss some important concepts regarding data and scientific investigation.</p>
-<div id="data-experiments-and-studies" class="section level2">
+<div id="data-experiments-and-studies" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Data, Experiments, and Studies</h2>
-<p>We encounter numerical summaries of information constantly in our everyday lives and sort through these in order to make all sorts of decisions. In this section we will formalize the concept of <em>data</em> connected to scientific study.</p>
-<p>Two types of studies in which data are collected and analyzed are in designed, interventional experiments, and in observational studies. The following illustrations help to differentiate these two types of studies.</p>
-<div id="james-linds-scurvy-trial" class="section level3">
-<h3><span class="header-section-number">2.1.1</span> James Lind's Scurvy Trial</h3>
-<p>Clinical trials are familiar designed, interventional experiments. A famous, early example is James Lind's Scurvy trial. Lind was a doctor aboard a British ship. Several sailors with him were suffering from scurvy. He selected 12 sailors in similar, poor condition, and assigned to pairs of them 6 different treatments (the intervention). The two who received oranges and lemons to eat recovered fully; those who received apple cider fared next best.</p>
+<p>We encounter numerical summaries of information constantly in our everyday lives and sort through these in order to make all sorts of decisions. In this section we will formalize the concept of <em>data</em> connected to scientific study. Broadly speaking, data is anything we observe that is relevant to answering a question of interest, i.e., data is tacitly assumed to be informative about the question.</p>
+<p>Three types of studies in which data are collected and analyzed are in designed, interventional experiments, observational studies, and exploratory studies. The following illustrations help to differentiate these two types of studies. One difference we will see is all about timing—experiments start with a question of interest and then are designed to answer the question. Exploratory data analysis is often done using data collected with no particular question in mind, or some other question besides the current one. Another difference is that experiments require interventions—imposed changes of behavior or conditions on the individuals in the experiment—while observational studies do not include such interventions.</p>
+<div id="james-linds-scurvy-trial" class="section level3" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> James Lind’s Scurvy Trial</h3>
+<p>Clinical trials are familiar designed, interventional experiments. A famous, early example is James Lind’s Scurvy trial. Lind was a doctor aboard a British ship. Several sailors with him were suffering from scurvy. He selected 12 sailors in similar, poor condition, and assigned to pairs of them 6 different treatments (the intervention). The two who received oranges and lemons to eat recovered fully; those who received apple cider fared next best. Lind specifically wanted to understand which treatments would be most effective at curing scurvy and planned an experiment to answer his question. His selection of like sailors and random, paired treatment assignment constitute early examples of randomization and control in experimental design.</p>
 </div>
-<div id="framingham-heart-study" class="section level3">
+<div id="framingham-heart-study" class="section level3" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> Framingham Heart Study</h3>
-<p>Named for Framingham, Massachusetts, where the participants were first recruited, is a long-running observational study of Americans aimed at understanding risks associated with heart disease. Participants agreed to medical testing every 3-5 years, from which the study researchers concluded a number of important findings, such as cigarett smoking substantially increases the risk of heart disease. There are no interventions; the researchers simply observe the patients and make conclusions based on how the patients choose to live, e.g., tobacco use.</p>
+<p>Named for Framingham, Massachusetts, where the participants were first recruited, this was a long-running observational study of Americans aimed at understanding risks associated with heart disease. Participants agreed to medical testing every 3-5 years, from which the study researchers concluded a number of important findings, such as cigarette smoking substantially increases the risk of heart disease. There are no interventions; the researchers simply observe the patients and make conclusions based on how the patients choose to live, e.g., tobacco use.</p>
 </div>
-<div id="harris-bank-sex-pay-study" class="section level3">
+<div id="harris-bank-sex-pay-study" class="section level3" number="2.1.3">
 <h3><span class="header-section-number">2.1.3</span> Harris Bank Sex Pay Study</h3>
 <p>93 salaries of entry-level clerical workers who started working at Harris Bank between 1969 and 1971 show men were paid more than women. (From The Statistical Sleuth, reproduced from “Harris Trust and Savings Bank: An Analysis of Employee Compensation” (1979), Report 7946,Center for Mathematical Studies in Business and Economics, University of Chicago Graduate School of Business.)</p>
 </div>
-<div id="study-concepts" class="section level3">
-<h3><span class="header-section-number">2.1.4</span> Study Concepts</h3>
+<div id="large-aggregated-data-sets" class="section level3" number="2.1.4">
+<h3><span class="header-section-number">2.1.4</span> Large, Aggregated Data Sets</h3>
+<p>There are now many large “data sets” recording all sorts of information about consumers, e.g., data obtained by Google and other technology companies whenever consumers use their sites, apps, or devices. There are many potential use cases for such information; for instance, such data has proven helpful for targeted marketing of specific products. Such applications may be termed exploratory research—these are characterized, in part, by exploration/examination of data that was originally collected for some other purpose. In other words, the “data” was collected with either no question or some other question in mind.</p>
+</div>
+<div id="study-concepts" class="section level3" number="2.1.5">
+<h3><span class="header-section-number">2.1.5</span> Study Concepts</h3>
 <p>The above examples illustrate several key concepts related to scientific studies.</p>
 <ul>
 <li>Research question - There is always a reason researchers go to the trouble of collecting and analysing data; they have an important question they want to answer. For example, what can sailors do to prevent scurvy?</li>
-<li>Experimental units/Subjects - the research question usually references people, things, animals, or some other entity that can be studied in order to answer the question. When these are observed and measured then they are called experimental units or subjects.<br />
-</li>
-<li>Data - we are inundated with information, numbers, figures, and graphs in our everyday lives. Is this data? Anything information gathered to answer a particular research question can be considered data. Relevancy to a research question is key.<br />
-</li>
+<li>Experimental units/Subjects - the research question usually references people, things, animals, or some other entity that can be studied in order to answer the question. When these are observed and measured then they are called experimental units or subjects. In the context of interventional experiments these usually refer to the units of randomization; see below.</li>
+<li>Data - we are inundated with information, numbers, figures, and graphs in our everyday lives. Is this data? Anything information gathered to answer a particular research question can be considered data. Relevancy to a research question is key.</li>
 <li>Intervention - When James Lind gave different foods to sick sailors he was making an intervention, and his goal was to study the effect of his interventions on the sailors well-being. Experiments include one or more interventions, whereas observational studies do not feature any interventions on the part of the researcher.</li>
 <li>Randomization - When researchers intervene, they should apply their interventions randomly with respect to subjects. In experiments the experimental units are the entities that are randomized and given interventions.</li>
-<li>Response/outcome variables - studies often measure multiple variables and study relationships between them. Typically the researchers expect one variable is affected by another. The response, or outcome---like the health of sailors, or pay of workers---is the variable beign effected by the intervention in an experiment or by another, independent variable in an observational study.</li>
+<li>Response/outcome variables - studies often measure multiple variables and study relationships between them. Typically the researchers expect one variable is affected by another. The response, or outcome—like the health of sailors, or pay of workers—is the variable being affected by the intervention in an experiment or by another, independent variable in an observational study.</li>
 <li>Control - Researchers should try to limit the effects of variables on the response that are not of interest to the study. For example, in the gender pay study, the researchers studied only entry-level workers. They <em>controlled</em> for prior experience to better isolate potential sex effects on pay.</li>
 </ul>
 </div>
-<div id="randomization-control-and-causation" class="section level3">
-<h3><span class="header-section-number">2.1.5</span> Randomization, control, and causation</h3>
-<p>In experiments the researcher performs one or more interventions---such as giving patients cider versus citrus fruits in Lind's scurvy trial. The principle of {} asserts that interventions in experiments should be assigned to experimental units randomly. When experimental units are heterogeneous---not all the same---it stands to reason that some of their differences apart from the intervention may impact the response to the experiment recorded by the researcher. Randomization is a way to even out these heterogeneities between groups receiving different interventions. That way, it is the intervention, rather than some other difference, which is responsible for substantially different outcomes. Randomization systematically accounts for heterogeneities, but the extent to which it works depends on the number of experimental units, the number of groups being randomized, and the presence of one or more important heterogeneities. For examples, consider the following: 1. Suppose in ten experimental units there is one unobserved, dichotomous trait that affects the experimental response. Three of the ten have version &quot;0&quot; of the trait and 7 have version &quot;1&quot;. Randomly split the ten into two groups of five, each group to receive a different intervention. The chance all three end up in the same group is 1/6, not ignorably small... 2. On the other hand, suppose there are 100 experimental units, half have trait &quot;0&quot; and half trait &quot;1&quot;. The chance at least 35 of either trait type end up in the same one half random split is <span class="math inline">\(\approx 0\)</span>.<br />
-Generally when an intervention is randomized over experimental units we interpret any significant difference in outcome/response between intervenion groups as having been {} by the intervention itself, as opposed to some other unobserved characteristic---these are sometimes called {} or {}. But, randomization is not foolproof; small sample sizes (few experimental units) and/or the presence of many confounding variables can reduce the effectiveness of randomization.</p>
-<p>When the researcher knows about potential confounders ahead of time, the principle of <em>blocking</em> says experimental units should be representatively divided with respect to intervention across values of this variable. For example, if experimental units are humans both young and old, then the different interventions should be applied to equal numbers of young and old people. One way to accomplish this is to let age group be a <em>blocking factor</em>. In the case of a dichotomous intervention this means half of the old people will be randomly assigned to one intervention and half of the young people will be randomly assigned to one intervention---as opposed to randomly assigning half of all the experimental units to one intervention.</p>
+<div id="randomization-control-and-causation" class="section level3" number="2.1.6">
+<h3><span class="header-section-number">2.1.6</span> Randomization, control, and causation</h3>
+<p>In experiments the researcher performs one or more interventions—such as giving patients cider versus citrus fruits in Lind’s scurvy trial. The principle of <em>randomization</em> asserts that interventions in experiments should be assigned to experimental units randomly. When experimental units are heterogeneous—not all the same—it stands to reason that some of their differences apart from the intervention may impact the response to the experiment recorded by the researcher. Randomization is a way to even out these heterogeneities between groups receiving different interventions. That way, it is the intervention, rather than some other difference, which is responsible for substantially different outcomes. Randomization systematically accounts for heterogeneities, but the extent to which it works depends on the number of experimental units, the number of groups being randomized, and the presence of one or more important heterogeneities. For examples, consider the following:
+1. Suppose in ten experimental units there is one unobserved, dichotomous trait that affects the experimental response. Three of the ten have version “0” of the trait and 7 have version “1”. Randomly split the ten into two groups of five, each group to receive a different intervention. The chance all three end up in the same group is 1/6, not ignorably small…
+2. On the other hand, suppose there are 100 experimental units, half have trait “0” and half trait “1”. The chance at least 35 of either trait type end up in the same one half random split is <span class="math inline">\(\approx 0\)</span>.<br />
+Generally when an intervention is randomized over experimental units we interpret any significant difference in outcome/response between intervenion groups as having been <em>caused</em> by the intervention itself, as opposed to some other unobserved characteristic—these are sometimes called <em>lurking variables</em> or <em>confounding variables</em>. But, randomization is not foolproof; small sample sizes (few experimental units) and/or the presence of many confounding variables can reduce the effectiveness of randomization.</p>
+<p>When the researcher knows about potential confounders ahead of time, the principle of <em>blocking</em> says experimental units should be representatively divided with respect to intervention across values of this variable. For example, if experimental units are humans both young and old, then the different interventions should be applied to equal numbers of young and old people. One way to accomplish this is to let age group be a <em>blocking factor</em>. In the case of a dichotomous intervention this means half of the old people will be randomly assigned to one intervention and half of the young people will be randomly assigned to one intervention—as opposed to randomly assigning half of all the experimental units to one intervention.</p>
 <p>The principle of <em>control</em> states that intervention groups should be made as homogeneous as possible. When experiments are well-controlled researchers often assume that they can determine <em>causation</em>, and any observed differences in experimental outcome between intervention groups can be attributed to the intervention. Of course, as mentioned above, the ability of an experiment to determine causation is not all or nothing; rather, it depends on unknowns. Nevertheless, stronger controls make the results of experiments more trustworthy, and less likely to be caused by confounding variables.</p>
-<p>Non-interventional, observational studies are not used to establish causative relationships. Rather, we say such studies establish <em>associations</em> between variables. For example, in the Framingham study, the researchers did not randomly assign individuals to groups of tobacco-users and non-users. Even though these days the evidence is quite strong that tobacco use causes heart disease, the bar for such a claim is much higher when the variable of interest---tobacco use---cannot be randomly assigned to experimental units. That's not to say elements of control cannot be used. For instance, if enough data is collected, it is possible to compare tobacco-users and non-users with nearly the same ages, sexes, incomes, education, living in the same zip codes, etc. The more potential confounders are explicitly controlled, the closer such an observational study comes to a randomized experiment.</p>
+<p>Non-interventional, observational studies are not used to establish causative relationships. Rather, we say such studies establish <em>associations</em> between variables. For example, in the Framingham study, the researchers did not randomly assign individuals to groups of tobacco-users and non-users. Even though these days the evidence is quite strong that tobacco use causes heart disease, the bar for such a claim is much higher when the variable of interest—tobacco use—cannot be randomly assigned to experimental units. That’s not to say elements of control cannot be used. For instance, if enough data is collected, it is possible to compare tobacco-users and non-users with nearly the same ages, sexes, incomes, education, living in the same zip codes, etc. The more potential confounders are explicitly controlled, the closer such an observational study comes to a randomized experiment.</p>
 </div>
-<div id="populations-and-scope-of-inference" class="section level3">
-<h3><span class="header-section-number">2.1.6</span> Populations and scope of inference</h3>
-<p>Whether conducting and experiment or collecting observational data, the units/subjects have to come from somewhere. <em>Sampling</em> describes how subjects are obtained for observation. <em>Random sampling</em> is any scheme involving selecting a subset of subjects from a larger group in some random fashion. A <em>simple random sample</em> of size <span class="math inline">\(n\)</span> is obtained when every subset of <span class="math inline">\(n\)</span> subjects from a total group is equally likely to be selected. Other types of random selection are possible, but we won't often consider these: - <em>stratified random sampling</em> obtains when simple random samples from separate groups/strata are combined, e.g., a 50/50 random sample stratified by male/female can be formed by taking a simple random sample of ten males and a simple random sample of 10 females from a group of 50 males and 50 females - <em>cluster random sampling</em> obtains when a larger group is subdivided into smaller groups and subgroups are selected at random, e.g., a cluster random sample of Iowa high schoolers can be obtained by choosing all high schoolers who attend one of a simple random sample of Iowa high schools.</p>
-<p>When subjects are randomly sampled from a larger group we call that larger group the <em>population</em>. Generally, conclusions about subjects in the study---whether it is an experiment or an observational study---may be assumed to hold for the wider population as a whole when the subjects are chosen randomly. The details of this <em>generalizability</em> of results depend on the type of random sampling conducted; we'll focus on the case of simple random sampling specifically. On the other hand, when subjects are not randomly sampled from the population, study results cannot be generalized back to the population. The reason is that the lack of randomness in selection implies some subsets of the population are more or less likely to be present in the sample of subjects observed, hence, that sample is not necessarily <em>representative</em> of the population. For an extreme example, consider a population of both young and old people and an experiment studying the effects of Covid-19. It's well-known Covid-19 is much more harmful to old people compared to young people. So this is a potential confounder. If we select only young people to study, then we certainly cannot claim the results would be similar had we studied both young and old people.</p>
-<p>Non-random sampling schemes are quite common because they are usually easier and cheaper to implement than random sampling schemes. A <em>convenience sample</em> is just what it sounds like---a rule that selects subjects that are easy to select---such as conducting a poll of your closest friends. When a non-random sample is used, remember that the results cannot be interpreted beyond the group subjects that were observed.</p>
-<p>Sometimes a researcher intends to study one population, but possese data from another population. This mismatch is important to identify as it can cause bias---which simply means the answer to the researcher's question is different for the population for which data is observed compared to the intended population. As in the extreme example above, effects of Covid-19 are different in old and young populations, so the results from an experiment studying only the young are biased when viewed from the perspective of the population of old and young combined.</p>
-</div>
-</div>
-<div id="statistical-inference-in-randomly-sampled-randomized-experiments" class="section level2">
-<h2><span class="header-section-number">2.2</span> Statistical Inference in randomly sampled, randomized experiments</h2>
-<p>In this section we will cover some familiar statistical methods for inference in one- and two-sample problems. <em>Inference</em> refers to generalizing results from a sample of experimental units/subjects to a population while properly accounting for <em>statistical uncertainty</em>. The latter is the variability in the experimental outcome/observation that naturally follows from the fact the subjects were chosen randomly from the population.</p>
-<div id="one--and-two-sample-inference-for-a-population-mean" class="section level3">
-<h3><span class="header-section-number">2.2.1</span> One- and Two-sample inference for a population mean</h3>
-<p>Let <span class="math inline">\(P\)</span> denote a population for which the mean <span class="math inline">\(\theta(P):=E(X), \,X\sim P\)</span> and second moment <span class="math inline">\(E(X^2)\)</span> exist i.e., <span class="math inline">\(E(X^2)&lt;\infty\)</span>. Let <span class="math inline">\(X_1, \ldots, X_n\)</span> denote a simple random sample (independent, and identically distributed collection) from <span class="math inline">\(P\)</span>.</p>
-<p>The sample mean <span class="math inline">\(\overline{X}\)</span> is <em>unbiased</em> for <span class="math inline">\(\theta\)</span>, that is, its expectation is <span class="math display">\[E(\overline X) = E\left(\tfrac1n \sum_{i=1}^n X_i\right) = \tfrac1n \sum_{i=1}^n E(X_i) = \tfrac1n \sum_{i=1}^n \theta = \theta\]</span> is equal to <span class="math inline">\(\theta\)</span>.</p>
-<p>Since <span class="math inline">\(X\sim P\)</span> has two finite moments it has a finite variance, denoted <span class="math inline">\(\sigma^2\)</span>. The variance of <span class="math inline">\(\overline X\)</span> is <span class="math display">\[V(\overline X) = V\left(\tfrac1n \sum_{i=1}^n X_i\right) = \tfrac{1}{n^2}\left(\sum_{i=1}^n V(X_i) + \sum_{i=1, j&gt;i}^n 2Cov(X_i, X_j)\right)\]</span> <span class="math display">\[ = \tfrac{1}{n^2}\left(\sum_{i=1}^n V(X_i)\right) = \sigma^2/n.\]</span></p>
-<p>The central limit theorem (CLT) says that <span class="math display">\[\sqrt n(\overline{X} - \theta) \stackrel{D}{\rightarrow} N(0, \sigma^2)\]</span> where <span class="math inline">\(V(X) =\sigma^2\)</span> and ``<span class="math inline">\(\stackrel{D}{\rightarrow}\)</span>&quot; denotes convergence in distribution. Reminder: convergence in distribution means pointwise convergence of cumulative distribution functions; so the scaled, centered sample mean <span class="math inline">\(\sqrt n(\overline{X} - \theta)\)</span> has a distribution function (that depends on the sample size <span class="math inline">\(n\)</span>) that converges pointwise to the normal distribution function with variance <span class="math inline">\(\sigma^2\)</span>.</p>
-<p>A <span class="math inline">\(100(1-\alpha)\%\)</span> confidence interval (CI) for <span class="math inline">\(\theta\)</span> is a random interval <span class="math inline">\((\ell, u)\)</span> such that <span class="math display">\[P(\ell \leq \theta \leq u) \geq 1-\alpha.\]</span> Let <span class="math inline">\(z_\alpha\)</span> denote the <span class="math inline">\(\alpha\)</span> quantile of the standard normal distribution, i.e., if <span class="math inline">\(Z\)</span> is a standard normal r.v. then <span class="math inline">\(z_\alpha\)</span> satisfies <span class="math inline">\(P(Z\leq z_\alpha) = \alpha\)</span>. Suppose <span class="math inline">\(\sigma^2\)</span> is known and let <span class="math inline">\(\ell := \overline{X} + z_{\alpha/2}\sigma/\sqrt{n}\)</span> and <span class="math inline">\(u := \overline{X} + z_{1-\alpha/2}\sigma/\sqrt{n}\)</span>. Then, <span class="math inline">\((\ell, u)\)</span> is a <span class="math inline">\(100(1-\alpha)\%\)</span> CI for <span class="math inline">\(\theta\)</span>.</p>
-<p>Interpretation of CIs: You likely have heard an interpretation of the ``confidence property&quot; before. It goes something like the following: imagine repeating the random sampling of data from <span class="math inline">\(P\)</span> many, many times, say 1000 times, and for each set of data computing a, say, <span class="math inline">\(95\%\)</span> CI for <span class="math inline">\(\theta\)</span>. Confidence means about 950 of these 1000 intervals contain the true <span class="math inline">\(\theta\)</span>. There's nothing wrong with this understanding, except many people don't understand it. I prefer a simpler explanation: <em>a confidence interval is a set of plausible values for <span class="math inline">\(\theta\)</span></em> where the degree of plausibility obviously is determined by <span class="math inline">\(\alpha\)</span>. This simple explanation is theoretically grounded in <em>possibility theory</em> but a discussion of such topics is, unfortunately, beyond our present scope.</p>
-<p>Let <span class="math inline">\(\Theta_0\)</span> be a subset of <span class="math inline">\(\mathbb{R}\)</span>. Define the null hypothesis as the assertion <span class="math inline">\(H_0: \theta\in \Theta_0\)</span>; correspondingly, the alternative hypothesis is <span class="math inline">\(H_a: \theta\in \Theta_0^c\)</span>. A testing rule <span class="math inline">\(g\)</span> says <span class="math inline">\(H_0\)</span> is retained/not rejected if <span class="math inline">\(g&gt;t\)</span> for some value <span class="math inline">\(t\)</span> and is rejected otherwise. There are four possibilities: 1. <span class="math inline">\(H_0\)</span> is true and is retained 2. <span class="math inline">\(H_0\)</span> is false and is rejected 3. <span class="math inline">\(H_0\)</span> is true and is rejected, a Type 1 error 4. <span class="math inline">\(H_0\)</span> is false and is retained, a Type 2 error. Typically, hypotheses are defined such that a Type 1 error is worse than a Type 2 error. Therefore, we try to minimize the chance of committing a Type 1 error.</p>
-<p>Define <span class="math display">\[T(\theta_0) = \frac{\overline X - \theta_0}{\sigma/\sqrt{n}}, \quad \theta_0 \in \Theta_0.\]</span> Let <span class="math inline">\(g:= \sup_{\theta_0} P(Z &gt; |T(\theta_0)|)\)</span>. Then, <span class="math inline">\(g\)</span> is <em>p-value</em> with respect to <span class="math inline">\(H_0\)</span> and if we set <span class="math inline">\(t = \alpha\)</span> then the CLT implies (for large <span class="math inline">\(n\)</span>) <span class="math display">\[P(\text{Reject }H_0\text{ when }H_0\text{ true}) \leq 1-\alpha.\]</span> The most common form of this test is the <em>point-null</em> test in which <span class="math inline">\(\Theta_0 = \{\theta_0\}\)</span> is a singleton set (and the supremum in the p-value definition is unnecessary).</p>
+<div id="populations-and-scope-of-inference" class="section level3" number="2.1.7">
+<h3><span class="header-section-number">2.1.7</span> Populations and scope of inference</h3>
+<p>Whether conducting an experiment or collecting observational data, the units/subjects have to come from somewhere. The <em>population</em> refers to the set of all possible subjects—it may be finite or infinite, and it may be concrete or hypothetical. For examples, the population of current Iowa State undergraduates is well-defined, whereas the population of mouse kidney cells exists in a hypothetical sense. <em>Sampling</em> describes how subjects are obtained from the population for observation. <em>Random sampling</em> is any scheme involving selecting a subset of subjects from a larger group in some random fashion. A <em>simple random sample</em> of size <span class="math inline">\(n\)</span> is obtained when every subset of <span class="math inline">\(n\)</span> subjects from a total group is equally likely to be selected. Other types of random selection are possible, but we won’t often consider these:
+- <em>stratified random sampling</em> obtains when simple random samples from separate groups/strata are combined, e.g., a 50/50 random sample stratified by male/female can be formed by taking a simple random sample of ten males and a simple random sample of 10 females from a group of 50 males and 50 females
+- <em>cluster random sampling</em> obtains when a larger group is subdivided into smaller groups and subgroups are selected at random, e.g., a cluster random sample of Iowa high schoolers can be obtained by choosing all high schoolers who attend one of a simple random sample of Iowa high schools.</p>
+<p>Generally, conclusions about subjects in the study—whether it is an experiment or an observational study—may be assumed to hold for the wider population as a whole when the subjects are chosen randomly. The details of this <em>generalizability</em> of results depend on the type of random sampling conducted; we’ll focus on the case of simple random sampling specifically. On the other hand, when subjects are not randomly sampled from the population, study results cannot be generalized back to the population. The reason is that the lack of randomness in selection implies some subsets of the population are more or less likely to be present in the sample of subjects observed, hence, that sample is not necessarily <em>representative</em> of the population. For an extreme example, consider a population of both young and old people and an experiment studying the effects of Covid-19. It’s well-known Covid-19 is much more harmful to old people compared to young people. So this is a potential confounder. If we select only young people to study, then we certainly cannot claim the results would be similar had we studied both young and old people.</p>
+<p>Non-random sampling schemes are quite common because they are usually easier and cheaper to implement than random sampling schemes. A <em>convenience sample</em> is just what it sounds like—a rule that selects subjects that are easy to select—such as conducting a poll of your closest friends. When a non-random sample is used, remember that the results cannot be interpreted beyond the group subjects that were observed.</p>
+<p>Sometimes a researcher intends to study one population, but obtains data from another population. This mismatch is important to identify as it can cause bias—which simply means the answer to the researcher’s question is different for the population for which data is observed compared to the intended population. As in the extreme example above, effects of Covid-19 are different in old and young populations, so the results from an experiment studying only the young are biased when viewed from the perspective of the population of old and young combined.</p>
 </div>
 </div>
-<div id="exercises" class="section level2">
-<h2><span class="header-section-number">2.3</span> Exercises</h2>
+<div id="data-summaries" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Data Summaries</h2>
+<p>Data may take on many forms including sound waves, images comprised of pixels/voxels, and graphs of functions/surfaces. We will almost exclusively consider data that may be represented in a tabulated format, like the following data on weights of chickens.</p>
+<pre><code>##   weight Time Chick Diet
+## 1     42    0     1    1
+## 2     51    2     1    1
+## 3     59    4     1    1
+## 4     64    6     1    1
+## 5     76    8     1    1
+## 6     93   10     1    1</code></pre>
+<p>Regardless of the type of data, few users can make sense of all the data at once; rather, we need data summaries—numbers or plots that point out important features of the whole data set.</p>
+<div id="numerical-summaries" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Numerical Summaries</h3>
+<p>We briefly describe summaries for categorical and numerical, continuous data.</p>
+<p>Suppose a variable <span class="math inline">\(X\)</span> takes categorical values, e.g., <span class="math inline">\(X\in\{0,1,2,3\}\)</span>. A data set consisting of observed <span class="math inline">\(x\)</span> values, may be summarized by tabulating proportions, i.e., of 100 observations, 0.41 were <span class="math inline">\(x=0\)</span>, 0.29 were <span class="math inline">\(x = 1\)</span>, 0.17 were <span class="math inline">\(x = 2\)</span> and 0.13 were <span class="math inline">\(x=3\)</span>. Binary or dichotomous variables may be also be summarized by odds and odds ratios. Suppose <span class="math inline">\(Y\in\{0,1\}\)</span>. The observations <span class="math inline">\(y_1, \ldots, y_n\)</span> may be summarized by saying <span class="math inline">\(60\%\)</span> were <span class="math inline">\(y=1\)</span> versus <span class="math inline">\(40\%\)</span> <span class="math inline">\(y=0\)</span> or, equivalently, the observed odds of <span class="math inline">\(y=1\)</span> was <span class="math inline">\(0.6/0.4 = 1.5\)</span>. Suppose response <span class="math inline">\(Y\)</span> is <em>blocked</em> by another dichotomous variable, say, undergraduate versus graduate status, and suppose the observed odds for undergraduates is 1.5 while the observed odds for graduates is 0.8. Then, the observed odds ratio for undergraduates versus graduates is 1.5/0.8 = 1.875.</p>
+<p>In contrast to categorical data, continuous data takes values in the real numbers <span class="math inline">\(\mathbb{R}\)</span> or some interval of real numbers. Most numerical summaries of continuous variables either measure location or dispersion. Location refers, in one way or another, to a typical or average value while dispersion refers to the spread of the values. Common measures of location are the mean, median, and trimmed mean:</p>
+<ul>
+<li>The mean of <span class="math inline">\(x_1, \ldots, x_n\)</span> is <span class="math inline">\(\overline x = n^{-1}\sum_{i=1}^n x_i\)</span>.</li>
+<li>The median is denoted <span class="math inline">\(\tilde x\)</span>. Sort the <span class="math inline">\(x\)</span>’s from least to greatest labeling them as <span class="math inline">\(x_{(1)}, \ldots, x_{(n)}\)</span>. Then, <span class="math inline">\(\tilde x = x_{(\frac{n+1}{2})}\)</span> if <span class="math inline">\(n\)</span> is odd and <span class="math inline">\(\tilde x = \tfrac12\left(x_{(\frac{n}{2})} + x_{(\frac{n}{2}+1)}\right)\)</span> if <span class="math inline">\(n\)</span> is even.</li>
+<li>The <span class="math inline">\(\alpha\%\)</span> trimmed mean is the mean of the remaining <span class="math inline">\(x\)</span> values after ignoring the smallest and largest <span class="math inline">\(\alpha\%\)</span> of values. Roughly, the <span class="math inline">\(\alpha\%\)</span> trimmed mean averages <span class="math inline">\(x_{(1+\alpha n)},\ldots, x_{n - \alpha n - 1}\)</span>.</li>
+<li>Besides the median, we may be interested in “locations” besides the center, and these could be summarized using quantiles. Observed quantiles may be defined in a number of ways. One definition says the <span class="math inline">\(\alpha\in(0,1)\)</span> quantile is the smallest observed <span class="math inline">\(x\)</span> value such that at least <span class="math inline">\(\alpha\%\)</span> of observed <span class="math inline">\(x\)</span> values are no more than <span class="math inline">\(x\)</span>.</li>
+</ul>
+<p>Common measures of dispersion include the variance and standard deviation, the range, and the interquartile range:</p>
+<ul>
+<li>The observed variance of <span class="math inline">\(x_1, \ldots, x_n\)</span> is given by <span class="math inline">\(\tfrac{1}{n-1}\sum_{i=1}^n(x_i - \overline x)^2\)</span> and may be equivalently computed as <span class="math inline">\(\tfrac{1}{n-1}\left\{\sum_{i=1}^n (x_i^2) - n\overline x^2\right\}\)</span>.<br />
+</li>
+<li>In the calculation of variance the <span class="math inline">\(x\)</span> values are squared, which means the variance has units equal to the squared units of <span class="math inline">\(x\)</span>; that is, if <span class="math inline">\(x\)</span> is measured in millimeters then its variance is measured in millimeters squared, or, e.g., dollars then dollars squared. Often the squared units are difficult to interpret. Instead, we define the standard deviation as the square root of the variance, which shares the units of the observed <span class="math inline">\(x\)</span> variable.<br />
+</li>
+<li>The range is the difference between maximum and minimum values, i.e., <span class="math inline">\(x_{(n)} - x_{(1)}\)</span>.</li>
+<li>The interquartile range (IQR) is the difference between the <span class="math inline">\(0.75\)</span> and <span class="math inline">\(0.25\)</span> quantiles.</li>
+</ul>
+</div>
+<div id="visual-summaries" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Visual Summaries</h3>
+<p>Plots and graphs can also be used to summarize a data set or particular observed variable. Three plots we will use extensively in the course are the scatterplot, histogram, and quantile-quantile (qq) plot.</p>
+<ul>
+<li><p>For paired observations of two variables <span class="math inline">\((x_i, y_i), \,\,i = 1, \ldots, n\)</span> a scatterplot displays <span class="math inline">\((x_i, y_i)\)</span> in the xy-plane. For example, see the plot of a chicken’s weight versus time from the tabulated data set above. Scatterplots are useful for assessing relationships between variables. For example, the chick’s weight increases with time, maybe in a linear or slightly quadratic fashion.
+<img src="01-intro_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p></li>
+<li><p>For a single variable a histogram summarizes the distribution of its observed values by counting the numer of observations in different intervals (buckets) of values. Keep in mind that histograms with different choices of buckets may look very different. Check out this histogram of “Time 0” weights of all 23 chicks.
+<img src="01-intro_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p></li>
+<li><p>A qq-plot compares the shape of a distribution of observed values to another known distribution, often the standard normal distribution. For example, make the standardizing transformation <span class="math inline">\((x_i - \overline x) / \hat\sigma_x\)</span> where <span class="math inline">\(x_i\)</span> is the Time 0 weight of chick <span class="math inline">\(i\)</span>, <span class="math inline">\(\overline x\)</span> is the observed mean and <span class="math inline">\(\hat\sigma_x\)</span> is the observed standard deviation of those values. Compute the <span class="math inline">\(\alpha\)</span> quantile of these values or several <span class="math inline">\(\alpha\)</span> values in <span class="math inline">\((0,1)\)</span> along with the corresponding standard normal quantiles (z-scores). Plot the pairs of <span class="math inline">\(\alpha\)</span> quantiles in the xy-plane. If the standardized weights are approximately normal, then the points should lie approximately on the line <span class="math inline">\(y=x\)</span>. Note that extreme quantiles are always less reliably estimated, so it is typical for the ends of the “line” to fray up or down from the diagonal.</p></li>
+</ul>
+<p><img src="01-intro_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+</div>
+<div id="statistical-inference" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Statistical Inference</h2>
+<p>Summarizing data sets is important because no one can make sense of more than a few numbers at a time. But, data summaries cannot by themselves answer our research questions. That is because data summaries only say something about the particular data set we observe, while our research questions concern the whole population. Recall, a major aim of experimentation is generalizing from observations to population. When we make such generalizations we often refer to them as <em>inferences</em>; and, statistical inferences are characterized by their careful treatment of statistical concepts, such as hypotheses, and Type 1 and 2 errors, which we discuss below.</p>
+<p>A hypothesis is a claim or assertion about a population. These may be simple, i.e., “the population mean is 5”, or more complex, like “the population distribution of values is equivalent to a Normal probability distribution”. Notice that both of these statements are either true or false, yes or no. A hypothesis then may be called the “null hypothesis”, and its complement (opposite) the alternative hypothesis. Which is which depends on the context. We make educated guesses about the truthfulness of a null hypothesis based on observations/data. Our educated guesses may be right or wrong, but we will never know because we will never “see” the whole population. If we reject the null hypothesis as false when it really is true, then we make a Type 1 error. The opposite, keeping the null hypothesis in favor over its alternative, when it is actually false, is a Type 2 error. Ideally, we would make no errors, but that’s not possible. In fact, the two errors have an inverse relation. For example, if we adopt the rule that we always reject the null hypothesis, then we will necessarily maximize Type 1 errors but have no Type 2 errors. And, if we take the opposite approach, then we maximize Type 2 errors while making no Type 1 errors.</p>
+<p>Much of this course will focus on constructing tests of relevant hypotheses with the property that we limit the chance of making a Type 1 error. By chance we refer to the probability distribution of the test outcome induced by random sampling of data from the population. A test that has chance no more than <span class="math inline">\(\alpha\)</span> of making a Type 1 error is called a “level <span class="math inline">\(\alpha\)</span> test of <span class="math inline">\(H_0\)</span>”, the null hypothesis.</p>
+<!-- ## Statistical Inference in randomly sampled, randomized experiments -->
+<!-- In this section we will cover some familiar statistical methods for inference in one- and two-sample problems.  *Inference* refers to generalizing results from a sample of experimental units/subjects to a population while properly accounting for *statistical uncertainty*.  The latter is the variability in the experimental outcome/observation that naturally follows from the fact the subjects were chosen randomly from the population.   -->
+<!-- ### One- and Two-sample inference for a population mean -->
+<!-- Let $P$ denote a population for which the mean $\theta(P):=E(X), \,X\sim P$ and second moment $E(X^2)$ exist i.e., $E(X^2)<\infty$.  Let $X_1, \ldots, X_n$ denote a simple random sample (independent, and identically distributed collection) from $P$. -->
+<!-- The sample mean $\overline{X}$ is *unbiased* for $\theta$, that is, its expectation is  -->
+<!-- \[E(\overline X) = E\left(\tfrac1n \sum_{i=1}^n X_i\right) = \tfrac1n \sum_{i=1}^n E(X_i) = \tfrac1n \sum_{i=1}^n \theta = \theta\] -->
+<!-- is equal to $\theta$. -->
+<!-- Since $X\sim P$ has two finite moments it has a finite variance, denoted $\sigma^2$.  The variance of $\overline X$ is -->
+<!-- \[V(\overline X) = V\left(\tfrac1n \sum_{i=1}^n X_i\right) = \tfrac{1}{n^2}\left(\sum_{i=1}^n V(X_i) + \sum_{i=1, j>i}^n 2Cov(X_i, X_j)\right)\] -->
+<!-- \[ = \tfrac{1}{n^2}\left(\sum_{i=1}^n V(X_i)\right) = \sigma^2/n.\] -->
+<!-- The central limit theorem (CLT) says that -->
+<!-- \[\sqrt n(\overline{X} - \theta) \stackrel{D}{\rightarrow} N(0, \sigma^2)\] -->
+<!-- where $V(X) =\sigma^2$ and ``$\stackrel{D}{\rightarrow}$" denotes convergence in distribution.  Reminder: convergence in distribution means pointwise convergence of cumulative distribution functions; so the scaled, centered sample mean $\sqrt n(\overline{X} - \theta)$ has a distribution function (that depends on the sample size $n$) that converges pointwise to the normal distribution function with variance $\sigma^2$. -->
+<!-- A $100(1-\alpha)\%$ confidence interval (CI) for $\theta$ is a random interval $(\ell, u)$ such that -->
+<!-- \[P(\ell \leq \theta \leq u) \geq 1-\alpha.\] -->
+<!-- Let $z_\alpha$ denote the $\alpha$ quantile of the standard normal distribution, i.e., if $Z$ is a standard normal r.v. then $z_\alpha$ satisfies $P(Z\leq z_\alpha) = \alpha$.  Suppose $\sigma^2$ is known and let $\ell := \overline{X} + z_{\alpha/2}\sigma/\sqrt{n}$ and $u := \overline{X} + z_{1-\alpha/2}\sigma/\sqrt{n}$.  Then, $(\ell, u)$ is a $100(1-\alpha)\%$ CI for $\theta$. -->
+<!-- Interpretation of CIs: You likely have heard an interpretation of the ``confidence property" before. It goes something like the following: imagine repeating the random sampling of data from $P$ many, many times, say 1000 times, and for each set of data computing a, say, $95\%$ CI for $\theta$.  Confidence means about 950 of these 1000 intervals contain the true $\theta$.  There's nothing wrong with this understanding, except many people don't understand it.  I prefer a simpler explanation: *a confidence interval is a set of plausible values for $\theta$* where the degree of plausibility obviously is determined by $\alpha$.  This simple explanation is theoretically grounded in *possibility theory* but a discussion of such topics is, unfortunately, beyond our present scope. -->
+<!-- Let $\Theta_0$ be a subset of $\mathbb{R}$.  Define the null hypothesis as the assertion $H_0: \theta\in \Theta_0$; correspondingly, the alternative hypothesis is $H_a: \theta\in \Theta_0^c$.  A testing rule $g$ says $H_0$ is retained/not rejected if $g>t$ for some value $t$ and is rejected otherwise.  There are four possibilities: -->
+<!-- 1. $H_0$ is true and is retained -->
+<!-- 2. $H_0$ is false and is rejected -->
+<!-- 3. $H_0$ is true and is rejected, a Type 1 error -->
+<!-- 4. $H_0$ is false and is retained, a Type 2 error. -->
+<!-- Typically, hypotheses are defined such that a Type 1 error is worse than a Type 2 error.  Therefore, we try to minimize the chance of committing a Type 1 error. -->
+<!-- Define  -->
+<!-- \[T(\theta_0) = \frac{\overline X - \theta_0}{\sigma/\sqrt{n}}, \quad \theta_0 \in \Theta_0.\] -->
+<!-- Let $g:= \sup_{\theta_0} P(Z > |T(\theta_0)|)$.  Then, $g$ is *p-value* with respect to $H_0$ and if we set $t = \alpha$ then the CLT implies (for large $n$) -->
+<!-- \[P(\text{Reject }H_0\text{ when }H_0\text{ true}) \leq 1-\alpha.\] -->
+<!-- The most common form of this test is the *point-null* test in which $\Theta_0 = \{\theta_0\}$ is a singleton set (and the supremum in the p-value definition is unnecessary). -->
 
 </div>
 </div>
@@ -240,7 +340,7 @@ Generally when an intervention is randomized over experimental units we interpre
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="cross.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="review-of-statistical-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -299,7 +399,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
