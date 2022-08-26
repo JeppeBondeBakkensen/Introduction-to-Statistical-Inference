@@ -1,3 +1,5 @@
 about
 study-concepts
 data-summaries
+vocabulary
+consistency
