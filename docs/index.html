@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>A First Course in Probability and Statistics</title>
   <meta name="description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
   <meta property="og:title" content="A First Course in Probability and Statistics" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
@@ -24,7 +23,7 @@
 <meta name="author" content="Nick Syring" />
 
 
-<meta name="date" content="2022-08-26" />
+<meta name="date" content="2022-08-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +32,6 @@
   
 
 <link rel="next" href="data-analysis-and-statistical-inference.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,10 +49,75 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -73,39 +136,80 @@
 <li><a href="./">Introduction to Statistical Inference</a></li>
 
 <li class="divider"></li>
-<li><a href="index.html#about" id="toc-about"><span class="toc-section-number">1</span> About</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#data-analysis-and-statistical-inference" id="toc-data-analysis-and-statistical-inference"><span class="toc-section-number">2</span> Data Analysis and Statistical Inference</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html"><i class="fa fa-check"></i><b>2</b> Data Analysis and Statistical Inference</a>
 <ul>
-<li><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies" id="toc-data-experiments-and-studies"><span class="toc-section-number">2.1</span> Data, Experiments, and Studies</a>
+<li class="chapter" data-level="2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies"><i class="fa fa-check"></i><b>2.1</b> Data, Experiments, and Studies</a>
 <ul>
-<li><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial" id="toc-james-linds-scurvy-trial"><span class="toc-section-number">2.1.1</span> James Lind’s Scurvy Trial</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#framingham-heart-study" id="toc-framingham-heart-study"><span class="toc-section-number">2.1.2</span> Framingham Heart Study</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study" id="toc-harris-bank-sex-pay-study"><span class="toc-section-number">2.1.3</span> Harris Bank Sex Pay Study</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets" id="toc-large-aggregated-data-sets"><span class="toc-section-number">2.1.4</span> Large, Aggregated Data Sets</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#study-concepts" id="toc-study-concepts"><span class="toc-section-number">2.1.5</span> Study Concepts</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation" id="toc-randomization-control-and-causation"><span class="toc-section-number">2.1.6</span> Randomization, control, and causation</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference" id="toc-populations-and-scope-of-inference"><span class="toc-section-number">2.1.7</span> Populations and scope of inference</a></li>
+<li class="chapter" data-level="2.1.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial"><i class="fa fa-check"></i><b>2.1.1</b> James Lind’s Scurvy Trial</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#framingham-heart-study"><i class="fa fa-check"></i><b>2.1.2</b> Framingham Heart Study</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study"><i class="fa fa-check"></i><b>2.1.3</b> Harris Bank Sex Pay Study</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets"><i class="fa fa-check"></i><b>2.1.4</b> Large, Aggregated Data Sets</a></li>
+<li class="chapter" data-level="2.1.5" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#study-concepts"><i class="fa fa-check"></i><b>2.1.5</b> Study Concepts</a></li>
+<li class="chapter" data-level="2.1.6" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation"><i class="fa fa-check"></i><b>2.1.6</b> Randomization, control, and causation</a></li>
+<li class="chapter" data-level="2.1.7" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference"><i class="fa fa-check"></i><b>2.1.7</b> Populations and scope of inference</a></li>
 </ul></li>
-<li><a href="data-analysis-and-statistical-inference.html#data-summaries" id="toc-data-summaries"><span class="toc-section-number">2.2</span> Data Summaries</a>
+<li class="chapter" data-level="2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-summaries"><i class="fa fa-check"></i><b>2.2</b> Data Summaries</a>
 <ul>
-<li><a href="data-analysis-and-statistical-inference.html#numerical-summaries" id="toc-numerical-summaries"><span class="toc-section-number">2.2.1</span> Numerical Summaries</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#visual-summaries" id="toc-visual-summaries"><span class="toc-section-number">2.2.2</span> Visual Summaries</a></li>
+<li class="chapter" data-level="2.2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#numerical-summaries"><i class="fa fa-check"></i><b>2.2.1</b> Numerical Summaries</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#visual-summaries"><i class="fa fa-check"></i><b>2.2.2</b> Visual Summaries</a></li>
 </ul></li>
-<li><a href="data-analysis-and-statistical-inference.html#statistical-inference" id="toc-statistical-inference"><span class="toc-section-number">2.3</span> Statistical Inference</a></li>
+<li class="chapter" data-level="2.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#statistical-inference"><i class="fa fa-check"></i><b>2.3</b> Statistical Inference</a></li>
 </ul></li>
-<li><a href="statistical-estimation.html#statistical-estimation" id="toc-statistical-estimation"><span class="toc-section-number">3</span> Statistical Estimation</a>
+<li class="chapter" data-level="3" data-path="statistical-estimation.html"><a href="statistical-estimation.html"><i class="fa fa-check"></i><b>3</b> Statistical Estimation</a>
 <ul>
-<li><a href="statistical-estimation.html#vocabulary" id="toc-vocabulary"><span class="toc-section-number">3.1</span> Vocabulary</a></li>
-<li><a href="statistical-estimation.html#properties-of-estimators" id="toc-properties-of-estimators"><span class="toc-section-number">3.2</span> Properties of Estimators</a>
+<li class="chapter" data-level="3.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#vocabulary"><i class="fa fa-check"></i><b>3.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="3.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-estimators"><i class="fa fa-check"></i><b>3.2</b> Properties of Estimators</a>
 <ul>
-<li><a href="statistical-estimation.html#bias-and-unbiasedness" id="toc-bias-and-unbiasedness"><span class="toc-section-number">3.2.1</span> Bias and Unbiasedness</a></li>
-<li><a href="statistical-estimation.html#minimum-variance-unbiased-estimators" id="toc-minimum-variance-unbiased-estimators"><span class="toc-section-number">3.2.2</span> Minimum Variance Unbiased Estimators</a></li>
-<li><a href="statistical-estimation.html#mean-squared-error-and-bias-variance-tradeoff" id="toc-mean-squared-error-and-bias-variance-tradeoff"><span class="toc-section-number">3.2.3</span> Mean Squared Error and Bias-Variance tradeoff</a></li>
-<li><a href="statistical-estimation.html#consistency" id="toc-consistency"><span class="toc-section-number">3.2.4</span> Consistency</a></li>
+<li class="chapter" data-level="3.2.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#bias-and-unbiasedness"><i class="fa fa-check"></i><b>3.2.1</b> Bias and Unbiasedness</a></li>
+<li class="chapter" data-level="3.2.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#minimum-variance-unbiased-estimators"><i class="fa fa-check"></i><b>3.2.2</b> Minimum Variance Unbiased Estimators</a></li>
+<li class="chapter" data-level="3.2.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#mean-squared-error-and-bias-variance-tradeoff"><i class="fa fa-check"></i><b>3.2.3</b> Mean Squared Error and Bias-Variance tradeoff</a></li>
+<li class="chapter" data-level="3.2.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#consistency"><i class="fa fa-check"></i><b>3.2.4</b> Consistency</a></li>
 </ul></li>
-<li><a href="statistical-estimation.html#finding-estimators---method-of-moments" id="toc-finding-estimators---method-of-moments"><span class="toc-section-number">3.3</span> Finding estimators - Method of Moments</a></li>
-<li><a href="statistical-estimation.html#method-of-maximum-likelihood" id="toc-method-of-maximum-likelihood"><span class="toc-section-number">3.4</span> Method of Maximum Likelihood</a></li>
-<li><a href="statistical-estimation.html#properties-of-mles" id="toc-properties-of-mles"><span class="toc-section-number">3.5</span> Properties of MLEs</a></li>
+<li class="chapter" data-level="3.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#finding-estimators---method-of-moments"><i class="fa fa-check"></i><b>3.3</b> Finding estimators - Method of Moments</a></li>
+<li class="chapter" data-level="3.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#method-of-maximum-likelihood"><i class="fa fa-check"></i><b>3.4</b> Method of Maximum Likelihood</a></li>
+<li class="chapter" data-level="3.5" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-mles"><i class="fa fa-check"></i><b>3.5</b> Properties of MLEs</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sampling-distributions.html"><a href="sampling-distributions.html"><i class="fa fa-check"></i><b>4</b> Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-mean"><i class="fa fa-check"></i><b>4.1</b> Sample Mean</a></li>
+<li class="chapter" data-level="4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-variance"><i class="fa fa-check"></i><b>4.2</b> Sample Variance</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#large-sample-sampling-distribution-of-sample-variance"><i class="fa fa-check"></i><b>4.2.1</b> Large-sample sampling distribution of sample variance</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sampling-distribution-of-studentized-sample-mean"><i class="fa fa-check"></i><b>4.3</b> Sampling distribution of studentized sample mean</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2"><i class="fa fa-check"></i><b>4.3.1</b> Part of Student’s Theorem - Indepndence of <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="sampling-distributions.html"><a href="sampling-distributions.html#differences-of-sample-means"><i class="fa fa-check"></i><b>4.4</b> Differences of Sample Means</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#standarized-difference"><i class="fa fa-check"></i><b>4.4.1</b> Standarized difference</a></li>
+<li class="chapter" data-level="4.4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-equal-variances"><i class="fa fa-check"></i><b>4.4.2</b> Studentized difference, equal variances</a></li>
+<li class="chapter" data-level="4.4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-unequal-variances"><i class="fa fa-check"></i><b>4.4.3</b> Studentized difference, unequal variances</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="sampling-distributions.html"><a href="sampling-distributions.html#ratios-of-sample-variances"><i class="fa fa-check"></i><b>4.5</b> Ratios of Sample Variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>5</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#why-want-interval-valued-estimates"><i class="fa fa-check"></i><b>5.1</b> Why want interval-valued estimates?</a></li>
+<li class="chapter" data-level="5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#normal-population-mean-example"><i class="fa fa-check"></i><b>5.2</b> Normal population mean example</a></li>
+<li class="chapter" data-level="5.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#other-exact-cis-for-normal-population-mean-and-variance-parameters"><i class="fa fa-check"></i><b>5.3</b> Other “Exact” CIs for normal population mean and variance parameters</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-mean-unknown-variance"><i class="fa fa-check"></i><b>5.3.1</b> Population mean, unknown variance</a></li>
+<li class="chapter" data-level="5.3.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-variance-unknown-mean"><i class="fa fa-check"></i><b>5.3.2</b> Population variance, unknown mean</a></li>
+<li class="chapter" data-level="5.3.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-means"><i class="fa fa-check"></i><b>5.3.3</b> Two normal samples, comparing means</a></li>
+<li class="chapter" data-level="5.3.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-variances"><i class="fa fa-check"></i><b>5.3.4</b> Two normal samples, comparing variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#cis-for-proportions"><i class="fa fa-check"></i><b>5.4</b> CIs for proportions</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#a-single-bernoulli-proportion"><i class="fa fa-check"></i><b>5.4.1</b> A single Bernoulli proportion</a></li>
+<li class="chapter" data-level="5.4.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#difference-of-two-bernoulli-proportions"><i class="fa fa-check"></i><b>5.4.2</b> Difference of two Bernoulli proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#approximate-cis-based-on-mles"><i class="fa fa-check"></i><b>5.5</b> Approximate CIs based on MLEs</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#multivariate-case"><i class="fa fa-check"></i><b>5.5.1</b> Multivariate case</a></li>
+<li class="chapter" data-level="5.5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#the-delta-method"><i class="fa fa-check"></i><b>5.5.2</b> The Delta method</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -130,10 +234,10 @@
 <div id="header">
 <h1 class="title">A First Course in Probability and Statistics</h1>
 <p class="author"><em>Nick Syring</em></p>
-<p class="date"><em>2022-08-26</em></p>
+<p class="date"><em>2022-08-31</em></p>
 </div>
-<div id="about" class="section level1" number="1">
-<h1><span class="header-section-number">Chapter 1</span> About</h1>
+<div id="about" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> About<a href="index.html#about" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>This is a collection of notes intended for students studying probability and statistics at the advanced undergraduate level at Iowa State University. Specifically, these notes are modeled after course notes for STAT 588, 341, and 342. This site is a work in progress.</p>
 <p><br><br></p>
 <p>Some relevant textbook references include John E. Freund’s Mathematical Statistics with Applications by Miller and Miller, or Modern Mathematical Statistics with Applications by Devore and Berk, although many books on this material are available.</p>
@@ -205,7 +309,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

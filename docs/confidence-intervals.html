@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Confidence Intervals | A First Course in Probability and Statistics</title>
+  <meta name="description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Confidence Intervals | A First Course in Probability and Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Confidence Intervals | A First Course in Probability and Statistics" />
+  
+  <meta name="twitter:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  
+
+<meta name="author" content="Nick Syring" />
+
+
+<meta name="date" content="2022-08-31" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="sampling-distributions.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction to Statistical Inference</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html"><i class="fa fa-check"></i><b>2</b> Data Analysis and Statistical Inference</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies"><i class="fa fa-check"></i><b>2.1</b> Data, Experiments, and Studies</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial"><i class="fa fa-check"></i><b>2.1.1</b> James Lind’s Scurvy Trial</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#framingham-heart-study"><i class="fa fa-check"></i><b>2.1.2</b> Framingham Heart Study</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study"><i class="fa fa-check"></i><b>2.1.3</b> Harris Bank Sex Pay Study</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets"><i class="fa fa-check"></i><b>2.1.4</b> Large, Aggregated Data Sets</a></li>
+<li class="chapter" data-level="2.1.5" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#study-concepts"><i class="fa fa-check"></i><b>2.1.5</b> Study Concepts</a></li>
+<li class="chapter" data-level="2.1.6" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation"><i class="fa fa-check"></i><b>2.1.6</b> Randomization, control, and causation</a></li>
+<li class="chapter" data-level="2.1.7" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference"><i class="fa fa-check"></i><b>2.1.7</b> Populations and scope of inference</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-summaries"><i class="fa fa-check"></i><b>2.2</b> Data Summaries</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#numerical-summaries"><i class="fa fa-check"></i><b>2.2.1</b> Numerical Summaries</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#visual-summaries"><i class="fa fa-check"></i><b>2.2.2</b> Visual Summaries</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#statistical-inference"><i class="fa fa-check"></i><b>2.3</b> Statistical Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="statistical-estimation.html"><a href="statistical-estimation.html"><i class="fa fa-check"></i><b>3</b> Statistical Estimation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#vocabulary"><i class="fa fa-check"></i><b>3.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="3.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-estimators"><i class="fa fa-check"></i><b>3.2</b> Properties of Estimators</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#bias-and-unbiasedness"><i class="fa fa-check"></i><b>3.2.1</b> Bias and Unbiasedness</a></li>
+<li class="chapter" data-level="3.2.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#minimum-variance-unbiased-estimators"><i class="fa fa-check"></i><b>3.2.2</b> Minimum Variance Unbiased Estimators</a></li>
+<li class="chapter" data-level="3.2.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#mean-squared-error-and-bias-variance-tradeoff"><i class="fa fa-check"></i><b>3.2.3</b> Mean Squared Error and Bias-Variance tradeoff</a></li>
+<li class="chapter" data-level="3.2.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#consistency"><i class="fa fa-check"></i><b>3.2.4</b> Consistency</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#finding-estimators---method-of-moments"><i class="fa fa-check"></i><b>3.3</b> Finding estimators - Method of Moments</a></li>
+<li class="chapter" data-level="3.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#method-of-maximum-likelihood"><i class="fa fa-check"></i><b>3.4</b> Method of Maximum Likelihood</a></li>
+<li class="chapter" data-level="3.5" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-mles"><i class="fa fa-check"></i><b>3.5</b> Properties of MLEs</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sampling-distributions.html"><a href="sampling-distributions.html"><i class="fa fa-check"></i><b>4</b> Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-mean"><i class="fa fa-check"></i><b>4.1</b> Sample Mean</a></li>
+<li class="chapter" data-level="4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-variance"><i class="fa fa-check"></i><b>4.2</b> Sample Variance</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#large-sample-sampling-distribution-of-sample-variance"><i class="fa fa-check"></i><b>4.2.1</b> Large-sample sampling distribution of sample variance</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sampling-distribution-of-studentized-sample-mean"><i class="fa fa-check"></i><b>4.3</b> Sampling distribution of studentized sample mean</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2"><i class="fa fa-check"></i><b>4.3.1</b> Part of Student’s Theorem - Indepndence of <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="sampling-distributions.html"><a href="sampling-distributions.html#differences-of-sample-means"><i class="fa fa-check"></i><b>4.4</b> Differences of Sample Means</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#standarized-difference"><i class="fa fa-check"></i><b>4.4.1</b> Standarized difference</a></li>
+<li class="chapter" data-level="4.4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-equal-variances"><i class="fa fa-check"></i><b>4.4.2</b> Studentized difference, equal variances</a></li>
+<li class="chapter" data-level="4.4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-unequal-variances"><i class="fa fa-check"></i><b>4.4.3</b> Studentized difference, unequal variances</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="sampling-distributions.html"><a href="sampling-distributions.html#ratios-of-sample-variances"><i class="fa fa-check"></i><b>4.5</b> Ratios of Sample Variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>5</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#why-want-interval-valued-estimates"><i class="fa fa-check"></i><b>5.1</b> Why want interval-valued estimates?</a></li>
+<li class="chapter" data-level="5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#normal-population-mean-example"><i class="fa fa-check"></i><b>5.2</b> Normal population mean example</a></li>
+<li class="chapter" data-level="5.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#other-exact-cis-for-normal-population-mean-and-variance-parameters"><i class="fa fa-check"></i><b>5.3</b> Other “Exact” CIs for normal population mean and variance parameters</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-mean-unknown-variance"><i class="fa fa-check"></i><b>5.3.1</b> Population mean, unknown variance</a></li>
+<li class="chapter" data-level="5.3.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-variance-unknown-mean"><i class="fa fa-check"></i><b>5.3.2</b> Population variance, unknown mean</a></li>
+<li class="chapter" data-level="5.3.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-means"><i class="fa fa-check"></i><b>5.3.3</b> Two normal samples, comparing means</a></li>
+<li class="chapter" data-level="5.3.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-variances"><i class="fa fa-check"></i><b>5.3.4</b> Two normal samples, comparing variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#cis-for-proportions"><i class="fa fa-check"></i><b>5.4</b> CIs for proportions</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#a-single-bernoulli-proportion"><i class="fa fa-check"></i><b>5.4.1</b> A single Bernoulli proportion</a></li>
+<li class="chapter" data-level="5.4.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#difference-of-two-bernoulli-proportions"><i class="fa fa-check"></i><b>5.4.2</b> Difference of two Bernoulli proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#approximate-cis-based-on-mles"><i class="fa fa-check"></i><b>5.5</b> Approximate CIs based on MLEs</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#multivariate-case"><i class="fa fa-check"></i><b>5.5.1</b> Multivariate case</a></li>
+<li class="chapter" data-level="5.5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#the-delta-method"><i class="fa fa-check"></i><b>5.5.2</b> The Delta method</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A First Course in Probability and Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="confidence-intervals" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Confidence Intervals<a href="confidence-intervals.html#confidence-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="why-want-interval-valued-estimates" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Why want interval-valued estimates?<a href="confidence-intervals.html#why-want-interval-valued-estimates" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Point estimators, like the sample mean, certainly help to describe features of the population. But, the trouble with point estimators is that, on their own, they provide no sense of uncertainty. On one hand, a point estimator is just one number, and one number seems very precise. So, in a sort of psychological sense (and I’m being very loose with that term) people may feel a false sense of certainty about a point estimate. For example, if I say ``the sample mean is 5” someone could very reasonably expect the population mean is quite close to 5, but, given a little intuition, that person’s opinion may change quite a bit depending on whether the sample size is, say, 10 or 100. On the other hand, in a mathematical statistical sense, we know an estimator is a random variable with a distribution that, usually, has a finite variance. And, if known, we could use knowledge of that distribution to quantify the variability (read uncertainty) inherent in the estimator. So, besides the point estimate itself, it would be helpful to report some measure of variability of the estimate to give the user a more informed view of the estimate of the population mean (or other feature being estimated). <br><br></p>
+<p>One way to include information of the uncertainty of a point estimate is to include an estimate of the estimator’s standard deviation—this is usually called a “standard error”. For example, the sample mean <span class="math inline">\(\overline X_n\)</span> estimates the population mean <span class="math inline">\(\mu\)</span> and if the population has a finite variance <span class="math inline">\(\sigma^2\)</span> then the standard deviation of <span class="math inline">\(\overline X_n\)</span> is <span class="math inline">\(\sigma/\sqrt{n}\)</span>. Usually, <span class="math inline">\(\sigma^2\)</span> is unknown, so it is replaced by a point estimate, say, the usual sample variance <span class="math inline">\(S_n^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \overline X_n)^2\)</span> to get the standard error <span class="math inline">\(\sqrt{S_n^2/n}\)</span>. A common practice is to report the estimate <span class="math inline">\(\overline x_n\)</span> along with the standard error <span class="math inline">\(s_n/\sqrt{n}\)</span>. <br><br></p>
+<p>One drawback of reporting an estimate and its standard deviation is that it’s not clear how much variability one standard deviation really represents; it depends on the sampling distribution of the estimator. For example, if an estimator is normally distributed then an interval of one standard deviation about its mean contains about <span class="math inline">\(68\%\)</span> of the distribution, and see the figure below. One the other hand, suppose an estimator has a Chi-squared distribution with <span class="math inline">\(5\)</span> degrees of freedom. Then an interval of radius one standard deviation about its mean contains about <span class="math inline">\(72\%\)</span> of the distribution. The point is that one standard deviation does not provide an objective summary of uncertainty across different distributions. <br><br></p>
+<p><img src="12-Confidence-Intervals_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>To remedy this issue of the vagueness of standard deviation/standard error we introduce the concept of a confidence interval. An interval-valued estimate is an interval or range of values representing a set that may plausibly contain the true parameter value. Let’s denote this interval by <span class="math inline">\((\ell, u)\)</span>, its lower and upper bounds. Then, a reasonable way to define the endpoints is to select them so that the interval has the <em>confidence property</em>
+<span class="math display">\[P(\ell \leq \theta \leq u) = 1-\alpha\]</span>
+where <span class="math inline">\(\theta\)</span> is the true parameter value and <span class="math inline">\(\alpha \in (0,1)\)</span> is up to the user to decide—usually <span class="math inline">\(\alpha\)</span> is near zero. The probability statement is with respect to <span class="math inline">\(\ell\)</span> and <span class="math inline">\(u\)</span>, meaning these endpoints are random variables—in particular, they should be statistics, i.e., depended on the data. Then, a <em>confidence interval</em> is a random interval with a prescribed chance of “catching” the true parameter.<br><br></p>
+</div>
+<div id="normal-population-mean-example" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Normal population mean example<a href="confidence-intervals.html#normal-population-mean-example" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Suppose <span class="math inline">\(X_1, \ldots, X_n\)</span> is a random sample from <span class="math inline">\(N(\mu, 1)\)</span>. Let’s find a <span class="math inline">\(100(1-\alpha)\%\)</span> confidence interval (CI) for <span class="math inline">\(\mu\)</span>. Since <span class="math inline">\(\overline X_n\)</span> is a great estimator of <span class="math inline">\(\mu\)</span> it makes sense the endpoints of the interval would depend on <span class="math inline">\(\overline X_n\)</span>. The confidence interval is supposed to be a range of plausible values of <span class="math inline">\(\mu\)</span>; and, <span class="math inline">\(\overline X_n\)</span> seems the most plausible, so the interval ought to look like <span class="math inline">\((\overline X_n - c_1, \, \overline X_n + c_2)\)</span>; in other words, the interval is the sample mean plus or minus something extra. We known <span class="math inline">\(\overline X_n \sim N(\mu, 1/n)\)</span>, which is a symmetric distribution. So, it would make sense for our <span class="math inline">\(\pm \text{ something extra}\)</span> to be symmetric, i.e. the interval should have the form <span class="math inline">\((\overline X_n - c, \overline X_n + c)\)</span> for some <span class="math inline">\(c&gt;0\)</span>. Now, it just remains to specify <span class="math inline">\(c\)</span> such that the interval has the confidence property. We want
+<span class="math display">\[P(\overline X_n - c \leq \mu \leq \overline X_n +c) = 1-\alpha.\]</span>
+Subtract <span class="math inline">\(\overline X_n\)</span> and standardize to get the standard normal probability
+<span class="math display">\[P\left(-\frac{c}{1/\sqrt{n}} \leq \frac{\overline X_n - \mu}{1/\sqrt{n}} \leq \frac{c}{1/\sqrt{n}}\right) = 1-\alpha\]</span>
+<span class="math display">\[P\left(-\frac{c}{1/\sqrt{n}} \leq Z \leq \frac{c}{1/\sqrt{n}}\right) = 1-\alpha.\]</span>
+This means <span class="math inline">\(P(Z\leq \frac{c}{1/\sqrt{n}}) = 1-\alpha/2\)</span> by symmetry of the standard normal distribution. In other words, <span class="math inline">\(\frac{c}{1/\sqrt{n}}\)</span> is the value such that
+<span class="math display">\[1-\alpha/2=F_Z(\frac{c}{1/\sqrt{n}})=\int_{-\infty}^{\frac{c}{1/\sqrt{n}}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}z^2}dz.\]</span>
+This defines <span class="math inline">\(\frac{c}{1/\sqrt{n}}\)</span> as the <span class="math inline">\(1-\alpha/2\)</span> standard normal quantile. Given a choice of <span class="math inline">\(\alpha\)</span> it’s not easy to solve for <span class="math inline">\(c\)</span> in the above (integral) equation, but we can use the built-in R function qnorm to find this value. Let <span class="math inline">\(\alpha = 0.025\)</span>, for example, so that the probability our interval contains <span class="math inline">\(\mu\)</span> is <span class="math inline">\(95\%\)</span>. Then, <span class="math inline">\(\frac{c}{1/\sqrt{n}} = qnorm(0.975) = 1.96\)</span> and <span class="math inline">\(c = 1.96\frac{1}{\sqrt{n}}\)</span>. Conclude a <span class="math inline">\(95\%\)</span> CI for <span class="math inline">\(\mu\)</span> is given by
+<span class="math display">\[\left(\overline X_n - 1.96\frac{1}{\sqrt{n}}, \,\overline X_n - 1.96\frac{1}{\sqrt{n}}\right).\]</span>
+More generally, if we denote the <span class="math inline">\(1-\alpha/2\)</span> quantile of the standard normal by <span class="math inline">\(z_{1-\alpha/2}\)</span> then
+<span class="math display">\[\left(\overline X_n - z_{1-\alpha/2}\frac{1}{\sqrt{n}}, \,\overline X_n - z_{1-\alpha/2}\frac{1}{\sqrt{n}}\right)\]</span>
+defines a <span class="math inline">\(100(1-\alpha)\%\)</span> CI for <span class="math inline">\(\mu\)</span>.<br><br></p>
+<p>Remark: It’s not essential that the above CI (or any CI) is symmetric about a point estimator, but when the sampling distribution of the estimator is symmetric this is the best choice. To see this, note that
+<span class="math display">\[\left(\overline X_n - z_{1-\alpha/3}\frac{1}{\sqrt{n}}, \,\overline X_n - z_{1-2\alpha/3}\frac{1}{\sqrt{n}}\right)\]</span>
+is also a <span class="math inline">\(95\%\)</span> CI for <span class="math inline">\(\mu\)</span>, but it is <em>always</em> larger (wider) than the symmetric interval. So, the symmetric interval, which being shorter is more precise, is preferable.</p>
+</div>
+<div id="other-exact-cis-for-normal-population-mean-and-variance-parameters" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Other “Exact” CIs for normal population mean and variance parameters<a href="confidence-intervals.html#other-exact-cis-for-normal-population-mean-and-variance-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="population-mean-unknown-variance" class="section level3 hasAnchor" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> Population mean, unknown variance<a href="confidence-intervals.html#population-mean-unknown-variance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let <span class="math inline">\(X_1, \ldots, X_n\)</span> be a random sample of size <span class="math inline">\(n\geq 2\)</span> from <span class="math inline">\(N(\mu, \sigma^2)\)</span> where both mean and variance parameters are unknown. We know the studentized mean follows a Student’s <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom:
+<span class="math display">\[T = \frac{\overline X_n - \mu}{\sqrt{S_n^2/n}}\sim t(n-1).\]</span>
+Mirroring the argument from above when <span class="math inline">\(\sigma^2\)</span> is a known value, we assume a <span class="math inline">\(100(1-\alpha)\%\)</span> CI for <span class="math inline">\(\mu\)</span> would be symmetric about <span class="math inline">\(\overline X_n\)</span> with radius <span class="math inline">\(t_{1-\alpha/2}(n-1) \frac{S_n}{\sqrt{n}}\)</span> where <span class="math inline">\(t_{1-\alpha/2}(n-1)\)</span> is the <span class="math inline">\(1-\alpha/2\)</span> quantile of the Student’s <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom:
+<span class="math display">\[P\left(\overline X_n - t_{1-\alpha/2}(n-1) \frac{S_n}{\sqrt{n}} \leq \mu \leq \overline X_n + t_{1-\alpha/2}(n-1) \frac{S_n}{\sqrt{n}}\right) = 1-\alpha.\]</span></p>
+</div>
+<div id="population-variance-unknown-mean" class="section level3 hasAnchor" number="5.3.2">
+<h3><span class="header-section-number">5.3.2</span> Population variance, unknown mean<a href="confidence-intervals.html#population-variance-unknown-mean" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let <span class="math inline">\(X_1, \ldots, X_n\)</span> be a random sample of size <span class="math inline">\(n\geq 2\)</span> from <span class="math inline">\(N(\mu, \sigma^2)\)</span> where both mean and variance parameters are unknown. We know the following transformation is Chi-squared distributed:
+<span class="math display">\[\frac{(n-1)S_n^2)}{\sigma^2}\sim \chi^2(n-1).\]</span>
+Now, the Chi-squared distribution is not symmetric—it’s skewed. There are a number of ways to define a <span class="math inline">\(100(1-\alpha)\%\)</span> CI for <span class="math inline">\(\sigma^2\)</span> based on the above sampling distribution. Since <span class="math inline">\(\sigma^2 &gt; 0\)</span> we can define a one-sided interval starting from zero:
+<span class="math display">\[\left(0, \, \frac{(n-1)S_n^2}{\chi^2_{\alpha}(n-1)}\right)\]</span>
+where <span class="math inline">\(\chi^2_{1-\alpha}(n-1)\)</span> is the <span class="math inline">\(100(1-\alpha)\)</span> quantile of a Chi-squared r.v. with <span class="math inline">\((n-1)\)</span> degrees of freedom. Then,
+<span class="math display">\[\begin{align*}
+P(0 \leq \sigma^2 \leq \frac{(n-1)S_n^2}{\chi^2_{\alpha}(n-1)}) &amp;= P(0\leq \frac{(n-1)S_n^2}{\sigma^2} \leq \chi^2_{1-\alpha}(n-1))\\
+&amp; = P(\chi^2(n-1) \geq \chi^2_{\alpha}(n-1))\\
+&amp;= 1-\alpha
+\end{align*}\]</span>
+by definition of the quantile. <br><br></p>
+<p>We can define two-sided intervals as well. The “equi-tailed” interval is not the shortest possible interval, but it has a simple form:
+<span class="math display">\[\left(\frac{(n-1)S_n^2}{\chi^2_{1-\alpha/2}(n-1)}, \, \frac{(n-1)S_n^2}{\chi^2_{\alpha/2}(n-1)}\right).\]</span></p>
+<p>In order to find the shortest possible <span class="math inline">\(100(1-\alpha)\%\)</span> CI one could draw a horizontal line slicing across the Chi-squared density such that the area under both the line and the density equals <span class="math inline">\(\alpha\)</span>. Then, the intersection points of the line and the density would give the lower and upper Chi-squared quantiles to use in the two-sided interval. Since the density is not symmetric this interval generally would not be based on the <span class="math inline">\(1-\alpha/2\)</span> and <span class="math inline">\(\alpha/2\)</span> quantiles like the equi-tailed interval. For example, the shortest <span class="math inline">\(95\%\)</span> CI when <span class="math inline">\(df=10\)</span> is based on quantile values of about 1.284 and 25.05. The following plot illustrates this.</p>
+<pre><code>## 0.04998856 with absolute error &lt; 8.5e-05</code></pre>
+<pre><code>## [1] 0.001862438</code></pre>
+<pre><code>## [1] 0.001863508</code></pre>
+<p><img src="12-Confidence-Intervals_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="two-normal-samples-comparing-means" class="section level3 hasAnchor" number="5.3.3">
+<h3><span class="header-section-number">5.3.3</span> Two normal samples, comparing means<a href="confidence-intervals.html#two-normal-samples-comparing-means" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s tackle the next topic by way of an example. Suppose infant walking time — the age in months at which babies can walk on their own — is normally distributed. Generally, parents are excited for their infants to begin walking and some parents “take steps” to encourage their infants to walk. We’ll assume it is reasonable to model the population of infant walking times among those infants whose parents no not intervene in walking skills development as a random sample from a normal distribution with mean <span class="math inline">\(\mu_x\)</span> and variance <span class="math inline">\(sigma_x^2\)</span>; likewise we model the corresponding population of infant walking times influenced by parent behavior by a normal distribution with mean <span class="math inline">\(\mu_y\)</span> and variance <span class="math inline">\(sigma_y^2\)</span>. Assume this parental influence factor represents a more-or-less standard “treatment”; for example, parents might spend 60 minutes a day encouraging their infant to crawl and stand with assistance or play in a bounce seat to build lower body strength. Child development researchers would be interested to know whether such parental interventions influence infant walking times. <br><br></p>
+<p>Given observations from an experiment comparing these two groups of infants, how would we answer the researchers’ question? One answer comes in the form of a CI for the difference of means <span class="math inline">\(\mu_x - \mu_y\)</span>. In this case a negative difference indicates some impact of parental involvement. And, if a <span class="math inline">\(95\%\)</span> CI does not contain zero, then the CI reflects strong evidence in the data that the true means are different. <br><br></p>
+<p>Based on our knowledge of sampling distributions we know that if <span class="math inline">\(\sigma_x^2 = \sigma_y^2\)</span> the following statistic has a Student’s <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n+m-2\)</span> df where <span class="math inline">\(n\)</span> and <span class="math inline">\(m\)</span> are the sample sizes in each group:
+<span class="math display">\[\frac{\overline X - \overline Y - (\mu_x - \mu_y)}{\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}}\]</span>
+where <span class="math inline">\(S_p^2\)</span> denotes the pooled (sample-size weighted average) sample variance. As a result, the following probability statement is exact:
+<span class="math display">\[\begin{align*}
+1-\alpha &amp; = P\left(t_{\alpha/2, n+m-2} \leq \frac{\overline X - \overline Y - (\mu_x - \mu_y)}{\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}} \leq t_{1-\alpha/2, n+m-2}\right)\\
+&amp; = P\left(t_{\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}\leq \overline X - \overline Y - (\mu_x - \mu_y) \leq t_{1-\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}\right)\\
+&amp; = P\left(-(\overline X - \overline Y)+t_{\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}\leq  - (\mu_x - \mu_y) \leq -(\overline X - \overline Y)+ t_{1-\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}\right)\\
+&amp; = P\left((\overline X - \overline Y)-t_{1-\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}\leq   (\mu_x - \mu_y) \leq (\overline X - \overline Y)+ t_{1-\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}\right)
+\end{align*}\]</span>
+where the last line follows from multiplying by <span class="math inline">\(-1\)</span> and noting <span class="math inline">\(t_{1-\alpha/2, n+m-2} = -t_{\alpha/2, n+m-2}\)</span> by symmetry. Therefore, a <span class="math inline">\(100(1-\alpha)\%\)</span> CI for the difference of means <span class="math inline">\(\mu_x - \mu_y\)</span> is given by
+<span class="math display">\[\left((\overline X - \overline Y)-t_{1-\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}, \, (\overline X - \overline Y)+t_{1-\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}\right).\]</span>
+Suppose we conduct the infant walking time experiment and observe the following data:
+<span class="math display">\[X:\,\,\, 13.2\,\,\, 16.6\,\,\, 16.7\,\,\, 16.8\,\,\, 17.0\,\,\, 17.1\,\,\, 17.3\,\,\, 17.4\,\,\, 17.4\,\,\, 17.7\,\,\, 17.9 \]</span>
+<span class="math display">\[Y: \,\,\, 16.8\,\,\, 17.1\,\,\, 17.6\,\,\, 17.7\,\,\, 18.8\,\,\, 18.8\,\,\, 19.3\,\,\, 19.6\,\,\, 21.0\,\,\, 21.2\,\,\, 21.5\,\,\, 22.1\,\,\, 22.8\]</span>
+Computing the sample statistics we find <span class="math inline">\(\overline x = 16.83\)</span>, <span class="math inline">\(\overline y = 19.56\)</span>, <span class="math inline">\(s_x^2 = 1.61\)</span>, and <span class="math inline">\(s_y^2 = 3.97\)</span>. The pooled sample variance is <span class="math inline">\((10s_x^2+12s_y^2)/22 = 2.90\)</span>. The <span class="math inline">\(0.975\)</span> quantile of the Student’s <span class="math inline">\(t\)</span> distribution with 22 df can be found using “qt(0.975, 22)” and equals about 2.07. Plugging all these values into the CI formula, the <span class="math inline">\(95\%\)</span> CI for the difference in mean infant walking times is<br />
+<span class="math display">\[(-4.18, \, -1.29)\]</span>
+We conclude the mean infant walking times in the group with parental intervention were between about 1.3 and 4.2 months shorter than in the non-intervention group. (Note this is made-up “data” only for illustration purposes.)
+<br><br></p>
+<p>The careful reader may be concerned that our CI method used above relies on the two normal populations having identical variances but our sample variances are substantially different. This equal-variance CI procedure is often referred to as Students’s two-sample CI, in contrast to an alternative method that can be used when variances are unequal called Welch’s two-sample CI. Recall the studentized difference of sample means when variances are unequal approximately (not exactly) follows a Student’s <span class="math inline">\(t\)</span> distribution with Satterthwaite’s choice of degrees of freedom:
+<span class="math display">\[\frac{\overline X_n - \overline Y_m - (\mu_X - \mu_Y)}{\sqrt{\frac{S_X^2}{n}+\frac{S_Y^2}{m}}}\stackrel{\cdot}{\sim}t(\nu)\]</span>
+where
+<span class="math display">\[\nu = \frac{\left(\frac{S_X^2}{n}+\frac{S_Y^2}{m}\right)^2}{\frac{1}{n-1}\left(\frac{S_X^2}{n}\right)^2 + \frac{1}{m-1}\left(\frac{S_Y^2}{m}\right)^2}.\]</span>
+Following the same argument as above, this implies an <em>approximate</em> <span class="math inline">\(100(1-\alpha)\%\)</span> CI for the difference of means is given by
+<span class="math display">\[\left((\overline X - \overline Y)-t_{1-\alpha/2, \nu}\sqrt{\left(\frac{S_x^2}{n} + \frac{S_y^2}{m}\right)}, \, (\overline X - \overline Y)+t_{1-\alpha/2, \nu}\sqrt{S_p^2\left(\frac{S_x^2}{n} + \frac{S_y^2}{m}\right)}\right).\]</span>
+Plugging in the relevant sample statistics, we get <span class="math inline">\(\nu = 20\)</span> so that we use the quantile <span class="math inline">\(t_{0.975}(20) = 2.086\)</span>. Welch’s two-sample approximate <span class="math inline">\(95\%\)</span> interval is
+<span class="math display">\[(-4.14, \,-1.33)\]</span>
+which is hardly different than Student’s interval. We’ll investigate the comparative performances of these two intervals further in lab.</p>
+</div>
+<div id="two-normal-samples-comparing-variances" class="section level3 hasAnchor" number="5.3.4">
+<h3><span class="header-section-number">5.3.4</span> Two normal samples, comparing variances<a href="confidence-intervals.html#two-normal-samples-comparing-variances" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In some applications it is either more important or at least of equal importance to compare population variances rather than means. For example, consider one or more manufacturing processes for producing optical lenses—these might be for glasses or contacts. Lenses have many dimensional quantities that determine their properties, for example, the refraction index of the lens material and the thickness of the lens, which both contribute to the power of the lens. Suppose a manufacturing process is supposed to produce a lens of a given thickness. A small tolerance is allowable but any lenses produced with thickness outside the tolerance must be rejected. We can think of the difference between the specified, target lens thickness and the population mean thickness of lenses produced by a specific process as <em>bias</em>. Then, our preference between two or more production processes is a question about bias-variance tradeoff. A production process with no bias but a high variance in lens thickness will result in many lenses being rejected—perhaps even more than a manufacturing process that produces biased lenses with very low variability in thickness. Clearly, for choosing between processes we need to evaluate both process bias and process variance.<br><br></p>
+<p>For comparing two process variances (where the underlying popualtions are normal) we use a ratio statistic. The sampling distribution of the following ratio of sample variances has an <em>F distribution</em> when the population variances are equal:
+<span class="math display">\[\frac{S_x^2}{S_y^2} \sim F(n-1, m-1).\]</span>
+Recall that <span class="math inline">\((n-1)S_x^2/\sigma_x^2 \sim\)</span> Chi-squared<span class="math inline">\((n-1)\)</span> and <span class="math inline">\((m-1)S_y^2/\sigma_y^2 \sim\)</span> Chi-squared<span class="math inline">\((m-1)\)</span>. The ratio of two independent, Chi-squared r.v.’s divided by the dfs defines an F random variable with two parameters which are the degrees of freedom of the numerator and denominator Chi-squared r.v.’s. When <span class="math inline">\(\sigma_x^2 = \sigma_y^2\)</span>, we have
+<span class="math display">\[\frac{\frac{(n-1)S_x^2}{\sigma_x^2(n-1)}}{\frac{(m-1)S_y^2}{\sigma_y^2(m-1)}} = \frac{\frac{(n-1)S_x^2}{(n-1)}}{\frac{(m-1)S_y^2}{(m-1)}} = \frac{\text{Chi-squared(n-1)/(n-1)}}{\text{Chi-squared(m-1)/(m-1)}} = \frac{S_x^2}{S_y^2} =  F(n-1, m-1).\]</span>
+And, when the variances are not equal, we simply have
+<span class="math display">\[\frac{S_x^2 \sigma_y^2}{S_y^2 \sigma_x^2} \sim F(n-1, m-1).\]</span>
+We can invert this relationship to find a CI for <span class="math inline">\(\sigma_y^2 / \sigma_x^2\)</span> using the following probability computation:
+<span class="math display">\[\begin{align*}
+1-\alpha &amp; = P(F_{\alpha/2}(n-1, m-1) \leq \frac{S_x^2 \sigma_y^2}{S_y^2 \sigma_x^2} \leq F_{1-\alpha/2}(n-1, m-1))\\
+&amp; = P(\frac{S_y^2}{S_x^2}F_{\alpha/2}(n-1, m-1) \leq \sigma_y^2/\sigma_x^2 \leq \frac{S_y^2}{S_x^2}F_{1-\alpha/2}(n-1, m-1))\\
+&amp; = P(\frac{S_y^2}{S_x^2}\frac{1}{F_{1-\alpha/2}(m-1, n-1)} \leq \sigma_y^2/\sigma_x^2 \leq \frac{S_y^2}{S_x^2}F_{1-\alpha/2}(n-1, m-1)),
+\end{align*}\]</span>
+where the last line uses a reciprocal-equality property of F distributions with swapped degrees of freedom, namely <span class="math inline">\(F_{\alpha}(df1, df2) = 1/(F_{1-\alpha}(df2, df1))\)</span>. This is not essential if you are using R to compute F quantiles but is helpful for using F tables, which typically only list upper tail quantiles. Then, a <span class="math inline">\(100(1-\alpha)\%\)</span> CI for the ratio <span class="math inline">\(\sigma_y^2/\sigma_x^2\)</span> is given by
+<span class="math display">\[\left(\frac{S_y^2}{S_x^2}\frac{1}{F_{1-\alpha/2}(m-1, n-1)}, \,\frac{S_y^2}{S_x^2}F_{1-\alpha/2}(n-1, m-1)\right).\]</span>
+Given the following observations (in nanometers) of lens thickness using two different production methods, compute <span class="math inline">\(95\%\)</span> CIs for the difference in means (use Welch’s method) and the ratio of variances:
+<span class="math display">\[X: 2.9859\,\,\, 3.0042\,\,\, 3.0055 \,\,\,3.0083 \,\,\,3.0113 \,\,\,3.0124\,\,\, 3.0150\,\,\, 3.0214\]</span>
+<span class="math display">\[Y: 2.9964\,\,\, 3.0011 \,\,\,3.0099\,\,\, 3.0110\,\,\, 3.0124\,\,\, 3.0130\,\,\, 3.0140\,\,\, 3.0205\]</span>
+The <span class="math inline">\(95\%\)</span> CI for the difference in population mean thicknesses is
+<span class="math display">\[(-0.0116, \, 0.0080).\]</span>
+The <span class="math inline">\(95\%\)</span> CI for the ratio of population variances <span class="math inline">\(\sigma_y^2/\sigma_x^2\)</span> is
+<span class="math display">\[(0.1058, \, 2.6394).\]</span></p>
+</div>
+</div>
+<div id="cis-for-proportions" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> CIs for proportions<a href="confidence-intervals.html#cis-for-proportions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="a-single-bernoulli-proportion" class="section level3 hasAnchor" number="5.4.1">
+<h3><span class="header-section-number">5.4.1</span> A single Bernoulli proportion<a href="confidence-intervals.html#a-single-bernoulli-proportion" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Using the DeMoivre-Laplace CLT we know the standardized sample proportion is approximately normally distributed:</p>
+<p><span class="math display">\[\frac{\hat p - p}{\sqrt{\frac{p(1-p)}{n}}}\stackrel{\cdot}{\sim}N(0,1)\]</span></p>
+<p>Then, again denoting lower standard normal quantiles by <span class="math inline">\(z_\alpha\)</span>, we have
+<span class="math display">\[1-\alpha \approx P\left(z_{\alpha/2} \leq \frac{\hat p - p}{\sqrt{\frac{p(1-p)}{n}}}\leq z_{1-\alpha/2}\right).\]</span></p>
+<p>As in other cases covered above, we can derive an approximate CI for <span class="math inline">\(p\)</span> by algebraic manipulations within the probability statement. A complicating factor is that the true proportion <span class="math inline">\(p\)</span> shows up in both the numerator and denominator of the standardized sample proportion. A common technique to get around this is to replace the standard deviation of <span class="math inline">\(\hat p\)</span> by the estimated standard deviation <span class="math inline">\(\sqrt{\hat p(1-\hat p)/n}\)</span>. Using the estimated standard deviation, an approximate <span class="math inline">\(100(1-\alpha)\%\)</span> CI for <span class="math inline">\(p\)</span> is given by
+<span class="math display">\[\left(\hat p + z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}{n}}, \, \hat p + z_{1-\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}{n}}\right).\]</span></p>
+<p>It is possible to derive a CI for <span class="math inline">\(p\)</span> without resorting to using the estimated standard deviation. In that case, we have to solve for <span class="math inline">\(p\)</span> in the quadratic equation
+<span class="math display">\[\frac{\hat p - p}{\sqrt{\frac{p(1-p)}{n}}}= z_{1-\alpha/2}.\]</span>
+The endpoints of the CI based on the true standard deviation of <span class="math inline">\(\hat p\)</span> are given by
+<span class="math display">\[\frac{n\hat p + 0.5z_{\alpha/2}^2\pm z_{1-\alpha/2}\sqrt{n\hat p(1-\hat p)+0.25z_{\alpha/2}^2}}{n+z_{\alpha/2}^2}.\]</span></p>
+<p><br>
+Example: A survey is conducted to determine the level of support for the construction of a new nuclear power plant in a community. 140 of 400 randomly sampled voters favor the construction project. Find a <span class="math inline">\(99\%\)</span> approximate CI for the true proportion of voters favoring the project.
+<br><br>
+The sample proportion is <span class="math inline">\(\hat p = 0.35\)</span> and the estimated standard deviation of <span class="math inline">\(\hat p\)</span> is <span class="math inline">\(\sqrt{0.35\cdot 0.65 / 400} = 0.02384848\)</span>. Given <span class="math inline">\(z_{0.995} = 2.575\)</span> an approximate <span class="math inline">\(99\%\)</span> CI for p is given by
+<span class="math display">\[(28.86\%, \, 41.14\%).\]</span></p>
+<p>Alternatively, using the formula for the CI based on the true standard deviation of <span class="math inline">\(\hat p\)</span> we find the interval
+<span class="math display">\[(29.15\%, \, 41.34\%).\]</span></p>
+</div>
+<div id="difference-of-two-bernoulli-proportions" class="section level3 hasAnchor" number="5.4.2">
+<h3><span class="header-section-number">5.4.2</span> Difference of two Bernoulli proportions<a href="confidence-intervals.html#difference-of-two-bernoulli-proportions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The most common experiments compare two or more populations. For two Bernoulli populations an approximate CI for the difference of population proportions can be computed based on the DeMoivre-Laplace CLT similarly to the single population interval above based on the estimated standard deviation of the sample proportion. Our CI for the difference of proportions is given by
+<span class="math display">\[\left(\hat p_1 - \hat p_2 + z_{\alpha/2}\sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1} + \frac{\hat p_2(1-\hat p_2)}{n_2}}, \,\,\,\,\, \hat p_1 - \hat p_2 + z_{1-\alpha/2}\sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1} + \frac{\hat p_2(1-\hat p_2)}{n_2}}\right).\]</span>
+<br>
+Example: Suppose a poll of Illinois voters finds 132 of 200 male voters and 90 of 150 female voters favor a certain candidate. A <span class="math inline">\(99\%\)</span> CI for the difference of population favorability proportions between the sexes is
+<span class="math display">\[(-7.4\%, \, 19.4\%)\]</span>
+indicating there is, plausibly, no difference in the candidate’s favorability between the sexes.</p>
+</div>
+</div>
+<div id="approximate-cis-based-on-mles" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> Approximate CIs based on MLEs<a href="confidence-intervals.html#approximate-cis-based-on-mles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>So far we have derived CIs for parameters based on sampling distributions of statistics used to estimate those parameters. We can use the same strategy to derive CIs for parameters estimated using maximum likelihood whenever asymptotic normality of the corresponding MLE is justified. Recall there are a few cases where asymptotic normality may not hold, such as estimating the lower or upper bounds of a uniform distribution—that case violates the condition that the sample space does not depend on the parameter. However, in many situations asymptotic normality of the MLE does hold, and we can use it to derive approximate CIs.<br><br></p>
+<p>Recall that, under some regularity conditions, the MLE <span class="math inline">\(\hat\theta\)</span> for the scalar parameter <span class="math inline">\(\theta\)</span> is approximately normally distributed with mean <span class="math inline">\(\theta\)</span> and variance <span class="math inline">\([nI(\theta)]^{-1}\)</span> where <span class="math inline">\(I(\theta)\)</span> is the Fisher information for one sample. If we replace the variance by the estimated variance by plugging in <span class="math inline">\(\hat\theta\)</span> then we obtain the CI
+<span class="math display">\[\left(\hat\theta \pm z_{1-\alpha/2}[nI(\hat\theta)]^{-1/2}\right),\]</span>
+where you’ll recall that <span class="math inline">\(I(\theta) = E\left[\left(\frac{\partial \ell}{\partial \theta}\right)^2\right]\)</span> or, equivalently (most of the time), <span class="math inline">\(I(\theta) = -E\left(\frac{\partial^2 \ell}{\partial \theta^2}\right)\)</span> where <span class="math inline">\(\ell\)</span> denotes the loglikelihood function. <br><br></p>
+<p>Example: The MLE of the exponential rate parameter is <span class="math inline">\(\hat\theta = \overline X\)</span>. We have previously found <span class="math inline">\([nI(\theta)]^{-1/2} = \sqrt{(\overline X)^2/n}\)</span> so that an MLE-based approximate CI for the exponential rate <span class="math inline">\(\theta\)</span> is given by
+<span class="math display">\[\left(\overline X \pm z_{1-\alpha/2}\frac{\overline X}{\sqrt{n}}\right).\]</span></p>
+<div id="multivariate-case" class="section level3 hasAnchor" number="5.5.1">
+<h3><span class="header-section-number">5.5.1</span> Multivariate case<a href="confidence-intervals.html#multivariate-case" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>When <span class="math inline">\(\theta\)</span> is a vector parameter the MLE <span class="math inline">\(\hat\theta\)</span> is approximately distributed as a multivariate normal random vector with mean vector <span class="math inline">\(\theta\)</span> and (estimated) covariance matrix <span class="math inline">\([nI(\hat\theta)]^{-1}\)</span>. We can compute approximate CIs for each element of <span class="math inline">\(\theta\)</span> using the marginal approximate normal distributions of the elements of <span class="math inline">\(\hat\theta\)</span> as in the scalar case. However, we can also compute a joint confidence region for two or more elements of <span class="math inline">\(\theta\)</span>. The elliptical region
+<span class="math display">\[\{\theta: (\hat \theta - \theta)[nI(\hat\theta)]^{-1}(\hat \theta - \theta)^\top \leq z_{1-\alpha/2}^2\}\]</span>
+is an approximate <span class="math inline">\(100(1-\alpha)\%\)</span> confidence region for <span class="math inline">\(\theta\)</span>. It is also smaller than the set product of marginal confidence intervals, which is a hyper-rectangle containing this ellipse.</p>
+<p>Example: The MLEs for a normal population mean and variance have approximate normal distribution
+<span class="math display">\[(\overline X, \hat\sigma^2) \stackrel{\cdot}{\sim}N\left((\mu, \sigma^2), \begin{bmatrix} \sigma^2/n &amp; 0 \\ 0 &amp; 2\sigma^4/n \end{bmatrix}\right).\]</span>
+An approximate <span class="math inline">\(100(1-\alpha)\%\)</span> elliptical confidence region for <span class="math inline">\((\mu, \sigma^2)\)</span> is given by
+<span class="math display">\[\{(\mu, \sigma^2): (\overline X - \mu, \hat\sigma^2 - \sigma^2)\begin{bmatrix} \hat\sigma^2/n &amp; 0 \\ 0 &amp; 2\hat\sigma^4/n \end{bmatrix}^{-1} (\overline X - \mu, \hat\sigma^2 - \sigma^2)^\top \leq z_{1-\alpha/2}^2\}.\]</span></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="confidence-intervals.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">56482</span>)</span>
+<span id="cb5-2"><a href="confidence-intervals.html#cb5-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="dv">5</span>, <span class="dv">3</span>)</span>
+<span id="cb5-3"><a href="confidence-intervals.html#cb5-3" aria-hidden="true" tabindex="-1"></a>xbar <span class="ot">&lt;-</span> <span class="fu">mean</span>(data)</span>
+<span id="cb5-4"><a href="confidence-intervals.html#cb5-4" aria-hidden="true" tabindex="-1"></a>s2 <span class="ot">&lt;-</span> <span class="fu">var</span>(data)<span class="sc">*</span>(<span class="dv">19</span>)<span class="sc">/</span><span class="dv">20</span></span>
+<span id="cb5-5"><a href="confidence-intervals.html#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="confidence-intervals.html#cb5-6" aria-hidden="true" tabindex="-1"></a>xc <span class="ot">&lt;-</span> xbar <span class="co"># center x_c or h</span></span>
+<span id="cb5-7"><a href="confidence-intervals.html#cb5-7" aria-hidden="true" tabindex="-1"></a>yc <span class="ot">&lt;-</span> s2 <span class="co"># y_c or k</span></span>
+<span id="cb5-8"><a href="confidence-intervals.html#cb5-8" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fl">1.96</span><span class="sc">*</span><span class="fu">sqrt</span>(s2<span class="sc">/</span><span class="dv">20</span>) <span class="co"># major axis length</span></span>
+<span id="cb5-9"><a href="confidence-intervals.html#cb5-9" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span>  <span class="fl">1.96</span><span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">*</span>(s2<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="dv">20</span>) <span class="co"># minor axis length</span></span>
+<span id="cb5-10"><a href="confidence-intervals.html#cb5-10" aria-hidden="true" tabindex="-1"></a>phi <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># angle of major axis with x axis phi or tau</span></span>
+<span id="cb5-11"><a href="confidence-intervals.html#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="confidence-intervals.html#cb5-12" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">2</span><span class="sc">*</span>pi, <span class="fl">0.01</span>) </span>
+<span id="cb5-13"><a href="confidence-intervals.html#cb5-13" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> xc <span class="sc">+</span> a<span class="sc">*</span><span class="fu">cos</span>(t)<span class="sc">*</span><span class="fu">cos</span>(phi) <span class="sc">-</span> b<span class="sc">*</span><span class="fu">sin</span>(t)<span class="sc">*</span><span class="fu">sin</span>(phi)</span>
+<span id="cb5-14"><a href="confidence-intervals.html#cb5-14" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> yc <span class="sc">+</span> a<span class="sc">*</span><span class="fu">cos</span>(t)<span class="sc">*</span><span class="fu">sin</span>(phi) <span class="sc">+</span> b<span class="sc">*</span><span class="fu">sin</span>(t)<span class="sc">*</span><span class="fu">cos</span>(phi)</span>
+<span id="cb5-15"><a href="confidence-intervals.html#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,y, <span class="at">col=</span><span class="st">&#39;blue&#39;</span>,  <span class="at">type =</span> <span class="st">&#39;l&#39;</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">7</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">15</span>))</span>
+<span id="cb5-16"><a href="confidence-intervals.html#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="confidence-intervals.html#cb5-17" aria-hidden="true" tabindex="-1"></a>CI.mu <span class="ot">&lt;-</span> <span class="fu">c</span>(xbar <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span><span class="fu">sqrt</span>(s2<span class="sc">/</span><span class="dv">20</span>), xbar <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span><span class="fu">sqrt</span>(s2<span class="sc">/</span><span class="dv">20</span>))</span>
+<span id="cb5-18"><a href="confidence-intervals.html#cb5-18" aria-hidden="true" tabindex="-1"></a>CI.sig2 <span class="ot">&lt;-</span> <span class="fu">c</span>(s2 <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">*</span>(s2<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="dv">20</span>), s2 <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span><span class="fu">sqrt</span>(<span class="dv">2</span><span class="sc">*</span>(s2<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="dv">20</span>))</span>
+<span id="cb5-19"><a href="confidence-intervals.html#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="confidence-intervals.html#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(CI.mu[<span class="dv">1</span>], CI.mu[<span class="dv">2</span>]),<span class="fu">c</span>(CI.sig2[<span class="dv">1</span>], CI.sig2[<span class="dv">1</span>]), <span class="at">col =</span> <span class="st">&#39;red&#39;</span>) </span>
+<span id="cb5-21"><a href="confidence-intervals.html#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(CI.mu[<span class="dv">1</span>], CI.mu[<span class="dv">2</span>]),<span class="fu">c</span>(CI.sig2[<span class="dv">2</span>], CI.sig2[<span class="dv">2</span>]), <span class="at">col =</span> <span class="st">&#39;red&#39;</span>) </span>
+<span id="cb5-22"><a href="confidence-intervals.html#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(CI.mu[<span class="dv">1</span>], CI.mu[<span class="dv">1</span>]),<span class="fu">c</span>(CI.sig2[<span class="dv">1</span>], CI.sig2[<span class="dv">2</span>]), <span class="at">col =</span> <span class="st">&#39;red&#39;</span>) </span>
+<span id="cb5-23"><a href="confidence-intervals.html#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(CI.mu[<span class="dv">2</span>], CI.mu[<span class="dv">2</span>]),<span class="fu">c</span>(CI.sig2[<span class="dv">1</span>], CI.sig2[<span class="dv">2</span>]), <span class="at">col =</span> <span class="st">&#39;red&#39;</span>) </span></code></pre></div>
+<p><img src="12-Confidence-Intervals_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="the-delta-method" class="section level3 hasAnchor" number="5.5.2">
+<h3><span class="header-section-number">5.5.2</span> The Delta method<a href="confidence-intervals.html#the-delta-method" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The delta theorem says that asymptotic normality of the MLE is preserved under smooth (differentiable) transformations. Let <span class="math inline">\(g(\cdot)\)</span> be a differentiable function. Then,
+<span class="math display">\[\sqrt{n}(g(\hat\theta) - g(\theta))\stackrel{\cdot}{\sim} N\left(0, [g&#39;(\theta)]^\top I(\theta)^{-1}g&#39;(\theta)\right).\]</span></p>
+<p>The power of the delta theorem is its implied method for constructing CIs for any “nice” function of population parameters.<br><br></p>
+<p>Example: For a normal population experiment a common function of parameters that is of interest to researchers is the so-called “signal-to-noise ratio” given by <span class="math inline">\(\mu/\sigma\)</span>. In this case, <span class="math inline">\(g(\theta) = g(\mu, \sigma^2) = \mu/\sqrt{\sigma^2}\)</span>. And, <span class="math inline">\(g&#39;(\theta) = (1/\sqrt{\sigma^2},\, -0.5\mu/({(\sigma^2)}^{1.5}))\)</span>. Using the delta theorem result, the MLE of <span class="math inline">\(\mu/\sigma\)</span> is given by <span class="math inline">\(\overline X / \sqrt{\hat\sigma^2}\)</span> and has approximate variance
+<span class="math display">\[(1/\sqrt{\hat\sigma^2},\, -0.5\overline X/({(\hat\sigma^2)}^{1.5})) \begin{bmatrix} \hat\sigma^2/n &amp; 0 \\ 0 &amp; 2\hat\sigma^4/n \end{bmatrix} (1/\sqrt{\hat\sigma^2},\, -0.5\overline X/({(\hat\sigma^2)}^{1.5}))^\top = \frac{1}{n}+\frac{\overline X^2}{2n\hat\sigma^2}.\]</span>
+Then, an approximate CI for <span class="math inline">\(\mu/\sigma\)</span> is given by
+<span class="math display">\[\left(\overline X / \sqrt{\hat\sigma^2} \pm z_{1-\alpha/2}\sqrt{\frac{1}{n}+\frac{\overline X^2}{2n\hat\sigma^2}}\right).\]</span></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="sampling-distributions.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/12-Confidence-Intervals.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Sampling Distributions | A First Course in Probability and Statistics</title>
+  <meta name="description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Sampling Distributions | A First Course in Probability and Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Sampling Distributions | A First Course in Probability and Statistics" />
+  
+  <meta name="twitter:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  
+
+<meta name="author" content="Nick Syring" />
+
+
+<meta name="date" content="2022-08-31" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="statistical-estimation.html"/>
+<link rel="next" href="confidence-intervals.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction to Statistical Inference</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html"><i class="fa fa-check"></i><b>2</b> Data Analysis and Statistical Inference</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies"><i class="fa fa-check"></i><b>2.1</b> Data, Experiments, and Studies</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial"><i class="fa fa-check"></i><b>2.1.1</b> James Lind’s Scurvy Trial</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#framingham-heart-study"><i class="fa fa-check"></i><b>2.1.2</b> Framingham Heart Study</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study"><i class="fa fa-check"></i><b>2.1.3</b> Harris Bank Sex Pay Study</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets"><i class="fa fa-check"></i><b>2.1.4</b> Large, Aggregated Data Sets</a></li>
+<li class="chapter" data-level="2.1.5" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#study-concepts"><i class="fa fa-check"></i><b>2.1.5</b> Study Concepts</a></li>
+<li class="chapter" data-level="2.1.6" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation"><i class="fa fa-check"></i><b>2.1.6</b> Randomization, control, and causation</a></li>
+<li class="chapter" data-level="2.1.7" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference"><i class="fa fa-check"></i><b>2.1.7</b> Populations and scope of inference</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-summaries"><i class="fa fa-check"></i><b>2.2</b> Data Summaries</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#numerical-summaries"><i class="fa fa-check"></i><b>2.2.1</b> Numerical Summaries</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#visual-summaries"><i class="fa fa-check"></i><b>2.2.2</b> Visual Summaries</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#statistical-inference"><i class="fa fa-check"></i><b>2.3</b> Statistical Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="statistical-estimation.html"><a href="statistical-estimation.html"><i class="fa fa-check"></i><b>3</b> Statistical Estimation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#vocabulary"><i class="fa fa-check"></i><b>3.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="3.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-estimators"><i class="fa fa-check"></i><b>3.2</b> Properties of Estimators</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#bias-and-unbiasedness"><i class="fa fa-check"></i><b>3.2.1</b> Bias and Unbiasedness</a></li>
+<li class="chapter" data-level="3.2.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#minimum-variance-unbiased-estimators"><i class="fa fa-check"></i><b>3.2.2</b> Minimum Variance Unbiased Estimators</a></li>
+<li class="chapter" data-level="3.2.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#mean-squared-error-and-bias-variance-tradeoff"><i class="fa fa-check"></i><b>3.2.3</b> Mean Squared Error and Bias-Variance tradeoff</a></li>
+<li class="chapter" data-level="3.2.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#consistency"><i class="fa fa-check"></i><b>3.2.4</b> Consistency</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#finding-estimators---method-of-moments"><i class="fa fa-check"></i><b>3.3</b> Finding estimators - Method of Moments</a></li>
+<li class="chapter" data-level="3.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#method-of-maximum-likelihood"><i class="fa fa-check"></i><b>3.4</b> Method of Maximum Likelihood</a></li>
+<li class="chapter" data-level="3.5" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-mles"><i class="fa fa-check"></i><b>3.5</b> Properties of MLEs</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sampling-distributions.html"><a href="sampling-distributions.html"><i class="fa fa-check"></i><b>4</b> Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-mean"><i class="fa fa-check"></i><b>4.1</b> Sample Mean</a></li>
+<li class="chapter" data-level="4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-variance"><i class="fa fa-check"></i><b>4.2</b> Sample Variance</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#large-sample-sampling-distribution-of-sample-variance"><i class="fa fa-check"></i><b>4.2.1</b> Large-sample sampling distribution of sample variance</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sampling-distribution-of-studentized-sample-mean"><i class="fa fa-check"></i><b>4.3</b> Sampling distribution of studentized sample mean</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2"><i class="fa fa-check"></i><b>4.3.1</b> Part of Student’s Theorem - Indepndence of <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="sampling-distributions.html"><a href="sampling-distributions.html#differences-of-sample-means"><i class="fa fa-check"></i><b>4.4</b> Differences of Sample Means</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#standarized-difference"><i class="fa fa-check"></i><b>4.4.1</b> Standarized difference</a></li>
+<li class="chapter" data-level="4.4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-equal-variances"><i class="fa fa-check"></i><b>4.4.2</b> Studentized difference, equal variances</a></li>
+<li class="chapter" data-level="4.4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-unequal-variances"><i class="fa fa-check"></i><b>4.4.3</b> Studentized difference, unequal variances</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="sampling-distributions.html"><a href="sampling-distributions.html#ratios-of-sample-variances"><i class="fa fa-check"></i><b>4.5</b> Ratios of Sample Variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>5</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#why-want-interval-valued-estimates"><i class="fa fa-check"></i><b>5.1</b> Why want interval-valued estimates?</a></li>
+<li class="chapter" data-level="5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#normal-population-mean-example"><i class="fa fa-check"></i><b>5.2</b> Normal population mean example</a></li>
+<li class="chapter" data-level="5.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#other-exact-cis-for-normal-population-mean-and-variance-parameters"><i class="fa fa-check"></i><b>5.3</b> Other “Exact” CIs for normal population mean and variance parameters</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-mean-unknown-variance"><i class="fa fa-check"></i><b>5.3.1</b> Population mean, unknown variance</a></li>
+<li class="chapter" data-level="5.3.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-variance-unknown-mean"><i class="fa fa-check"></i><b>5.3.2</b> Population variance, unknown mean</a></li>
+<li class="chapter" data-level="5.3.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-means"><i class="fa fa-check"></i><b>5.3.3</b> Two normal samples, comparing means</a></li>
+<li class="chapter" data-level="5.3.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-variances"><i class="fa fa-check"></i><b>5.3.4</b> Two normal samples, comparing variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#cis-for-proportions"><i class="fa fa-check"></i><b>5.4</b> CIs for proportions</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#a-single-bernoulli-proportion"><i class="fa fa-check"></i><b>5.4.1</b> A single Bernoulli proportion</a></li>
+<li class="chapter" data-level="5.4.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#difference-of-two-bernoulli-proportions"><i class="fa fa-check"></i><b>5.4.2</b> Difference of two Bernoulli proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#approximate-cis-based-on-mles"><i class="fa fa-check"></i><b>5.5</b> Approximate CIs based on MLEs</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#multivariate-case"><i class="fa fa-check"></i><b>5.5.1</b> Multivariate case</a></li>
+<li class="chapter" data-level="5.5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#the-delta-method"><i class="fa fa-check"></i><b>5.5.2</b> The Delta method</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A First Course in Probability and Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sampling-distributions" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Sampling Distributions<a href="sampling-distributions.html#sampling-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="sample-mean" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Sample Mean<a href="sampling-distributions.html#sample-mean" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> denote a random sample from a distribution/population with a finite mean <span class="math inline">\(\mu\)</span> and a finite variance <span class="math inline">\(\sigma^2\)</span>. Denote the sample mean by <span class="math inline">\(\overline X_n = n^{-1}\sum_{i=1}^n X_i\)</span>. According to the Central Limit Theorem,
+<span class="math display">\[\frac{\overline X_n - \mu}{\sigma / \sqrt{n}} \stackrel{i.d.}{\rightarrow} N(0,1)\]</span>
+for large sample size, meaning the distribution of the centered and scaled (standardized) sample mean converges to standard normal. Therefore, for large sample sizes,
+<span class="math display">\[\overline X_n \stackrel{\cdot}{\sim} N(\mu, \sigma^2/n)\]</span>
+We say the <em>approximate/large-sample sampling distribution</em> of the sample mean is Normal.<br><br></p>
+<p>If <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> constitutes a random sample from a Normal population, then the sampling distribution of the sample mean is <em>exactly</em> normal:
+<span class="math display">\[\overline X_n \sim N(\mu, \sigma^2/n)\quad \text{for all }n,\]</span>
+which can be verified using MGFs.<br><br></p>
+<p>How large is large? For many disributions the CLT will “kick in” for modest sample size, even, say, <span class="math inline">\(n=50\)</span> is often sufficient. But, ultimately, the number of samples needed in order for the sample mean to be nearly normally distributed depends on the underlying distribution. Very skewed or multimodal distributions may “resist” the CLT much longer than distributions that already are close to normal. Below is a quick Monte Carlo experiment illustrating the CLT, and sample mean sampling distribution, for two distributions: exponential and log-normal.</p>
+<p><img src="10-Sampling-Distributions_files/figure-html/unnamed-chunk-1-1.png" width="672" /><img src="10-Sampling-Distributions_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<p>As a final reminder, note the CLT does not apply to “heavy-tailed” distributions that lack a mean. For example, the Cauchy distribution is very likely to produce extreme values, and, as a result, it has no finite mean. Therefore, the CLT does not apply and it’s unclear what will be the sampling distribution of it’s sample mean. It turns out the sample mean is still Cauchy-distributed—taking the average of Cauchy samples does not reduce uncertainty at all. For an illustration, see the Monte-Carlo-approximated distribution of the sample mean of 50 samples from a Cauchy population:</p>
+<p><img src="10-Sampling-Distributions_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="sample-variance" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Sample Variance<a href="sampling-distributions.html#sample-variance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> denote a random sample from a Normal population with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. Denote the sample variance by <span class="math inline">\(S^2_n = \frac{1}{n-1}\sum_{i=1}^n (X_i - \overline X_n)^2\)</span>. Next, we will discover the sampling distribution of the (normal) sample variance.<br><br></p>
+<p>First, we need to establish the fact that if <span class="math inline">\(Z\sim N(0,1)\)</span>, then <span class="math inline">\(Z^2\)</span> has what is called a Chi-squared distribution, with one “degree of freedom”—this is the parameter of this distribution. This Chi-squared distribution has MGF <span class="math inline">\(\left(1-2t\right)^{-k/2}\)</span> where <span class="math inline">\(k\)</span> is the degrees of freedom parameter. It’s corresponding density function is
+<span class="math display">\[f(x) = 2^{-k/2}\left[\Gamma(k/2)\right]^{-1}x^{k/2-1}e^{-x/2},\quad x&gt;0\]</span>
+and you might recognize this as a Gamma distribution with shape <span class="math inline">\(k/2\)</span> and rate <span class="math inline">\(1/2\)</span>, so it’s mean is <span class="math inline">\((k/2)/(1/2) = k\)</span>. Ww can establish this fact by the MGF technique. Evaluate the MGF of <span class="math inline">\(Z^2\)</span> as follows:</p>
+<p><span class="math display">\[\begin{align*}
+M_{Z^2}(t) &amp;= E(e^{tZ^2}) = \int_{-\infty}^{\infty} e^{tz^2}\frac{1}{\sqrt{2\pi}}e^{-\tfrac12 z^2}dz\\
+&amp; = \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2\frac{1}{1-2t}}z^2}dz\\
+&amp; = \sqrt{\frac{1}{1-2t}}\int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi\frac{1}{1-2t}}} e^{-\frac{1}{2\frac{1}{1-2t}}z^2}dz\\
+&amp; = \sqrt{\frac{1}{1-2t}}
+\end{align*}\]</span>
+where the last inequality follows from the fact the integrand is a normal density function with mean zero and variance <span class="math inline">\(\frac{1}{1-2t}\)</span> (provided <span class="math inline">\(t&lt;2\)</span>) so that the integral equals one. This shows <span class="math inline">\(Z^2\)</span> is Chi-squared distributed with <span class="math inline">\(1\)</span> degree of freedom. <br><br></p>
+<p>As we’ve many times, the MGF argument works particularly well with sums of independent random variables. If <span class="math inline">\(Z_1, Z_2, \ldots, Z_n\)</span> are iid standard normal, then <span class="math inline">\(\sum_{i=1}^n Z_i^2\)</span> is Chi-squared distributed with <span class="math inline">\(n\)</span> degrees of freedom. To show this, simply show the MGF of <span class="math inline">\(\sum_{i=1}^n Z_i^2\)</span> equals <span class="math inline">\(\left(1-2t\right)^{-n/2}\)</span> using the previous result for <span class="math inline">\(n=1\)</span>, the definition of the MGF, and independence.<br><br></p>
+<p>Next, we’ll show a linear transformation of the the sample variance has a Chi-squared distribution with <span class="math inline">\(n-1\)</span> degrees of freedom.<br><br></p>
+<p>Start by making the linear transformation
+<span class="math display">\[\frac{(n-1)S_n^2}{\sigma^2} = \sum_{i=1}^n \left(\frac{X_i - \overline X_n}{\sigma}\right)^2.\]</span>
+Here’s the main trick: add and subtract <span class="math inline">\(\mu\)</span> inside the square in the sum, then expand the square and simplify:
+<span class="math display">\[\begin{align*}
+\frac{(n-1)S_n^2}{\sigma^2} &amp;= \sum_{i=1}^n \left(\frac{X_i - \mu + \mu - \overline X_n}{\sigma}\right)^2\\
+&amp; = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 + 2\sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)\left(\frac{\mu - \overline X_n}{\sigma}\right) + \sum_{i=1}^n \left(\frac{\mu - \overline X_n}{\sigma}\right)^2\\
+&amp; = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 - 2n\left(\frac{\overline X_n - \mu}{\sigma}\right)^2 + n\left(\frac{\overline X_n - \mu}{\sigma}\right)^2\\
+&amp; = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 - n\left(\frac{\overline X_n - \mu}{\sigma}\right)^2\\
+&amp; = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 - \left(\frac{\overline X_n - \mu}{\sigma/\sqrt{n}}\right)^2
+\end{align*}\]</span></p>
+<p>So far, we have shown
+<span class="math display">\[\sum_{i=1}^n \left(\frac{X_i - \overline X_n}{\sigma}\right)^2 = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 - \left(\frac{\overline X_n - \mu}{\sigma/\sqrt{n}}\right)^2.\]</span></p>
+<p>The first term on the right hand side is a summation of <span class="math inline">\(n\)</span> squares of independent, standard normal r.v.’s <span class="math inline">\(Z_i = \frac{X_i - \overline X_n}{\sigma}\)</span>. Baed on our previous result, this sum must be distributed as Chi-squared with <span class="math inline">\(n\)</span> degrees of freedom. The second term on the right is also the square of a standard normal random variable, so it must be distributed as Chi-squared with one degree of freedom. Consequently, the sum on the left hand side must be a Chi-squared random variable with <span class="math inline">\(n-1\)</span> degrees of freedom.</p>
+<div id="large-sample-sampling-distribution-of-sample-variance" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Large-sample sampling distribution of sample variance<a href="sampling-distributions.html#large-sample-sampling-distribution-of-sample-variance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> is a random sample from a distribution with at least 4 finite moments, then the sample variance <span class="math inline">\(S_n^2\)</span> is approximately normally distributed for large <span class="math inline">\(n\)</span>. To see this, note
+<span class="math display">\[S_n^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \overline X_n)^2 \approx \frac{1}{n}\sum_{i=1}^n Z_i\]</span>
+where <span class="math inline">\(Z_i = (X_i - \mu)^2\)</span>. The latter expression is a sample average of iid random variables, and, as such, the CLT implies (the centered and scaled transformation of) it has a limiting normal distribution. This reasoning can be made rigorous.</p>
+</div>
+</div>
+<div id="sampling-distribution-of-studentized-sample-mean" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Sampling distribution of studentized sample mean<a href="sampling-distributions.html#sampling-distribution-of-studentized-sample-mean" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> be a random sample from a normal population with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>; and, let <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span> denote the sample mean and sample variance, respectively.<br><br></p>
+<p>Let
+<span class="math display">\[T_n:=\frac{\overline X_n - \mu}{\sqrt{S_n^2 / n}}\]</span>
+denote the “studentized sample mean”. <span class="math inline">\(T_n\)</span> is the standardized sample mean—<span class="math inline">\(\overline X_n\)</span> minus <span class="math inline">\(\mu\)</span> and divided by <span class="math inline">\(\sqrt{\sigma^2/n}\)</span>—with the true variance replaced by its estimate, the sample variance.<br><br></p>
+<p>The standardized sample mean has a standard normal distribution (even approximately so for non-normal random samples by the CLT), but the studentized sample mean is <em>not</em> normally-distributed. Rather, the studentized sample mean has a Student’s <span class="math inline">\(t\)</span> distribution with <span class="math inline">\((n-1)\)</span> degrees of freedom.<br><br></p>
+<p>A Student’s <span class="math inline">\(t\)</span> random variable is defined in the following way: If <span class="math inline">\(Z\)</span> is standard normal and independent of <span class="math inline">\(V \sim\)</span> Chi-Squared <span class="math inline">\((n-1)\)</span>, then
+<span class="math display">\[T:=\frac{Z}{\sqrt{V/(n-1)}}\]</span>
+is a Student’s <span class="math inline">\(t\)</span> random variable with <span class="math inline">\(n-1\)</span> degrees of freedom. <br><br></p>
+<p>Rewriting the studentized sample mean, we have
+<span class="math display">\[T_n = \frac{\overline X_n - \mu}{\sqrt{S_n^2 / n}} = \frac{\frac{\overline X_n - \mu}{\sqrt{\sigma^2 / n}}}{\sqrt{(n-1)S_n^2/\{(n-1)\sigma^2\}}} = \frac{Z}{\sqrt{V/(n-1)}}.\]</span>
+It remains to verify <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span> are independent, and a sketch of this result is given next.</p>
+<div id="part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2" class="section level3 hasAnchor" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> Part of Student’s Theorem - Indepndence of <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span><a href="sampling-distributions.html#part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let <span class="math inline">\(Z_1, \ldots, Z_n\)</span> be a random sample of standard normal random variables. Without loss of generality let’s sketch a proof that <span class="math inline">\(\overline Z_n\)</span> and <span class="math inline">\(W = \sum_{i=1}^n (Z_i - \overline Z_n)^2\)</span> are independent. Define the matrix <span class="math inline">\(O_n\)</span> to be the <span class="math inline">\(n\times n\)</span> matrix with entries defined by:
+<span class="math display">\[For 1 \leq i \leq n-1, \quad o_{ij} = \Bigg\{ \begin{matrix} \frac{1}{\sqrt{i(i+1)}}, &amp;j\leq i \\
+-\frac{1}{\sqrt{i(i+1)}}, &amp;j= i+1
+\end{matrix}\]</span>
+and zero otherwise; except that <span class="math inline">\(o_{nj} = n^{-1/2}\)</span>. Then, it can be checked that <span class="math inline">\(O_n\)</span> is <em>orthogonal</em>, i.e., <span class="math inline">\(O_n^\top O_n = I_n\)</span>, the identity. Next, define the vectors <span class="math inline">\(Z = (Z_1, \ldots, Z_n)^\top\)</span> and <span class="math inline">\(Y = O_n Z\)</span>. By construction of <span class="math inline">\(O_n\)</span> we have
+<span class="math display">\[Y^\top Y = Z^\top O_n^\top O_n Z = Z^\top Z = \sum_{i=1}^n Z_i^2.\]</span>
+And, we also have
+<span class="math display">\[Y_n = \sum_{i=1}^n \frac{Z_i}{\sqrt{n}} = \sqrt{n} \overline Z_n.\]</span>
+Therefore,
+<span class="math display">\[\sum_{i=1}^{n-1}Y_i^2 = \sum_{i=1}^{n}Y_i^2 - Y_n^2 = Z^\top Z - n\overline Z_n^2 = W.\]</span>
+So far, we have shown <span class="math inline">\(\overline Z_n\)</span> is a function of <span class="math inline">\(Y_n\)</span> and <span class="math inline">\(W\)</span> is a function of <span class="math inline">\(Y_1, \ldots, Y_{n-1}\)</span>. But, <span class="math inline">\(Y = O_n Z\)</span> is normally distributed with covariance <span class="math inline">\(O_n^\top O_n = I_n\)</span>. Therefore, <span class="math inline">\(Y_i\)</span>, <span class="math inline">\(i=1, \ldots, n\)</span>, are independent, which implies <span class="math inline">\(\overline Z_n\)</span> and <span class="math inline">\(W\)</span> are independent.</p>
+</div>
+</div>
+<div id="differences-of-sample-means" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Differences of Sample Means<a href="sampling-distributions.html#differences-of-sample-means" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>So far we have considered statistics baed on a single random sample. Now, we’ll consider statistics based on separate random samples from two populations. First, consider a random sample <span class="math inline">\(X_1, X_2, \ldots, X_{n}\)</span> from a normal distribution with mean and variance <span class="math inline">\(\mu_X\)</span> and <span class="math inline">\(\sigma_X^2\)</span> and another random sample <span class="math inline">\(Y_1, Y_2, \ldots, Y_m\)</span> from a different normal distribution with mean and variance <span class="math inline">\(\mu_Y\)</span> and <span class="math inline">\(\sigma_Y^2\)</span>.</p>
+<div id="standarized-difference" class="section level3 hasAnchor" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Standarized difference<a href="sampling-distributions.html#standarized-difference" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The standardized difference of means is given by
+<span class="math display">\[Z = \frac{\overline X_n - \overline Y_m - (\mu_X - \mu_Y)}{\sqrt{\frac{\sigma_X^2}{n} + \frac{\sigma_Y^2}{m}}}\]</span>
+and follows a standard normal distribution.</p>
+</div>
+<div id="studentized-difference-equal-variances" class="section level3 hasAnchor" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Studentized difference, equal variances<a href="sampling-distributions.html#studentized-difference-equal-variances" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Suppose <span class="math inline">\(\sigma_X^2 = \sigma_Y^2\)</span>, and define the <em>pooled sample variance</em> <span class="math inline">\(S_P^2 = \frac{(n-1)S_X^2 + (m-1)S_Y^2}{n+m-2}\)</span>. The studentized difference of sample means is defined by
+<span class="math display">\[T = \frac{\overline X_n - \overline Y_m - (\mu_X - \mu_Y)}{\sqrt{S_p^2(\frac{1}{n}+\frac{1}{m})}}\]</span>
+follows a Student’s <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n+m - 2\)</span> degrees of freedom.</p>
+</div>
+<div id="studentized-difference-unequal-variances" class="section level3 hasAnchor" number="4.4.3">
+<h3><span class="header-section-number">4.4.3</span> Studentized difference, unequal variances<a href="sampling-distributions.html#studentized-difference-unequal-variances" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>When the population variances are unequal a different version of the studentized difference of means is sometimes used:
+<span class="math display">\[T = \frac{\overline X_n - \overline Y_m - (\mu_X - \mu_Y)}{\sqrt{\frac{S_X^2}{n}+\frac{S_Y^2}{m}}}.\]</span>
+This difference does not have an exact <span class="math inline">\(t\)</span> distribution, but can be approximated well by a <span class="math inline">\(t\)</span> distribution with degrees of freedom given by Satterthwaite’s formula:
+<span class="math display">\[df = \frac{\left(\frac{S_X^2}{n}+\frac{S_Y^2}{m}\right)^2}{\frac{1}{n-1}\left(\frac{S_X^2}{n}\right)^2 + \frac{1}{m-1}\left(\frac{S_Y^2}{m}\right)^2}.\]</span>
+Since the degrees of freedom is an integer-valued parameter the result of this formula is <em>rounded down</em> to the nearest integer.</p>
+</div>
+</div>
+<div id="ratios-of-sample-variances" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Ratios of Sample Variances<a href="sampling-distributions.html#ratios-of-sample-variances" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As above, consider a random sample <span class="math inline">\(X_1, X_2, \ldots, X_{n}\)</span> from a normal distribution with mean and variance <span class="math inline">\(\mu_X\)</span> and <span class="math inline">\(\sigma_X^2\)</span> and another random sample <span class="math inline">\(Y_1, Y_2, \ldots, Y_m\)</span> from a different normal distribution with mean and variance <span class="math inline">\(\mu_Y\)</span> and <span class="math inline">\(\sigma_Y^2\)</span>.<br><br></p>
+<p>If <span class="math inline">\(U\sim\)</span> Chi-Squared with df <span class="math inline">\(n-1\)</span> and <span class="math inline">\(V\sim\)</span> Chi-Squared with df <span class="math inline">\(m-1\)</span> and <span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span> are independent, then
+<span class="math display">\[F := \frac{U/(n-1)}{V/(m-1)}\]</span>
+has an F distribution with two degrees of freedom parameters <span class="math inline">\(df1 = n-1\)</span> and <span class="math inline">\(df2 = m-1\)</span>, often called the numerator and denominator degrees of freedom.<br><br></p>
+<p>If <span class="math inline">\(S_X^2\)</span> and <span class="math inline">\(S_Y^2\)</span> are sample variances, then
+<span class="math display">\[\frac{\frac{(n-1)S_X^2}{\sigma_X^2(n-1)}}{\frac{(m-1)S_Y^2}{\sigma_Y^2(m-1)}} = \frac{S_X^2/\sigma_X^2}{S_Y^2/\sigma_Y^2}\]</span>
+has an <span class="math inline">\(F(n-1, m-1)\)</span> distribution.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="statistical-estimation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="confidence-intervals.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/10-Sampling-Distributions.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

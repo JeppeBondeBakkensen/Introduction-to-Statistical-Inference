@@ -33,6 +33,46 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -77,7 +117,7 @@
 
 \title{A First Course in Probability and Statistics}
 \author{Nick Syring}
-\date{2022-08-26}
+\date{2022-08-31}
 
 \begin{document}
 \maketitle
@@ -453,6 +493,398 @@ where \(\tilde\theta\) is some value between \(\hat\theta_n\) and \(\theta^\star
 The CLT implies the numerator on the RHS above converges in distribution to \(N(0, I(\theta^\star))\). The weak LLN implies the first term in the denominator converges to \(I(\theta^\star)\) in probability. By the fourth regularity condition and the weak LLN the term \(\tfrac1n \ell'''(\tilde\theta)\) in the denominator converges to \(E(M(X))\) and hence, is \emph{bounded in probability}. This term is multiplied by \((\hat\theta_n - \theta^\star)\) which converges to zero by consistency, and hence this last product term in the denominator converges to zero in probability. Together, these bounds imply
 \[\sqrt{n}(\hat\theta_n - \theta^\star)\rightarrow N(0,I(\theta^\star)^{-1}).\]
 The formal support for this last claim is provided by Slutsky's Theorem which we'll not cover here. We also used consistency in this proof sketch which we haven't shown. This latter result provides the additional and stronger properties of asymptotic unbiasedness, efficiency, and normality.
+
+\hypertarget{sampling-distributions}{%
+\chapter{Sampling Distributions}\label{sampling-distributions}}
+
+\hypertarget{sample-mean}{%
+\section{Sample Mean}\label{sample-mean}}
+
+Let \(X_1, X_2, \ldots, X_n\) denote a random sample from a distribution/population with a finite mean \(\mu\) and a finite variance \(\sigma^2\). Denote the sample mean by \(\overline X_n = n^{-1}\sum_{i=1}^n X_i\). According to the Central Limit Theorem,
+\[\frac{\overline X_n - \mu}{\sigma / \sqrt{n}} \stackrel{i.d.}{\rightarrow} N(0,1)\]
+for large sample size, meaning the distribution of the centered and scaled (standardized) sample mean converges to standard normal. Therefore, for large sample sizes,
+\[\overline X_n \stackrel{\cdot}{\sim} N(\mu, \sigma^2/n)\]
+We say the \emph{approximate/large-sample sampling distribution} of the sample mean is Normal.
+
+If \(X_1, X_2, \ldots, X_n\) constitutes a random sample from a Normal population, then the sampling distribution of the sample mean is \emph{exactly} normal:
+\[\overline X_n \sim N(\mu, \sigma^2/n)\quad \text{for all }n,\]
+which can be verified using MGFs.
+
+How large is large? For many disributions the CLT will ``kick in'' for modest sample size, even, say, \(n=50\) is often sufficient. But, ultimately, the number of samples needed in order for the sample mean to be nearly normally distributed depends on the underlying distribution. Very skewed or multimodal distributions may ``resist'' the CLT much longer than distributions that already are close to normal. Below is a quick Monte Carlo experiment illustrating the CLT, and sample mean sampling distribution, for two distributions: exponential and log-normal.
+
+\includegraphics{10-Sampling-Distributions_files/figure-latex/unnamed-chunk-1-1.pdf} \includegraphics{10-Sampling-Distributions_files/figure-latex/unnamed-chunk-1-2.pdf}
+
+As a final reminder, note the CLT does not apply to ``heavy-tailed'' distributions that lack a mean. For example, the Cauchy distribution is very likely to produce extreme values, and, as a result, it has no finite mean. Therefore, the CLT does not apply and it's unclear what will be the sampling distribution of it's sample mean. It turns out the sample mean is still Cauchy-distributed---taking the average of Cauchy samples does not reduce uncertainty at all. For an illustration, see the Monte-Carlo-approximated distribution of the sample mean of 50 samples from a Cauchy population:
+
+\includegraphics{10-Sampling-Distributions_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\hypertarget{sample-variance}{%
+\section{Sample Variance}\label{sample-variance}}
+
+Let \(X_1, X_2, \ldots, X_n\) denote a random sample from a Normal population with mean \(\mu\) and variance \(\sigma^2\). Denote the sample variance by \(S^2_n = \frac{1}{n-1}\sum_{i=1}^n (X_i - \overline X_n)^2\). Next, we will discover the sampling distribution of the (normal) sample variance.
+
+First, we need to establish the fact that if \(Z\sim N(0,1)\), then \(Z^2\) has what is called a Chi-squared distribution, with one ``degree of freedom''---this is the parameter of this distribution. This Chi-squared distribution has MGF \(\left(1-2t\right)^{-k/2}\) where \(k\) is the degrees of freedom parameter. It's corresponding density function is
+\[f(x) = 2^{-k/2}\left[\Gamma(k/2)\right]^{-1}x^{k/2-1}e^{-x/2},\quad x>0\]
+and you might recognize this as a Gamma distribution with shape \(k/2\) and rate \(1/2\), so it's mean is \((k/2)/(1/2) = k\). Ww can establish this fact by the MGF technique. Evaluate the MGF of \(Z^2\) as follows:
+
+\begin{align*}
+M_{Z^2}(t) &= E(e^{tZ^2}) = \int_{-\infty}^{\infty} e^{tz^2}\frac{1}{\sqrt{2\pi}}e^{-\tfrac12 z^2}dz\\
+& = \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2\frac{1}{1-2t}}z^2}dz\\
+& = \sqrt{\frac{1}{1-2t}}\int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi\frac{1}{1-2t}}} e^{-\frac{1}{2\frac{1}{1-2t}}z^2}dz\\
+& = \sqrt{\frac{1}{1-2t}}
+\end{align*}
+where the last inequality follows from the fact the integrand is a normal density function with mean zero and variance \(\frac{1}{1-2t}\) (provided \(t<2\)) so that the integral equals one. This shows \(Z^2\) is Chi-squared distributed with \(1\) degree of freedom.
+
+As we've many times, the MGF argument works particularly well with sums of independent random variables. If \(Z_1, Z_2, \ldots, Z_n\) are iid standard normal, then \(\sum_{i=1}^n Z_i^2\) is Chi-squared distributed with \(n\) degrees of freedom. To show this, simply show the MGF of \(\sum_{i=1}^n Z_i^2\) equals \(\left(1-2t\right)^{-n/2}\) using the previous result for \(n=1\), the definition of the MGF, and independence.
+
+Next, we'll show a linear transformation of the the sample variance has a Chi-squared distribution with \(n-1\) degrees of freedom.
+
+Start by making the linear transformation
+\[\frac{(n-1)S_n^2}{\sigma^2} = \sum_{i=1}^n \left(\frac{X_i - \overline X_n}{\sigma}\right)^2.\]
+Here's the main trick: add and subtract \(\mu\) inside the square in the sum, then expand the square and simplify:
+\begin{align*}
+\frac{(n-1)S_n^2}{\sigma^2} &= \sum_{i=1}^n \left(\frac{X_i - \mu + \mu - \overline X_n}{\sigma}\right)^2\\
+& = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 + 2\sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)\left(\frac{\mu - \overline X_n}{\sigma}\right) + \sum_{i=1}^n \left(\frac{\mu - \overline X_n}{\sigma}\right)^2\\
+& = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 - 2n\left(\frac{\overline X_n - \mu}{\sigma}\right)^2 + n\left(\frac{\overline X_n - \mu}{\sigma}\right)^2\\
+& = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 - n\left(\frac{\overline X_n - \mu}{\sigma}\right)^2\\
+& = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 - \left(\frac{\overline X_n - \mu}{\sigma/\sqrt{n}}\right)^2
+\end{align*}
+
+So far, we have shown
+\[\sum_{i=1}^n \left(\frac{X_i - \overline X_n}{\sigma}\right)^2 = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 - \left(\frac{\overline X_n - \mu}{\sigma/\sqrt{n}}\right)^2.\]
+
+The first term on the right hand side is a summation of \(n\) squares of independent, standard normal r.v.'s \(Z_i = \frac{X_i - \overline X_n}{\sigma}\). Baed on our previous result, this sum must be distributed as Chi-squared with \(n\) degrees of freedom. The second term on the right is also the square of a standard normal random variable, so it must be distributed as Chi-squared with one degree of freedom. Consequently, the sum on the left hand side must be a Chi-squared random variable with \(n-1\) degrees of freedom.
+
+\hypertarget{large-sample-sampling-distribution-of-sample-variance}{%
+\subsection{Large-sample sampling distribution of sample variance}\label{large-sample-sampling-distribution-of-sample-variance}}
+
+If \(X_1, X_2, \ldots, X_n\) is a random sample from a distribution with at least 4 finite moments, then the sample variance \(S_n^2\) is approximately normally distributed for large \(n\). To see this, note
+\[S_n^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \overline X_n)^2 \approx \frac{1}{n}\sum_{i=1}^n Z_i\]
+where \(Z_i = (X_i - \mu)^2\). The latter expression is a sample average of iid random variables, and, as such, the CLT implies (the centered and scaled transformation of) it has a limiting normal distribution. This reasoning can be made rigorous.
+
+\hypertarget{sampling-distribution-of-studentized-sample-mean}{%
+\section{Sampling distribution of studentized sample mean}\label{sampling-distribution-of-studentized-sample-mean}}
+
+Let \(X_1, X_2, \ldots, X_n\) be a random sample from a normal population with mean \(\mu\) and variance \(\sigma^2\); and, let \(\overline X_n\) and \(S_n^2\) denote the sample mean and sample variance, respectively.
+
+Let
+\[T_n:=\frac{\overline X_n - \mu}{\sqrt{S_n^2 / n}}\]
+denote the ``studentized sample mean''. \(T_n\) is the standardized sample mean---\(\overline X_n\) minus \(\mu\) and divided by \(\sqrt{\sigma^2/n}\)---with the true variance replaced by its estimate, the sample variance.
+
+The standardized sample mean has a standard normal distribution (even approximately so for non-normal random samples by the CLT), but the studentized sample mean is \emph{not} normally-distributed. Rather, the studentized sample mean has a Student's \(t\) distribution with \((n-1)\) degrees of freedom.
+
+A Student's \(t\) random variable is defined in the following way: If \(Z\) is standard normal and independent of \(V \sim\) Chi-Squared \((n-1)\), then
+\[T:=\frac{Z}{\sqrt{V/(n-1)}}\]
+is a Student's \(t\) random variable with \(n-1\) degrees of freedom.
+
+Rewriting the studentized sample mean, we have
+\[T_n = \frac{\overline X_n - \mu}{\sqrt{S_n^2 / n}} = \frac{\frac{\overline X_n - \mu}{\sqrt{\sigma^2 / n}}}{\sqrt{(n-1)S_n^2/\{(n-1)\sigma^2\}}} = \frac{Z}{\sqrt{V/(n-1)}}.\]
+It remains to verify \(\overline X_n\) and \(S_n^2\) are independent, and a sketch of this result is given next.
+
+\hypertarget{part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2}{%
+\subsection{\texorpdfstring{Part of Student's Theorem - Indepndence of \(\overline X_n\) and \(S_n^2\)}{Part of Student's Theorem - Indepndence of \textbackslash overline X\_n and S\_n\^{}2}}\label{part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2}}
+
+Let \(Z_1, \ldots, Z_n\) be a random sample of standard normal random variables. Without loss of generality let's sketch a proof that \(\overline Z_n\) and \(W = \sum_{i=1}^n (Z_i - \overline Z_n)^2\) are independent. Define the matrix \(O_n\) to be the \(n\times n\) matrix with entries defined by:
+\[For 1 \leq i \leq n-1, \quad o_{ij} = \Bigg\{ \begin{matrix} \frac{1}{\sqrt{i(i+1)}}, &j\leq i \\
+-\frac{1}{\sqrt{i(i+1)}}, &j= i+1 
+\end{matrix}\]
+and zero otherwise; except that \(o_{nj} = n^{-1/2}\). Then, it can be checked that \(O_n\) is \emph{orthogonal}, i.e., \(O_n^\top O_n = I_n\), the identity. Next, define the vectors \(Z = (Z_1, \ldots, Z_n)^\top\) and \(Y = O_n Z\). By construction of \(O_n\) we have
+\[Y^\top Y = Z^\top O_n^\top O_n Z = Z^\top Z = \sum_{i=1}^n Z_i^2.\]
+And, we also have
+\[Y_n = \sum_{i=1}^n \frac{Z_i}{\sqrt{n}} = \sqrt{n} \overline Z_n.\]
+Therefore,
+\[\sum_{i=1}^{n-1}Y_i^2 = \sum_{i=1}^{n}Y_i^2 - Y_n^2 = Z^\top Z - n\overline Z_n^2 = W.\]
+So far, we have shown \(\overline Z_n\) is a function of \(Y_n\) and \(W\) is a function of \(Y_1, \ldots, Y_{n-1}\). But, \(Y = O_n Z\) is normally distributed with covariance \(O_n^\top O_n = I_n\). Therefore, \(Y_i\), \(i=1, \ldots, n\), are independent, which implies \(\overline Z_n\) and \(W\) are independent.
+
+\hypertarget{differences-of-sample-means}{%
+\section{Differences of Sample Means}\label{differences-of-sample-means}}
+
+So far we have considered statistics baed on a single random sample. Now, we'll consider statistics based on separate random samples from two populations. First, consider a random sample \(X_1, X_2, \ldots, X_{n}\) from a normal distribution with mean and variance \(\mu_X\) and \(\sigma_X^2\) and another random sample \(Y_1, Y_2, \ldots, Y_m\) from a different normal distribution with mean and variance \(\mu_Y\) and \(\sigma_Y^2\).
+
+\hypertarget{standarized-difference}{%
+\subsection{Standarized difference}\label{standarized-difference}}
+
+The standardized difference of means is given by
+\[Z = \frac{\overline X_n - \overline Y_m - (\mu_X - \mu_Y)}{\sqrt{\frac{\sigma_X^2}{n} + \frac{\sigma_Y^2}{m}}}\]
+and follows a standard normal distribution.
+
+\hypertarget{studentized-difference-equal-variances}{%
+\subsection{Studentized difference, equal variances}\label{studentized-difference-equal-variances}}
+
+Suppose \(\sigma_X^2 = \sigma_Y^2\), and define the \emph{pooled sample variance} \(S_P^2 = \frac{(n-1)S_X^2 + (m-1)S_Y^2}{n+m-2}\). The studentized difference of sample means is defined by
+\[T = \frac{\overline X_n - \overline Y_m - (\mu_X - \mu_Y)}{\sqrt{S_p^2(\frac{1}{n}+\frac{1}{m})}}\]
+follows a Student's \(t\) distribution with \(n+m - 2\) degrees of freedom.
+
+\hypertarget{studentized-difference-unequal-variances}{%
+\subsection{Studentized difference, unequal variances}\label{studentized-difference-unequal-variances}}
+
+When the population variances are unequal a different version of the studentized difference of means is sometimes used:
+\[T = \frac{\overline X_n - \overline Y_m - (\mu_X - \mu_Y)}{\sqrt{\frac{S_X^2}{n}+\frac{S_Y^2}{m}}}.\]
+This difference does not have an exact \(t\) distribution, but can be approximated well by a \(t\) distribution with degrees of freedom given by Satterthwaite's formula:
+\[df = \frac{\left(\frac{S_X^2}{n}+\frac{S_Y^2}{m}\right)^2}{\frac{1}{n-1}\left(\frac{S_X^2}{n}\right)^2 + \frac{1}{m-1}\left(\frac{S_Y^2}{m}\right)^2}.\]
+Since the degrees of freedom is an integer-valued parameter the result of this formula is \emph{rounded down} to the nearest integer.
+
+\hypertarget{ratios-of-sample-variances}{%
+\section{Ratios of Sample Variances}\label{ratios-of-sample-variances}}
+
+As above, consider a random sample \(X_1, X_2, \ldots, X_{n}\) from a normal distribution with mean and variance \(\mu_X\) and \(\sigma_X^2\) and another random sample \(Y_1, Y_2, \ldots, Y_m\) from a different normal distribution with mean and variance \(\mu_Y\) and \(\sigma_Y^2\).
+
+If \(U\sim\) Chi-Squared with df \(n-1\) and \(V\sim\) Chi-Squared with df \(m-1\) and \(U\) and \(V\) are independent, then
+\[F := \frac{U/(n-1)}{V/(m-1)}\]
+has an F distribution with two degrees of freedom parameters \(df1 = n-1\) and \(df2 = m-1\), often called the numerator and denominator degrees of freedom.
+
+If \(S_X^2\) and \(S_Y^2\) are sample variances, then
+\[\frac{\frac{(n-1)S_X^2}{\sigma_X^2(n-1)}}{\frac{(m-1)S_Y^2}{\sigma_Y^2(m-1)}} = \frac{S_X^2/\sigma_X^2}{S_Y^2/\sigma_Y^2}\]
+has an \(F(n-1, m-1)\) distribution.
+
+\hypertarget{confidence-intervals}{%
+\chapter{Confidence Intervals}\label{confidence-intervals}}
+
+\hypertarget{why-want-interval-valued-estimates}{%
+\section{Why want interval-valued estimates?}\label{why-want-interval-valued-estimates}}
+
+Point estimators, like the sample mean, certainly help to describe features of the population. But, the trouble with point estimators is that, on their own, they provide no sense of uncertainty. On one hand, a point estimator is just one number, and one number seems very precise. So, in a sort of psychological sense (and I'm being very loose with that term) people may feel a false sense of certainty about a point estimate. For example, if I say ``the sample mean is 5'' someone could very reasonably expect the population mean is quite close to 5, but, given a little intuition, that person's opinion may change quite a bit depending on whether the sample size is, say, 10 or 100. On the other hand, in a mathematical statistical sense, we know an estimator is a random variable with a distribution that, usually, has a finite variance. And, if known, we could use knowledge of that distribution to quantify the variability (read uncertainty) inherent in the estimator. So, besides the point estimate itself, it would be helpful to report some measure of variability of the estimate to give the user a more informed view of the estimate of the population mean (or other feature being estimated).
+
+One way to include information of the uncertainty of a point estimate is to include an estimate of the estimator's standard deviation---this is usually called a ``standard error''. For example, the sample mean \(\overline X_n\) estimates the population mean \(\mu\) and if the population has a finite variance \(\sigma^2\) then the standard deviation of \(\overline X_n\) is \(\sigma/\sqrt{n}\). Usually, \(\sigma^2\) is unknown, so it is replaced by a point estimate, say, the usual sample variance \(S_n^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \overline X_n)^2\) to get the standard error \(\sqrt{S_n^2/n}\). A common practice is to report the estimate \(\overline x_n\) along with the standard error \(s_n/\sqrt{n}\).
+
+One drawback of reporting an estimate and its standard deviation is that it's not clear how much variability one standard deviation really represents; it depends on the sampling distribution of the estimator. For example, if an estimator is normally distributed then an interval of one standard deviation about its mean contains about \(68\%\) of the distribution, and see the figure below. One the other hand, suppose an estimator has a Chi-squared distribution with \(5\) degrees of freedom. Then an interval of radius one standard deviation about its mean contains about \(72\%\) of the distribution. The point is that one standard deviation does not provide an objective summary of uncertainty across different distributions.
+
+\includegraphics{12-Confidence-Intervals_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+To remedy this issue of the vagueness of standard deviation/standard error we introduce the concept of a confidence interval. An interval-valued estimate is an interval or range of values representing a set that may plausibly contain the true parameter value. Let's denote this interval by \((\ell, u)\), its lower and upper bounds. Then, a reasonable way to define the endpoints is to select them so that the interval has the \emph{confidence property}
+\[P(\ell \leq \theta \leq u) = 1-\alpha\]
+where \(\theta\) is the true parameter value and \(\alpha \in (0,1)\) is up to the user to decide---usually \(\alpha\) is near zero. The probability statement is with respect to \(\ell\) and \(u\), meaning these endpoints are random variables---in particular, they should be statistics, i.e., depended on the data. Then, a \emph{confidence interval} is a random interval with a prescribed chance of ``catching'' the true parameter.
+
+\hypertarget{normal-population-mean-example}{%
+\section{Normal population mean example}\label{normal-population-mean-example}}
+
+Suppose \(X_1, \ldots, X_n\) is a random sample from \(N(\mu, 1)\). Let's find a \(100(1-\alpha)\%\) confidence interval (CI) for \(\mu\). Since \(\overline X_n\) is a great estimator of \(\mu\) it makes sense the endpoints of the interval would depend on \(\overline X_n\). The confidence interval is supposed to be a range of plausible values of \(\mu\); and, \(\overline X_n\) seems the most plausible, so the interval ought to look like \((\overline X_n - c_1, \, \overline X_n + c_2)\); in other words, the interval is the sample mean plus or minus something extra. We known \(\overline X_n \sim N(\mu, 1/n)\), which is a symmetric distribution. So, it would make sense for our \(\pm \text{ something extra}\) to be symmetric, i.e.~the interval should have the form \((\overline X_n - c, \overline X_n + c)\) for some \(c>0\). Now, it just remains to specify \(c\) such that the interval has the confidence property. We want
+\[P(\overline X_n - c \leq \mu \leq \overline X_n +c) = 1-\alpha.\]
+Subtract \(\overline X_n\) and standardize to get the standard normal probability
+\[P\left(-\frac{c}{1/\sqrt{n}} \leq \frac{\overline X_n - \mu}{1/\sqrt{n}} \leq \frac{c}{1/\sqrt{n}}\right) = 1-\alpha\]
+\[P\left(-\frac{c}{1/\sqrt{n}} \leq Z \leq \frac{c}{1/\sqrt{n}}\right) = 1-\alpha.\]
+This means \(P(Z\leq \frac{c}{1/\sqrt{n}}) = 1-\alpha/2\) by symmetry of the standard normal distribution. In other words, \(\frac{c}{1/\sqrt{n}}\) is the value such that
+\[1-\alpha/2=F_Z(\frac{c}{1/\sqrt{n}})=\int_{-\infty}^{\frac{c}{1/\sqrt{n}}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}z^2}dz.\]
+This defines \(\frac{c}{1/\sqrt{n}}\) as the \(1-\alpha/2\) standard normal quantile. Given a choice of \(\alpha\) it's not easy to solve for \(c\) in the above (integral) equation, but we can use the built-in R function qnorm to find this value. Let \(\alpha = 0.025\), for example, so that the probability our interval contains \(\mu\) is \(95\%\). Then, \(\frac{c}{1/\sqrt{n}} = qnorm(0.975) = 1.96\) and \(c = 1.96\frac{1}{\sqrt{n}}\). Conclude a \(95\%\) CI for \(\mu\) is given by
+\[\left(\overline X_n - 1.96\frac{1}{\sqrt{n}}, \,\overline X_n - 1.96\frac{1}{\sqrt{n}}\right).\]
+More generally, if we denote the \(1-\alpha/2\) quantile of the standard normal by \(z_{1-\alpha/2}\) then
+\[\left(\overline X_n - z_{1-\alpha/2}\frac{1}{\sqrt{n}}, \,\overline X_n - z_{1-\alpha/2}\frac{1}{\sqrt{n}}\right)\]
+defines a \(100(1-\alpha)\%\) CI for \(\mu\).
+
+Remark: It's not essential that the above CI (or any CI) is symmetric about a point estimator, but when the sampling distribution of the estimator is symmetric this is the best choice. To see this, note that
+\[\left(\overline X_n - z_{1-\alpha/3}\frac{1}{\sqrt{n}}, \,\overline X_n - z_{1-2\alpha/3}\frac{1}{\sqrt{n}}\right)\]
+is also a \(95\%\) CI for \(\mu\), but it is \emph{always} larger (wider) than the symmetric interval. So, the symmetric interval, which being shorter is more precise, is preferable.
+
+\hypertarget{other-exact-cis-for-normal-population-mean-and-variance-parameters}{%
+\section{Other ``Exact'' CIs for normal population mean and variance parameters}\label{other-exact-cis-for-normal-population-mean-and-variance-parameters}}
+
+\hypertarget{population-mean-unknown-variance}{%
+\subsection{Population mean, unknown variance}\label{population-mean-unknown-variance}}
+
+Let \(X_1, \ldots, X_n\) be a random sample of size \(n\geq 2\) from \(N(\mu, \sigma^2)\) where both mean and variance parameters are unknown. We know the studentized mean follows a Student's \(t\) distribution with \(n-1\) degrees of freedom:
+\[T = \frac{\overline X_n - \mu}{\sqrt{S_n^2/n}}\sim t(n-1).\]
+Mirroring the argument from above when \(\sigma^2\) is a known value, we assume a \(100(1-\alpha)\%\) CI for \(\mu\) would be symmetric about \(\overline X_n\) with radius \(t_{1-\alpha/2}(n-1) \frac{S_n}{\sqrt{n}}\) where \(t_{1-\alpha/2}(n-1)\) is the \(1-\alpha/2\) quantile of the Student's \(t\) distribution with \(n-1\) degrees of freedom:
+\[P\left(\overline X_n - t_{1-\alpha/2}(n-1) \frac{S_n}{\sqrt{n}} \leq \mu \leq \overline X_n + t_{1-\alpha/2}(n-1) \frac{S_n}{\sqrt{n}}\right) = 1-\alpha.\]
+
+\hypertarget{population-variance-unknown-mean}{%
+\subsection{Population variance, unknown mean}\label{population-variance-unknown-mean}}
+
+Let \(X_1, \ldots, X_n\) be a random sample of size \(n\geq 2\) from \(N(\mu, \sigma^2)\) where both mean and variance parameters are unknown. We know the following transformation is Chi-squared distributed:
+\[\frac{(n-1)S_n^2)}{\sigma^2}\sim \chi^2(n-1).\]
+Now, the Chi-squared distribution is not symmetric---it's skewed. There are a number of ways to define a \(100(1-\alpha)\%\) CI for \(\sigma^2\) based on the above sampling distribution. Since \(\sigma^2 > 0\) we can define a one-sided interval starting from zero:
+\[\left(0, \, \frac{(n-1)S_n^2}{\chi^2_{\alpha}(n-1)}\right)\]
+where \(\chi^2_{1-\alpha}(n-1)\) is the \(100(1-\alpha)\) quantile of a Chi-squared r.v. with \((n-1)\) degrees of freedom. Then,
+\begin{align*}
+P(0 \leq \sigma^2 \leq \frac{(n-1)S_n^2}{\chi^2_{\alpha}(n-1)}) &= P(0\leq \frac{(n-1)S_n^2}{\sigma^2} \leq \chi^2_{1-\alpha}(n-1))\\
+& = P(\chi^2(n-1) \geq \chi^2_{\alpha}(n-1))\\
+&= 1-\alpha
+\end{align*}
+by definition of the quantile.
+
+We can define two-sided intervals as well. The ``equi-tailed'' interval is not the shortest possible interval, but it has a simple form:
+\[\left(\frac{(n-1)S_n^2}{\chi^2_{1-\alpha/2}(n-1)}, \, \frac{(n-1)S_n^2}{\chi^2_{\alpha/2}(n-1)}\right).\]
+
+In order to find the shortest possible \(100(1-\alpha)\%\) CI one could draw a horizontal line slicing across the Chi-squared density such that the area under both the line and the density equals \(\alpha\). Then, the intersection points of the line and the density would give the lower and upper Chi-squared quantiles to use in the two-sided interval. Since the density is not symmetric this interval generally would not be based on the \(1-\alpha/2\) and \(\alpha/2\) quantiles like the equi-tailed interval. For example, the shortest \(95\%\) CI when \(df=10\) is based on quantile values of about 1.284 and 25.05. The following plot illustrates this.
+
+\begin{verbatim}
+## 0.04998856 with absolute error < 8.5e-05
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.001862438
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 0.001863508
+\end{verbatim}
+
+\includegraphics{12-Confidence-Intervals_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\hypertarget{two-normal-samples-comparing-means}{%
+\subsection{Two normal samples, comparing means}\label{two-normal-samples-comparing-means}}
+
+Let's tackle the next topic by way of an example. Suppose infant walking time --- the age in months at which babies can walk on their own --- is normally distributed. Generally, parents are excited for their infants to begin walking and some parents ``take steps'' to encourage their infants to walk. We'll assume it is reasonable to model the population of infant walking times among those infants whose parents no not intervene in walking skills development as a random sample from a normal distribution with mean \(\mu_x\) and variance \(sigma_x^2\); likewise we model the corresponding population of infant walking times influenced by parent behavior by a normal distribution with mean \(\mu_y\) and variance \(sigma_y^2\). Assume this parental influence factor represents a more-or-less standard ``treatment''; for example, parents might spend 60 minutes a day encouraging their infant to crawl and stand with assistance or play in a bounce seat to build lower body strength. Child development researchers would be interested to know whether such parental interventions influence infant walking times.
+
+Given observations from an experiment comparing these two groups of infants, how would we answer the researchers' question? One answer comes in the form of a CI for the difference of means \(\mu_x - \mu_y\). In this case a negative difference indicates some impact of parental involvement. And, if a \(95\%\) CI does not contain zero, then the CI reflects strong evidence in the data that the true means are different.
+
+Based on our knowledge of sampling distributions we know that if \(\sigma_x^2 = \sigma_y^2\) the following statistic has a Student's \(t\) distribution with \(n+m-2\) df where \(n\) and \(m\) are the sample sizes in each group:
+\[\frac{\overline X - \overline Y - (\mu_x - \mu_y)}{\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}}\]
+where \(S_p^2\) denotes the pooled (sample-size weighted average) sample variance. As a result, the following probability statement is exact:
+\begin{align*}
+1-\alpha & = P\left(t_{\alpha/2, n+m-2} \leq \frac{\overline X - \overline Y - (\mu_x - \mu_y)}{\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}} \leq t_{1-\alpha/2, n+m-2}\right)\\
+& = P\left(t_{\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}\leq \overline X - \overline Y - (\mu_x - \mu_y) \leq t_{1-\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}\right)\\
+& = P\left(-(\overline X - \overline Y)+t_{\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}\leq  - (\mu_x - \mu_y) \leq -(\overline X - \overline Y)+ t_{1-\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}\right)\\
+& = P\left((\overline X - \overline Y)-t_{1-\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}\leq   (\mu_x - \mu_y) \leq (\overline X - \overline Y)+ t_{1-\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}\right)
+\end{align*}
+where the last line follows from multiplying by \(-1\) and noting \(t_{1-\alpha/2, n+m-2} = -t_{\alpha/2, n+m-2}\) by symmetry. Therefore, a \(100(1-\alpha)\%\) CI for the difference of means \(\mu_x - \mu_y\) is given by
+\[\left((\overline X - \overline Y)-t_{1-\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}, \, (\overline X - \overline Y)+t_{1-\alpha/2, n+m-2}\sqrt{S_p^2\left(\frac{1}{n} + \frac{1}{m}\right)}\right).\]
+Suppose we conduct the infant walking time experiment and observe the following data:
+\[X:\,\,\, 13.2\,\,\, 16.6\,\,\, 16.7\,\,\, 16.8\,\,\, 17.0\,\,\, 17.1\,\,\, 17.3\,\,\, 17.4\,\,\, 17.4\,\,\, 17.7\,\,\, 17.9 \]
+\[Y: \,\,\, 16.8\,\,\, 17.1\,\,\, 17.6\,\,\, 17.7\,\,\, 18.8\,\,\, 18.8\,\,\, 19.3\,\,\, 19.6\,\,\, 21.0\,\,\, 21.2\,\,\, 21.5\,\,\, 22.1\,\,\, 22.8\]
+Computing the sample statistics we find \(\overline x = 16.83\), \(\overline y = 19.56\), \(s_x^2 = 1.61\), and \(s_y^2 = 3.97\). The pooled sample variance is \((10s_x^2+12s_y^2)/22 = 2.90\). The \(0.975\) quantile of the Student's \(t\) distribution with 22 df can be found using ``qt(0.975, 22)'' and equals about 2.07. Plugging all these values into the CI formula, the \(95\%\) CI for the difference in mean infant walking times is\\
+\[(-4.18, \, -1.29)\]
+We conclude the mean infant walking times in the group with parental intervention were between about 1.3 and 4.2 months shorter than in the non-intervention group. (Note this is made-up ``data'' only for illustration purposes.)
+
+The careful reader may be concerned that our CI method used above relies on the two normal populations having identical variances but our sample variances are substantially different. This equal-variance CI procedure is often referred to as Students's two-sample CI, in contrast to an alternative method that can be used when variances are unequal called Welch's two-sample CI. Recall the studentized difference of sample means when variances are unequal approximately (not exactly) follows a Student's \(t\) distribution with Satterthwaite's choice of degrees of freedom:
+\[\frac{\overline X_n - \overline Y_m - (\mu_X - \mu_Y)}{\sqrt{\frac{S_X^2}{n}+\frac{S_Y^2}{m}}}\stackrel{\cdot}{\sim}t(\nu)\]
+where
+\[\nu = \frac{\left(\frac{S_X^2}{n}+\frac{S_Y^2}{m}\right)^2}{\frac{1}{n-1}\left(\frac{S_X^2}{n}\right)^2 + \frac{1}{m-1}\left(\frac{S_Y^2}{m}\right)^2}.\]
+Following the same argument as above, this implies an \emph{approximate} \(100(1-\alpha)\%\) CI for the difference of means is given by
+\[\left((\overline X - \overline Y)-t_{1-\alpha/2, \nu}\sqrt{\left(\frac{S_x^2}{n} + \frac{S_y^2}{m}\right)}, \, (\overline X - \overline Y)+t_{1-\alpha/2, \nu}\sqrt{S_p^2\left(\frac{S_x^2}{n} + \frac{S_y^2}{m}\right)}\right).\]
+Plugging in the relevant sample statistics, we get \(\nu = 20\) so that we use the quantile \(t_{0.975}(20) = 2.086\). Welch's two-sample approximate \(95\%\) interval is
+\[(-4.14, \,-1.33)\]
+which is hardly different than Student's interval. We'll investigate the comparative performances of these two intervals further in lab.
+
+\hypertarget{two-normal-samples-comparing-variances}{%
+\subsection{Two normal samples, comparing variances}\label{two-normal-samples-comparing-variances}}
+
+In some applications it is either more important or at least of equal importance to compare population variances rather than means. For example, consider one or more manufacturing processes for producing optical lenses---these might be for glasses or contacts. Lenses have many dimensional quantities that determine their properties, for example, the refraction index of the lens material and the thickness of the lens, which both contribute to the power of the lens. Suppose a manufacturing process is supposed to produce a lens of a given thickness. A small tolerance is allowable but any lenses produced with thickness outside the tolerance must be rejected. We can think of the difference between the specified, target lens thickness and the population mean thickness of lenses produced by a specific process as \emph{bias}. Then, our preference between two or more production processes is a question about bias-variance tradeoff. A production process with no bias but a high variance in lens thickness will result in many lenses being rejected---perhaps even more than a manufacturing process that produces biased lenses with very low variability in thickness. Clearly, for choosing between processes we need to evaluate both process bias and process variance.
+
+For comparing two process variances (where the underlying popualtions are normal) we use a ratio statistic. The sampling distribution of the following ratio of sample variances has an \emph{F distribution} when the population variances are equal:
+\[\frac{S_x^2}{S_y^2} \sim F(n-1, m-1).\]
+Recall that \((n-1)S_x^2/\sigma_x^2 \sim\) Chi-squared\((n-1)\) and \((m-1)S_y^2/\sigma_y^2 \sim\) Chi-squared\((m-1)\). The ratio of two independent, Chi-squared r.v.'s divided by the dfs defines an F random variable with two parameters which are the degrees of freedom of the numerator and denominator Chi-squared r.v.'s. When \(\sigma_x^2 = \sigma_y^2\), we have
+\[\frac{\frac{(n-1)S_x^2}{\sigma_x^2(n-1)}}{\frac{(m-1)S_y^2}{\sigma_y^2(m-1)}} = \frac{\frac{(n-1)S_x^2}{(n-1)}}{\frac{(m-1)S_y^2}{(m-1)}} = \frac{\text{Chi-squared(n-1)/(n-1)}}{\text{Chi-squared(m-1)/(m-1)}} = \frac{S_x^2}{S_y^2} =  F(n-1, m-1).\]
+And, when the variances are not equal, we simply have
+\[\frac{S_x^2 \sigma_y^2}{S_y^2 \sigma_x^2} \sim F(n-1, m-1).\]
+We can invert this relationship to find a CI for \(\sigma_y^2 / \sigma_x^2\) using the following probability computation:
+\begin{align*}
+1-\alpha & = P(F_{\alpha/2}(n-1, m-1) \leq \frac{S_x^2 \sigma_y^2}{S_y^2 \sigma_x^2} \leq F_{1-\alpha/2}(n-1, m-1))\\
+& = P(\frac{S_y^2}{S_x^2}F_{\alpha/2}(n-1, m-1) \leq \sigma_y^2/\sigma_x^2 \leq \frac{S_y^2}{S_x^2}F_{1-\alpha/2}(n-1, m-1))\\
+& = P(\frac{S_y^2}{S_x^2}\frac{1}{F_{1-\alpha/2}(m-1, n-1)} \leq \sigma_y^2/\sigma_x^2 \leq \frac{S_y^2}{S_x^2}F_{1-\alpha/2}(n-1, m-1)),
+\end{align*}
+where the last line uses a reciprocal-equality property of F distributions with swapped degrees of freedom, namely \(F_{\alpha}(df1, df2) = 1/(F_{1-\alpha}(df2, df1))\). This is not essential if you are using R to compute F quantiles but is helpful for using F tables, which typically only list upper tail quantiles. Then, a \(100(1-\alpha)\%\) CI for the ratio \(\sigma_y^2/\sigma_x^2\) is given by
+\[\left(\frac{S_y^2}{S_x^2}\frac{1}{F_{1-\alpha/2}(m-1, n-1)}, \,\frac{S_y^2}{S_x^2}F_{1-\alpha/2}(n-1, m-1)\right).\]
+Given the following observations (in nanometers) of lens thickness using two different production methods, compute \(95\%\) CIs for the difference in means (use Welch's method) and the ratio of variances:
+\[X: 2.9859\,\,\, 3.0042\,\,\, 3.0055 \,\,\,3.0083 \,\,\,3.0113 \,\,\,3.0124\,\,\, 3.0150\,\,\, 3.0214\]
+\[Y: 2.9964\,\,\, 3.0011 \,\,\,3.0099\,\,\, 3.0110\,\,\, 3.0124\,\,\, 3.0130\,\,\, 3.0140\,\,\, 3.0205\]
+The \(95\%\) CI for the difference in population mean thicknesses is
+\[(-0.0116, \, 0.0080).\]
+The \(95\%\) CI for the ratio of population variances \(\sigma_y^2/\sigma_x^2\) is
+\[(0.1058, \, 2.6394).\]
+
+\hypertarget{cis-for-proportions}{%
+\section{CIs for proportions}\label{cis-for-proportions}}
+
+\hypertarget{a-single-bernoulli-proportion}{%
+\subsection{A single Bernoulli proportion}\label{a-single-bernoulli-proportion}}
+
+Using the DeMoivre-Laplace CLT we know the standardized sample proportion is approximately normally distributed:
+
+\[\frac{\hat p - p}{\sqrt{\frac{p(1-p)}{n}}}\stackrel{\cdot}{\sim}N(0,1)\]
+
+Then, again denoting lower standard normal quantiles by \(z_\alpha\), we have
+\[1-\alpha \approx P\left(z_{\alpha/2} \leq \frac{\hat p - p}{\sqrt{\frac{p(1-p)}{n}}}\leq z_{1-\alpha/2}\right).\]
+
+As in other cases covered above, we can derive an approximate CI for \(p\) by algebraic manipulations within the probability statement. A complicating factor is that the true proportion \(p\) shows up in both the numerator and denominator of the standardized sample proportion. A common technique to get around this is to replace the standard deviation of \(\hat p\) by the estimated standard deviation \(\sqrt{\hat p(1-\hat p)/n}\). Using the estimated standard deviation, an approximate \(100(1-\alpha)\%\) CI for \(p\) is given by
+\[\left(\hat p + z_{\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}{n}}, \, \hat p + z_{1-\alpha/2}\sqrt{\frac{\hat p(1-\hat p)}{n}}\right).\]
+
+It is possible to derive a CI for \(p\) without resorting to using the estimated standard deviation. In that case, we have to solve for \(p\) in the quadratic equation
+\[\frac{\hat p - p}{\sqrt{\frac{p(1-p)}{n}}}= z_{1-\alpha/2}.\]
+The endpoints of the CI based on the true standard deviation of \(\hat p\) are given by
+\[\frac{n\hat p + 0.5z_{\alpha/2}^2\pm z_{1-\alpha/2}\sqrt{n\hat p(1-\hat p)+0.25z_{\alpha/2}^2}}{n+z_{\alpha/2}^2}.\]
+
+Example: A survey is conducted to determine the level of support for the construction of a new nuclear power plant in a community. 140 of 400 randomly sampled voters favor the construction project. Find a \(99\%\) approximate CI for the true proportion of voters favoring the project.
+The sample proportion is \(\hat p = 0.35\) and the estimated standard deviation of \(\hat p\) is \(\sqrt{0.35\cdot 0.65 / 400} = 0.02384848\). Given \(z_{0.995} = 2.575\) an approximate \(99\%\) CI for p is given by
+\[(28.86\%, \, 41.14\%).\]
+
+Alternatively, using the formula for the CI based on the true standard deviation of \(\hat p\) we find the interval
+\[(29.15\%, \, 41.34\%).\]
+
+\hypertarget{difference-of-two-bernoulli-proportions}{%
+\subsection{Difference of two Bernoulli proportions}\label{difference-of-two-bernoulli-proportions}}
+
+The most common experiments compare two or more populations. For two Bernoulli populations an approximate CI for the difference of population proportions can be computed based on the DeMoivre-Laplace CLT similarly to the single population interval above based on the estimated standard deviation of the sample proportion. Our CI for the difference of proportions is given by
+\[\left(\hat p_1 - \hat p_2 + z_{\alpha/2}\sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1} + \frac{\hat p_2(1-\hat p_2)}{n_2}}, \,\,\,\,\, \hat p_1 - \hat p_2 + z_{1-\alpha/2}\sqrt{\frac{\hat p_1(1-\hat p_1)}{n_1} + \frac{\hat p_2(1-\hat p_2)}{n_2}}\right).\]
+Example: Suppose a poll of Illinois voters finds 132 of 200 male voters and 90 of 150 female voters favor a certain candidate. A \(99\%\) CI for the difference of population favorability proportions between the sexes is
+\[(-7.4\%, \, 19.4\%)\]
+indicating there is, plausibly, no difference in the candidate's favorability between the sexes.
+
+\hypertarget{approximate-cis-based-on-mles}{%
+\section{Approximate CIs based on MLEs}\label{approximate-cis-based-on-mles}}
+
+So far we have derived CIs for parameters based on sampling distributions of statistics used to estimate those parameters. We can use the same strategy to derive CIs for parameters estimated using maximum likelihood whenever asymptotic normality of the corresponding MLE is justified. Recall there are a few cases where asymptotic normality may not hold, such as estimating the lower or upper bounds of a uniform distribution---that case violates the condition that the sample space does not depend on the parameter. However, in many situations asymptotic normality of the MLE does hold, and we can use it to derive approximate CIs.
+
+Recall that, under some regularity conditions, the MLE \(\hat\theta\) for the scalar parameter \(\theta\) is approximately normally distributed with mean \(\theta\) and variance \([nI(\theta)]^{-1}\) where \(I(\theta)\) is the Fisher information for one sample. If we replace the variance by the estimated variance by plugging in \(\hat\theta\) then we obtain the CI
+\[\left(\hat\theta \pm z_{1-\alpha/2}[nI(\hat\theta)]^{-1/2}\right),\]
+where you'll recall that \(I(\theta) = E\left[\left(\frac{\partial \ell}{\partial \theta}\right)^2\right]\) or, equivalently (most of the time), \(I(\theta) = -E\left(\frac{\partial^2 \ell}{\partial \theta^2}\right)\) where \(\ell\) denotes the loglikelihood function.
+
+Example: The MLE of the exponential rate parameter is \(\hat\theta = \overline X\). We have previously found \([nI(\theta)]^{-1/2} = \sqrt{(\overline X)^2/n}\) so that an MLE-based approximate CI for the exponential rate \(\theta\) is given by
+\[\left(\overline X \pm z_{1-\alpha/2}\frac{\overline X}{\sqrt{n}}\right).\]
+
+\hypertarget{multivariate-case}{%
+\subsection{Multivariate case}\label{multivariate-case}}
+
+When \(\theta\) is a vector parameter the MLE \(\hat\theta\) is approximately distributed as a multivariate normal random vector with mean vector \(\theta\) and (estimated) covariance matrix \([nI(\hat\theta)]^{-1}\). We can compute approximate CIs for each element of \(\theta\) using the marginal approximate normal distributions of the elements of \(\hat\theta\) as in the scalar case. However, we can also compute a joint confidence region for two or more elements of \(\theta\). The elliptical region
+\[\{\theta: (\hat \theta - \theta)[nI(\hat\theta)]^{-1}(\hat \theta - \theta)^\top \leq z_{1-\alpha/2}^2\}\]
+is an approximate \(100(1-\alpha)\%\) confidence region for \(\theta\). It is also smaller than the set product of marginal confidence intervals, which is a hyper-rectangle containing this ellipse.
+
+Example: The MLEs for a normal population mean and variance have approximate normal distribution
+\[(\overline X, \hat\sigma^2) \stackrel{\cdot}{\sim}N\left((\mu, \sigma^2), \begin{bmatrix} \sigma^2/n & 0 \\ 0 & 2\sigma^4/n \end{bmatrix}\right).\]
+An approximate \(100(1-\alpha)\%\) elliptical confidence region for \((\mu, \sigma^2)\) is given by
+\[\{(\mu, \sigma^2): (\overline X - \mu, \hat\sigma^2 - \sigma^2)\begin{bmatrix} \hat\sigma^2/n & 0 \\ 0 & 2\hat\sigma^4/n \end{bmatrix}^{-1} (\overline X - \mu, \hat\sigma^2 - \sigma^2)^\top \leq z_{1-\alpha/2}^2\}.\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{56482}\NormalTok{)}
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\NormalTok{xbar }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(data)}
+\NormalTok{s2 }\OtherTok{\textless{}{-}} \FunctionTok{var}\NormalTok{(data)}\SpecialCharTok{*}\NormalTok{(}\DecValTok{19}\NormalTok{)}\SpecialCharTok{/}\DecValTok{20}
+
+\NormalTok{xc }\OtherTok{\textless{}{-}}\NormalTok{ xbar }\CommentTok{\# center x\_c or h}
+\NormalTok{yc }\OtherTok{\textless{}{-}}\NormalTok{ s2 }\CommentTok{\# y\_c or k}
+\NormalTok{a }\OtherTok{\textless{}{-}} \FloatTok{1.96}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(s2}\SpecialCharTok{/}\DecValTok{20}\NormalTok{) }\CommentTok{\# major axis length}
+\NormalTok{b }\OtherTok{\textless{}{-}}  \FloatTok{1.96}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{(s2}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\DecValTok{20}\NormalTok{) }\CommentTok{\# minor axis length}
+\NormalTok{phi }\OtherTok{\textless{}{-}} \DecValTok{0} \CommentTok{\# angle of major axis with x axis phi or tau}
+
+\NormalTok{t }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{2}\SpecialCharTok{*}\NormalTok{pi, }\FloatTok{0.01}\NormalTok{) }
+\NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ xc }\SpecialCharTok{+}\NormalTok{ a}\SpecialCharTok{*}\FunctionTok{cos}\NormalTok{(t)}\SpecialCharTok{*}\FunctionTok{cos}\NormalTok{(phi) }\SpecialCharTok{{-}}\NormalTok{ b}\SpecialCharTok{*}\FunctionTok{sin}\NormalTok{(t)}\SpecialCharTok{*}\FunctionTok{sin}\NormalTok{(phi)}
+\NormalTok{y }\OtherTok{\textless{}{-}}\NormalTok{ yc }\SpecialCharTok{+}\NormalTok{ a}\SpecialCharTok{*}\FunctionTok{cos}\NormalTok{(t)}\SpecialCharTok{*}\FunctionTok{sin}\NormalTok{(phi) }\SpecialCharTok{+}\NormalTok{ b}\SpecialCharTok{*}\FunctionTok{sin}\NormalTok{(t)}\SpecialCharTok{*}\FunctionTok{cos}\NormalTok{(phi)}
+\FunctionTok{plot}\NormalTok{(x,y, }\AttributeTok{col=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{,  }\AttributeTok{type =} \StringTok{\textquotesingle{}l\textquotesingle{}}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{7}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{15}\NormalTok{))}
+
+\NormalTok{CI.mu }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(xbar }\SpecialCharTok{{-}} \FloatTok{1.96}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(s2}\SpecialCharTok{/}\DecValTok{20}\NormalTok{), xbar }\SpecialCharTok{+} \FloatTok{1.96}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(s2}\SpecialCharTok{/}\DecValTok{20}\NormalTok{))}
+\NormalTok{CI.sig2 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(s2 }\SpecialCharTok{{-}} \FloatTok{1.96}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{(s2}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\DecValTok{20}\NormalTok{), s2 }\SpecialCharTok{+} \FloatTok{1.96}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{(s2}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\DecValTok{20}\NormalTok{))}
+
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(CI.mu[}\DecValTok{1}\NormalTok{], CI.mu[}\DecValTok{2}\NormalTok{]),}\FunctionTok{c}\NormalTok{(CI.sig2[}\DecValTok{1}\NormalTok{], CI.sig2[}\DecValTok{1}\NormalTok{]), }\AttributeTok{col =} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{) }
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(CI.mu[}\DecValTok{1}\NormalTok{], CI.mu[}\DecValTok{2}\NormalTok{]),}\FunctionTok{c}\NormalTok{(CI.sig2[}\DecValTok{2}\NormalTok{], CI.sig2[}\DecValTok{2}\NormalTok{]), }\AttributeTok{col =} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{) }
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(CI.mu[}\DecValTok{1}\NormalTok{], CI.mu[}\DecValTok{1}\NormalTok{]),}\FunctionTok{c}\NormalTok{(CI.sig2[}\DecValTok{1}\NormalTok{], CI.sig2[}\DecValTok{2}\NormalTok{]), }\AttributeTok{col =} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{) }
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(CI.mu[}\DecValTok{2}\NormalTok{], CI.mu[}\DecValTok{2}\NormalTok{]),}\FunctionTok{c}\NormalTok{(CI.sig2[}\DecValTok{1}\NormalTok{], CI.sig2[}\DecValTok{2}\NormalTok{]), }\AttributeTok{col =} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{12-Confidence-Intervals_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\hypertarget{the-delta-method}{%
+\subsection{The Delta method}\label{the-delta-method}}
+
+The delta theorem says that asymptotic normality of the MLE is preserved under smooth (differentiable) transformations. Let \(g(\cdot)\) be a differentiable function. Then,
+\[\sqrt{n}(g(\hat\theta) - g(\theta))\stackrel{\cdot}{\sim} N\left(0, [g'(\theta)]^\top I(\theta)^{-1}g'(\theta)\right).\]
+
+The power of the delta theorem is its implied method for constructing CIs for any ``nice'' function of population parameters.
+
+Example: For a normal population experiment a common function of parameters that is of interest to researchers is the so-called ``signal-to-noise ratio'' given by \(\mu/\sigma\). In this case, \(g(\theta) = g(\mu, \sigma^2) = \mu/\sqrt{\sigma^2}\). And, \(g'(\theta) = (1/\sqrt{\sigma^2},\, -0.5\mu/({(\sigma^2)}^{1.5}))\). Using the delta theorem result, the MLE of \(\mu/\sigma\) is given by \(\overline X / \sqrt{\hat\sigma^2}\) and has approximate variance
+\[(1/\sqrt{\hat\sigma^2},\, -0.5\overline X/({(\hat\sigma^2)}^{1.5})) \begin{bmatrix} \hat\sigma^2/n & 0 \\ 0 & 2\hat\sigma^4/n \end{bmatrix} (1/\sqrt{\hat\sigma^2},\, -0.5\overline X/({(\hat\sigma^2)}^{1.5}))^\top = \frac{1}{n}+\frac{\overline X^2}{2n\hat\sigma^2}.\]
+Then, an approximate CI for \(\mu/\sigma\) is given by
+\[\left(\overline X / \sqrt{\hat\sigma^2} \pm z_{1-\alpha/2}\sqrt{\frac{1}{n}+\frac{\overline X^2}{2n\hat\sigma^2}}\right).\]
 
   \bibliography{book.bib,packages.bib}
 

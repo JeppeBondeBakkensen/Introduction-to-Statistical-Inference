@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Statistical Estimation | A First Course in Probability and Statistics</title>
   <meta name="description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Statistical Estimation | A First Course in Probability and Statistics" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
@@ -24,7 +23,7 @@
 <meta name="author" content="Nick Syring" />
 
 
-<meta name="date" content="2022-08-26" />
+<meta name="date" content="2022-08-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +31,7 @@
   
   
 <link rel="prev" href="data-analysis-and-statistical-inference.html"/>
-
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<link rel="next" href="sampling-distributions.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,10 +49,75 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -73,39 +136,80 @@
 <li><a href="./">Introduction to Statistical Inference</a></li>
 
 <li class="divider"></li>
-<li><a href="index.html#about" id="toc-about"><span class="toc-section-number">1</span> About</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#data-analysis-and-statistical-inference" id="toc-data-analysis-and-statistical-inference"><span class="toc-section-number">2</span> Data Analysis and Statistical Inference</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html"><i class="fa fa-check"></i><b>2</b> Data Analysis and Statistical Inference</a>
 <ul>
-<li><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies" id="toc-data-experiments-and-studies"><span class="toc-section-number">2.1</span> Data, Experiments, and Studies</a>
+<li class="chapter" data-level="2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies"><i class="fa fa-check"></i><b>2.1</b> Data, Experiments, and Studies</a>
 <ul>
-<li><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial" id="toc-james-linds-scurvy-trial"><span class="toc-section-number">2.1.1</span> James Lind’s Scurvy Trial</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#framingham-heart-study" id="toc-framingham-heart-study"><span class="toc-section-number">2.1.2</span> Framingham Heart Study</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study" id="toc-harris-bank-sex-pay-study"><span class="toc-section-number">2.1.3</span> Harris Bank Sex Pay Study</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets" id="toc-large-aggregated-data-sets"><span class="toc-section-number">2.1.4</span> Large, Aggregated Data Sets</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#study-concepts" id="toc-study-concepts"><span class="toc-section-number">2.1.5</span> Study Concepts</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation" id="toc-randomization-control-and-causation"><span class="toc-section-number">2.1.6</span> Randomization, control, and causation</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference" id="toc-populations-and-scope-of-inference"><span class="toc-section-number">2.1.7</span> Populations and scope of inference</a></li>
+<li class="chapter" data-level="2.1.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial"><i class="fa fa-check"></i><b>2.1.1</b> James Lind’s Scurvy Trial</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#framingham-heart-study"><i class="fa fa-check"></i><b>2.1.2</b> Framingham Heart Study</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study"><i class="fa fa-check"></i><b>2.1.3</b> Harris Bank Sex Pay Study</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets"><i class="fa fa-check"></i><b>2.1.4</b> Large, Aggregated Data Sets</a></li>
+<li class="chapter" data-level="2.1.5" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#study-concepts"><i class="fa fa-check"></i><b>2.1.5</b> Study Concepts</a></li>
+<li class="chapter" data-level="2.1.6" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation"><i class="fa fa-check"></i><b>2.1.6</b> Randomization, control, and causation</a></li>
+<li class="chapter" data-level="2.1.7" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference"><i class="fa fa-check"></i><b>2.1.7</b> Populations and scope of inference</a></li>
 </ul></li>
-<li><a href="data-analysis-and-statistical-inference.html#data-summaries" id="toc-data-summaries"><span class="toc-section-number">2.2</span> Data Summaries</a>
+<li class="chapter" data-level="2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-summaries"><i class="fa fa-check"></i><b>2.2</b> Data Summaries</a>
 <ul>
-<li><a href="data-analysis-and-statistical-inference.html#numerical-summaries" id="toc-numerical-summaries"><span class="toc-section-number">2.2.1</span> Numerical Summaries</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#visual-summaries" id="toc-visual-summaries"><span class="toc-section-number">2.2.2</span> Visual Summaries</a></li>
+<li class="chapter" data-level="2.2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#numerical-summaries"><i class="fa fa-check"></i><b>2.2.1</b> Numerical Summaries</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#visual-summaries"><i class="fa fa-check"></i><b>2.2.2</b> Visual Summaries</a></li>
 </ul></li>
-<li><a href="data-analysis-and-statistical-inference.html#statistical-inference" id="toc-statistical-inference"><span class="toc-section-number">2.3</span> Statistical Inference</a></li>
+<li class="chapter" data-level="2.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#statistical-inference"><i class="fa fa-check"></i><b>2.3</b> Statistical Inference</a></li>
 </ul></li>
-<li><a href="statistical-estimation.html#statistical-estimation" id="toc-statistical-estimation"><span class="toc-section-number">3</span> Statistical Estimation</a>
+<li class="chapter" data-level="3" data-path="statistical-estimation.html"><a href="statistical-estimation.html"><i class="fa fa-check"></i><b>3</b> Statistical Estimation</a>
 <ul>
-<li><a href="statistical-estimation.html#vocabulary" id="toc-vocabulary"><span class="toc-section-number">3.1</span> Vocabulary</a></li>
-<li><a href="statistical-estimation.html#properties-of-estimators" id="toc-properties-of-estimators"><span class="toc-section-number">3.2</span> Properties of Estimators</a>
+<li class="chapter" data-level="3.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#vocabulary"><i class="fa fa-check"></i><b>3.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="3.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-estimators"><i class="fa fa-check"></i><b>3.2</b> Properties of Estimators</a>
 <ul>
-<li><a href="statistical-estimation.html#bias-and-unbiasedness" id="toc-bias-and-unbiasedness"><span class="toc-section-number">3.2.1</span> Bias and Unbiasedness</a></li>
-<li><a href="statistical-estimation.html#minimum-variance-unbiased-estimators" id="toc-minimum-variance-unbiased-estimators"><span class="toc-section-number">3.2.2</span> Minimum Variance Unbiased Estimators</a></li>
-<li><a href="statistical-estimation.html#mean-squared-error-and-bias-variance-tradeoff" id="toc-mean-squared-error-and-bias-variance-tradeoff"><span class="toc-section-number">3.2.3</span> Mean Squared Error and Bias-Variance tradeoff</a></li>
-<li><a href="statistical-estimation.html#consistency" id="toc-consistency"><span class="toc-section-number">3.2.4</span> Consistency</a></li>
+<li class="chapter" data-level="3.2.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#bias-and-unbiasedness"><i class="fa fa-check"></i><b>3.2.1</b> Bias and Unbiasedness</a></li>
+<li class="chapter" data-level="3.2.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#minimum-variance-unbiased-estimators"><i class="fa fa-check"></i><b>3.2.2</b> Minimum Variance Unbiased Estimators</a></li>
+<li class="chapter" data-level="3.2.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#mean-squared-error-and-bias-variance-tradeoff"><i class="fa fa-check"></i><b>3.2.3</b> Mean Squared Error and Bias-Variance tradeoff</a></li>
+<li class="chapter" data-level="3.2.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#consistency"><i class="fa fa-check"></i><b>3.2.4</b> Consistency</a></li>
 </ul></li>
-<li><a href="statistical-estimation.html#finding-estimators---method-of-moments" id="toc-finding-estimators---method-of-moments"><span class="toc-section-number">3.3</span> Finding estimators - Method of Moments</a></li>
-<li><a href="statistical-estimation.html#method-of-maximum-likelihood" id="toc-method-of-maximum-likelihood"><span class="toc-section-number">3.4</span> Method of Maximum Likelihood</a></li>
-<li><a href="statistical-estimation.html#properties-of-mles" id="toc-properties-of-mles"><span class="toc-section-number">3.5</span> Properties of MLEs</a></li>
+<li class="chapter" data-level="3.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#finding-estimators---method-of-moments"><i class="fa fa-check"></i><b>3.3</b> Finding estimators - Method of Moments</a></li>
+<li class="chapter" data-level="3.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#method-of-maximum-likelihood"><i class="fa fa-check"></i><b>3.4</b> Method of Maximum Likelihood</a></li>
+<li class="chapter" data-level="3.5" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-mles"><i class="fa fa-check"></i><b>3.5</b> Properties of MLEs</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sampling-distributions.html"><a href="sampling-distributions.html"><i class="fa fa-check"></i><b>4</b> Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-mean"><i class="fa fa-check"></i><b>4.1</b> Sample Mean</a></li>
+<li class="chapter" data-level="4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-variance"><i class="fa fa-check"></i><b>4.2</b> Sample Variance</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#large-sample-sampling-distribution-of-sample-variance"><i class="fa fa-check"></i><b>4.2.1</b> Large-sample sampling distribution of sample variance</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sampling-distribution-of-studentized-sample-mean"><i class="fa fa-check"></i><b>4.3</b> Sampling distribution of studentized sample mean</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2"><i class="fa fa-check"></i><b>4.3.1</b> Part of Student’s Theorem - Indepndence of <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="sampling-distributions.html"><a href="sampling-distributions.html#differences-of-sample-means"><i class="fa fa-check"></i><b>4.4</b> Differences of Sample Means</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#standarized-difference"><i class="fa fa-check"></i><b>4.4.1</b> Standarized difference</a></li>
+<li class="chapter" data-level="4.4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-equal-variances"><i class="fa fa-check"></i><b>4.4.2</b> Studentized difference, equal variances</a></li>
+<li class="chapter" data-level="4.4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-unequal-variances"><i class="fa fa-check"></i><b>4.4.3</b> Studentized difference, unequal variances</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="sampling-distributions.html"><a href="sampling-distributions.html#ratios-of-sample-variances"><i class="fa fa-check"></i><b>4.5</b> Ratios of Sample Variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>5</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#why-want-interval-valued-estimates"><i class="fa fa-check"></i><b>5.1</b> Why want interval-valued estimates?</a></li>
+<li class="chapter" data-level="5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#normal-population-mean-example"><i class="fa fa-check"></i><b>5.2</b> Normal population mean example</a></li>
+<li class="chapter" data-level="5.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#other-exact-cis-for-normal-population-mean-and-variance-parameters"><i class="fa fa-check"></i><b>5.3</b> Other “Exact” CIs for normal population mean and variance parameters</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-mean-unknown-variance"><i class="fa fa-check"></i><b>5.3.1</b> Population mean, unknown variance</a></li>
+<li class="chapter" data-level="5.3.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-variance-unknown-mean"><i class="fa fa-check"></i><b>5.3.2</b> Population variance, unknown mean</a></li>
+<li class="chapter" data-level="5.3.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-means"><i class="fa fa-check"></i><b>5.3.3</b> Two normal samples, comparing means</a></li>
+<li class="chapter" data-level="5.3.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-variances"><i class="fa fa-check"></i><b>5.3.4</b> Two normal samples, comparing variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#cis-for-proportions"><i class="fa fa-check"></i><b>5.4</b> CIs for proportions</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#a-single-bernoulli-proportion"><i class="fa fa-check"></i><b>5.4.1</b> A single Bernoulli proportion</a></li>
+<li class="chapter" data-level="5.4.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#difference-of-two-bernoulli-proportions"><i class="fa fa-check"></i><b>5.4.2</b> Difference of two Bernoulli proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#approximate-cis-based-on-mles"><i class="fa fa-check"></i><b>5.5</b> Approximate CIs based on MLEs</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#multivariate-case"><i class="fa fa-check"></i><b>5.5.1</b> Multivariate case</a></li>
+<li class="chapter" data-level="5.5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#the-delta-method"><i class="fa fa-check"></i><b>5.5.2</b> The Delta method</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -127,19 +231,19 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="statistical-estimation" class="section level1" number="3">
-<h1><span class="header-section-number">Chapter 3</span> Statistical Estimation</h1>
-<div id="vocabulary" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Vocabulary</h2>
+<div id="statistical-estimation" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Statistical Estimation<a href="statistical-estimation.html#statistical-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="vocabulary" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Vocabulary<a href="statistical-estimation.html#vocabulary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We consider experiments in which a random sample of observations is taken from a population. The sampling distribution of observations is known up to the value(s) of some <em>population parameter(s)</em>. The goal of this chapter is to study <em>estimation</em>—approximation of these unknown parameters by <em>statistics</em>, functions of the sample data. An <em>estimator</em> is the random variable version of a statistic and has a corresponding sampling distribution. By virtue of being called an estimator we assume this statistic is “close” to the true parameter value in some sense. An <em>estimate</em> is a value of an estimator after the data is collected and the estimator computed; it is a fixed, non-random value.</p>
 <p><br><br></p>
 <p>For example, consider an experiment sampling <span class="math inline">\(n\)</span> iid random samples from a Normal population with unknown mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(1\)</span>. Here <span class="math inline">\(\mu\)</span> is the parameter we wish to estimate. An intuitive estimator is the sample mean statistic <span class="math inline">\(\overline X_n = n^{-1}\sum_{i=1}^n X_i\)</span>. When the data is collected we refer to the calculated sample mean—the estimate of <span class="math inline">\(\mu\)</span>—as lowercase <span class="math inline">\(\overline x_n\)</span>.</p>
 </div>
-<div id="properties-of-estimators" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Properties of Estimators</h2>
+<div id="properties-of-estimators" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Properties of Estimators<a href="statistical-estimation.html#properties-of-estimators" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>It will become apparent that estimators are not unique—there are very often several seemingly reasonable estimators for a single parameter. Therefore we ought to be concerned with choosing the “best” estimator according to some criteria. Different criteria will lead to different “best” estimators.</p>
-<div id="bias-and-unbiasedness" class="section level3" number="3.2.1">
-<h3><span class="header-section-number">3.2.1</span> Bias and Unbiasedness</h3>
+<div id="bias-and-unbiasedness" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Bias and Unbiasedness<a href="statistical-estimation.html#bias-and-unbiasedness" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Consider a generic parameter denoted <span class="math inline">\(\theta\)</span> and imagine an estimator for <span class="math inline">\(\theta\)</span> called <span class="math inline">\(\hat\theta_n\)</span>, which is a statistic and, hence, a random variable. We say <span class="math inline">\(\hat\theta_n\)</span> is <em>unbiased</em> if <span class="math inline">\(E(\hat\theta_n)=\theta\)</span> where the expectation is taken with respect to the sampling distribution of <span class="math inline">\(\hat\theta_n\)</span>. For example, the sample mean <span class="math inline">\(\overline X_n\)</span> is unbiased for the population mean <span class="math inline">\(\mu\)</span> (so long as the population mean exists):
 <span class="math display">\[\begin{align*}
 E(\overline X_n) &amp;= E\left(n^{-1}\sum_{i=1}^n X_i\right)\\
@@ -149,8 +253,8 @@ E(\overline X_n) &amp;= E\left(n^{-1}\sum_{i=1}^n X_i\right)\\
 \end{align*}\]</span>
 An unbiased estimator commits no systematic errors in estimating the parameter. In contrast, a biased estimator of a univariate real-valued parameter systematically underestimates or overestimates the parameter. Consider biased <span class="math inline">\(\hat\theta_n\)</span> such that <span class="math inline">\(E(\hat\theta_n) = \theta + 1\)</span>. We <strong>expect</strong> <span class="math inline">\(\hat\theta_n\)</span> to be 1 more than <span class="math inline">\(\theta\)</span>—hence we expect it to overestimate.</p>
 </div>
-<div id="minimum-variance-unbiased-estimators" class="section level3" number="3.2.2">
-<h3><span class="header-section-number">3.2.2</span> Minimum Variance Unbiased Estimators</h3>
+<div id="minimum-variance-unbiased-estimators" class="section level3 hasAnchor" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Minimum Variance Unbiased Estimators<a href="statistical-estimation.html#minimum-variance-unbiased-estimators" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Besides a finite mean, estimators often have a finite variance. And, intuitively, we would tend to prefer an estimator with low variance to one with high variance, particularly if both are unbiased. If we insist on an unbiased estimator, then the “best” unbiased estimator is the unbiased estimator with smallest variance among all unbiased estimators. <br><br></p>
 <p>It is not obvious how one would find the lowest variance estimator among all unbiased estimators. One result, due to CR Rao and Harald Cramer, provides a lower bound on the variance of an unbiased estimator. This lower bound can be checked by computing the variance of a given unbiased estimator, and, if they match, this implies the given estimator is the MVUE. We describe this procedure below.<br><br></p>
 <p>Let <span class="math inline">\(f(x;\theta)\)</span> denote the density of the data and let <span class="math inline">\(\theta\)</span> denote a univariate parameter. Let <span class="math inline">\(\ell(x;\theta) := \log(f(x;\theta))\)</span>, the natural logarithm of the density. Define the <em>Fisher Information</em> for one data point by
@@ -167,8 +271,8 @@ since it is, by definition, equal to the variance. The Cramer-Rao lower bound is
 <span class="math display">\[V(\hat\theta_n)\geq \frac{1}{n},\]</span>
 and we know <span class="math inline">\(V(\overline X_n) = 1/n\)</span> so the sample mean <span class="math inline">\(\overline X_n\)</span> is, indeed, the MVUE for this experiment.</p>
 </div>
-<div id="mean-squared-error-and-bias-variance-tradeoff" class="section level3" number="3.2.3">
-<h3><span class="header-section-number">3.2.3</span> Mean Squared Error and Bias-Variance tradeoff</h3>
+<div id="mean-squared-error-and-bias-variance-tradeoff" class="section level3 hasAnchor" number="3.2.3">
+<h3><span class="header-section-number">3.2.3</span> Mean Squared Error and Bias-Variance tradeoff<a href="statistical-estimation.html#mean-squared-error-and-bias-variance-tradeoff" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>As described above a common strategy is to select an unbiased estimator, preferably one with low (or the lowest) variance. On the other hand, one may prefer a biased estimator over an unbiased one if the bias is low and there is substantial reduction in variance. One way to choose estimators that balance bias and variance is to consider their mean squared error (MSE), defined by
 <span class="math display">\[MSE(\hat\theta_n) = E[(\hat\theta_n - \theta)^2] = Bias(\theta_n)^2 + V(\hat\theta_n).\]</span>
 It is left as an exercise to the reader to show the MSE equals the sum of estimator variance and squared bias. For the above reasons the estimator minimizing the MSE may be preferable even to the MVUE.</p>
@@ -187,8 +291,8 @@ Set this equal to zero and solve for <span class="math inline">\(c\)</span>. We 
 <span class="math display">\[c = \frac{2\sigma^4}{\frac{4\sigma^4}{n-1} + 2\sigma^4} = \frac{n-1}{2+n-1} = \frac{n-1}{n+1}.\]</span>
 This means the minimim MSE estimator (at least among those that are multiples of <span class="math inline">\(S_n^2\)</span>) is actually <span class="math inline">\(\frac{1}{n+1}\sum_{i=1}^n (X_i - \overline X_n)^2\)</span>.</p>
 </div>
-<div id="consistency" class="section level3" number="3.2.4">
-<h3><span class="header-section-number">3.2.4</span> Consistency</h3>
+<div id="consistency" class="section level3 hasAnchor" number="3.2.4">
+<h3><span class="header-section-number">3.2.4</span> Consistency<a href="statistical-estimation.html#consistency" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Besides avoiding systematic estimation errors and having low variance, we would expect that as more and more data is collected an estimator should get better and better—and get “closer” to the true parameter, in some sense. This intuition is captured mathematically by <em>consistency</em>. An estimator is consistent if for any <span class="math inline">\(c&gt;0\)</span>, however small,
 <span class="math display">\[\lim_{n\rightarrow \infty} P(|\hat\theta_n-\theta|&gt;c) = 0.\]</span>
 Dissecting this definition from the inside out we first note <span class="math inline">\(|\hat\theta_n - \theta|\)</span> is the random estimation error. Then, <span class="math inline">\(|\hat\theta_n-\theta|&gt;c\)</span> says the error is at least <span class="math inline">\(c\)</span>. Since the error is a random variable we attach a probability to the chance the error is at least <span class="math inline">\(c\)</span>, which is <span class="math inline">\(P(|\hat\theta_n-\theta|&gt;c)\)</span>. And, consistency says this probability must vanish as we accumulate data. So, the chance of an error of any size <span class="math inline">\(c\)</span> or bigger vanishes. Taking complements, this is equivalent to saying
@@ -203,8 +307,8 @@ Now, suppose <span class="math inline">\(\hat\theta_n\)</span> is unbiased and i
 for a sequence <span class="math inline">\(s_n\)</span> satisfying <span class="math inline">\(\lim_{n\rightarrow \infty} s_n = 0\)</span>. Checking the definition we see this means <span class="math inline">\(\hat\theta_n\)</span> is consistent. A similar argument can work for biased estimators as well, provided the bias also vanishes as <span class="math inline">\(n\rightarrow\infty\)</span>. Such estimators are called <em>asymptotically unbiased</em>. One such example is the minimum MSE estimator of <span class="math inline">\(\sigma^2\)</span> from the previous section. It has bias <span class="math inline">\(\sigma^2(\frac{n-1}{n+1}-1)\)</span> which has limit zero.</p>
 </div>
 </div>
-<div id="finding-estimators---method-of-moments" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> Finding estimators - Method of Moments</h2>
+<div id="finding-estimators---method-of-moments" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Finding estimators - Method of Moments<a href="statistical-estimation.html#finding-estimators---method-of-moments" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>So far we’ve discussed desirable properties of estimators but not where these estimators come from. How do we find estimators in the first place? One strategy is based on the fact population parameters often are related to population moments. Then, we can find estimators by replacing population moments by sample moments and referring back to the relationship between the moments and parameters. The simplest example of the method of moments is estimation of the population mean by the sample mean.<br><br></p>
 <p>Example: Suppose a population is modeled as a Gamma distribution with shape and rate parameters <span class="math inline">\((\alpha, \beta)\)</span>. The population mean is <span class="math inline">\(\alpha / \beta\)</span> and the population variance is <span class="math inline">\(\alpha / \beta^2\)</span>. This means the population second raw moment is <span class="math inline">\(\alpha / \beta^2 + (\alpha / \beta)^2\)</span>. We can estimate <span class="math inline">\((\alpha, \beta)\)</span> by matching the sample and population raw moments as follows:
 <span class="math display">\[\begin{align*}
@@ -225,8 +329,8 @@ n^{-1}\sum_{i=1}^n X_i^2 &amp;= \frac{(b-a)^2}{12} + \frac{(a+b)^2}{4}.
 \end{align*}\]</span>
 With some work, you should find <span class="math inline">\((\hat a, \hat b) = (\hat\mu_1&#39; - \sqrt{3\hat\mu_2&#39;}, \, \hat\mu_1&#39;+\sqrt{3\hat\mu_2&#39;})\)</span>. That’s not so intuitive… What about using the sample minimum and maximum…</p>
 </div>
-<div id="method-of-maximum-likelihood" class="section level2" number="3.4">
-<h2><span class="header-section-number">3.4</span> Method of Maximum Likelihood</h2>
+<div id="method-of-maximum-likelihood" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Method of Maximum Likelihood<a href="statistical-estimation.html#method-of-maximum-likelihood" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Again consider a random sample <span class="math inline">\(X_1, \ldots, X_n\)</span> from a population synonymous with a density function <span class="math inline">\(f(x;\theta)\)</span> for an unknown parameter <span class="math inline">\(\theta\)</span>. For the time being consider only scalar <span class="math inline">\(\theta\)</span>. The <em>likelihood function</em> is the joint PDF of the data viewed as a function of the parameter, and may be treated either as a random function or as a deterministic function depending on whether the data are treates as random variables or as observed values, so pay close attention to the context. For iid data the likelihood can be written
 <span class="math display">\[L(\theta;X_1, \ldots, X_n) = \prod_{i=1}^n f(X_i;\theta).\]</span></p>
 <p>For the purpose of estimating <span class="math inline">\(\theta\)</span> we view the likelihood as a deterministic function given observations. Then, it acts as a sort of “ranking function” that provides a quantitative comparison of how well different parameter values agree with the observed data. The idea is to select as an estimate the parameter value that maximizes the likelihood/agreement with the data. To explain this concept of agreement with the data a bit more suppose the data come from a discrete population so that <span class="math inline">\(f(x;\theta)\)</span> is a PMF rather than a density—this makes the interpretation easier. Then <span class="math inline">\(\prod_{i=1}^n f(X_i;\theta)\)</span> is a the probability of observing the data for a given parameter value <span class="math inline">\(\theta\)</span>. Choosing <span class="math inline">\(\theta\)</span> to maximize this probability means selecting the distribution that gives the highest probability assignment to the data that was actually observed.
@@ -288,8 +392,8 @@ according to the asymptotic results on MLEs given below. Since the unknown param
 0 &amp;\frac{2\hat\sigma_{MLE}^4}{n}.
 \end{bmatrix}\]</span></p>
 </div>
-<div id="properties-of-mles" class="section level2" number="3.5">
-<h2><span class="header-section-number">3.5</span> Properties of MLEs</h2>
+<div id="properties-of-mles" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Properties of MLEs<a href="statistical-estimation.html#properties-of-mles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Maximum likelihood estimation is a powerful technique because it produces estimators with good properties in a wide range of settings. These properties include consistency, asymptotic unbiasedness, asymptotic efficiency (attainment of the Cramer-Rao lower variance bound), and asymptotic normality; subject to the fulfilment of “regularity conditions”. These conditions include<br>
 1. Indentifiability - the CDF <span class="math inline">\(F(x; \theta)\)</span> satisfies <span class="math inline">\(\theta\ne\theta\Rightarrow F(x;\theta)\ne F(x;\theta&#39;)\)</span> for all <span class="math inline">\(x\)</span><br>
 2. The sample sapce of the PDF does not depend on <span class="math inline">\(\theta\)</span>.<br>
@@ -314,8 +418,8 @@ The formal support for this last claim is provided by Slutsky’s Theorem which 
           </div>
         </div>
       </div>
-<a href="data-analysis-and-statistical-inference.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="data-analysis-and-statistical-inference.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="sampling-distributions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -375,7 +479,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

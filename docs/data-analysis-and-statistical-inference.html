@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Data Analysis and Statistical Inference | A First Course in Probability and Statistics</title>
   <meta name="description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Data Analysis and Statistical Inference | A First Course in Probability and Statistics" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
@@ -24,7 +23,7 @@
 <meta name="author" content="Nick Syring" />
 
 
-<meta name="date" content="2022-08-26" />
+<meta name="date" content="2022-08-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +32,6 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="statistical-estimation.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,10 +49,75 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -73,39 +136,80 @@
 <li><a href="./">Introduction to Statistical Inference</a></li>
 
 <li class="divider"></li>
-<li><a href="index.html#about" id="toc-about"><span class="toc-section-number">1</span> About</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#data-analysis-and-statistical-inference" id="toc-data-analysis-and-statistical-inference"><span class="toc-section-number">2</span> Data Analysis and Statistical Inference</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html"><i class="fa fa-check"></i><b>2</b> Data Analysis and Statistical Inference</a>
 <ul>
-<li><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies" id="toc-data-experiments-and-studies"><span class="toc-section-number">2.1</span> Data, Experiments, and Studies</a>
+<li class="chapter" data-level="2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies"><i class="fa fa-check"></i><b>2.1</b> Data, Experiments, and Studies</a>
 <ul>
-<li><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial" id="toc-james-linds-scurvy-trial"><span class="toc-section-number">2.1.1</span> James Lind’s Scurvy Trial</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#framingham-heart-study" id="toc-framingham-heart-study"><span class="toc-section-number">2.1.2</span> Framingham Heart Study</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study" id="toc-harris-bank-sex-pay-study"><span class="toc-section-number">2.1.3</span> Harris Bank Sex Pay Study</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets" id="toc-large-aggregated-data-sets"><span class="toc-section-number">2.1.4</span> Large, Aggregated Data Sets</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#study-concepts" id="toc-study-concepts"><span class="toc-section-number">2.1.5</span> Study Concepts</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation" id="toc-randomization-control-and-causation"><span class="toc-section-number">2.1.6</span> Randomization, control, and causation</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference" id="toc-populations-and-scope-of-inference"><span class="toc-section-number">2.1.7</span> Populations and scope of inference</a></li>
+<li class="chapter" data-level="2.1.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial"><i class="fa fa-check"></i><b>2.1.1</b> James Lind’s Scurvy Trial</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#framingham-heart-study"><i class="fa fa-check"></i><b>2.1.2</b> Framingham Heart Study</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study"><i class="fa fa-check"></i><b>2.1.3</b> Harris Bank Sex Pay Study</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets"><i class="fa fa-check"></i><b>2.1.4</b> Large, Aggregated Data Sets</a></li>
+<li class="chapter" data-level="2.1.5" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#study-concepts"><i class="fa fa-check"></i><b>2.1.5</b> Study Concepts</a></li>
+<li class="chapter" data-level="2.1.6" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation"><i class="fa fa-check"></i><b>2.1.6</b> Randomization, control, and causation</a></li>
+<li class="chapter" data-level="2.1.7" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference"><i class="fa fa-check"></i><b>2.1.7</b> Populations and scope of inference</a></li>
 </ul></li>
-<li><a href="data-analysis-and-statistical-inference.html#data-summaries" id="toc-data-summaries"><span class="toc-section-number">2.2</span> Data Summaries</a>
+<li class="chapter" data-level="2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-summaries"><i class="fa fa-check"></i><b>2.2</b> Data Summaries</a>
 <ul>
-<li><a href="data-analysis-and-statistical-inference.html#numerical-summaries" id="toc-numerical-summaries"><span class="toc-section-number">2.2.1</span> Numerical Summaries</a></li>
-<li><a href="data-analysis-and-statistical-inference.html#visual-summaries" id="toc-visual-summaries"><span class="toc-section-number">2.2.2</span> Visual Summaries</a></li>
+<li class="chapter" data-level="2.2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#numerical-summaries"><i class="fa fa-check"></i><b>2.2.1</b> Numerical Summaries</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#visual-summaries"><i class="fa fa-check"></i><b>2.2.2</b> Visual Summaries</a></li>
 </ul></li>
-<li><a href="data-analysis-and-statistical-inference.html#statistical-inference" id="toc-statistical-inference"><span class="toc-section-number">2.3</span> Statistical Inference</a></li>
+<li class="chapter" data-level="2.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#statistical-inference"><i class="fa fa-check"></i><b>2.3</b> Statistical Inference</a></li>
 </ul></li>
-<li><a href="statistical-estimation.html#statistical-estimation" id="toc-statistical-estimation"><span class="toc-section-number">3</span> Statistical Estimation</a>
+<li class="chapter" data-level="3" data-path="statistical-estimation.html"><a href="statistical-estimation.html"><i class="fa fa-check"></i><b>3</b> Statistical Estimation</a>
 <ul>
-<li><a href="statistical-estimation.html#vocabulary" id="toc-vocabulary"><span class="toc-section-number">3.1</span> Vocabulary</a></li>
-<li><a href="statistical-estimation.html#properties-of-estimators" id="toc-properties-of-estimators"><span class="toc-section-number">3.2</span> Properties of Estimators</a>
+<li class="chapter" data-level="3.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#vocabulary"><i class="fa fa-check"></i><b>3.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="3.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-estimators"><i class="fa fa-check"></i><b>3.2</b> Properties of Estimators</a>
 <ul>
-<li><a href="statistical-estimation.html#bias-and-unbiasedness" id="toc-bias-and-unbiasedness"><span class="toc-section-number">3.2.1</span> Bias and Unbiasedness</a></li>
-<li><a href="statistical-estimation.html#minimum-variance-unbiased-estimators" id="toc-minimum-variance-unbiased-estimators"><span class="toc-section-number">3.2.2</span> Minimum Variance Unbiased Estimators</a></li>
-<li><a href="statistical-estimation.html#mean-squared-error-and-bias-variance-tradeoff" id="toc-mean-squared-error-and-bias-variance-tradeoff"><span class="toc-section-number">3.2.3</span> Mean Squared Error and Bias-Variance tradeoff</a></li>
-<li><a href="statistical-estimation.html#consistency" id="toc-consistency"><span class="toc-section-number">3.2.4</span> Consistency</a></li>
+<li class="chapter" data-level="3.2.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#bias-and-unbiasedness"><i class="fa fa-check"></i><b>3.2.1</b> Bias and Unbiasedness</a></li>
+<li class="chapter" data-level="3.2.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#minimum-variance-unbiased-estimators"><i class="fa fa-check"></i><b>3.2.2</b> Minimum Variance Unbiased Estimators</a></li>
+<li class="chapter" data-level="3.2.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#mean-squared-error-and-bias-variance-tradeoff"><i class="fa fa-check"></i><b>3.2.3</b> Mean Squared Error and Bias-Variance tradeoff</a></li>
+<li class="chapter" data-level="3.2.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#consistency"><i class="fa fa-check"></i><b>3.2.4</b> Consistency</a></li>
 </ul></li>
-<li><a href="statistical-estimation.html#finding-estimators---method-of-moments" id="toc-finding-estimators---method-of-moments"><span class="toc-section-number">3.3</span> Finding estimators - Method of Moments</a></li>
-<li><a href="statistical-estimation.html#method-of-maximum-likelihood" id="toc-method-of-maximum-likelihood"><span class="toc-section-number">3.4</span> Method of Maximum Likelihood</a></li>
-<li><a href="statistical-estimation.html#properties-of-mles" id="toc-properties-of-mles"><span class="toc-section-number">3.5</span> Properties of MLEs</a></li>
+<li class="chapter" data-level="3.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#finding-estimators---method-of-moments"><i class="fa fa-check"></i><b>3.3</b> Finding estimators - Method of Moments</a></li>
+<li class="chapter" data-level="3.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#method-of-maximum-likelihood"><i class="fa fa-check"></i><b>3.4</b> Method of Maximum Likelihood</a></li>
+<li class="chapter" data-level="3.5" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-mles"><i class="fa fa-check"></i><b>3.5</b> Properties of MLEs</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sampling-distributions.html"><a href="sampling-distributions.html"><i class="fa fa-check"></i><b>4</b> Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-mean"><i class="fa fa-check"></i><b>4.1</b> Sample Mean</a></li>
+<li class="chapter" data-level="4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-variance"><i class="fa fa-check"></i><b>4.2</b> Sample Variance</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#large-sample-sampling-distribution-of-sample-variance"><i class="fa fa-check"></i><b>4.2.1</b> Large-sample sampling distribution of sample variance</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sampling-distribution-of-studentized-sample-mean"><i class="fa fa-check"></i><b>4.3</b> Sampling distribution of studentized sample mean</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2"><i class="fa fa-check"></i><b>4.3.1</b> Part of Student’s Theorem - Indepndence of <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="sampling-distributions.html"><a href="sampling-distributions.html#differences-of-sample-means"><i class="fa fa-check"></i><b>4.4</b> Differences of Sample Means</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#standarized-difference"><i class="fa fa-check"></i><b>4.4.1</b> Standarized difference</a></li>
+<li class="chapter" data-level="4.4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-equal-variances"><i class="fa fa-check"></i><b>4.4.2</b> Studentized difference, equal variances</a></li>
+<li class="chapter" data-level="4.4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-unequal-variances"><i class="fa fa-check"></i><b>4.4.3</b> Studentized difference, unequal variances</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="sampling-distributions.html"><a href="sampling-distributions.html#ratios-of-sample-variances"><i class="fa fa-check"></i><b>4.5</b> Ratios of Sample Variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>5</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#why-want-interval-valued-estimates"><i class="fa fa-check"></i><b>5.1</b> Why want interval-valued estimates?</a></li>
+<li class="chapter" data-level="5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#normal-population-mean-example"><i class="fa fa-check"></i><b>5.2</b> Normal population mean example</a></li>
+<li class="chapter" data-level="5.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#other-exact-cis-for-normal-population-mean-and-variance-parameters"><i class="fa fa-check"></i><b>5.3</b> Other “Exact” CIs for normal population mean and variance parameters</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-mean-unknown-variance"><i class="fa fa-check"></i><b>5.3.1</b> Population mean, unknown variance</a></li>
+<li class="chapter" data-level="5.3.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-variance-unknown-mean"><i class="fa fa-check"></i><b>5.3.2</b> Population variance, unknown mean</a></li>
+<li class="chapter" data-level="5.3.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-means"><i class="fa fa-check"></i><b>5.3.3</b> Two normal samples, comparing means</a></li>
+<li class="chapter" data-level="5.3.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-variances"><i class="fa fa-check"></i><b>5.3.4</b> Two normal samples, comparing variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#cis-for-proportions"><i class="fa fa-check"></i><b>5.4</b> CIs for proportions</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#a-single-bernoulli-proportion"><i class="fa fa-check"></i><b>5.4.1</b> A single Bernoulli proportion</a></li>
+<li class="chapter" data-level="5.4.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#difference-of-two-bernoulli-proportions"><i class="fa fa-check"></i><b>5.4.2</b> Difference of two Bernoulli proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#approximate-cis-based-on-mles"><i class="fa fa-check"></i><b>5.5</b> Approximate CIs based on MLEs</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#multivariate-case"><i class="fa fa-check"></i><b>5.5.1</b> Multivariate case</a></li>
+<li class="chapter" data-level="5.5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#the-delta-method"><i class="fa fa-check"></i><b>5.5.2</b> The Delta method</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -127,31 +231,31 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="data-analysis-and-statistical-inference" class="section level1" number="2">
-<h1><span class="header-section-number">Chapter 2</span> Data Analysis and Statistical Inference</h1>
+<div id="data-analysis-and-statistical-inference" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Data Analysis and Statistical Inference<a href="data-analysis-and-statistical-inference.html#data-analysis-and-statistical-inference" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>In this first chapter we define and discuss some important concepts regarding data and scientific investigation.</p>
-<div id="data-experiments-and-studies" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Data, Experiments, and Studies</h2>
+<div id="data-experiments-and-studies" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Data, Experiments, and Studies<a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We encounter numerical summaries of information constantly in our everyday lives and sort through these in order to make all sorts of decisions. In this section we will formalize the concept of <em>data</em> connected to scientific study. Broadly speaking, data is anything we observe that is relevant to answering a question of interest, i.e., data is tacitly assumed to be informative about the question.</p>
 <p>Three types of studies in which data are collected and analyzed are in designed, interventional experiments, observational studies, and exploratory studies. The following illustrations help to differentiate these two types of studies. One difference we will see is all about timing—experiments start with a question of interest and then are designed to answer the question. Exploratory data analysis is often done using data collected with no particular question in mind, or some other question besides the current one. Another difference is that experiments require interventions—imposed changes of behavior or conditions on the individuals in the experiment—while observational studies do not include such interventions.</p>
-<div id="james-linds-scurvy-trial" class="section level3" number="2.1.1">
-<h3><span class="header-section-number">2.1.1</span> James Lind’s Scurvy Trial</h3>
+<div id="james-linds-scurvy-trial" class="section level3 hasAnchor" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> James Lind’s Scurvy Trial<a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Clinical trials are familiar designed, interventional experiments. A famous, early example is James Lind’s Scurvy trial. Lind was a doctor aboard a British ship. Several sailors with him were suffering from scurvy. He selected 12 sailors in similar, poor condition, and assigned to pairs of them 6 different treatments (the intervention). The two who received oranges and lemons to eat recovered fully; those who received apple cider fared next best. Lind specifically wanted to understand which treatments would be most effective at curing scurvy and planned an experiment to answer his question. His selection of like sailors and random, paired treatment assignment constitute early examples of randomization and control in experimental design.</p>
 </div>
-<div id="framingham-heart-study" class="section level3" number="2.1.2">
-<h3><span class="header-section-number">2.1.2</span> Framingham Heart Study</h3>
+<div id="framingham-heart-study" class="section level3 hasAnchor" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Framingham Heart Study<a href="data-analysis-and-statistical-inference.html#framingham-heart-study" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Named for Framingham, Massachusetts, where the participants were first recruited, this was a long-running observational study of Americans aimed at understanding risks associated with heart disease. Participants agreed to medical testing every 3-5 years, from which the study researchers concluded a number of important findings, such as cigarette smoking substantially increases the risk of heart disease. There are no interventions; the researchers simply observe the patients and make conclusions based on how the patients choose to live, e.g., tobacco use.</p>
 </div>
-<div id="harris-bank-sex-pay-study" class="section level3" number="2.1.3">
-<h3><span class="header-section-number">2.1.3</span> Harris Bank Sex Pay Study</h3>
+<div id="harris-bank-sex-pay-study" class="section level3 hasAnchor" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> Harris Bank Sex Pay Study<a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>93 salaries of entry-level clerical workers who started working at Harris Bank between 1969 and 1971 show men were paid more than women. (From The Statistical Sleuth, reproduced from “Harris Trust and Savings Bank: An Analysis of Employee Compensation” (1979), Report 7946,Center for Mathematical Studies in Business and Economics, University of Chicago Graduate School of Business.)</p>
 </div>
-<div id="large-aggregated-data-sets" class="section level3" number="2.1.4">
-<h3><span class="header-section-number">2.1.4</span> Large, Aggregated Data Sets</h3>
+<div id="large-aggregated-data-sets" class="section level3 hasAnchor" number="2.1.4">
+<h3><span class="header-section-number">2.1.4</span> Large, Aggregated Data Sets<a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There are now many large “data sets” recording all sorts of information about consumers, e.g., data obtained by Google and other technology companies whenever consumers use their sites, apps, or devices. There are many potential use cases for such information; for instance, such data has proven helpful for targeted marketing of specific products. Such applications may be termed exploratory research—these are characterized, in part, by exploration/examination of data that was originally collected for some other purpose. In other words, the “data” was collected with either no question or some other question in mind.</p>
 </div>
-<div id="study-concepts" class="section level3" number="2.1.5">
-<h3><span class="header-section-number">2.1.5</span> Study Concepts</h3>
+<div id="study-concepts" class="section level3 hasAnchor" number="2.1.5">
+<h3><span class="header-section-number">2.1.5</span> Study Concepts<a href="data-analysis-and-statistical-inference.html#study-concepts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The above examples illustrate several key concepts related to scientific studies.</p>
 <ul>
 <li>Research question - There is always a reason researchers go to the trouble of collecting and analysing data; they have an important question they want to answer. For example, what can sailors do to prevent scurvy?</li>
@@ -163,8 +267,8 @@
 <li>Control - Researchers should try to limit the effects of variables on the response that are not of interest to the study. For example, in the gender pay study, the researchers studied only entry-level workers. They <em>controlled</em> for prior experience to better isolate potential sex effects on pay.</li>
 </ul>
 </div>
-<div id="randomization-control-and-causation" class="section level3" number="2.1.6">
-<h3><span class="header-section-number">2.1.6</span> Randomization, control, and causation</h3>
+<div id="randomization-control-and-causation" class="section level3 hasAnchor" number="2.1.6">
+<h3><span class="header-section-number">2.1.6</span> Randomization, control, and causation<a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In experiments the researcher performs one or more interventions—such as giving patients cider versus citrus fruits in Lind’s scurvy trial. The principle of <em>randomization</em> asserts that interventions in experiments should be assigned to experimental units randomly. When experimental units are heterogeneous—not all the same—it stands to reason that some of their differences apart from the intervention may impact the response to the experiment recorded by the researcher. Randomization is a way to even out these heterogeneities between groups receiving different interventions. That way, it is the intervention, rather than some other difference, which is responsible for substantially different outcomes. Randomization systematically accounts for heterogeneities, but the extent to which it works depends on the number of experimental units, the number of groups being randomized, and the presence of one or more important heterogeneities. For examples, consider the following:
 1. Suppose in ten experimental units there is one unobserved, dichotomous trait that affects the experimental response. Three of the ten have version “0” of the trait and 7 have version “1”. Randomly split the ten into two groups of five, each group to receive a different intervention. The chance all three end up in the same group is 1/6, not ignorably small…
 2. On the other hand, suppose there are 100 experimental units, half have trait “0” and half trait “1”. The chance at least 35 of either trait type end up in the same one half random split is <span class="math inline">\(\approx 0\)</span>.<br />
@@ -173,8 +277,8 @@ Generally when an intervention is randomized over experimental units we interpre
 <p>The principle of <em>control</em> states that intervention groups should be made as homogeneous as possible. When experiments are well-controlled researchers often assume that they can determine <em>causation</em>, and any observed differences in experimental outcome between intervention groups can be attributed to the intervention. Of course, as mentioned above, the ability of an experiment to determine causation is not all or nothing; rather, it depends on unknowns. Nevertheless, stronger controls make the results of experiments more trustworthy, and less likely to be caused by confounding variables.</p>
 <p>Non-interventional, observational studies are not used to establish causative relationships. Rather, we say such studies establish <em>associations</em> between variables. For example, in the Framingham study, the researchers did not randomly assign individuals to groups of tobacco-users and non-users. Even though these days the evidence is quite strong that tobacco use causes heart disease, the bar for such a claim is much higher when the variable of interest—tobacco use—cannot be randomly assigned to experimental units. That’s not to say elements of control cannot be used. For instance, if enough data is collected, it is possible to compare tobacco-users and non-users with nearly the same ages, sexes, incomes, education, living in the same zip codes, etc. The more potential confounders are explicitly controlled, the closer such an observational study comes to a randomized experiment.</p>
 </div>
-<div id="populations-and-scope-of-inference" class="section level3" number="2.1.7">
-<h3><span class="header-section-number">2.1.7</span> Populations and scope of inference</h3>
+<div id="populations-and-scope-of-inference" class="section level3 hasAnchor" number="2.1.7">
+<h3><span class="header-section-number">2.1.7</span> Populations and scope of inference<a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Whether conducting an experiment or collecting observational data, the units/subjects have to come from somewhere. The <em>population</em> refers to the set of all possible subjects—it may be finite or infinite, and it may be concrete or hypothetical. For examples, the population of current Iowa State undergraduates is well-defined, whereas the population of mouse kidney cells exists in a hypothetical sense. <em>Sampling</em> describes how subjects are obtained from the population for observation. <em>Random sampling</em> is any scheme involving selecting a subset of subjects from a larger group in some random fashion. A <em>simple random sample</em> of size <span class="math inline">\(n\)</span> is obtained when every subset of <span class="math inline">\(n\)</span> subjects from a total group is equally likely to be selected. Other types of random selection are possible, but we won’t often consider these:
 - <em>stratified random sampling</em> obtains when simple random samples from separate groups/strata are combined, e.g., a 50/50 random sample stratified by male/female can be formed by taking a simple random sample of ten males and a simple random sample of 10 females from a group of 50 males and 50 females
 - <em>cluster random sampling</em> obtains when a larger group is subdivided into smaller groups and subgroups are selected at random, e.g., a cluster random sample of Iowa high schoolers can be obtained by choosing all high schoolers who attend one of a simple random sample of Iowa high schools.</p>
@@ -183,8 +287,8 @@ Generally when an intervention is randomized over experimental units we interpre
 <p>Sometimes a researcher intends to study one population, but obtains data from another population. This mismatch is important to identify as it can cause bias—which simply means the answer to the researcher’s question is different for the population for which data is observed compared to the intended population. As in the extreme example above, effects of Covid-19 are different in old and young populations, so the results from an experiment studying only the young are biased when viewed from the perspective of the population of old and young combined.</p>
 </div>
 </div>
-<div id="data-summaries" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Data Summaries</h2>
+<div id="data-summaries" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Data Summaries<a href="data-analysis-and-statistical-inference.html#data-summaries" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Data may take on many forms including sound waves, images comprised of pixels/voxels, and graphs of functions/surfaces. We will almost exclusively consider data that may be represented in a tabulated format, like the following data on weights of chickens.</p>
 <pre><code>##   weight Time Chick Diet
 ## 1     42    0     1    1
@@ -194,8 +298,8 @@ Generally when an intervention is randomized over experimental units we interpre
 ## 5     76    8     1    1
 ## 6     93   10     1    1</code></pre>
 <p>Regardless of the type of data, few users can make sense of all the data at once; rather, we need data summaries—numbers or plots that point out important features of the whole data set.</p>
-<div id="numerical-summaries" class="section level3" number="2.2.1">
-<h3><span class="header-section-number">2.2.1</span> Numerical Summaries</h3>
+<div id="numerical-summaries" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Numerical Summaries<a href="data-analysis-and-statistical-inference.html#numerical-summaries" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We briefly describe summaries for categorical and numerical, continuous data.</p>
 <p>Suppose a variable <span class="math inline">\(X\)</span> takes categorical values, e.g., <span class="math inline">\(X\in\{0,1,2,3\}\)</span>. A data set consisting of observed <span class="math inline">\(x\)</span> values, may be summarized by tabulating proportions, i.e., of 100 observations, 0.41 were <span class="math inline">\(x=0\)</span>, 0.29 were <span class="math inline">\(x = 1\)</span>, 0.17 were <span class="math inline">\(x = 2\)</span> and 0.13 were <span class="math inline">\(x=3\)</span>. Binary or dichotomous variables may be also be summarized by odds and odds ratios. Suppose <span class="math inline">\(Y\in\{0,1\}\)</span>. The observations <span class="math inline">\(y_1, \ldots, y_n\)</span> may be summarized by saying <span class="math inline">\(60\%\)</span> were <span class="math inline">\(y=1\)</span> versus <span class="math inline">\(40\%\)</span> <span class="math inline">\(y=0\)</span> or, equivalently, the observed odds of <span class="math inline">\(y=1\)</span> was <span class="math inline">\(0.6/0.4 = 1.5\)</span>. Suppose response <span class="math inline">\(Y\)</span> is <em>blocked</em> by another dichotomous variable, say, undergraduate versus graduate status, and suppose the observed odds for undergraduates is 1.5 while the observed odds for graduates is 0.8. Then, the observed odds ratio for undergraduates versus graduates is 1.5/0.8 = 1.875.</p>
 <p>In contrast to categorical data, continuous data takes values in the real numbers <span class="math inline">\(\mathbb{R}\)</span> or some interval of real numbers. Most numerical summaries of continuous variables either measure location or dispersion. Location refers, in one way or another, to a typical or average value while dispersion refers to the spread of the values. Common measures of location are the mean, median, and trimmed mean:</p>
@@ -215,8 +319,8 @@ Generally when an intervention is randomized over experimental units we interpre
 <li>The interquartile range (IQR) is the difference between the <span class="math inline">\(0.75\)</span> and <span class="math inline">\(0.25\)</span> quantiles.</li>
 </ul>
 </div>
-<div id="visual-summaries" class="section level3" number="2.2.2">
-<h3><span class="header-section-number">2.2.2</span> Visual Summaries</h3>
+<div id="visual-summaries" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Visual Summaries<a href="data-analysis-and-statistical-inference.html#visual-summaries" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Plots and graphs can also be used to summarize a data set or particular observed variable. Three plots we will use extensively in the course are the scatterplot, histogram, and quantile-quantile (qq) plot.</p>
 <ul>
 <li><p>For paired observations of two variables <span class="math inline">\((x_i, y_i), \,\,i = 1, \ldots, n\)</span> a scatterplot displays <span class="math inline">\((x_i, y_i)\)</span> in the xy-plane. For example, see the plot of a chicken’s weight versus time from the tabulated data set above. Scatterplots are useful for assessing relationships between variables. For example, the chick’s weight increases with time, maybe in a linear or slightly quadratic fashion.
@@ -228,8 +332,8 @@ Generally when an intervention is randomized over experimental units we interpre
 <p><img src="01-intro_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 </div>
-<div id="statistical-inference" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Statistical Inference</h2>
+<div id="statistical-inference" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Statistical Inference<a href="data-analysis-and-statistical-inference.html#statistical-inference" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Summarizing data sets is important because no one can make sense of more than a few numbers at a time. But, data summaries cannot by themselves answer our research questions. That is because data summaries only say something about the particular data set we observe, while our research questions concern the whole population. Recall, a major aim of experimentation is generalizing from observations to population. When we make such generalizations we often refer to them as <em>inferences</em>; and, statistical inferences are characterized by their careful treatment of statistical concepts, such as hypotheses, and Type 1 and 2 errors, which we discuss below.</p>
 <p>A hypothesis is a claim or assertion about a population. These may be simple, i.e., “the population mean is 5”, or more complex, like “the population distribution of values is equivalent to a Normal probability distribution”. Notice that both of these statements are either true or false, yes or no. A hypothesis then may be called the “null hypothesis”, and its complement (opposite) the alternative hypothesis. Which is which depends on the context. We make educated guesses about the truthfulness of a null hypothesis based on observations/data. Our educated guesses may be right or wrong, but we will never know because we will never “see” the whole population. If we reject the null hypothesis as false when it really is true, then we make a Type 1 error. The opposite, keeping the null hypothesis in favor over its alternative, when it is actually false, is a Type 2 error. Ideally, we would make no errors, but that’s not possible. In fact, the two errors have an inverse relation. For example, if we adopt the rule that we always reject the null hypothesis, then we will necessarily maximize Type 1 errors but have no Type 2 errors. And, if we take the opposite approach, then we maximize Type 2 errors while making no Type 1 errors.</p>
 <p>Much of this course will focus on constructing tests of relevant hypotheses with the property that we limit the chance of making a Type 1 error. By chance we refer to the probability distribution of the test outcome induced by random sampling of data from the population. A test that has chance no more than <span class="math inline">\(\alpha\)</span> of making a Type 1 error is called a “level <span class="math inline">\(\alpha\)</span> test of <span class="math inline">\(H_0\)</span>”, the null hypothesis.</p>
@@ -330,7 +434,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
