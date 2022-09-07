@@ -47,3 +47,17 @@ difference-of-two-bernoulli-proportions
 approximate-cis-based-on-mles
 multivariate-case
 the-delta-method
+hypothesis-testing
+notation
+hypothesis-testing-outcomes
+tests-based-on-a-normal-population
+test-for-a-normal-mean-when-the-variance-is-known
+test-for-a-normal-mean-when-the-variance-is-unknown
+test-for-a-normal-population-variance
+tests-for-a-difference-of-normal-population-means
+test-for-equality-of-normal-population-variances
+likelihood-based-tests
+wald-type-tests
+likelihood-ratio-tests
+chi-squared-tests-for-tabulated-data
+goodness-of-fit-tests

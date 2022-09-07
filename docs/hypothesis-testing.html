@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Hypothesis Testing | A First Course in Probability and Statistics</title>
+  <meta name="description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Hypothesis Testing | A First Course in Probability and Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Hypothesis Testing | A First Course in Probability and Statistics" />
+  
+  <meta name="twitter:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  
+
+<meta name="author" content="Nick Syring" />
+
+
+<meta name="date" content="2022-09-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="confidence-intervals.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction to Statistical Inference</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html"><i class="fa fa-check"></i><b>2</b> Data Analysis and Statistical Inference</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies"><i class="fa fa-check"></i><b>2.1</b> Data, Experiments, and Studies</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial"><i class="fa fa-check"></i><b>2.1.1</b> James Lind’s Scurvy Trial</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#framingham-heart-study"><i class="fa fa-check"></i><b>2.1.2</b> Framingham Heart Study</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study"><i class="fa fa-check"></i><b>2.1.3</b> Harris Bank Sex Pay Study</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets"><i class="fa fa-check"></i><b>2.1.4</b> Large, Aggregated Data Sets</a></li>
+<li class="chapter" data-level="2.1.5" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#study-concepts"><i class="fa fa-check"></i><b>2.1.5</b> Study Concepts</a></li>
+<li class="chapter" data-level="2.1.6" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation"><i class="fa fa-check"></i><b>2.1.6</b> Randomization, control, and causation</a></li>
+<li class="chapter" data-level="2.1.7" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference"><i class="fa fa-check"></i><b>2.1.7</b> Populations and scope of inference</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-summaries"><i class="fa fa-check"></i><b>2.2</b> Data Summaries</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#numerical-summaries"><i class="fa fa-check"></i><b>2.2.1</b> Numerical Summaries</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#visual-summaries"><i class="fa fa-check"></i><b>2.2.2</b> Visual Summaries</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#statistical-inference"><i class="fa fa-check"></i><b>2.3</b> Statistical Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="statistical-estimation.html"><a href="statistical-estimation.html"><i class="fa fa-check"></i><b>3</b> Statistical Estimation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#vocabulary"><i class="fa fa-check"></i><b>3.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="3.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-estimators"><i class="fa fa-check"></i><b>3.2</b> Properties of Estimators</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#bias-and-unbiasedness"><i class="fa fa-check"></i><b>3.2.1</b> Bias and Unbiasedness</a></li>
+<li class="chapter" data-level="3.2.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#minimum-variance-unbiased-estimators"><i class="fa fa-check"></i><b>3.2.2</b> Minimum Variance Unbiased Estimators</a></li>
+<li class="chapter" data-level="3.2.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#mean-squared-error-and-bias-variance-tradeoff"><i class="fa fa-check"></i><b>3.2.3</b> Mean Squared Error and Bias-Variance tradeoff</a></li>
+<li class="chapter" data-level="3.2.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#consistency"><i class="fa fa-check"></i><b>3.2.4</b> Consistency</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#finding-estimators---method-of-moments"><i class="fa fa-check"></i><b>3.3</b> Finding estimators - Method of Moments</a></li>
+<li class="chapter" data-level="3.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#method-of-maximum-likelihood"><i class="fa fa-check"></i><b>3.4</b> Method of Maximum Likelihood</a></li>
+<li class="chapter" data-level="3.5" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-mles"><i class="fa fa-check"></i><b>3.5</b> Properties of MLEs</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sampling-distributions.html"><a href="sampling-distributions.html"><i class="fa fa-check"></i><b>4</b> Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-mean"><i class="fa fa-check"></i><b>4.1</b> Sample Mean</a></li>
+<li class="chapter" data-level="4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-variance"><i class="fa fa-check"></i><b>4.2</b> Sample Variance</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#large-sample-sampling-distribution-of-sample-variance"><i class="fa fa-check"></i><b>4.2.1</b> Large-sample sampling distribution of sample variance</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sampling-distribution-of-studentized-sample-mean"><i class="fa fa-check"></i><b>4.3</b> Sampling distribution of studentized sample mean</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2"><i class="fa fa-check"></i><b>4.3.1</b> Part of Student’s Theorem - Indepndence of <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="sampling-distributions.html"><a href="sampling-distributions.html#differences-of-sample-means"><i class="fa fa-check"></i><b>4.4</b> Differences of Sample Means</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#standarized-difference"><i class="fa fa-check"></i><b>4.4.1</b> Standarized difference</a></li>
+<li class="chapter" data-level="4.4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-equal-variances"><i class="fa fa-check"></i><b>4.4.2</b> Studentized difference, equal variances</a></li>
+<li class="chapter" data-level="4.4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-unequal-variances"><i class="fa fa-check"></i><b>4.4.3</b> Studentized difference, unequal variances</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="sampling-distributions.html"><a href="sampling-distributions.html#ratios-of-sample-variances"><i class="fa fa-check"></i><b>4.5</b> Ratios of Sample Variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>5</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#why-want-interval-valued-estimates"><i class="fa fa-check"></i><b>5.1</b> Why want interval-valued estimates?</a></li>
+<li class="chapter" data-level="5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#normal-population-mean-example"><i class="fa fa-check"></i><b>5.2</b> Normal population mean example</a></li>
+<li class="chapter" data-level="5.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#other-exact-cis-for-normal-population-mean-and-variance-parameters"><i class="fa fa-check"></i><b>5.3</b> Other “Exact” CIs for normal population mean and variance parameters</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-mean-unknown-variance"><i class="fa fa-check"></i><b>5.3.1</b> Population mean, unknown variance</a></li>
+<li class="chapter" data-level="5.3.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-variance-unknown-mean"><i class="fa fa-check"></i><b>5.3.2</b> Population variance, unknown mean</a></li>
+<li class="chapter" data-level="5.3.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-means"><i class="fa fa-check"></i><b>5.3.3</b> Two normal samples, comparing means</a></li>
+<li class="chapter" data-level="5.3.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-variances"><i class="fa fa-check"></i><b>5.3.4</b> Two normal samples, comparing variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#cis-for-proportions"><i class="fa fa-check"></i><b>5.4</b> CIs for proportions</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#a-single-bernoulli-proportion"><i class="fa fa-check"></i><b>5.4.1</b> A single Bernoulli proportion</a></li>
+<li class="chapter" data-level="5.4.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#difference-of-two-bernoulli-proportions"><i class="fa fa-check"></i><b>5.4.2</b> Difference of two Bernoulli proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#approximate-cis-based-on-mles"><i class="fa fa-check"></i><b>5.5</b> Approximate CIs based on MLEs</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#multivariate-case"><i class="fa fa-check"></i><b>5.5.1</b> Multivariate case</a></li>
+<li class="chapter" data-level="5.5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#the-delta-method"><i class="fa fa-check"></i><b>5.5.2</b> The Delta method</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#notation"><i class="fa fa-check"></i><b>6.1</b> Notation</a></li>
+<li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#hypothesis-testing-outcomes"><i class="fa fa-check"></i><b>6.2</b> Hypothesis testing outcomes</a></li>
+<li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#tests-based-on-a-normal-population"><i class="fa fa-check"></i><b>6.3</b> Tests based on a normal population</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-a-normal-mean-when-the-variance-is-known"><i class="fa fa-check"></i><b>6.3.1</b> Test for a normal mean when the variance is known</a></li>
+<li class="chapter" data-level="6.3.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-a-normal-mean-when-the-variance-is-unknown"><i class="fa fa-check"></i><b>6.3.2</b> Test for a normal mean when the variance is unknown</a></li>
+<li class="chapter" data-level="6.3.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-a-normal-population-variance"><i class="fa fa-check"></i><b>6.3.3</b> Test for a normal population variance</a></li>
+<li class="chapter" data-level="6.3.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#tests-for-a-difference-of-normal-population-means"><i class="fa fa-check"></i><b>6.3.4</b> Tests for a difference of normal population means</a></li>
+<li class="chapter" data-level="6.3.5" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-equality-of-normal-population-variances"><i class="fa fa-check"></i><b>6.3.5</b> Test for equality of normal population variances</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#likelihood-based-tests"><i class="fa fa-check"></i><b>6.4</b> Likelihood-based Tests</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#wald-type-tests"><i class="fa fa-check"></i><b>6.4.1</b> Wald type tests</a></li>
+<li class="chapter" data-level="6.4.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#likelihood-ratio-tests"><i class="fa fa-check"></i><b>6.4.2</b> Likelihood ratio tests</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#chi-squared-tests-for-tabulated-data"><i class="fa fa-check"></i><b>6.5</b> Chi Squared tests for tabulated data</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#goodness-of-fit-tests"><i class="fa fa-check"></i><b>6.5.1</b> Goodness of fit tests</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A First Course in Probability and Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="hypothesis-testing" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Hypothesis Testing<a href="hypothesis-testing.html#hypothesis-testing" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>So far our discussion of statistical inference has been limited to “estimation”, which is essentially any method that determines which parameter values match/agree with observed data. We have discussed both parametric and non-parametric estimation, although we have not used those terms. Non-parametric estimation refers to estimation of population parameters without specifying any probability model for the data. For example, the sample mean is a reasonable estimator of the population mean (should it exist) regardless of the sampling distribution of the data (the population distribution). Parametric estimators are tied to assumed sampling distributions. For example, maximum likelihood estimators totally rely on an assumed sampling distribution of the data (population distribution). Parametric estimation can be viewed as selecting which particular probability model within a given set (the assumed distribution) best fits the data.
+<br><br></p>
+<p>We’ll next expand our discussion of statistical inference to ask a different, but related question. Instead of asking which parameters/model distributions agree with a given data set, we ask “how much evidence does a given data set provide for a particular parameter value or set of parameter values?” The particular parameter values are referred to as the hypothesis or “null hypothesis”. And, a procedure that determines whether the data provides sufficient evidence against the null hypothesis so as to make it implausible is called a “hypothesis test”.</p>
+<div id="notation" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Notation<a href="hypothesis-testing.html#notation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Consider a generic parameter <span class="math inline">\(\theta\)</span> taking values in some set <span class="math inline">\(\Theta\)</span>. The null hypothesis <span class="math inline">\(\theta\)</span> takes exactly the value <span class="math inline">\(\theta_0\)</span> is written <span class="math inline">\(H_0: \theta = \theta_0\)</span>. Its complement is the alternative hypothesis <span class="math inline">\(H_a: \theta\ne\theta_0\)</span>, which is always the set complement of the null hypothesis. In particular, <span class="math inline">\(H_0: \theta = \theta_0\)</span> is called a “point-null hypothesis” because the set in the null hypothesis consists of only a single point. In other cases, the null hypothesis is “composite”, e.g., <span class="math inline">\(H_0:\theta \leq \theta_0\)</span> versus <span class="math inline">\(H_a: \theta &gt; \theta_0\)</span>.</p>
+<p>Example: Suppose an experiment consist of collecting a random sample from a normal population with unknown mean <span class="math inline">\(\mu\)</span> and unknown variance <span class="math inline">\(\sigma^2\)</span>. A point null hypothesis that <span class="math inline">\(\mu = 0\)</span> is phrased <span class="math inline">\(H_0: \mu = 0\)</span> versus the alternative hypothesis <span class="math inline">\(\mu \ne 0\)</span>. A point null hypothesis that <span class="math inline">\(\sigma^2 = 1\)</span> is phrased <span class="math inline">\(H_0:\sigma^2=1\)</span> versus <span class="math inline">\(H_a:\sigma^2 \ne 1\)</span>, where the alternative hypothesis tacitly assumes <span class="math inline">\(\sigma^2&gt;0\)</span>.</p>
+</div>
+<div id="hypothesis-testing-outcomes" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Hypothesis testing outcomes<a href="hypothesis-testing.html#hypothesis-testing-outcomes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A hypothesis testing procedure begins with a pair of null and alternative hypotheses. Next, data relevant to the hypotheses is collected, and a decision is made as to whether the data provides sufficient evidence against the null hypothesis such that it may be rejected as implausible. Otherwise, the data are viewed as sufficiently consistent with the null hypothesis as to retain it.<br><br></p>
+<p>As such, there are four possible outcomes of this procedure. In two cases, the correct decision is made: either the null hypothesis is true and it is retained, or the null hypothesis is false and it is reject. There are two corresponding errors:
+1) A Type 1 error is committed when the null hypothesis is true but it is rejected; and,
+2) A Type 2 error is committed when the null hypothesis is false and it is retained.<br><br></p>
+<p>Since the decision to reject or retain the null hypothesis is based on a random sample of data, the decision is itself random; so, each of these outcomes has a certain probability of occuring. Given the null hypothesis is true, the chance of a Type 1 error occurring is denoted <span class="math inline">\(\alpha\)</span> and is also called the Type 1 error rate. Given the null hypothesis is false the chance of a Type 2 error occurring is denoted <span class="math inline">\(\beta\)</span>, and its complement, the chance of rejecting <span class="math inline">\(H_0\)</span> is denoted <span class="math inline">\(1-\beta\)</span> and referred to as the “power of the test”. <br><br></p>
+<p>Of course, it would be nice if one could eliminate any chance of an error occurring, but that is not possible. To see this, consider the extreme case of a non-random hypothesis test that always rejects the null hypothesis, no matter the data. Such a rule minimizes the chance of a Type 2 error (in fact there is such chance) but maximizes the chance of a Type 1 error. And, the opposite extreme, in which the null hypothesis is always retained similarly minimizes Type 1 error at the cost of maximizing Type 2 errors. Any testing procedure in between necessarily has some positive chance of each type of error. <br><br></p>
+<p>As we will see, it is possible to construct hypothesis tests with an explicit cap (upper bound) on the Type 1 error rate <span class="math inline">\(\alpha\)</span>. This means that, whenever possible, it makes sense to design experiments and hypotheses such that Type 1 errors are more serious than Type 2 errors, so that they may be expressly controlled. A hypothesis test that limits <span class="math inline">\(\alpha\)</span> to a prespecified level is called a “level-<span class="math inline">\(\alpha\)</span> test”.</p>
+</div>
+<div id="tests-based-on-a-normal-population" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Tests based on a normal population<a href="hypothesis-testing.html#tests-based-on-a-normal-population" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="test-for-a-normal-mean-when-the-variance-is-known" class="section level3 hasAnchor" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> Test for a normal mean when the variance is known<a href="hypothesis-testing.html#test-for-a-normal-mean-when-the-variance-is-known" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Suppose a given population is known to follow a normal distribution with an unknown mean and a known variance <span class="math inline">\(\sigma^2\)</span>. We wish to test the point null hypothesis <span class="math inline">\(H_0:\mu = \mu_0\)</span> for some given number <span class="math inline">\(\mu_0\)</span> versus the alternative <span class="math inline">\(H_a:\mu \ne \mu_0\)</span>. And, we wish our test to limit the Type 1 error rate to a given level <span class="math inline">\(\alpha\)</span>, say, <span class="math inline">\(5\%\)</span>. <br><br></p>
+<p>We obtain a random sample of size <span class="math inline">\(n\)</span> from the population. How should we proceed? If <span class="math inline">\(H_0\)</span> is true, then our data should look like it came from <span class="math inline">\(N(\mu_0, \sigma^2)\)</span>; specifically, the sample mean should be “close” to <span class="math inline">\(\mu_0\)</span>. If <span class="math inline">\(\overline X\)</span> is close to <span class="math inline">\(\mu_0\)</span>, then <span class="math inline">\(H_0\)</span> seems plausible, otherwise not. Our intuition says our test should look like: “reject <span class="math inline">\(H_0\)</span> if <span class="math inline">\(|\overline X-\mu_0|&gt;c\)</span>” for some cutoff <span class="math inline">\(c&gt;0\)</span>. The constraint on Type 1 error rate to be no more than <span class="math inline">\(\alpha\)</span> is enough to determine <span class="math inline">\(c\)</span>:
+<span class="math display">\[\begin{align*}
+1-\alpha &amp;= P(-c\leq \overline X - \mu_0 \leq c)\\
+&amp; = P(-c/\sqrt{\sigma^2/n} \leq Z \leq c/\sqrt{\sigma^2/n})
+\end{align*}\]</span>
+This implies we should reject <span class="math inline">\(H_0\)</span> if <span class="math inline">\(|Z|&gt;z_{1-\alpha/2}\)</span> where
+<span class="math display">\[Z = \frac{\overline X - \mu_0}{\sqrt{\sigma^2/n}}\]</span>
+is the standardized sample mean assuming <span class="math inline">\(H_0\)</span> is true (often it is said, “under <span class="math inline">\(H_0\)</span>”). <br><br></p>
+<p>Next, we investigate the power of this test. Recall the power is the probability the test rejects the null hypothesis when the null is false. For most tests, like the current one, the null hypothesis may be false in many ways. If <span class="math inline">\(H_0\)</span> is false then <span class="math inline">\(\mu\ne \mu_0\)</span>, so <span class="math inline">\(\mu\)</span> is some other number, lets say <span class="math inline">\(y\)</span>. Intuitively, for <span class="math inline">\(y\)</span> values close to <span class="math inline">\(\mu_0\)</span> we would not necessarily expect to notice <span class="math inline">\(H_0\)</span> is false, but for <span class="math inline">\(y\)</span> values far from <span class="math inline">\(\mu_0\)</span> we would expect <span class="math inline">\(\overline X\)</span> to be far from <span class="math inline">\(\mu_0\)</span> and for the test to reject <span class="math inline">\(\mu_0\)</span>. So, we expect the power to be a function of <span class="math inline">\(y\)</span> and to be increasing as a function of <span class="math inline">\(|y-\mu_0|\)</span>. Below we compute this power function:
+<span class="math display">\[\begin{align*}
+P\left(\frac{\overline X - \mu_0}{\sigma/\sqrt{n}} &lt; z_{\alpha/2}|\mu = y\right) &amp; =  P\left(\frac{\overline X - y}{\sigma/\sqrt{n}} &lt; z_{\alpha/2}+\frac{\mu_0-y}{\sigma/\sqrt{n}}\right)\\
+&amp; = P\left(Z &lt; z_{\alpha/2}+\frac{\mu_0-y}{\sigma/\sqrt{n}}\right).
+\end{align*}\]</span>
+<span class="math display">\[\begin{align*}
+P\left(z_{1-\alpha/2} &lt; \frac{\overline X - \mu_0}{\sigma/\sqrt{n}}|\mu = y\right) &amp; =  P\left(z_{1-\alpha/2}+\frac{\mu_0-y}{\sigma/\sqrt{n}}&lt;\frac{\overline X - y}{\sigma/\sqrt{n}}\right)\\
+&amp; = P\left(z_{1-\alpha/2}+\frac{\mu_0-y}{\sigma/\sqrt{n}} &lt; Z\right)\\
+&amp; = 1-P\left(Z &lt; z_{1-\alpha/2}+\frac{\mu_0-y}{\sigma/\sqrt{n}}\right).
+\end{align*}\]</span>
+Therefore, the power as a function of <span class="math inline">\(y\)</span> is
+<span class="math display">\[(1-\beta) = P\left(Z &lt; z_{\alpha/2}+\frac{\mu_0-y}{\sigma/\sqrt{n}}\right)+1-P\left(Z &lt; z_{1-\alpha/2}+\frac{\mu_0-y}{\sigma/\sqrt{n}}\right).\]</span>
+We illustrate this power function below for <span class="math inline">\(H_0:\mu = 1\)</span> where <span class="math inline">\(\sigma^2 = 2\)</span>, <span class="math inline">\(n=10\)</span>, and <span class="math inline">\(\alpha = 0.05\)</span>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="hypothesis-testing.html#cb6-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb6-2"><a href="hypothesis-testing.html#cb6-2" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb6-3"><a href="hypothesis-testing.html#cb6-3" aria-hidden="true" tabindex="-1"></a>sigma2 <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb6-4"><a href="hypothesis-testing.html#cb6-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb6-5"><a href="hypothesis-testing.html#cb6-5" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="cf">function</span>(y) <span class="fu">pnorm</span>(<span class="fu">qnorm</span>(alpha<span class="sc">/</span><span class="dv">2</span>)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">-</span>y)<span class="sc">/</span><span class="fu">sqrt</span>(sigma2<span class="sc">/</span>n))<span class="sc">+</span><span class="dv">1</span><span class="sc">-</span><span class="fu">pnorm</span>(<span class="fu">qnorm</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">-</span>y)<span class="sc">/</span><span class="fu">sqrt</span>(sigma2<span class="sc">/</span>n))</span>
+<span id="cb6-6"><a href="hypothesis-testing.html#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(power, <span class="at">from =</span> <span class="sc">-</span><span class="dv">5</span>, <span class="at">to =</span> <span class="dv">6</span>, <span class="at">xlab =</span> <span class="st">&#39;y&#39;</span>, <span class="at">ylab =</span> <span class="st">&#39;power(y)&#39;</span>)  </span></code></pre></div>
+<p><img src="13-Hypothesis-Testing_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>The power is minimized (and equal to 0.05) at <span class="math inline">\(y = \mu_0\)</span> where the test only rejects at rate <span class="math inline">\(\alpha\)</span> by design. The power increases smoothly and symetrically as a function of <span class="math inline">\(|y-\mu_0|\)</span> until the test has nearly a <span class="math inline">\(100\%\)</span> chance of rejecting <span class="math inline">\(H_0\)</span> for true mean sufficiently far from <span class="math inline">\(\mu_0\)</span>.</p>
+</div>
+<div id="test-for-a-normal-mean-when-the-variance-is-unknown" class="section level3 hasAnchor" number="6.3.2">
+<h3><span class="header-section-number">6.3.2</span> Test for a normal mean when the variance is unknown<a href="hypothesis-testing.html#test-for-a-normal-mean-when-the-variance-is-unknown" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>As we have discussed many times when the population variance is unknown the Studentized sample mean has a Student’s <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom. A Student’s <span class="math inline">\(t-\)</span>based test for <span class="math inline">\(H_0:\mu = \mu_0\)</span> versus <span class="math inline">\(H_a:\mu\ne\mu_0\)</span> is essentially the same as the above test but based on the <span class="math inline">\(T\)</span> statistic, <span class="math inline">\(T = \frac{\overline X - \mu_0}{S/\sqrt{n}}\)</span> rather than the <span class="math inline">\(Z\)</span> statistic <span class="math inline">\(Z = \frac{\overline X - \mu_0}{\sigma/\sqrt{n}}\)</span>. A level-<span class="math inline">\(\alpha\)</span> test rejects <span class="math inline">\(H_0\)</span> if <span class="math inline">\(T &gt; t_{1-\alpha/2}(n-1)\)</span> or <span class="math inline">\(T &lt; t_{\alpha/2}(n-1)\)</span>, where <span class="math inline">\(t_\alpha(df)\)</span> is the Student’s <span class="math inline">\(t\)</span> lower <span class="math inline">\(\alpha\)</span> quantile with <span class="math inline">\(df\)</span> degrees of freedom. <br><br></p>
+<p>For a different angle, consider the test of the one-sided (composite) hypotheses <span class="math inline">\(H_0:\mu \leq \mu_0\)</span> versus <span class="math inline">\(H_a:\mu &gt; \mu_0\)</span>. Naturally, values of <span class="math inline">\(\overline X\)</span> smaller than <span class="math inline">\(\mu_0\)</span> lend support to the null hypothesis, so a level <span class="math inline">\(\alpha\)</span> test of <span class="math inline">\(H_0\)</span> only rejects the null if <span class="math inline">\(T &gt; t_{1-\alpha}(n-1)\)</span>. Consider the power of this one-sided test. Since the test only rejects for large values of <span class="math inline">\(\overline X\)</span>, the power should increase as <span class="math inline">\(T\)</span> increases. Mimicking (half of) our power calculation for the <span class="math inline">\(Z\)</span> test above we have
+<span class="math display">\[1-\beta = P\left(\frac{\overline X - y}{S/\sqrt{n}} + \frac{y - \mu_0}{S/\sqrt{n}} &gt; t_{1-\alpha}(n-1)\right).\]</span>
+The random variable <span class="math inline">\(\frac{\overline X - y}{S/\sqrt{n}} + \frac{y - \mu_0}{S/\sqrt{n}}\)</span> has a Student’s <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom and <strong>non-centrality parameter</strong> <span class="math inline">\(y-\mu_0\)</span>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="hypothesis-testing.html#cb7-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb7-2"><a href="hypothesis-testing.html#cb7-2" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb7-3"><a href="hypothesis-testing.html#cb7-3" aria-hidden="true" tabindex="-1"></a>sigma2 <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb7-4"><a href="hypothesis-testing.html#cb7-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb7-5"><a href="hypothesis-testing.html#cb7-5" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="cf">function</span>(y)  <span class="dv">1</span><span class="sc">-</span><span class="fu">pt</span>(<span class="fu">qt</span>(<span class="dv">1</span><span class="sc">-</span>alpha, n<span class="dv">-1</span>), <span class="at">df =</span> n<span class="dv">-1</span>, <span class="at">ncp =</span> y <span class="sc">-</span> mu0)</span>
+<span id="cb7-6"><a href="hypothesis-testing.html#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(power, <span class="at">from =</span> <span class="sc">-</span><span class="dv">5</span>, <span class="at">to =</span> <span class="dv">6</span>, <span class="at">xlab =</span> <span class="st">&#39;y&#39;</span>, <span class="at">ylab =</span> <span class="st">&#39;power(y)&#39;</span>)  </span></code></pre></div>
+<pre><code>## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
+## may not have been achieved in &#39;pnt{final}&#39;
+
+## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
+## may not have been achieved in &#39;pnt{final}&#39;
+
+## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
+## may not have been achieved in &#39;pnt{final}&#39;
+
+## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
+## may not have been achieved in &#39;pnt{final}&#39;
+
+## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
+## may not have been achieved in &#39;pnt{final}&#39;
+
+## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
+## may not have been achieved in &#39;pnt{final}&#39;
+
+## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
+## may not have been achieved in &#39;pnt{final}&#39;
+
+## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
+## may not have been achieved in &#39;pnt{final}&#39;
+
+## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
+## may not have been achieved in &#39;pnt{final}&#39;</code></pre>
+<p><img src="13-Hypothesis-Testing_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="test-for-a-normal-population-variance" class="section level3 hasAnchor" number="6.3.3">
+<h3><span class="header-section-number">6.3.3</span> Test for a normal population variance<a href="hypothesis-testing.html#test-for-a-normal-population-variance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Consider a test that rejects the null hypothesis <span class="math inline">\(H_0:\sigma^2 \leq \sigma_0^2\)</span> if <span class="math inline">\(\frac{(n-1)S^2}{\sigma_0^2} \geq \chi^2_{1-\alpha}(n-1)\)</span> where <span class="math inline">\(\chi^2_{\alpha}(df)\)</span> is the Chi-squared lower <span class="math inline">\(\alpha\)</span> quantile for a Chi-squared distribution with df degrees of freedom. Such a rejection rule defines a level-<span class="math inline">\(\alpha\)</span> test:
+<span class="math display">\[P\left(\frac{(n-1)S^2}{\sigma_0^2} \geq  \chi^2_{1-\alpha}(n-1)|\sigma^2 = \sigma_0^2\right) = P\left(\chi^{2}(n-1) \geq  \chi^2_{1-\alpha}(n-1)\right) = \alpha,\]</span>
+by definition. We can compute the power curve of such a test:
+<span class="math display">\[\begin{align*}
+P\left(\frac{(n-1)S^2}{\sigma_0^2} \geq  \chi^2_{1-\alpha}(n-1)|\sigma^2 = y\right) &amp; = P\left(\frac{(n-1)S^2}{y} \geq  \frac{\sigma_0^2}{y}\chi^2_{1-\alpha}(n-1)\right)\\
+&amp; = P\left(\chi^2(n-1) \geq  \frac{\sigma_0^2}{y}\chi^2_{1-\alpha}(n-1)\right)
+\end{align*}\]</span></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="hypothesis-testing.html#cb9-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb9-2"><a href="hypothesis-testing.html#cb9-2" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb9-3"><a href="hypothesis-testing.html#cb9-3" aria-hidden="true" tabindex="-1"></a>sigma2 <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb9-4"><a href="hypothesis-testing.html#cb9-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb9-5"><a href="hypothesis-testing.html#cb9-5" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="cf">function</span>(y)  <span class="dv">1</span><span class="sc">-</span><span class="fu">pchisq</span>((<span class="dv">2</span><span class="sc">/</span>y)<span class="sc">*</span><span class="fu">qchisq</span>(<span class="dv">1</span><span class="sc">-</span>alpha, n<span class="dv">-1</span>),n<span class="dv">-1</span>)</span>
+<span id="cb9-6"><a href="hypothesis-testing.html#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(power, <span class="at">from =</span> <span class="dv">2</span>, <span class="at">to =</span> <span class="dv">14</span>, <span class="at">xlab =</span> <span class="st">&#39;y&#39;</span>, <span class="at">ylab =</span> <span class="st">&#39;power(y)&#39;</span>)  </span></code></pre></div>
+<p><img src="13-Hypothesis-Testing_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="tests-for-a-difference-of-normal-population-means" class="section level3 hasAnchor" number="6.3.4">
+<h3><span class="header-section-number">6.3.4</span> Tests for a difference of normal population means<a href="hypothesis-testing.html#tests-for-a-difference-of-normal-population-means" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Suppose <span class="math inline">\(X_1, \ldots, X_n\)</span> and <span class="math inline">\(Y_1, \ldots, Y_m\)</span> are random samples from two normal populations with unknown means and variances <span class="math inline">\(\mu_x\)</span>, <span class="math inline">\(\mu_y\)</span>, <span class="math inline">\(\sigma_x^2\)</span>, and <span class="math inline">\(\sigma_y^2\)</span>. Consider testing the point-null hypothesis <span class="math inline">\(H_0:\mu_x - \mu_y = \Delta\)</span> versus <span class="math inline">\(H_a:\mu_x - \mu_y \ne \Delta\)</span> for a given constant <span class="math inline">\(\Delta\)</span>. Following our previous strategies, the test decision should be based on one of the two statistics
+<span class="math display">\[T = \frac{\overline X - \overline Y - \Delta}{\sqrt{S_x^2/n + S_y^2/m}} \quad \text{or}\quad T_p = \frac{\overline X - \overline Y - \Delta}{\sqrt{S_p^2\left(1/n+1/m\right)}}.\]</span>
+Under the null hypothesis, <span class="math inline">\(T_p\)</span> is exactly <span class="math inline">\(t\)</span> distributed with <span class="math inline">\(n+m-2\)</span> df if <span class="math inline">\(\sigma_x^2 = \sigma_y^2\)</span>, and under the null hypothesis <span class="math inline">\(T\)</span> is approximately <span class="math inline">\(t\)</span> distributed with the Welch-Satterthwaite choice of df. These two statistics, <span class="math inline">\(T_p\)</span> and <span class="math inline">\(T\)</span>, are the basis for the pooled Student’s <span class="math inline">\(t\)</span> test and Welch’s unpooled test for <span class="math inline">\(\mu_x - \mu_y\)</span>. For either test, we reject <span class="math inline">\(H_0\)</span> if the test statistic is too large in absolute value, i.e., <span class="math inline">\(|T_p|&gt;t_{1-\alpha/2}(n+m-2)\)</span>. The Welch test is usually the better choice because, as we have previously seen, Student’s pooled CIs perform may poorly when <span class="math inline">\(n\ne m\)</span> and <span class="math inline">\(\sigma_x^2 \ne \sigma_y^2\)</span>, and the Student’s <span class="math inline">\(t\)</span> test experiences the same problems. <br><br></p>
+<p>These two-sample t-tests may be performed using R’s built-in t.test function:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="hypothesis-testing.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb10-2"><a href="hypothesis-testing.html#cb10-2" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">13</span>, <span class="dv">5</span>, <span class="dv">2</span>)</span>
+<span id="cb10-3"><a href="hypothesis-testing.html#cb10-3" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">19</span>, <span class="dv">4</span>, <span class="dv">1</span>)</span>
+<span id="cb10-4"><a href="hypothesis-testing.html#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># testing a point null with Delta = 1, alpha = 0.05</span></span>
+<span id="cb10-5"><a href="hypothesis-testing.html#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(X,Y,<span class="at">alternative =</span> <span class="st">&#39;two.sided&#39;</span>,<span class="at">mu=</span><span class="dv">1</span>,<span class="at">var.equal=</span><span class="cn">FALSE</span>,<span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  X and Y
+## t = -0.23467, df = 17.877, p-value = 0.8171
+## alternative hypothesis: true difference in means is not equal to 1
+## 95 percent confidence interval:
+##  -0.2897301  2.0306764
+## sample estimates:
+## mean of x mean of y 
+##  5.114192  4.243719</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="hypothesis-testing.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(X,Y,<span class="at">alternative =</span> <span class="st">&#39;two.sided&#39;</span>,<span class="at">mu=</span><span class="dv">1</span>,<span class="at">var.equal=</span><span class="cn">TRUE</span>,<span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  X and Y
+## t = -0.25733, df = 30, p-value = 0.7987
+## alternative hypothesis: true difference in means is not equal to 1
+## 95 percent confidence interval:
+##  -0.1574864  1.8984327
+## sample estimates:
+## mean of x mean of y 
+##  5.114192  4.243719</code></pre>
+<p>The t.test function returns a “p-value” which is defined as the null-hypothesis-true probability of observing the observed test statistic or a more extreme value. In other words, it is equal to the equivalent <span class="math inline">\(\alpha\)</span> for which the observed test statistic lies on the boundary of the reject/retain criterion. For example, Welch’s test gives a p-value of 0.8171. The test statistic is
+<span class="math display">\[T = \frac{5.114192-4.243719-1}{\sqrt{3.18206/13 + 1.137897/19}}=-0.2346661.\]</span>
+And, the Welch-Satterthwaite df is 17.877 according to t.test. For a test statistic value of -0.2346661 to be borderline for rejection means the upper <span class="math inline">\(t(17.877)\)</span> quantile for rejection would equal 0.2346661. Using the <span class="math inline">\(pt\)</span> function we have <span class="math inline">\((1-pt(0.2346661,17.877)) = 0.4085673\)</span> which constitutes the probability on one half of the symmetric “rejection region”, so that the p-value is twice this number, or <span class="math inline">\(0.8171347\)</span>, as given by t.test.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="hypothesis-testing.html#cb14-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1</span><span class="sc">-</span><span class="fu">pt</span>(<span class="fl">0.2346661</span>,<span class="fl">17.877</span>))</span></code></pre></div>
+<pre><code>## [1] 0.4085673</code></pre>
+</div>
+<div id="test-for-equality-of-normal-population-variances" class="section level3 hasAnchor" number="6.3.5">
+<h3><span class="header-section-number">6.3.5</span> Test for equality of normal population variances<a href="hypothesis-testing.html#test-for-equality-of-normal-population-variances" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let <span class="math inline">\(X_1, \ldots, X_n\)</span> be iid <span class="math inline">\(N(\mu_x, \sigma_x^2)\)</span> and <span class="math inline">\(Y_1, \ldots, Y_m\)</span> be iid <span class="math inline">\(N(\mu_y, \sigma_y^2)\)</span> and consider testing <span class="math inline">\(H_0:\sigma_x^2/\sigma_y^2 = 1\)</span> versus <span class="math inline">\(H_a: \sigma_x^2/\sigma_y^2 \ne 1\)</span>. As we have seen previously
+<span class="math display">\[\frac{S_x^2/\sigma_x^2}{S_y^2/\sigma_y^2}\sim F(n-1, m-1)\]</span>
+and, under the null hypothesis, we have
+<span class="math display">\[\frac{S_x^2}{S_y^2}\stackrel{H_0}{\sim} F(n-1, m-1),\]</span>
+so that a level <span class="math inline">\(\alpha\)</span> test rejects the null hypothesis if <span class="math inline">\(F = \frac{S_x^2}{S_y^2} &gt; F_{1-\alpha/2}(n-1, m-1)\)</span> or <span class="math inline">\(F &lt; F_{\alpha/2}(n-1, m-1)\)</span>. <br><br>
+Example: Suppose we obtain the following two random samples of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> values:</p>
+<p><span class="math display">\[x:25.20,\,\,\, 23.53,\,\,\, 18.02,\,\,\, 18.96,\,\,\, 15.70, \,\,\,10.35, \,\,\,24.07,\,\,\, 17.10, \,\,\,21.51, \,\,\, 7.48, \,\,\,12.76 \]</span>
+<span class="math display">\[y: 19.16,\,\,\, 20.05, \,\,\,16.99,\,\,\, 19.83,\,\,\, 21.07,\,\,\, 21.47,\,\,\, 25.44,\,\,\, 11.96,\,\,\, 19.45\]</span></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="hypothesis-testing.html#cb16-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">25.20</span>, <span class="fl">23.53</span>, <span class="fl">18.02</span>, <span class="fl">18.96</span>, <span class="fl">15.70</span>, <span class="fl">10.35</span>, <span class="fl">24.07</span>, <span class="fl">17.10</span>, <span class="fl">21.51</span>,  <span class="fl">7.48</span>, <span class="fl">12.76</span>)</span>
+<span id="cb16-2"><a href="hypothesis-testing.html#cb16-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">19.16</span>, <span class="fl">20.05</span>, <span class="fl">16.99</span>, <span class="fl">19.83</span>, <span class="fl">21.07</span>, <span class="fl">21.47</span>, <span class="fl">25.44</span>, <span class="fl">11.96</span>, <span class="fl">19.45</span>)</span>
+<span id="cb16-3"><a href="hypothesis-testing.html#cb16-3" aria-hidden="true" tabindex="-1"></a>F <span class="ot">&lt;-</span> <span class="fu">var</span>(x)<span class="sc">/</span><span class="fu">var</span>(y)</span>
+<span id="cb16-4"><a href="hypothesis-testing.html#cb16-4" aria-hidden="true" tabindex="-1"></a>F</span></code></pre></div>
+<pre><code>## [1] 2.539221</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="hypothesis-testing.html#cb18-1" aria-hidden="true" tabindex="-1"></a>F.curve <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">df</span>(x, <span class="dv">10</span>, <span class="dv">8</span>)</span>
+<span id="cb18-2"><a href="hypothesis-testing.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(F.curve, <span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb18-3"><a href="hypothesis-testing.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(F, <span class="fu">F.curve</span>(F), <span class="at">pch =</span> <span class="st">&#39;*&#39;</span>, <span class="at">col =</span> <span class="st">&#39;red&#39;</span>)</span>
+<span id="cb18-4"><a href="hypothesis-testing.html#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(F, <span class="dv">0</span>, <span class="at">pch =</span> <span class="st">&#39;*&#39;</span>, <span class="at">col =</span> <span class="st">&#39;red&#39;</span>)</span>
+<span id="cb18-5"><a href="hypothesis-testing.html#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(F,F), <span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">F.curve</span>(F)), <span class="at">col =</span> <span class="st">&#39;red&#39;</span>)</span></code></pre></div>
+<p><img src="13-Hypothesis-Testing_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="hypothesis-testing.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(F, <span class="dv">10</span>, <span class="dv">8</span>)</span></code></pre></div>
+<pre><code>## [1] 0.09989054</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="hypothesis-testing.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(F, <span class="dv">10</span>, <span class="dv">8</span>))</span></code></pre></div>
+<pre><code>## [1] 0.1997811</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="hypothesis-testing.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.09989054</span>, <span class="dv">10</span>,<span class="dv">8</span>)</span></code></pre></div>
+<pre><code>## [1] 0.4204884</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="hypothesis-testing.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(F.curve, <span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb25-2"><a href="hypothesis-testing.html#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(F, <span class="fu">F.curve</span>(F), <span class="at">pch =</span> <span class="st">&#39;*&#39;</span>, <span class="at">col =</span> <span class="st">&#39;red&#39;</span>)</span>
+<span id="cb25-3"><a href="hypothesis-testing.html#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(F, <span class="dv">0</span>, <span class="at">pch =</span> <span class="st">&#39;*&#39;</span>, <span class="at">col =</span> <span class="st">&#39;red&#39;</span>)</span>
+<span id="cb25-4"><a href="hypothesis-testing.html#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(F,F), <span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">F.curve</span>(F)), <span class="at">col =</span> <span class="st">&#39;red&#39;</span>)</span>
+<span id="cb25-5"><a href="hypothesis-testing.html#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="fu">qf</span>(<span class="fl">0.09989054</span>, <span class="dv">10</span>,<span class="dv">8</span>),<span class="fu">qf</span>(<span class="fl">0.09989054</span>, <span class="dv">10</span>,<span class="dv">8</span>)), <span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">F.curve</span>(<span class="fu">qf</span>(<span class="fl">0.09989054</span>, <span class="dv">10</span>,<span class="dv">8</span>))), <span class="at">col =</span> <span class="st">&#39;red&#39;</span>)</span></code></pre></div>
+<p><img src="13-Hypothesis-Testing_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="hypothesis-testing.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(F.curve, <span class="dv">0</span>, <span class="dv">10</span>)</span>
+<span id="cb26-2"><a href="hypothesis-testing.html#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="fu">qf</span>(<span class="fl">0.025</span>, <span class="dv">10</span>,<span class="dv">8</span>),<span class="fu">qf</span>(<span class="fl">0.025</span>, <span class="dv">10</span>,<span class="dv">8</span>)), <span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">F.curve</span>(<span class="fu">qf</span>(<span class="fl">0.025</span>, <span class="dv">10</span>,<span class="dv">8</span>))), <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>)</span>
+<span id="cb26-3"><a href="hypothesis-testing.html#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="fu">qf</span>(<span class="fl">0.975</span>, <span class="dv">10</span>,<span class="dv">8</span>),<span class="fu">qf</span>(<span class="fl">0.975</span>, <span class="dv">10</span>,<span class="dv">8</span>)), <span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">F.curve</span>(<span class="fu">qf</span>(<span class="fl">0.975</span>, <span class="dv">10</span>,<span class="dv">8</span>))), <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>)</span></code></pre></div>
+<p><img src="13-Hypothesis-Testing_files/figure-html/unnamed-chunk-6-3.png" width="672" /></p>
+</div>
+</div>
+<div id="likelihood-based-tests" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Likelihood-based Tests<a href="hypothesis-testing.html#likelihood-based-tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In our discussions of point and interval estimation we found likelihood-based methods provided a general means of deriving estimators with (at least) good large-sample performance. The same is true with respect to testing. However, there’s more than one way to use the likelihood function to define a test, and we’ll discuss two strategies.</p>
+<div id="wald-type-tests" class="section level3 hasAnchor" number="6.4.1">
+<h3><span class="header-section-number">6.4.1</span> Wald type tests<a href="hypothesis-testing.html#wald-type-tests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Wald-type tests follow the strategy we’ve been using. The test is based on a point estimator and its distribution. The testing rule is essentially to reject the null if the point estimator sufficiently disagrees with the null where ``sufficiently” is determined by the estimator’s distribution. In the case of likelihood-based Wald tests the point estimator is the MLE and the distribution is the (asymptotic/approximate) normal distribution of the MLE. Therefore, all Wald-type likelihood-based tests of <span class="math inline">\(H_0:\theta = \theta_0\)</span> versus <span class="math inline">\(H_a:\theta\ne \theta_0\)</span> are of the form “Reject <span class="math inline">\(H_0\)</span> if:”
+<span class="math display">\[\theta_0 \notin (\hat\theta \pm z_{1-\alpha/2}[nI(\theta_0)]^{-1/2}),\]</span>
+because
+<span class="math display">\[\frac{\hat\theta - \theta_0}{[nI(\theta_0)]^{-1/2}}\stackrel{H_0}{\sim}N(0,1)\]</span>
+where <span class="math inline">\(\theta\)</span> is a scalar. <br>
+Note: for point null tests <span class="math inline">\(H_0:\theta=\theta_0\)</span> for <span class="math inline">\(p\times 1\)</span> vector parameters <span class="math inline">\((\hat\theta-\theta_0)[nI(\theta_0)]^{-1/2}\)</span> is a p-variate standard normal and the quadratic form <span class="math inline">\((\hat\theta-\theta_0)^{\top}[nI(\theta_0)]^{-1} (\hat\theta-\theta_0)\)</span> has a Chi-squared distribution with <span class="math inline">\(p\)</span> degrees of freedom. And, the Wald test is based on quantiles of this Chi-squared distribution.</p>
+<p><br><br>
+Example: Suppose <span class="math inline">\(X_1, \ldots, X_n\)</span> is a random sample from an Exponential distribution with scale parameter <span class="math inline">\(\lambda\)</span> and consider testing <span class="math inline">\(H_0:\lambda \leq \lambda_0\)</span> versus <span class="math inline">\(H_a:\lambda &gt; \lambda_0\)</span>. The sample mean is the MLE of <span class="math inline">\(\lambda\)</span>, and <span class="math inline">\(n\overline X= \sum_{i=1}^nX_i \sim\)</span> Gamma<span class="math inline">\((n, \lambda)\)</span>. Therefore, an exact test is based on the Gamma distribution, while a likelihood-based Wald test is based on <span class="math inline">\(\overline X \stackrel{H_0}{\sim}N(\lambda_0,\lambda_0^2/n)\)</span>, approximately. Suppose <span class="math inline">\(\lambda_0 = 5\)</span> and we observe the following random sample of size 12:
+<span class="math display">\[x : 12.57,\,\,\,  1.83,\,\,\,  2.10,\,\,\,  3.00,\,\,\,  0.65,\,\,\,  2.74,\,\,\, 14.21,\,\,\,  1.72,\,\,\,  3.13,\,\,\,  1.63,\,\,\,  2.42,\,\,\,  9.33\]</span></p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="hypothesis-testing.html#cb27-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">12.57</span>,  <span class="fl">1.83</span>,  <span class="fl">2.10</span>,  <span class="fl">3.00</span>,  <span class="fl">0.65</span>,  <span class="fl">2.74</span>, <span class="fl">14.21</span>,  <span class="fl">1.72</span>,  <span class="fl">3.13</span>,  <span class="fl">1.63</span>,  <span class="fl">2.42</span>,  <span class="fl">9.33</span>)</span>
+<span id="cb27-2"><a href="hypothesis-testing.html#cb27-2" aria-hidden="true" tabindex="-1"></a>xbar <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb27-3"><a href="hypothesis-testing.html#cb27-3" aria-hidden="true" tabindex="-1"></a>xbar</span></code></pre></div>
+<pre><code>## [1] 4.610833</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="hypothesis-testing.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(xbar <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span><span class="dv">5</span><span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">12</span>), xbar <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span><span class="dv">5</span><span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">12</span>))</span></code></pre></div>
+<pre><code>## [1] 1.781817 7.439850</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="hypothesis-testing.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span></span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="hypothesis-testing.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">qgamma</span>(<span class="fl">0.025</span>, <span class="at">shape =</span> <span class="dv">12</span>, <span class="at">scale =</span> <span class="dv">5</span>), <span class="fu">qgamma</span>(<span class="fl">0.975</span>, <span class="at">shape =</span> <span class="dv">12</span>, <span class="at">scale =</span> <span class="dv">5</span>))</span></code></pre></div>
+<pre><code>## [1] 31.00288 98.41019</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="hypothesis-testing.html#cb35-1" aria-hidden="true" tabindex="-1"></a>xbar <span class="sc">*</span> <span class="dv">12</span></span></code></pre></div>
+<pre><code>## [1] 55.33</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="hypothesis-testing.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">qgamma</span>(<span class="fl">0.025</span>, <span class="at">shape =</span> <span class="dv">12</span>, <span class="at">scale =</span> <span class="dv">5</span>), <span class="fu">qgamma</span>(<span class="fl">0.975</span>, <span class="at">shape =</span> <span class="dv">12</span>, <span class="at">scale =</span> <span class="dv">5</span>))<span class="sc">/</span><span class="dv">12</span></span></code></pre></div>
+<pre><code>## [1] 2.583573 8.200849</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="hypothesis-testing.html#cb39-1" aria-hidden="true" tabindex="-1"></a>xbar</span></code></pre></div>
+<pre><code>## [1] 4.610833</code></pre>
+<p>Simulation of Type 1 error rates:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="hypothesis-testing.html#cb41-1" aria-hidden="true" tabindex="-1"></a>reps <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb41-2"><a href="hypothesis-testing.html#cb41-2" aria-hidden="true" tabindex="-1"></a>errors <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, reps, <span class="dv">2</span>)</span>
+<span id="cb41-3"><a href="hypothesis-testing.html#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(r <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>reps){</span>
+<span id="cb41-4"><a href="hypothesis-testing.html#cb41-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">12</span>,<span class="at">rate =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">5</span>)</span>
+<span id="cb41-5"><a href="hypothesis-testing.html#cb41-5" aria-hidden="true" tabindex="-1"></a>  xbar <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb41-6"><a href="hypothesis-testing.html#cb41-6" aria-hidden="true" tabindex="-1"></a>  rr.wald <span class="ot">&lt;-</span> <span class="fu">c</span>(xbar <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span><span class="dv">5</span><span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">12</span>), xbar <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span><span class="dv">5</span><span class="sc">/</span><span class="fu">sqrt</span>(<span class="dv">12</span>))</span>
+<span id="cb41-7"><a href="hypothesis-testing.html#cb41-7" aria-hidden="true" tabindex="-1"></a>  rr.exact <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">qgamma</span>(<span class="fl">0.025</span>, <span class="at">shape =</span> <span class="dv">12</span>, <span class="at">scale =</span> <span class="dv">5</span>), <span class="fu">qgamma</span>(<span class="fl">0.975</span>, <span class="at">shape =</span> <span class="dv">12</span>, <span class="at">scale =</span> <span class="dv">5</span>))<span class="sc">/</span><span class="dv">12</span></span>
+<span id="cb41-8"><a href="hypothesis-testing.html#cb41-8" aria-hidden="true" tabindex="-1"></a>  errors[r, ] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">ifelse</span>(<span class="dv">5</span><span class="sc">&gt;</span>rr.wald[<span class="dv">1</span>] <span class="sc">&amp;</span> <span class="dv">5</span><span class="sc">&lt;</span>rr.wald[<span class="dv">2</span>],<span class="dv">0</span>,<span class="dv">1</span>), <span class="fu">ifelse</span>(xbar<span class="sc">&gt;</span>rr.exact[<span class="dv">1</span>] <span class="sc">&amp;</span> xbar<span class="sc">&lt;</span>rr.exact[<span class="dv">2</span>],<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb41-9"><a href="hypothesis-testing.html#cb41-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb41-10"><a href="hypothesis-testing.html#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(errors)</span></code></pre></div>
+<pre><code>## [1] 0.0487 0.0536</code></pre>
+</div>
+<div id="likelihood-ratio-tests" class="section level3 hasAnchor" number="6.4.2">
+<h3><span class="header-section-number">6.4.2</span> Likelihood ratio tests<a href="hypothesis-testing.html#likelihood-ratio-tests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Likelihood ratio tests (LRTs) operate a little differently compared to Wald tests. The LRT idea is that parameter values with corresponding likelihood values near the maximum are plausible, while those with low likelihood values are implausible. For testing <span class="math inline">\(H_0:\theta = \theta_0\)</span> versus <span class="math inline">\(H_a:\theta\ne \theta_0\)</span> this means if <span class="math inline">\(\frac{L(\theta_0)}{L(\hat\theta)}\)</span> is close to 1 the null is supported while if the ratio is close to zero the alternative is supported. How “close” is close again depends on the null-hypothesis distribution of the likelihood ratio. A general asymptotic result holds that for scalar parameters
+<span class="math display">\[-2[\ell(\theta_0) - \ell(\hat\theta)] \stackrel{H_0}{\sim} Chi-squared(1)\]</span>
+approximately. This result also holds for general composite hypotheses <span class="math inline">\(H_0:\theta\in \Theta_0\)</span> versus <span class="math inline">\(H_a: \theta\in \Theta \cap \Theta_0^c\)</span> so that
+<span class="math display">\[-2[\sup_{\theta\in \Theta_0}\{\ell(\theta)\} - \ell(\hat\theta)]\stackrel{H_0}{\sim} Chi-squared(df)\]</span>
+where <span class="math inline">\(df\)</span> is equal to the difference in dimensions of the parameter space.</p>
+<p><br><br></p>
+<p>Example: Consider a test for <span class="math inline">\(H_0:\mu = \mu_0\)</span> versus <span class="math inline">\(H_a:\mu \ne \mu_0\)</span> for a normal population with unknown variance. In that case <span class="math inline">\(\Theta\)</span> is the two-dimensional parameter space for <span class="math inline">\((\mu, \sigma^2)\)</span> which is <span class="math inline">\(\mathbb{R}\times \mathbb{R}^+\)</span> and <span class="math inline">\(\Theta_0\)</span> is the one-dimensional subspace <span class="math inline">\(\{\mu_0\}\times \mathbb{R}^+\)</span>. The unrestricted MLEs are <span class="math inline">\(\overline x\)</span> and <span class="math inline">\(\hat\sigma^2 = n^{-1}\sum_{i=1}^n(x_i - \overline x)^2\)</span>. It’s not hard to show the restriced MLE for <span class="math inline">\(\sigma^2\)</span> under the null hypothesis is <span class="math inline">\(\hat\sigma_0^2 = n^{-1}\sum_{i=1}^n (x_i - \mu_0)^2\)</span>. To test <span class="math inline">\(H_0\)</span> we compute the test statistic
+<span class="math display">\[\Lambda := -2[\ell(\mu_0, \hat\sigma_0^2) - \ell(\overline x, \hat\sigma^2)]\]</span>
+and reject the null hypothesis if <span class="math inline">\(\Lambda &gt; \chi^2_{1-\alpha}(1)\)</span>, the <span class="math inline">\(1-\alpha\)</span> lower quantile of the Chi squared distribution with 1 degree of freedom. Let’s perform the test given the following sample:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="hypothesis-testing.html#cb43-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">22</span>, <span class="dv">8</span>, <span class="dv">6</span>)</span>
+<span id="cb43-2"><a href="hypothesis-testing.html#cb43-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>##  [1]  4.0634008  9.1198213 13.6167056  7.1889954 13.9577182 10.2795735
+##  [7]  7.8406222  6.1487191  0.2090839  0.7775581 10.5912890 10.3346847
+## [13] 19.6868480  0.8674458 12.9657995  8.1965838  2.9815080  7.5730705
+## [19]  8.2187202  2.9247010  4.4469792  3.5998290</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="hypothesis-testing.html#cb45-1" aria-hidden="true" tabindex="-1"></a>xbar <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb45-2"><a href="hypothesis-testing.html#cb45-2" aria-hidden="true" tabindex="-1"></a>xbar</span></code></pre></div>
+<pre><code>## [1] 7.526803</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="hypothesis-testing.html#cb47-1" aria-hidden="true" tabindex="-1"></a>mu0 <span class="ot">&lt;-</span> <span class="dv">7</span></span>
+<span id="cb47-2"><a href="hypothesis-testing.html#cb47-2" aria-hidden="true" tabindex="-1"></a>mle <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">22</span>)<span class="sc">*</span><span class="fu">sum</span>((x<span class="sc">-</span>xbar)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb47-3"><a href="hypothesis-testing.html#cb47-3" aria-hidden="true" tabindex="-1"></a>mle</span></code></pre></div>
+<pre><code>## [1] 23.11427</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="hypothesis-testing.html#cb49-1" aria-hidden="true" tabindex="-1"></a>mle0 <span class="ot">&lt;-</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">22</span>)<span class="sc">*</span><span class="fu">sum</span>((x <span class="sc">-</span> mu0)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb49-2"><a href="hypothesis-testing.html#cb49-2" aria-hidden="true" tabindex="-1"></a>mle0</span></code></pre></div>
+<pre><code>## [1] 23.39179</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="hypothesis-testing.html#cb51-1" aria-hidden="true" tabindex="-1"></a>loglhood <span class="ot">&lt;-</span> <span class="cf">function</span>(mu, sigma2)  <span class="fu">sum</span>(<span class="fu">dnorm</span>(x,mu,<span class="fu">sqrt</span>(sigma2),<span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb51-2"><a href="hypothesis-testing.html#cb51-2" aria-hidden="true" tabindex="-1"></a>Lambda <span class="ot">&lt;-</span> (<span class="sc">-</span><span class="dv">2</span>)<span class="sc">*</span>(<span class="fu">loglhood</span>(mu0,mle0) <span class="sc">-</span> <span class="fu">loglhood</span>(xbar,mle)) </span>
+<span id="cb51-3"><a href="hypothesis-testing.html#cb51-3" aria-hidden="true" tabindex="-1"></a>Lambda</span></code></pre></div>
+<pre><code>## [1] 0.2625694</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="hypothesis-testing.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>, <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 3.841459</code></pre>
+<p><br><br>
+Example: Consider the following data on cell phone battery charge times
+<span class="math display">\[8.0, \,\,\, 8.1, \,\,\, 8.9, \,\,\, 9.1, \,\,\, 9.2, \,\,\, 9.3, \,\,\, 9.4, \,\,\, 9.4\]</span>
+Assuming these times constitute a random sample from a normal population test the hypothesis <span class="math inline">\(H_0:\sigma^2 \leq 0.2\)</span> versus <span class="math inline">\(H_a:\sigma^2 &gt; 0.2\)</span> using an LRT at <span class="math inline">\(\alpha = 0.05\)</span>. <br>
+<br>
+The loglikelihood, again, is
+<span class="math display">\[\ell(\mu, \sigma^2; x) = -(n/2)\log [2\pi\sigma^2] - \frac{1}{2\sigma^2}\sum_{i=1}^n(x_i - \mu)^2.\]</span>
+The unrestricted MLEs are <span class="math inline">\(\overline x = 8.925\)</span> and <span class="math inline">\(\hat\sigma^2 = 0.28\)</span>. Under the null hypothesis the MLE of <span class="math inline">\(\mu\)</span> remains <span class="math inline">\(\overline x = 8.925\)</span> because the derivative of the loglikelihood w.r.t. <span class="math inline">\(\mu\)</span> is proportional to <span class="math inline">\(\sigma^2\)</span>; i.e., it equals <span class="math inline">\(\frac{1}{\sigma^2}\sum_{i=1}^n (x_i - \mu)\)</span>. Then, setting equal to zero we see the MLE for <span class="math inline">\(\mu\)</span> is still <span class="math inline">\(\overline x\)</span>. To find the restricted MLE of <span class="math inline">\(\sigma^2\)</span> under <span class="math inline">\(H_0\)</span>, plot the loglikelihood as a function of <span class="math inline">\(\sigma^2\)</span> with <span class="math inline">\(\mu = \overline x\)</span> below and note that it is maximized at <span class="math inline">\(0.2\)</span> over the set <span class="math inline">\(\sigma^2 \leq 0.2\)</span>. The test statistic is
+<span class="math display">\[-2(\ell(8.925,0.2;x) - \ell(8.925,0.28;x)) = 0.501\]</span>
+which is below the cutoff of 3.84, the <span class="math inline">\(95\%\)</span> quantile of the Chi-squared distribution with 1 degree of freedom (the difference in two versus one free parameter in the alternative versus null hypothesis).</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="hypothesis-testing.html#cb55-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">8.0</span>,<span class="fl">8.1</span>,<span class="fl">8.9</span>,<span class="fl">9.1</span>,<span class="fl">9.2</span>,<span class="fl">9.3</span>,<span class="fl">9.4</span>,<span class="fl">9.4</span>)</span>
+<span id="cb55-2"><a href="hypothesis-testing.html#cb55-2" aria-hidden="true" tabindex="-1"></a>ell <span class="ot">&lt;-</span> <span class="cf">function</span>(sig2) <span class="fu">sum</span>(<span class="fu">dnorm</span>(x,<span class="fu">mean</span>(x),<span class="fu">sqrt</span>(sig2),<span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb55-3"><a href="hypothesis-testing.html#cb55-3" aria-hidden="true" tabindex="-1"></a>app.ell <span class="ot">&lt;-</span> <span class="cf">function</span>(sig2) <span class="fu">apply</span>(<span class="fu">matrix</span>(sig2,<span class="fu">length</span>(sig2),<span class="dv">1</span>),<span class="dv">1</span>,ell)</span>
+<span id="cb55-4"><a href="hypothesis-testing.html#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(app.ell,<span class="dv">0</span>,<span class="dv">2</span>)  </span>
+<span id="cb55-5"><a href="hypothesis-testing.html#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fl">0.2</span>, <span class="at">col =</span> <span class="st">&#39;red&#39;</span>)</span></code></pre></div>
+<p><img src="13-Hypothesis-Testing_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="hypothesis-testing.html#cb56-1" aria-hidden="true" tabindex="-1"></a>test.stat <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>(<span class="fu">ell</span>(<span class="fl">0.2</span>)<span class="sc">-</span><span class="fu">ell</span>(<span class="fl">0.28</span>))</span>
+<span id="cb56-2"><a href="hypothesis-testing.html#cb56-2" aria-hidden="true" tabindex="-1"></a>test.stat</span></code></pre></div>
+<pre><code>## [1] 0.5010792</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="hypothesis-testing.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>,<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 3.841459</code></pre>
+</div>
+</div>
+<div id="chi-squared-tests-for-tabulated-data" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> Chi Squared tests for tabulated data<a href="hypothesis-testing.html#chi-squared-tests-for-tabulated-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To this point most of our experiments have dealt with continuous data. But, a common type of data encountered in experiments is tabulated or cross-classified data. For example, consider the following data on phsychologists’ opinions concerning the causes of schizophrenia:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center"></th>
+<th align="center">Origin</th>
+<th align="center"></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">School</td>
+<td align="center">Biogenic</td>
+<td align="center">Environment</td>
+<td align="center">Combination</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">Eclectic</td>
+<td align="center">90</td>
+<td align="center">12</td>
+<td align="center">78</td>
+<td align="center">180</td>
+</tr>
+<tr class="odd">
+<td align="center">Medical</td>
+<td align="center">13</td>
+<td align="center">1</td>
+<td align="center">6</td>
+<td align="center">20</td>
+</tr>
+<tr class="even">
+<td align="center">Psychoanalytic</td>
+<td align="center">19</td>
+<td align="center">13</td>
+<td align="center">50</td>
+<td align="center">82</td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center">122</td>
+<td align="center">26</td>
+<td align="center">134</td>
+<td align="center">282</td>
+</tr>
+</tbody>
+</table>
+<p>A test of interest is whether the psychologists’ schools of thought are related to their responses. Statistically, this can be interpreted as a test of independence between the variables “school” and “cause”. A test of this hypothesis of independence may be based on a multinomial sampling distribution where the 282 respondents are assumed to be a random sample from a multinomial distribution with 9 cross-classified categories based on “school” and “cause”. This distribution has 8 free parameters for the category memberships. Under the null hypothesis, the joint probabilities are products of the marginal “school” and “cause” probabilities, so that there are only 4 free parameters. <br><br></p>
+<p>A Chi-squared test for independence is based on the following test statistic:
+<span class="math display">\[\chi^2 = \sum_{i=1}^I (O_i - E_i)^2 / E_i\]</span>
+where <span class="math inline">\(O_i\)</span> is the observed category count and <span class="math inline">\(E_i\)</span> is the expected category count under <span class="math inline">\(H_0\)</span>. Under the hypothesis of independence we expect the category counts to be <span class="math inline">\(n = 282\)</span> times the products of marginal category probabilities. For example, we expect to find <span class="math inline">\(282 *(180/282)*(122/282) = 77.87\)</span> counts in the Biogenic-Eclectic category; we observe 90. Similarly, we expect <span class="math inline">\(26*20/282 = 1.84\)</span> counts in the Medical-Environment category; we observe 1. The first summand in the test statistic is <span class="math inline">\((77.87 - 90)^2 / 77.87 = 1.88952\)</span>. Following along this way, we compute the test statistic to be <span class="math inline">\(\chi^2 = 22.37769\)</span>. The <span class="math inline">\(chi^2\)</span> test statistic is approximately Chi-squared distributed with df equal to the difference in the number of free parameters in <span class="math inline">\(H_0\)</span> and <span class="math inline">\(H_a\)</span>. In this case, that is <span class="math inline">\(8 - 4 = 4\)</span>. Since the <span class="math inline">\(95\%\)</span> quantile of the Chi-squared distribution with 4 df is 9.487729, we reject the null hypothesis of independence.
+<br><br>
+We could also perform an LRT of the independence hypothesis based on the multinomial distribution of the cell counts. The MLEs of the cell proportions are simply the observed cell proportions. The multinomial loglikelihood is given by
+<span class="math display">\[\ell(p;x_1, \ldots, x_n) = \log \frac{n!}{x_1!\times \cdots \times x_9!} + \sum_{j=1}^9 x_j\log p_j.\]</span>
+In R, we can simply use “dmultinom” with option log = TRUE to compute the loglikleihood.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="hypothesis-testing.html#cb60-1" aria-hidden="true" tabindex="-1"></a>test.stat <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span><span class="sc">*</span>(<span class="fu">dmultinom</span>(<span class="fu">c</span>(<span class="dv">90</span>,<span class="dv">12</span>,<span class="dv">78</span>,<span class="dv">13</span>,<span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">19</span>,<span class="dv">13</span>,<span class="dv">50</span>),<span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">180</span><span class="sc">*</span><span class="dv">122</span>, <span class="dv">180</span><span class="sc">*</span><span class="dv">26</span>, <span class="dv">180</span><span class="sc">*</span><span class="dv">134</span>, <span class="dv">20</span><span class="sc">*</span><span class="dv">122</span>, <span class="dv">20</span><span class="sc">*</span><span class="dv">26</span>, <span class="dv">20</span><span class="sc">*</span><span class="dv">134</span>, <span class="dv">82</span><span class="sc">*</span><span class="dv">122</span>, <span class="dv">82</span><span class="sc">*</span><span class="dv">26</span>, <span class="dv">82</span><span class="sc">*</span><span class="dv">134</span>)<span class="sc">/</span>(<span class="dv">282</span><span class="sc">*</span><span class="dv">282</span>), <span class="at">log =</span> <span class="cn">TRUE</span>)<span class="sc">-</span><span class="fu">dmultinom</span>(<span class="fu">c</span>(<span class="dv">90</span>,<span class="dv">12</span>,<span class="dv">78</span>,<span class="dv">13</span>,<span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">19</span>,<span class="dv">13</span>,<span class="dv">50</span>),<span class="at">prob =</span> <span class="fu">c</span>(<span class="dv">90</span>,<span class="dv">12</span>,<span class="dv">78</span>,<span class="dv">13</span>,<span class="dv">1</span>,<span class="dv">6</span>,<span class="dv">19</span>,<span class="dv">13</span>,<span class="dv">50</span>)<span class="sc">/</span><span class="dv">282</span>, <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb60-2"><a href="hypothesis-testing.html#cb60-2" aria-hidden="true" tabindex="-1"></a>test.stat</span></code></pre></div>
+<pre><code>## [1] 23.03619</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="hypothesis-testing.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>,<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 9.487729</code></pre>
+<p>For completeness, let’s show the MLEs of multinomial cell probabilities are the corresponding sample proportions. The loglikelihood is equal to
+<span class="math display">\[\ell(p;x) = \log \left(\frac{n!}{x_1!\times x_2!\times \cdots\times x_9!} + x_1\log(p_1) \times \cdots \times x_8 \log(p_8) + (n-x_1-x_2-\cdots -x_8)\log(1-p_1-\cdots -p_8)\right).\]</span>
+Take the derivative of the loglikelihood w.r.t. <span class="math inline">\(p_1\)</span>, set equal to zero, and find
+<span class="math display">\[\frac{1 - p_1 - p_2 - \cdots - p_8}{p_1} - \frac{n-x_1-x_2-\cdots -x_8}{x_1}\]</span>
+Divide the right-hand-side by <span class="math inline">\(n\)</span> in both the numerator and denominator to find
+<span class="math display">\[\frac{1 - p_1 - p_2 - \cdots - p_8}{p_1} = \frac{1-\frac{x_1}{n} - \frac{x_2}{n}-\cdots - \frac{x_8}{n}}{\frac{x_1}{n}}.\]</span>
+That this holds simultaneously for derivatives with respect to <span class="math inline">\(p_2\)</span> through <span class="math inline">\(p_8\)</span> implies the MLEs of the cell probabilitites are exactly the sample cell proportions. A similar argument can be made under <span class="math inline">\(H_0\)</span> to show the MLEs under <span class="math inline">\(H_0\)</span> are the sample marginal cell proportions.</p>
+<div id="goodness-of-fit-tests" class="section level3 hasAnchor" number="6.5.1">
+<h3><span class="header-section-number">6.5.1</span> Goodness of fit tests<a href="hypothesis-testing.html#goodness-of-fit-tests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The same Chi-squared test used above comparing observed awith expected cell counts is used to test the “goodness of fit” of a model to a data set. This test is most often used with discrete data, but can be used with continuous data by “binning” or discretizing continuous data in the same fashion as a histogram. For tabulated data the goodness of fit test statistic has df <span class="math inline">\(k-p-1\)</span> where <span class="math inline">\(k\)</span> is the number of cells in the table and <span class="math inline">\(p\)</span> is the number of estimated parameters in the null hypothesis. <br><br></p>
+<p>Example: Suppose an experiment records the number of customers entering a salon each hour during a weekday for the purpose of determining staffing requirements. The observed data are as follows:</p>
+<table>
+<thead>
+<tr class="header">
+<th>8am</th>
+<th>9am</th>
+<th>10am</th>
+<th>11am</th>
+<th>12pm</th>
+<th>1pm</th>
+<th>2pm</th>
+<th>3pm</th>
+<th>4pm</th>
+<th>5pm</th>
+<th>6pm</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3</td>
+<td>6</td>
+<td>14</td>
+<td>11</td>
+<td>6</td>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>8</td>
+<td>11</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>We decide to perform a goodness of fit test to determine whether the data fit a Poisson distribution. It the data appear to be a Poisson random sample, then that implies there is not a strong temporal pattern in the data. On the other hand if the data do not fit a Poisson distribution the lack of fit may be caused by a temporal pattern (so that the data are not iid). Based on the computation below, we see we reject the null hypothesis that the data are a Poisson random sample at <span class="math inline">\(\alpha\)</span> level <span class="math inline">\(5\%\)</span>.
+<br><br></p>
+<p>Below we bin the data into categories of 0-3 counts, 4-7 counts, 8-11, and 12+. A good rule of thumb is to choose bins such that the expected counts are not less than 5.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="hypothesis-testing.html#cb64-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">14</span>,<span class="dv">11</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">8</span>,<span class="dv">11</span>,<span class="dv">3</span>)</span>
+<span id="cb64-2"><a href="hypothesis-testing.html#cb64-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">11</span></span>
+<span id="cb64-3"><a href="hypothesis-testing.html#cb64-3" aria-hidden="true" tabindex="-1"></a>bins <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">1</span>)</span>
+<span id="cb64-4"><a href="hypothesis-testing.html#cb64-4" aria-hidden="true" tabindex="-1"></a>eis <span class="ot">&lt;-</span> n<span class="sc">*</span><span class="fu">c</span>(<span class="fu">sum</span>(<span class="fu">dpois</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">mean</span>(x))),<span class="fu">sum</span>(<span class="fu">dpois</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>, <span class="fu">mean</span>(x))),<span class="fu">sum</span>(<span class="fu">dpois</span>(<span class="dv">8</span><span class="sc">:</span><span class="dv">11</span>, <span class="fu">mean</span>(x))),   <span class="dv">1</span><span class="sc">-</span><span class="fu">ppois</span>(<span class="dv">11</span>,<span class="fu">mean</span>(x)))</span>
+<span id="cb64-5"><a href="hypothesis-testing.html#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(((bins <span class="sc">-</span> eis)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>eis)</span></code></pre></div>
+<pre><code>## [1] 4.610001</code></pre>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="hypothesis-testing.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qchisq</span>(<span class="fl">0.95</span>,<span class="dv">4-1-1</span>)</span></code></pre></div>
+<pre><code>## [1] 5.991465</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="hypothesis-testing.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pchisq</span>(<span class="fu">sum</span>(((bins <span class="sc">-</span> eis)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>eis),<span class="dv">4-1-1</span>)</span></code></pre></div>
+<pre><code>## [1] 0.09975877</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="confidence-intervals.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/13-Hypothesis-Testing.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
