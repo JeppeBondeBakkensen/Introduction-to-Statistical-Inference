@@ -76,7 +76,7 @@ As we have discussed many times when the population variance is unknown the Stud
 
 For a different angle, consider the test of the one-sided (composite) hypotheses $H_0:\mu \leq \mu_0$ versus $H_a:\mu > \mu_0$.  Naturally, values of $\overline X$ smaller than $\mu_0$ lend support to the null hypothesis, so a level $\alpha$ test of $H_0$ only rejects the null if $T > t_{1-\alpha}(n-1)$.  Consider the power of this one-sided test.  Since the test only rejects for large values of $\overline X$, the power should increase as $T$ increases.  Mimicking (half of) our power calculation for the $Z$ test above we have
 \[1-\beta = P\left(\frac{\overline X - y}{S/\sqrt{n}} + \frac{y - \mu_0}{S/\sqrt{n}} > t_{1-\alpha}(n-1)\right).\]
-The random variable $\frac{\overline X - y}{S/\sqrt{n}} + \frac{y - \mu_0}{S/\sqrt{n}}$ has a Student's $t$ distribution with $n-1$ degrees of freedom and **non-centrality parameter** $y-\mu_0$.  
+The random variable $\frac{\overline X - y}{S/\sqrt{n}} + \frac{y - \mu_0}{S/\sqrt{n}}$ has a Student's $t$ distribution with $n-1$ degrees of freedom and **non-centrality parameter** $(y-\mu_0)/(\sigma / \sqrt{n})$.  
 
 
 ```r
@@ -84,41 +84,35 @@ alpha <- 0.05
 mu0 <- 1
 sigma2 <- 2
 n <- 10
-power <- function(y)  1-pt(qt(1-alpha, n-1), df = n-1, ncp = y - mu0)
-curve(power, from = -5, to = 6, xlab = 'y', ylab = 'power(y)')  
-```
-
-```
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
+power <- function(y)  1-pt(qt(1-alpha, n-1), df = n-1, ncp = (y - mu0)/(sqrt(sigma2/n)))
+curve(power, from = -1, to = 4, xlab = 'y', ylab = 'power(y)')  
 ```
 
 ![](13-Hypothesis-Testing_files/figure-epub3/unnamed-chunk-2-1.png)<!-- -->
 
+```r
+power(2)
+```
+
+```
+## [1] 0.6623762
+```
+
+Here's a quick simulation to illustrate the above power function: we'll sample data sets of $n=10$ samples from $N(\mu = 2, \sigma^2 = 2)$ a total of 10000 times.  Each time we'll compute the p-value of the test $H_0:\mu \leq 1$ versus $H_a:\mu > 1$.  According to the above power calculation, we should reject $H_0$ about two thirds of the time if $\alpha = 0.05$.
+
+
+```r
+res <- rep(NA,10000)
+for(i in 1:10000){
+  x <- rnorm(n,2,sqrt(sigma2))
+  res[i] = t.test(x,mu = mu0,alternative = "greater")$p.value
+}
+sum(res<0.05)/10000
+```
+
+```
+## [1] 0.668
+```
 
 ### Test for a normal population variance
 
@@ -140,7 +134,151 @@ power <- function(y)  1-pchisq((2/y)*qchisq(1-alpha, n-1),n-1)
 curve(power, from = 2, to = 14, xlab = 'y', ylab = 'power(y)')  
 ```
 
-![](13-Hypothesis-Testing_files/figure-epub3/unnamed-chunk-3-1.png)<!-- -->
+![](13-Hypothesis-Testing_files/figure-epub3/unnamed-chunk-4-1.png)<!-- -->
+
+
+### Example: The lifetimes of infected Guinea pigs
+
+58 Guinea pigs were infected with a bacilli (bacteria) to determine its effect on lifespan.  The control group of non-infected Guinea pigs lived on average 325 days.  We'll test whether the infected pigs live, on average, less than 325 days.  A comparative boxplot does not show any indications of non-normality in the lifetimes, so a t-test is reasonable.  Based on the extreme test statistic (-5.33) and the tiny p-value (<0.0001) we conclude the infected pigs live, on average, less than 325 days.  As this was a randomized experiment, it is reasonable to conclude the treatment/infection with bacilli is the cause of the reduced average lifespan.  And, provided there is no reason to suspect these Guinea pigs are somehow different than Guinea pigs in general, we could assume the same results would hold, generally, in the (hypothetical) population of all Guinea pigs. 
+
+
+```r
+pigs <- 
+read.csv('E:\\Teaching\\STAT500\\MyMaterials\\Homework\\guinea_pigs.csv')
+boxplot(Time~Treatment, data=pigs)
+```
+
+![](13-Hypothesis-Testing_files/figure-epub3/unnamed-chunk-5-1.png)<!-- -->
+
+```r
+mu0 <- 325
+m_C <- mean(pigs$Time[pigs$Treatment == "Control"])
+m_C
+```
+
+```
+## [1] 345.2188
+```
+
+```r
+m_B <- mean(pigs$Time[pigs$Treatment == "Bacilli"])
+m_B
+```
+
+```
+## [1] 242.5345
+```
+
+```r
+s_B <- sd(pigs$Time[pigs$Treatment == "Bacilli"])
+s_B
+```
+
+```
+## [1] 117.9309
+```
+
+```r
+n_B <- sum(pigs$Treatment == "Bacilli")
+n_B
+```
+
+```
+## [1] 58
+```
+
+```r
+c(m_B + qt(0.05, n_B - 1)*s_B/sqrt(n_B), m_B + qt(0.95, n_B - 
+1)*s_B/sqrt(n_B))
+```
+
+```
+## [1] 216.643 268.426
+```
+
+```r
+t.stat <- (m_B - mu0)/(s_B/sqrt(n_B))
+t.stat
+```
+
+```
+## [1] -5.325481
+```
+
+```r
+pt(t.stat, n_B-1)
+```
+
+```
+## [1] 8.875078e-07
+```
+
+```r
+dt1 <- function(x) dt(x, n_B - 1)
+curve(dt1, -6,6, xlab = "Test Statistic", ylab = "Density", main = "Null Distribution Student's t(57)")
+abline(v = t.stat, col = 'red')
+abline(v = qt(0.05, n_B-1), col = 'blue')
+```
+
+![](13-Hypothesis-Testing_files/figure-epub3/unnamed-chunk-5-2.png)<!-- -->
+
+Next, we note the standard deviation of lifetime in the control group is about 222 days.  One might expect the infected group to have a lover standard deviation of lifetime given many will die prematurely.  Let's test $H_0: \sigma \geq 222$ versus $H_0: \sigma < 222$ using a the pivotal quantity $\frac{(n-1)S^2}{\sigma_0^2} \sim \chi^2(n-1)$---this null hypothesis test statistic has a Chi-squared distribution with $n-1$ degrees of freedom.  Based on the very small p-value, we reject the null hypothesis.  For reference, the figure below shows the test statistic (red) and $\alpha =0.05$ cutoff (blue) in relation to the null distribution of the test statistic.
+
+
+```r
+s_B <- sd(pigs$Time[pigs$Treatment == "Bacilli"])
+s_B
+```
+
+```
+## [1] 117.9309
+```
+
+```r
+n_B <- sum(pigs$Treatment == "Bacilli")
+n_B
+```
+
+```
+## [1] 58
+```
+
+```r
+c((n_B - 1)*(s_B^2)/qchisq(0.975, n_B - 1), (n_B - 1)*(s_B^2)/qchisq(0.025, n_B - 1))
+```
+
+```
+## [1]  9940.021 20846.868
+```
+
+```r
+chi.stat <- (n_B - 1)*(s_B^2)/(222^2)
+chi.stat
+```
+
+```
+## [1] 16.08511
+```
+
+```r
+pchisq(chi.stat, n_B-1)
+```
+
+```
+## [1] 1.713066e-08
+```
+
+```r
+dchisq1 <- function(x) dchisq(x, n_B - 1)
+curve(dchisq1, 7,105, xlab = "Test Statistic", ylab = "Density", main = "Null Distribution Chisq(57)")
+abline(v = chi.stat, col = 'red')
+abline(v = qchisq(0.05, n_B-1), col = 'blue')
+```
+
+![](13-Hypothesis-Testing_files/figure-epub3/unnamed-chunk-6-1.png)<!-- -->
+
+
+
 
 
 
@@ -240,7 +378,7 @@ points(F, 0, pch = '*', col = 'red')
 lines(c(F,F), c(0,F.curve(F)), col = 'red')
 ```
 
-![](13-Hypothesis-Testing_files/figure-epub3/unnamed-chunk-6-1.png)<!-- -->
+![](13-Hypothesis-Testing_files/figure-epub3/unnamed-chunk-9-1.png)<!-- -->
 
 ```r
 1-pf(F, 10, 8)
@@ -274,7 +412,7 @@ lines(c(F,F), c(0,F.curve(F)), col = 'red')
 lines(c(qf(0.09989054, 10,8),qf(0.09989054, 10,8)), c(0,F.curve(qf(0.09989054, 10,8))), col = 'red')
 ```
 
-![](13-Hypothesis-Testing_files/figure-epub3/unnamed-chunk-6-2.png)<!-- -->
+![](13-Hypothesis-Testing_files/figure-epub3/unnamed-chunk-9-2.png)<!-- -->
 
 ```r
 curve(F.curve, 0, 10)
@@ -282,7 +420,7 @@ lines(c(qf(0.025, 10,8),qf(0.025, 10,8)), c(0,F.curve(qf(0.025, 10,8))), col = '
 lines(c(qf(0.975, 10,8),qf(0.975, 10,8)), c(0,F.curve(qf(0.975, 10,8))), col = 'blue')
 ```
 
-![](13-Hypothesis-Testing_files/figure-epub3/unnamed-chunk-6-3.png)<!-- -->
+![](13-Hypothesis-Testing_files/figure-epub3/unnamed-chunk-9-3.png)<!-- -->
 
 
 
@@ -483,7 +621,7 @@ curve(app.ell,0,2)
 abline(v = 0.2, col = 'red')
 ```
 
-![](13-Hypothesis-Testing_files/figure-epub3/unnamed-chunk-10-1.png)<!-- -->
+![](13-Hypothesis-Testing_files/figure-epub3/unnamed-chunk-13-1.png)<!-- -->
 
 ```r
 test.stat <- -2*(ell(0.2)-ell(0.28))

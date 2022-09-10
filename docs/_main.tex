@@ -117,7 +117,7 @@
 
 \title{A First Course in Probability and Statistics}
 \author{Nick Syring}
-\date{2022-09-07}
+\date{2022-09-10}
 
 \begin{document}
 \maketitle
@@ -968,7 +968,7 @@ As we have discussed many times when the population variance is unknown the Stud
 
 For a different angle, consider the test of the one-sided (composite) hypotheses \(H_0:\mu \leq \mu_0\) versus \(H_a:\mu > \mu_0\). Naturally, values of \(\overline X\) smaller than \(\mu_0\) lend support to the null hypothesis, so a level \(\alpha\) test of \(H_0\) only rejects the null if \(T > t_{1-\alpha}(n-1)\). Consider the power of this one-sided test. Since the test only rejects for large values of \(\overline X\), the power should increase as \(T\) increases. Mimicking (half of) our power calculation for the \(Z\) test above we have
 \[1-\beta = P\left(\frac{\overline X - y}{S/\sqrt{n}} + \frac{y - \mu_0}{S/\sqrt{n}} > t_{1-\alpha}(n-1)\right).\]
-The random variable \(\frac{\overline X - y}{S/\sqrt{n}} + \frac{y - \mu_0}{S/\sqrt{n}}\) has a Student's \(t\) distribution with \(n-1\) degrees of freedom and \textbf{non-centrality parameter} \(y-\mu_0\).
+The random variable \(\frac{\overline X - y}{S/\sqrt{n}} + \frac{y - \mu_0}{S/\sqrt{n}}\) has a Student's \(t\) distribution with \(n-1\) degrees of freedom and \textbf{non-centrality parameter} \((y-\mu_0)/(\sigma / \sqrt{n})\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -976,41 +976,39 @@ The random variable \(\frac{\overline X - y}{S/\sqrt{n}} + \frac{y - \mu_0}{S/\s
 \NormalTok{mu0 }\OtherTok{\textless{}{-}} \DecValTok{1}
 \NormalTok{sigma2 }\OtherTok{\textless{}{-}} \DecValTok{2}
 \NormalTok{n }\OtherTok{\textless{}{-}} \DecValTok{10}
-\NormalTok{power }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y)  }\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pt}\NormalTok{(}\FunctionTok{qt}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{alpha, n}\DecValTok{{-}1}\NormalTok{), }\AttributeTok{df =}\NormalTok{ n}\DecValTok{{-}1}\NormalTok{, }\AttributeTok{ncp =}\NormalTok{ y }\SpecialCharTok{{-}}\NormalTok{ mu0)}
-\FunctionTok{curve}\NormalTok{(power, }\AttributeTok{from =} \SpecialCharTok{{-}}\DecValTok{5}\NormalTok{, }\AttributeTok{to =} \DecValTok{6}\NormalTok{, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}power(y)\textquotesingle{}}\NormalTok{)  }
+\NormalTok{power }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(y)  }\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pt}\NormalTok{(}\FunctionTok{qt}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{alpha, n}\DecValTok{{-}1}\NormalTok{), }\AttributeTok{df =}\NormalTok{ n}\DecValTok{{-}1}\NormalTok{, }\AttributeTok{ncp =}\NormalTok{ (y }\SpecialCharTok{{-}}\NormalTok{ mu0)}\SpecialCharTok{/}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(sigma2}\SpecialCharTok{/}\NormalTok{n)))}
+\FunctionTok{curve}\NormalTok{(power, }\AttributeTok{from =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{, }\AttributeTok{to =} \DecValTok{4}\NormalTok{, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}power(y)\textquotesingle{}}\NormalTok{)  }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{power}\NormalTok{(}\DecValTok{2}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
-
-## Warning in pt(qt(1 - alpha, n - 1), df = n - 1, ncp = y - mu0): full precision
-## may not have been achieved in 'pnt{final}'
+## [1] 0.6623762
 \end{verbatim}
 
-\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-2-1.pdf}
+Here's a quick simulation to illustrate the above power function: we'll sample data sets of \(n=10\) samples from \(N(\mu = 2, \sigma^2 = 2)\) a total of 10000 times. Each time we'll compute the p-value of the test \(H_0:\mu \leq 1\) versus \(H_a:\mu > 1\). According to the above power calculation, we should reject \(H_0\) about two thirds of the time if \(\alpha = 0.05\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{,}\DecValTok{10000}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{10000}\NormalTok{)\{}
+\NormalTok{  x }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(n,}\DecValTok{2}\NormalTok{,}\FunctionTok{sqrt}\NormalTok{(sigma2))}
+\NormalTok{  res[i] }\OtherTok{=} \FunctionTok{t.test}\NormalTok{(x,}\AttributeTok{mu =}\NormalTok{ mu0,}\AttributeTok{alternative =} \StringTok{"greater"}\NormalTok{)}\SpecialCharTok{$}\NormalTok{p.value}
+\NormalTok{\}}
+\FunctionTok{sum}\NormalTok{(res}\SpecialCharTok{\textless{}}\FloatTok{0.05}\NormalTok{)}\SpecialCharTok{/}\DecValTok{10000}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.6652
+\end{verbatim}
 
 \hypertarget{test-for-a-normal-population-variance}{%
 \subsection{Test for a normal population variance}\label{test-for-a-normal-population-variance}}
@@ -1034,7 +1032,176 @@ P\left(\frac{(n-1)S^2}{\sigma_0^2} \geq  \chi^2_{1-\alpha}(n-1)|\sigma^2 = y\rig
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-3-1.pdf}
+\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\hypertarget{example-the-lifetimes-of-infected-guinea-pigs}{%
+\subsection{Example: The lifetimes of infected Guinea pigs}\label{example-the-lifetimes-of-infected-guinea-pigs}}
+
+58 Guinea pigs were infected with a bacilli (bacteria) to determine its effect on lifespan. The control group of non-infected Guinea pigs lived on average 325 days. We'll test whether the infected pigs live, on average, less than 325 days. A comparative boxplot does not show any indications of non-normality in the lifetimes, so a t-test is reasonable. Based on the extreme test statistic (-5.33) and the tiny p-value (\textless0.0001) we conclude the infected pigs live, on average, less than 325 days. As this was a randomized experiment, it is reasonable to conclude the treatment/infection with bacilli is the cause of the reduced average lifespan. And, provided there is no reason to suspect these Guinea pigs are somehow different than Guinea pigs in general, we could assume the same results would hold, generally, in the (hypothetical) population of all Guinea pigs.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pigs }\OtherTok{\textless{}{-}} 
+\FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}E:}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{Teaching}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{STAT500}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{MyMaterials}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{Homework}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{guinea\_pigs.csv\textquotesingle{}}\NormalTok{)}
+\FunctionTok{boxplot}\NormalTok{(Time}\SpecialCharTok{\textasciitilde{}}\NormalTok{Treatment, }\AttributeTok{data=}\NormalTok{pigs)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mu0 }\OtherTok{\textless{}{-}} \DecValTok{325}
+\NormalTok{m\_C }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(pigs}\SpecialCharTok{$}\NormalTok{Time[pigs}\SpecialCharTok{$}\NormalTok{Treatment }\SpecialCharTok{==} \StringTok{"Control"}\NormalTok{])}
+\NormalTok{m\_C}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 345.2188
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m\_B }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(pigs}\SpecialCharTok{$}\NormalTok{Time[pigs}\SpecialCharTok{$}\NormalTok{Treatment }\SpecialCharTok{==} \StringTok{"Bacilli"}\NormalTok{])}
+\NormalTok{m\_B}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 242.5345
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{s\_B }\OtherTok{\textless{}{-}} \FunctionTok{sd}\NormalTok{(pigs}\SpecialCharTok{$}\NormalTok{Time[pigs}\SpecialCharTok{$}\NormalTok{Treatment }\SpecialCharTok{==} \StringTok{"Bacilli"}\NormalTok{])}
+\NormalTok{s\_B}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 117.9309
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n\_B }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(pigs}\SpecialCharTok{$}\NormalTok{Treatment }\SpecialCharTok{==} \StringTok{"Bacilli"}\NormalTok{)}
+\NormalTok{n\_B}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 58
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{c}\NormalTok{(m\_B }\SpecialCharTok{+} \FunctionTok{qt}\NormalTok{(}\FloatTok{0.05}\NormalTok{, n\_B }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}\SpecialCharTok{*}\NormalTok{s\_B}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(n\_B), m\_B }\SpecialCharTok{+} \FunctionTok{qt}\NormalTok{(}\FloatTok{0.95}\NormalTok{, n\_B }\SpecialCharTok{{-}} 
+\DecValTok{1}\NormalTok{)}\SpecialCharTok{*}\NormalTok{s\_B}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(n\_B))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 216.643 268.426
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{t.stat }\OtherTok{\textless{}{-}}\NormalTok{ (m\_B }\SpecialCharTok{{-}}\NormalTok{ mu0)}\SpecialCharTok{/}\NormalTok{(s\_B}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(n\_B))}
+\NormalTok{t.stat}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -5.325481
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pt}\NormalTok{(t.stat, n\_B}\DecValTok{{-}1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 8.875078e-07
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dt1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{dt}\NormalTok{(x, n\_B }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}
+\FunctionTok{curve}\NormalTok{(dt1, }\SpecialCharTok{{-}}\DecValTok{6}\NormalTok{,}\DecValTok{6}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"Test Statistic"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Density"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Null Distribution Student\textquotesingle{}s t(57)"}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{v =}\NormalTok{ t.stat, }\AttributeTok{col =} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{v =} \FunctionTok{qt}\NormalTok{(}\FloatTok{0.05}\NormalTok{, n\_B}\DecValTok{{-}1}\NormalTok{), }\AttributeTok{col =} \StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-5-2.pdf}
+
+Next, we note the standard deviation of lifetime in the control group is about 222 days. One might expect the infected group to have a lover standard deviation of lifetime given many will die prematurely. Let's test \(H_0: \sigma \geq 222\) versus \(H_0: \sigma < 222\) using a the pivotal quantity \(\frac{(n-1)S^2}{\sigma_0^2} \sim \chi^2(n-1)\)---this null hypothesis test statistic has a Chi-squared distribution with \(n-1\) degrees of freedom. Based on the very small p-value, we reject the null hypothesis. For reference, the figure below shows the test statistic (red) and \(\alpha =0.05\) cutoff (blue) in relation to the null distribution of the test statistic.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{s\_B }\OtherTok{\textless{}{-}} \FunctionTok{sd}\NormalTok{(pigs}\SpecialCharTok{$}\NormalTok{Time[pigs}\SpecialCharTok{$}\NormalTok{Treatment }\SpecialCharTok{==} \StringTok{"Bacilli"}\NormalTok{])}
+\NormalTok{s\_B}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 117.9309
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n\_B }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(pigs}\SpecialCharTok{$}\NormalTok{Treatment }\SpecialCharTok{==} \StringTok{"Bacilli"}\NormalTok{)}
+\NormalTok{n\_B}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 58
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{c}\NormalTok{((n\_B }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(s\_B}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{qchisq}\NormalTok{(}\FloatTok{0.975}\NormalTok{, n\_B }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{), (n\_B }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(s\_B}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{qchisq}\NormalTok{(}\FloatTok{0.025}\NormalTok{, n\_B }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  9940.021 20846.868
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chi.stat }\OtherTok{\textless{}{-}}\NormalTok{ (n\_B }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(s\_B}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{222}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{chi.stat}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 16.08511
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pchisq}\NormalTok{(chi.stat, n\_B}\DecValTok{{-}1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.713066e-08
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dchisq1 }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{dchisq}\NormalTok{(x, n\_B }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}
+\FunctionTok{curve}\NormalTok{(dchisq1, }\DecValTok{7}\NormalTok{,}\DecValTok{105}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"Test Statistic"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Density"}\NormalTok{, }\AttributeTok{main =} \StringTok{"Null Distribution Chisq(57)"}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{v =}\NormalTok{ chi.stat, }\AttributeTok{col =} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{v =} \FunctionTok{qchisq}\NormalTok{(}\FloatTok{0.05}\NormalTok{, n\_B}\DecValTok{{-}1}\NormalTok{), }\AttributeTok{col =} \StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-6-1.pdf}
 
 \hypertarget{tests-for-a-difference-of-normal-population-means}{%
 \subsection{Tests for a difference of normal population means}\label{tests-for-a-difference-of-normal-population-means}}
@@ -1139,7 +1306,7 @@ Example: Suppose we obtain the following two random samples of \(X\) and \(Y\) v
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-6-1.pdf}
+\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-9-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1181,7 +1348,7 @@ Example: Suppose we obtain the following two random samples of \(X\) and \(Y\) v
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-6-2.pdf}
+\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-9-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1191,7 +1358,7 @@ Example: Suppose we obtain the following two random samples of \(X\) and \(Y\) v
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-6-3.pdf}
+\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-9-3.pdf}
 
 \hypertarget{likelihood-based-tests}{%
 \section{Likelihood-based Tests}\label{likelihood-based-tests}}
@@ -1406,7 +1573,7 @@ which is below the cutoff of 3.84, the \(95\%\) quantile of the Chi-squared dist
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-10-1.pdf}
+\includegraphics{13-Hypothesis-Testing_files/figure-latex/unnamed-chunk-13-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]

@@ -54,6 +54,7 @@ tests-based-on-a-normal-population
 test-for-a-normal-mean-when-the-variance-is-known
 test-for-a-normal-mean-when-the-variance-is-unknown
 test-for-a-normal-population-variance
+example-the-lifetimes-of-infected-guinea-pigs
 tests-for-a-difference-of-normal-population-means
 test-for-equality-of-normal-population-variances
 likelihood-based-tests
