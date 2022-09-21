@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Hypothesis Testing | A First Course in Probability and Statistics</title>
   <meta name="description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
-  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Hypothesis Testing | A First Course in Probability and Statistics" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Nick Syring" />
 
 
-<meta name="date" content="2022-09-10" />
+<meta name="date" content="2022-09-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="confidence-intervals.html"/>
-
+<link rel="next" href="anova.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -234,6 +234,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.5.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#goodness-of-fit-tests"><i class="fa fa-check"></i><b>6.5.1</b> Goodness of fit tests</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="anova.html"><a href="anova.html"><i class="fa fa-check"></i><b>7</b> ANOVA</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="anova.html"><a href="anova.html#analysis-of-variance"><i class="fa fa-check"></i><b>7.1</b> Analysis of variance</a></li>
+<li class="chapter" data-level="7.2" data-path="anova.html"><a href="anova.html#crop-data-in-depth-example"><i class="fa fa-check"></i><b>7.2</b> Crop data in-depth example</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -331,7 +336,7 @@ The random variable <span class="math inline">\(\frac{\overline X - y}{S/\sqrt{n
 <span id="cb10-4"><a href="hypothesis-testing.html#cb10-4" aria-hidden="true" tabindex="-1"></a>  res[i] <span class="ot">=</span> <span class="fu">t.test</span>(x,<span class="at">mu =</span> mu0,<span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)<span class="sc">$</span>p.value</span>
 <span id="cb10-5"><a href="hypothesis-testing.html#cb10-5" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb10-6"><a href="hypothesis-testing.html#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(res<span class="sc">&lt;</span><span class="fl">0.05</span>)<span class="sc">/</span><span class="dv">10000</span></span></code></pre></div>
-<pre><code>## [1] 0.6618</code></pre>
+<pre><code>## [1] 0.6639</code></pre>
 </div>
 <div id="test-for-a-normal-population-variance" class="section level3 hasAnchor" number="6.3.3">
 <h3><span class="header-section-number">6.3.3</span> Test for a normal population variance<a href="hypothesis-testing.html#test-for-a-normal-population-variance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -710,8 +715,8 @@ That this holds simultaneously for derivatives with respect to <span class="math
           </div>
         </div>
       </div>
-<a href="confidence-intervals.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="confidence-intervals.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="anova.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

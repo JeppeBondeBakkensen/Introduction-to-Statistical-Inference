@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 ANOVA | A First Course in Probability and Statistics</title>
+  <meta name="description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 ANOVA | A First Course in Probability and Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 ANOVA | A First Course in Probability and Statistics" />
+  
+  <meta name="twitter:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  
+
+<meta name="author" content="Nick Syring" />
+
+
+<meta name="date" content="2022-09-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="hypothesis-testing.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction to Statistical Inference</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html"><i class="fa fa-check"></i><b>2</b> Data Analysis and Statistical Inference</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies"><i class="fa fa-check"></i><b>2.1</b> Data, Experiments, and Studies</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial"><i class="fa fa-check"></i><b>2.1.1</b> James Lind’s Scurvy Trial</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#framingham-heart-study"><i class="fa fa-check"></i><b>2.1.2</b> Framingham Heart Study</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study"><i class="fa fa-check"></i><b>2.1.3</b> Harris Bank Sex Pay Study</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets"><i class="fa fa-check"></i><b>2.1.4</b> Large, Aggregated Data Sets</a></li>
+<li class="chapter" data-level="2.1.5" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#study-concepts"><i class="fa fa-check"></i><b>2.1.5</b> Study Concepts</a></li>
+<li class="chapter" data-level="2.1.6" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation"><i class="fa fa-check"></i><b>2.1.6</b> Randomization, control, and causation</a></li>
+<li class="chapter" data-level="2.1.7" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference"><i class="fa fa-check"></i><b>2.1.7</b> Populations and scope of inference</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-summaries"><i class="fa fa-check"></i><b>2.2</b> Data Summaries</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#numerical-summaries"><i class="fa fa-check"></i><b>2.2.1</b> Numerical Summaries</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#visual-summaries"><i class="fa fa-check"></i><b>2.2.2</b> Visual Summaries</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#statistical-inference"><i class="fa fa-check"></i><b>2.3</b> Statistical Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="statistical-estimation.html"><a href="statistical-estimation.html"><i class="fa fa-check"></i><b>3</b> Statistical Estimation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#vocabulary"><i class="fa fa-check"></i><b>3.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="3.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-estimators"><i class="fa fa-check"></i><b>3.2</b> Properties of Estimators</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#bias-and-unbiasedness"><i class="fa fa-check"></i><b>3.2.1</b> Bias and Unbiasedness</a></li>
+<li class="chapter" data-level="3.2.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#minimum-variance-unbiased-estimators"><i class="fa fa-check"></i><b>3.2.2</b> Minimum Variance Unbiased Estimators</a></li>
+<li class="chapter" data-level="3.2.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#mean-squared-error-and-bias-variance-tradeoff"><i class="fa fa-check"></i><b>3.2.3</b> Mean Squared Error and Bias-Variance tradeoff</a></li>
+<li class="chapter" data-level="3.2.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#consistency"><i class="fa fa-check"></i><b>3.2.4</b> Consistency</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#finding-estimators---method-of-moments"><i class="fa fa-check"></i><b>3.3</b> Finding estimators - Method of Moments</a></li>
+<li class="chapter" data-level="3.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#method-of-maximum-likelihood"><i class="fa fa-check"></i><b>3.4</b> Method of Maximum Likelihood</a></li>
+<li class="chapter" data-level="3.5" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-mles"><i class="fa fa-check"></i><b>3.5</b> Properties of MLEs</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sampling-distributions.html"><a href="sampling-distributions.html"><i class="fa fa-check"></i><b>4</b> Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-mean"><i class="fa fa-check"></i><b>4.1</b> Sample Mean</a></li>
+<li class="chapter" data-level="4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-variance"><i class="fa fa-check"></i><b>4.2</b> Sample Variance</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#large-sample-sampling-distribution-of-sample-variance"><i class="fa fa-check"></i><b>4.2.1</b> Large-sample sampling distribution of sample variance</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sampling-distribution-of-studentized-sample-mean"><i class="fa fa-check"></i><b>4.3</b> Sampling distribution of studentized sample mean</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2"><i class="fa fa-check"></i><b>4.3.1</b> Part of Student’s Theorem - Indepndence of <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="sampling-distributions.html"><a href="sampling-distributions.html#differences-of-sample-means"><i class="fa fa-check"></i><b>4.4</b> Differences of Sample Means</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#standarized-difference"><i class="fa fa-check"></i><b>4.4.1</b> Standarized difference</a></li>
+<li class="chapter" data-level="4.4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-equal-variances"><i class="fa fa-check"></i><b>4.4.2</b> Studentized difference, equal variances</a></li>
+<li class="chapter" data-level="4.4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-unequal-variances"><i class="fa fa-check"></i><b>4.4.3</b> Studentized difference, unequal variances</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="sampling-distributions.html"><a href="sampling-distributions.html#ratios-of-sample-variances"><i class="fa fa-check"></i><b>4.5</b> Ratios of Sample Variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>5</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#why-want-interval-valued-estimates"><i class="fa fa-check"></i><b>5.1</b> Why want interval-valued estimates?</a></li>
+<li class="chapter" data-level="5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#normal-population-mean-example"><i class="fa fa-check"></i><b>5.2</b> Normal population mean example</a></li>
+<li class="chapter" data-level="5.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#other-exact-cis-for-normal-population-mean-and-variance-parameters"><i class="fa fa-check"></i><b>5.3</b> Other “Exact” CIs for normal population mean and variance parameters</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-mean-unknown-variance"><i class="fa fa-check"></i><b>5.3.1</b> Population mean, unknown variance</a></li>
+<li class="chapter" data-level="5.3.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-variance-unknown-mean"><i class="fa fa-check"></i><b>5.3.2</b> Population variance, unknown mean</a></li>
+<li class="chapter" data-level="5.3.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-means"><i class="fa fa-check"></i><b>5.3.3</b> Two normal samples, comparing means</a></li>
+<li class="chapter" data-level="5.3.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-variances"><i class="fa fa-check"></i><b>5.3.4</b> Two normal samples, comparing variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#cis-for-proportions"><i class="fa fa-check"></i><b>5.4</b> CIs for proportions</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#a-single-bernoulli-proportion"><i class="fa fa-check"></i><b>5.4.1</b> A single Bernoulli proportion</a></li>
+<li class="chapter" data-level="5.4.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#difference-of-two-bernoulli-proportions"><i class="fa fa-check"></i><b>5.4.2</b> Difference of two Bernoulli proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#approximate-cis-based-on-mles"><i class="fa fa-check"></i><b>5.5</b> Approximate CIs based on MLEs</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#multivariate-case"><i class="fa fa-check"></i><b>5.5.1</b> Multivariate case</a></li>
+<li class="chapter" data-level="5.5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#the-delta-method"><i class="fa fa-check"></i><b>5.5.2</b> The Delta method</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#notation"><i class="fa fa-check"></i><b>6.1</b> Notation</a></li>
+<li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#hypothesis-testing-outcomes"><i class="fa fa-check"></i><b>6.2</b> Hypothesis testing outcomes</a></li>
+<li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#tests-based-on-a-normal-population"><i class="fa fa-check"></i><b>6.3</b> Tests based on a normal population</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-a-normal-mean-when-the-variance-is-known"><i class="fa fa-check"></i><b>6.3.1</b> Test for a normal mean when the variance is known</a></li>
+<li class="chapter" data-level="6.3.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-a-normal-mean-when-the-variance-is-unknown"><i class="fa fa-check"></i><b>6.3.2</b> Test for a normal mean when the variance is unknown</a></li>
+<li class="chapter" data-level="6.3.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-a-normal-population-variance"><i class="fa fa-check"></i><b>6.3.3</b> Test for a normal population variance</a></li>
+<li class="chapter" data-level="6.3.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#example-the-lifetimes-of-infected-guinea-pigs"><i class="fa fa-check"></i><b>6.3.4</b> Example: The lifetimes of infected Guinea pigs</a></li>
+<li class="chapter" data-level="6.3.5" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#tests-for-a-difference-of-normal-population-means"><i class="fa fa-check"></i><b>6.3.5</b> Tests for a difference of normal population means</a></li>
+<li class="chapter" data-level="6.3.6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-equality-of-normal-population-variances"><i class="fa fa-check"></i><b>6.3.6</b> Test for equality of normal population variances</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#likelihood-based-tests"><i class="fa fa-check"></i><b>6.4</b> Likelihood-based Tests</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#wald-type-tests"><i class="fa fa-check"></i><b>6.4.1</b> Wald type tests</a></li>
+<li class="chapter" data-level="6.4.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#likelihood-ratio-tests"><i class="fa fa-check"></i><b>6.4.2</b> Likelihood ratio tests</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#chi-squared-tests-for-tabulated-data"><i class="fa fa-check"></i><b>6.5</b> Chi Squared tests for tabulated data</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#goodness-of-fit-tests"><i class="fa fa-check"></i><b>6.5.1</b> Goodness of fit tests</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="anova.html"><a href="anova.html"><i class="fa fa-check"></i><b>7</b> ANOVA</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="anova.html"><a href="anova.html#analysis-of-variance"><i class="fa fa-check"></i><b>7.1</b> Analysis of variance</a></li>
+<li class="chapter" data-level="7.2" data-path="anova.html"><a href="anova.html#crop-data-in-depth-example"><i class="fa fa-check"></i><b>7.2</b> Crop data in-depth example</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A First Course in Probability and Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="anova" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> ANOVA<a href="anova.html#anova" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>One of the most important experiments we’ve discussed in the course involves the comparison of two populations in terms of their means. This kind of comparison motivated our study of the two-sample t-test and CI for the difference of two population means. These are very useful statistical methods, but why stop at comparing two populations? Often, we would like to compare three or more populations. For example, suppose a company marketing laundry detergent wants to compare 4 product designs (the detergent container and its labeling) in a pilot study. Using t-tests or CIs we could make pairwise comparisons (there are 4 choose 2, or, 6 pf these) but this causes some issues. Specifically, suppose there are no difference in the product designs and suppose we conduct 6 pairwise <span class="math inline">\(t\)</span> tests at <span class="math inline">\(\alpha = 0.05\)</span>. If the 6 tests are independent (the test statistics are mutually independen r.v.’s) then the chance we make at least 1 Type 1 error is <span class="math inline">\(1-0.95^6 = 0.265\)</span>! Even if there are no deifferences, there’s a good chance we’ll find at least one difference by chance alone. In order to avoid the Type 1 error inflation caused by <em>multiple testing</em> one strategy—called Bonferroni correction—requires that we conduct each test at level <span class="math inline">\(\alpha / 6 = 0.00833\)</span> so that the <em>family-wise</em> Type 1 error rate is no more than <span class="math inline">\(1-(1-0.00833)^6 = 0.041 \leq 0.05\)</span>. This fixes our Type 1 error inflation problem, but it also means our power to detect fale null hypotheses (detect differences in response for different product designs) is severely hampered. Can we do better? Fortunately, the answer is yes! The alternative, improved strategy for comparing multiple population means is called ANOVA (analysis of variance) and its the focus of this section.</p>
+<div id="analysis-of-variance" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Analysis of variance<a href="anova.html#analysis-of-variance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The general setup is as follows: we conduct an experiment in which we observe a random sample of size <span class="math inline">\(n\)</span> from each of <span class="math inline">\(J\)</span> populations so that the total sample size is <span class="math inline">\(N=nJ\)</span>. Dentoe the samples by <span class="math inline">\(X_{ij}\)</span> for individual <span class="math inline">\(i=1, \ldots, n\)</span> in the sample from population <span class="math inline">\(j=1,\ldots, J\)</span>. (It’s possible, of course, to consider random samples of different sizes, but for simplicity we consider only the <em>balanced</em> case). Our goal in this experiemnt is to evaluate the null hypothesis <span class="math inline">\(H_0: \mu_j = \mu\)</span> for all <span class="math inline">\(j = 1,\ldots, J\)</span>, meaning that all the populations have the same mean. Further, we assume populations are normal with equal variance; this means that the populations are, essentially, equivalent under <span class="math inline">\(H_0\)</span>. The alternative hypothesis is that at least one population mean differs from the others.<br><br></p>
+<p>Rather than comparing sample means to evaluate <span class="math inline">\(H_0\)</span> we (somewhat counterintuitively) compare two estimators of the population variance. Consider the following decomposition:</p>
+<p><span class="math display">\[\sum_{i=1}^n\sum_{j=1}^J(X_{ij} - \overline X)^2 = \sum_{i=1}^n\sum_{j=1}^J (X_{ij} - \overline X_j)^2 + n\sum_{j=1}^J (\overline X_j - \overline X)^2.\]</span>
+The left hand side of the equals sign in the above display is called the total sum of squares TSS and it decomposes into the sum of the error sum of squares ESS (or residual sum of squares) and the treatment sum of squares TrSS. Under the null hypothesis all three of these sums of squares can be used to estimate <span class="math inline">\(\sigma^2\)</span>, the common variance among the <span class="math inline">\(J\)</span> populations. Further, the error sum of squares and treatment sum of squares are independent and satisfy
+<span class="math display">\[\frac{TrSS}{ESS} \stackrel{H_0}{\sim}F(J-1, J(n-1)).\]</span>
+The ANOVA F-test rejects the null hypothesis of equality of group means if <span class="math inline">\(F = TrSS/ESS\)</span> is more extreme than the upper <span class="math inline">\(1-\alpha\)</span> quantile of the F distribution with df <span class="math inline">\(J-1\)</span> and <span class="math inline">\(J(n-1)\)</span>. <br><br></p>
+</div>
+<div id="crop-data-in-depth-example" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Crop data in-depth example<a href="anova.html#crop-data-in-depth-example" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<a href="data:text/csv;base64,ImRlbnNpdHkiLCJibG9jayIsImZlcnRpbGl6ZXIiLCJ5aWVsZCINCiIxIiwiMSIsIjEiLDE3Ny4yMjg2OTIyNzg2ODgNCiIyIiwiMiIsIjEiLDE3Ny41NTAwNDEyNjU0MjYNCiIxIiwiMyIsIjEiLDE3Ni40MDg0NjE4NTIzNzENCiIyIiwiNCIsIjEiLDE3Ny43MDM2MjU0Nzg5MTgNCiIxIiwiMSIsIjEiLDE3Ny4xMjU0ODYzNDM1ODQNCiIyIiwiMiIsIjEiLDE3Ni43NzgzNDI0ODE0MzUNCiIxIiwiMyIsIjEiLDE3Ni43NDYzMDE4OTU2MzINCiIyIiwiNCIsIjEiLDE3Ny4wNjExNjQyMjEwNTkNCiIxIiwiMSIsIjEiLDE3Ni4yNzQ5NDkyOTcyNzcNCiIyIiwiMiIsIjEiLDE3Ny45NjcyMDI5Mjk1NzYNCiIxIiwiMyIsIjEiLDE3Ni42MDEyOTk4MzQ0OTQNCiIyIiwiNCIsIjEiLDE3Ny4wMzA1NDI4MDI5MTgNCiIxIiwiMSIsIjEiLDE3Ny40Nzk1MDcxNjA1ODgNCiIyIiwiMiIsIjEiLDE3Ni44NzQxMjk4MDE0NTINCiIxIiwiMyIsIjEiLDE3Ni4xMTQzODgzMTU5MjcNCiIyIiwiNCIsIjEiLDE3Ni4wMDgzOTQ1MTE1MzENCiIxIiwiMSIsIjEiLDE3Ni4xMDgzMTI1ODk2NTQNCiIyIiwiMiIsIjEiLDE3OC4zNTc0NDA5MTQyNQ0KIjEiLCIzIiwiMSIsMTc3LjI2MjQ0NTA4NDI3MQ0KIjIiLCI0IiwiMSIsMTc2LjkxODg0NDkzODk3Mg0KIjEiLCIxIiwiMSIsMTc2LjIzOTAxNTc3NTIyNQ0KIjIiLCIyIiwiMSIsMTc2LjU3MzA2OTc1NDg3Mw0KIjEiLCIzIiwiMSIsMTc2LjAzOTI5NzkzOTg0Mw0KIjIiLCI0IiwiMSIsMTc2LjgxNzkyMjE2NTQ5OQ0KIjEiLCIxIiwiMSIsMTc2LjE2MDU4NjUwMjgxNg0KIjIiLCIyIiwiMSIsMTc3LjIyNjQyNDEzMTM5Nw0KIjEiLCIzIiwiMSIsMTc1LjkzODUzMzAzMDAwNA0KIjIiLCI0IiwiMSIsMTc3LjE2NDkzNjY4MjgxDQoiMSIsIjEiLCIxIiwxNzUuMzYwODM5NTk4NjQ3DQoiMiIsIjIiLCIxIiwxNzcuMjc2OTk1NjgxMDI2DQoiMSIsIjMiLCIxIiwxNzUuOTQ1NDQzNzk1NDI1DQoiMiIsIjQiLCIxIiwxNzUuODgyNzc5NjE4NTU2DQoiMSIsIjEiLCIyIiwxNzYuNDc5MzQwOTE5ODE0DQoiMiIsIjIiLCIyIiwxNzYuMDQ0MzQyMTIwNQ0KIjEiLCIzIiwiMiIsMTc3LjQxMjQ2MTc0OTAwOQ0KIjIiLCI0IiwiMiIsMTc3LjM2MDgxODIzOTUzNQ0KIjEiLCIxIiwiMiIsMTc3LjM4NTQ5OTE4MDgzNg0KIjIiLCIyIiwiMiIsMTc2Ljk3NTgwNzY5NjM5Mw0KIjEiLCIzIiwiMiIsMTc3LjM3OTc3ODY4OTU3Nw0KIjIiLCI0IiwiMiIsMTc3Ljk5Nzk5NTA2NDI5DQoiMSIsIjEiLCIyIiwxNzYuNDM0ODYyNTY1ODY3DQoiMiIsIjIiLCIyIiwxNzYuOTMzMjY1MDkyMTQyDQoiMSIsIjMiLCIyIiwxNzUuOTgzNDgwMTY5OTkyDQoiMiIsIjQiLCIyIiwxNzcuMDM0MDkyNjU5MzU1DQoiMSIsIjEiLCIyIiwxNzYuNDM2NzYyMzY4MTgxDQoiMiIsIjIiLCIyIiwxNzYuMDY3NzQ0OTcwMzUNCiIxIiwiMyIsIjIiLDE3Ny4xMjEwNDg2MzI3ODYNCiIyIiwiNCIsIjIiLDE3Ny4xOTc3MjEzNjczODYNCiIxIiwiMSIsIjIiLDE3Ni42MDM3MjQwODA0OQ0KIjIiLCIyIiwiMiIsMTc3LjIwODE3MTQzMTA1OA0KIjEiLCIzIiwiMiIsMTc3LjE0ODgyODU5NTEwNw0KIjIiLCI0IiwiMiIsMTc2LjgxOTA3NjY5NTI2OA0KIjEiLCIxIiwiMiIsMTc2Ljk5OTA2Njk0OTk0Ng0KIjIiLCIyIiwiMiIsMTc4LjEzNDYwNDU4MjM0OA0KIjEiLCIzIiwiMiIsMTc2LjQyOTE1NjAwMjc1Nw0KIjIiLCI0IiwiMiIsMTc2LjY2ODMyMjkzNTA4Mg0KIjEiLCIxIiwiMiIsMTc2Ljg5NTg2Njg1OTg1OQ0KIjIiLCIyIiwiMiIsMTc3Ljc3OTQ5Mjg2MDI2Ng0KIjEiLCIzIiwiMiIsMTc2LjQxNDQ5NTAwMjI0Ng0KIjIiLCI0IiwiMiIsMTc2Ljg3ODg5Nzc0MzM5NA0KIjEiLCIxIiwiMiIsMTc3LjU4MDY4MzA3ODExMg0KIjIiLCIyIiwiMiIsMTc2Ljk1NzI2ODkyMDE5Mw0KIjEiLCIzIiwiMiIsMTc1Ljc0NzU0NTU4Mjg4Mw0KIjIiLCI0IiwiMiIsMTc3LjM1MjU5NTA3OTAxNQ0KIjEiLCIxIiwiMyIsMTc3LjEwNDE4NjM5ODg2NQ0KIjIiLCIyIiwiMyIsMTc4LjA3OTYzNTE2ODI3OA0KIjEiLCIzIiwiMyIsMTc2LjkwMzQyMjE0NTUzNQ0KIjIiLCI0IiwiMyIsMTc3LjU0MDI4NDE2MTQ5Mw0KIjEiLCIxIiwiMyIsMTc3LjAzMjcwOTY5NjUyDQoiMiIsIjIiLCIzIiwxNzguMjg2MDQxOTIxNTcNCiIxIiwiMyIsIjMiLDE3Ni40MDU0MTAyMzA0NzENCiIyIiwiNCIsIjMiLDE3Ni40MzA4MzAxMjY2ODYNCiIxIiwiMSIsIjMiLDE3Ny4zOTYzMzA2MzUwMjENCiIyIiwiMiIsIjMiLDE3Ni45MjU1NzU3NzgzNQ0KIjEiLCIzIiwiMyIsMTc3LjA1NTA0NTc3ODY5NQ0KIjIiLCI0IiwiMyIsMTc3LjM0NDE2Mzk0NjMzNQ0KIjEiLCIxIiwiMyIsMTc3LjEyODM2NzUzMTc2MQ0KIjIiLCIyIiwiMyIsMTc3LjE2ODMwMjIwNDUzMw0KIjEiLCIzIiwiMyIsMTc2LjM1Mzk0MDY0Mjg1OA0KIjIiLCI0IiwiMyIsMTc5LjA2MDg5OTAzNjkxNQ0KIjEiLCIxIiwiMyIsMTc2LjMwMDUxNzA1MDM2Ng0KIjIiLCIyIiwiMyIsMTc3LjU5MzM1MjM3NjA1DQoiMSIsIjMiLCIzIiwxNzcuMTE1MjQ1MjQxODM3DQoiMiIsIjQiLCIzIiwxNzcuNzk0NDU3NDM1NDg1DQoiMSIsIjEiLCIzIiwxNzcuMDA0MDM4MTAyNDk1DQoiMiIsIjIiLCIzIiwxNzguMDM2ODU4MzY2NDQ4DQoiMSIsIjMiLCIzIiwxNzcuNzAxMzY2MjgzMDM4DQoiMiIsIjQiLCIzIiwxNzcuNjMyODA4MjYzNjEzDQoiMSIsIjEiLCIzIiwxNzcuNjUyMjc0NjA4MDE3DQoiMiIsIjIiLCIzIiwxNzcuMTAwNDE3ODU3NzM4DQoiMSIsIjMiLCIzIiwxNzcuMTg3OTY3MDMxMDczDQoiMiIsIjQiLCIzIiwxNzcuNDA1MjkxODU1OTQzDQoiMSIsIjEiLCIzIiwxNzguMTQxNjQ0MzU2NzkNCiIyIiwiMiIsIjMiLDE3Ny43MTA2MTI1NDAzMzUNCiIxIiwiMyIsIjMiLDE3Ny42ODcyNjQzNTY4MzQNCiIyIiwiNCIsIjMiLDE3Ny4xMTgxNzU5Nzc2MTQNCg==" download="crop.data.csv">Download crop.data.csv</a>
+<p>The embedded data comes from an experiment examining the effects of three types of fertilizer on crop yield. According to the data below there are 96 observations of yield, 32 each from each fertilizer type. And, the mean yields for the three fertilizer types are all very close to 177.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="anova.html#cb100-1" aria-hidden="true" tabindex="-1"></a>crops <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;crop.data.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">colClasses =</span> <span class="fu">c</span>(<span class="st">&quot;factor&quot;</span>, <span class="st">&quot;factor&quot;</span>, <span class="st">&quot;factor&quot;</span>, <span class="st">&quot;numeric&quot;</span>))</span>
+<span id="cb100-2"><a href="anova.html#cb100-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">mean</span>(crops<span class="sc">$</span>yield)</span>
+<span id="cb100-3"><a href="anova.html#cb100-3" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">1</span>])</span>
+<span id="cb100-4"><a href="anova.html#cb100-4" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">2</span>])</span>
+<span id="cb100-5"><a href="anova.html#cb100-5" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">mean</span>(crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">3</span>])</span>
+<span id="cb100-6"><a href="anova.html#cb100-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-7"><a href="anova.html#cb100-7" aria-hidden="true" tabindex="-1"></a>m</span></code></pre></div>
+<pre><code>## [1] 177.0155</code></pre>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="anova.html#cb102-1" aria-hidden="true" tabindex="-1"></a>m1</span></code></pre></div>
+<pre><code>## [1] 176.757</code></pre>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="anova.html#cb104-1" aria-hidden="true" tabindex="-1"></a>m2</span></code></pre></div>
+<pre><code>## [1] 176.9332</code></pre>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="anova.html#cb106-1" aria-hidden="true" tabindex="-1"></a>m3</span></code></pre></div>
+<pre><code>## [1] 177.3562</code></pre>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="anova.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(crops<span class="sc">$</span>yield)</span></code></pre></div>
+<pre><code>## [1] 96</code></pre>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="anova.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 32</code></pre>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="anova.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 32</code></pre>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="anova.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## [1] 32</code></pre>
+<p>We can compute the ANOVA F-test “by hand” in R by computing the component sums of squares and comparing to the appropriate lower and upper F quantiles using the qf function or by computing the p-value.</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="anova.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SSE</span></span>
+<span id="cb116-2"><a href="anova.html#cb116-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-3"><a href="anova.html#cb116-3" aria-hidden="true" tabindex="-1"></a>SSE <span class="ot">&lt;-</span> <span class="fu">sum</span>((crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">1</span>] <span class="sc">-</span> m1)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">+</span><span class="fu">sum</span>((crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">2</span>] <span class="sc">-</span> m2)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">+</span><span class="fu">sum</span>((crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">3</span>] <span class="sc">-</span> m3)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb116-4"><a href="anova.html#cb116-4" aria-hidden="true" tabindex="-1"></a>SSE</span></code></pre></div>
+<pre><code>## [1] 35.88619</code></pre>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="anova.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SSTr</span></span>
+<span id="cb118-2"><a href="anova.html#cb118-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">sum</span>(crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb118-3"><a href="anova.html#cb118-3" aria-hidden="true" tabindex="-1"></a>n</span></code></pre></div>
+<pre><code>## [1] 32</code></pre>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="anova.html#cb120-1" aria-hidden="true" tabindex="-1"></a>SSTr <span class="ot">&lt;-</span> n<span class="sc">*</span>((m1<span class="sc">-</span>m)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">+</span>n<span class="sc">*</span>((m2<span class="sc">-</span>m)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">+</span>n<span class="sc">*</span>((m3<span class="sc">-</span>m)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb120-2"><a href="anova.html#cb120-2" aria-hidden="true" tabindex="-1"></a>SSTr</span></code></pre></div>
+<pre><code>## [1] 6.068047</code></pre>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="anova.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co"># F test</span></span>
+<span id="cb122-2"><a href="anova.html#cb122-2" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb122-3"><a href="anova.html#cb122-3" aria-hidden="true" tabindex="-1"></a>F <span class="ot">&lt;-</span> (SSTr <span class="sc">/</span> (J<span class="dv">-1</span>)) <span class="sc">/</span> (SSE <span class="sc">/</span> (J<span class="sc">*</span>(n<span class="dv">-1</span>)))</span>
+<span id="cb122-4"><a href="anova.html#cb122-4" aria-hidden="true" tabindex="-1"></a>F</span></code></pre></div>
+<pre><code>## [1] 7.862752</code></pre>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="anova.html#cb124-1" aria-hidden="true" tabindex="-1"></a>MSE <span class="ot">&lt;-</span> (SSE <span class="sc">/</span> (J<span class="sc">*</span>(n<span class="dv">-1</span>)))</span>
+<span id="cb124-2"><a href="anova.html#cb124-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-3"><a href="anova.html#cb124-3" aria-hidden="true" tabindex="-1"></a>p.value <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(<span class="fu">abs</span>(F), J<span class="dv">-1</span>, J<span class="sc">*</span>(n<span class="dv">-1</span>))</span>
+<span id="cb124-4"><a href="anova.html#cb124-4" aria-hidden="true" tabindex="-1"></a>p.value</span></code></pre></div>
+<pre><code>## [1] 0.0006999158</code></pre>
+<p>We can also use built-in R functions to compute the ANOVA F-test. Note the matching p-values.</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="anova.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(yield <span class="sc">~</span> fertilizer, <span class="at">data =</span> crops))</span></code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)    
+## fertilizer   2   6.07  3.0340   7.863  7e-04 ***
+## Residuals   93  35.89  0.3859                   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="anova.html#cb128-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">aov</span>(yield <span class="sc">~</span> fertilizer, <span class="at">data =</span> crops)</span>
+<span id="cb128-2"><a href="anova.html#cb128-2" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<pre><code>## Call:
+##    aov(formula = yield ~ fertilizer, data = crops)
+## 
+## Terms:
+##                 fertilizer Residuals
+## Sum of Squares     6.06805  35.88619
+## Deg. of Freedom          2        93
+## 
+## Residual standard error: 0.6211867
+## Estimated effects may be unbalanced</code></pre>
+<p>An important part of applying ANOVA is checking the normalitay and equal variance assumptions are reasonable. If they are not, then the F-test may be misleading because the test statistic may not have an F distribution under the null. The best way to check for normality is to examine the <em>residuals</em>—the values <span class="math inline">\(x_{ij} - \overline x_{j}\)</span>; under the null and assuming equal variance these <span class="math inline">\(N\)</span> values are approximately normally distributed with variance <span class="math inline">\(\sigma^2\)</span>. We can also examine the Studentized resisduals by normalizing the residuals by the sample standard deviation—these should look approximately standard normal for a large sample (otherwise approximately Student’s t with n-1 df).</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="anova.html#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(A<span class="sc">$</span>residuals)</span></code></pre></div>
+<p><img src="14-ANOVA_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="anova.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(A<span class="sc">$</span>residuals)</span>
+<span id="cb131-2"><a href="anova.html#cb131-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(A<span class="sc">$</span>residuals)</span></code></pre></div>
+<p><img src="14-ANOVA_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<p>Finally, we can also check the group-wise variances for equality. A formal method for checking these is Levene’s test, which amounts to performing ANOVA on the absolute values of the residuals themselves. The null hypothesis of Levene’s ANOVA is equality of variances over groups/populations.</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="anova.html#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer<span class="sc">==</span><span class="dv">1</span>])</span></code></pre></div>
+<pre><code>## [1] 0.6849233</code></pre>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="anova.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer<span class="sc">==</span><span class="dv">2</span>])</span></code></pre></div>
+<pre><code>## [1] 0.5740668</code></pre>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="anova.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer<span class="sc">==</span><span class="dv">3</span>])</span></code></pre></div>
+<pre><code>## [1] 0.5991214</code></pre>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="anova.html#cb138-1" aria-hidden="true" tabindex="-1"></a>crops<span class="sc">$</span>resid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">abs</span>(crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer<span class="sc">==</span><span class="dv">1</span>]<span class="sc">-</span><span class="fu">mean</span>(crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer<span class="sc">==</span><span class="dv">1</span>])),</span>
+<span id="cb138-2"><a href="anova.html#cb138-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abs</span>(crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer<span class="sc">==</span><span class="dv">2</span>]<span class="sc">-</span><span class="fu">mean</span>(crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer<span class="sc">==</span><span class="dv">2</span>])),</span>
+<span id="cb138-3"><a href="anova.html#cb138-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abs</span>(crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer<span class="sc">==</span><span class="dv">3</span>]<span class="sc">-</span><span class="fu">mean</span>(crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer<span class="sc">==</span><span class="dv">3</span>])))</span>
+<span id="cb138-4"><a href="anova.html#cb138-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb138-5"><a href="anova.html#cb138-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">aov</span>(resid <span class="sc">~</span> fertilizer, <span class="at">data =</span> crops))</span></code></pre></div>
+<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)
+## fertilizer   2   0.24  0.1197    0.88  0.418
+## Residuals   93  12.65  0.1360</code></pre>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="anova.html#cb140-1" aria-hidden="true" tabindex="-1"></a>ml <span class="ot">&lt;-</span> <span class="fu">mean</span>(crops<span class="sc">$</span>resid)</span>
+<span id="cb140-2"><a href="anova.html#cb140-2" aria-hidden="true" tabindex="-1"></a>m1l <span class="ot">&lt;-</span> <span class="fu">mean</span>(crops<span class="sc">$</span>resid[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">1</span>])</span>
+<span id="cb140-3"><a href="anova.html#cb140-3" aria-hidden="true" tabindex="-1"></a>m2l <span class="ot">&lt;-</span> <span class="fu">mean</span>(crops<span class="sc">$</span>resid[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">2</span>])</span>
+<span id="cb140-4"><a href="anova.html#cb140-4" aria-hidden="true" tabindex="-1"></a>m3l <span class="ot">&lt;-</span> <span class="fu">mean</span>(crops<span class="sc">$</span>resid[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">3</span>])</span>
+<span id="cb140-5"><a href="anova.html#cb140-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb140-6"><a href="anova.html#cb140-6" aria-hidden="true" tabindex="-1"></a>ml</span></code></pre></div>
+<pre><code>## [1] 0.4894152</code></pre>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="anova.html#cb142-1" aria-hidden="true" tabindex="-1"></a>m1l</span></code></pre></div>
+<pre><code>## [1] 0.5596244</code></pre>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="anova.html#cb144-1" aria-hidden="true" tabindex="-1"></a>m2l</span></code></pre></div>
+<pre><code>## [1] 0.4475853</code></pre>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="anova.html#cb146-1" aria-hidden="true" tabindex="-1"></a>m3l</span></code></pre></div>
+<pre><code>## [1] 0.4610358</code></pre>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="anova.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SSE</span></span>
+<span id="cb148-2"><a href="anova.html#cb148-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-3"><a href="anova.html#cb148-3" aria-hidden="true" tabindex="-1"></a>SSE.L <span class="ot">&lt;-</span> <span class="fu">sum</span>((crops<span class="sc">$</span>resid[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">1</span>] <span class="sc">-</span> m1l)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">+</span><span class="fu">sum</span>((crops<span class="sc">$</span>resid[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">2</span>] <span class="sc">-</span> m2l)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">+</span><span class="fu">sum</span>((crops<span class="sc">$</span>resid[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">3</span>] <span class="sc">-</span> m3l)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb148-4"><a href="anova.html#cb148-4" aria-hidden="true" tabindex="-1"></a>SSE.L</span></code></pre></div>
+<pre><code>## [1] 12.65207</code></pre>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="anova.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SSTr</span></span>
+<span id="cb150-2"><a href="anova.html#cb150-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">sum</span>(crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb150-3"><a href="anova.html#cb150-3" aria-hidden="true" tabindex="-1"></a>n</span></code></pre></div>
+<pre><code>## [1] 32</code></pre>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="anova.html#cb152-1" aria-hidden="true" tabindex="-1"></a>SSTr.L <span class="ot">&lt;-</span> n<span class="sc">*</span>((m1l<span class="sc">-</span>ml)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">+</span>n<span class="sc">*</span>((m2l<span class="sc">-</span>ml)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">+</span>n<span class="sc">*</span>((m3l<span class="sc">-</span>ml)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb152-2"><a href="anova.html#cb152-2" aria-hidden="true" tabindex="-1"></a>SSTr.L</span></code></pre></div>
+<pre><code>## [1] 0.2395029</code></pre>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="anova.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Levene F test</span></span>
+<span id="cb154-2"><a href="anova.html#cb154-2" aria-hidden="true" tabindex="-1"></a>J <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb154-3"><a href="anova.html#cb154-3" aria-hidden="true" tabindex="-1"></a>F.L <span class="ot">&lt;-</span> (SSTr.L <span class="sc">/</span> (J<span class="dv">-1</span>)) <span class="sc">/</span> (SSE.L <span class="sc">/</span> (J<span class="sc">*</span>(n<span class="dv">-1</span>)))</span>
+<span id="cb154-4"><a href="anova.html#cb154-4" aria-hidden="true" tabindex="-1"></a>F.L</span></code></pre></div>
+<pre><code>## [1] 0.880242</code></pre>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="anova.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(.<span class="dv">95</span>, J<span class="dv">-1</span>, J<span class="sc">*</span>(n<span class="dv">-1</span>))</span></code></pre></div>
+<pre><code>## [1] 3.094337</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="hypothesis-testing.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/14-ANOVA.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

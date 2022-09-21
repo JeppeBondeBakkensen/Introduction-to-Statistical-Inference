@@ -117,7 +117,7 @@
 
 \title{A First Course in Probability and Statistics}
 \author{Nick Syring}
-\date{2022-09-10}
+\date{2022-09-20}
 
 \begin{document}
 \maketitle
@@ -1007,7 +1007,7 @@ Here's a quick simulation to illustrate the above power function: we'll sample d
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.6652
+## [1] 0.6687
 \end{verbatim}
 
 \hypertarget{test-for-a-normal-population-variance}{%
@@ -1704,6 +1704,385 @@ Below we bin the data into categories of 0-3 counts, 4-7 counts, 8-11, and 12+. 
 
 \begin{verbatim}
 ## [1] 0.09975877
+\end{verbatim}
+
+\hypertarget{anova}{%
+\chapter{ANOVA}\label{anova}}
+
+One of the most important experiments we've discussed in the course involves the comparison of two populations in terms of their means. This kind of comparison motivated our study of the two-sample t-test and CI for the difference of two population means. These are very useful statistical methods, but why stop at comparing two populations? Often, we would like to compare three or more populations. For example, suppose a company marketing laundry detergent wants to compare 4 product designs (the detergent container and its labeling) in a pilot study. Using t-tests or CIs we could make pairwise comparisons (there are 4 choose 2, or, 6 pf these) but this causes some issues. Specifically, suppose there are no difference in the product designs and suppose we conduct 6 pairwise \(t\) tests at \(\alpha = 0.05\). If the 6 tests are independent (the test statistics are mutually independen r.v.'s) then the chance we make at least 1 Type 1 error is \(1-0.95^6 = 0.265\)! Even if there are no deifferences, there's a good chance we'll find at least one difference by chance alone. In order to avoid the Type 1 error inflation caused by \emph{multiple testing} one strategy---called Bonferroni correction---requires that we conduct each test at level \(\alpha / 6 = 0.00833\) so that the \emph{family-wise} Type 1 error rate is no more than \(1-(1-0.00833)^6 = 0.041 \leq 0.05\). This fixes our Type 1 error inflation problem, but it also means our power to detect fale null hypotheses (detect differences in response for different product designs) is severely hampered. Can we do better? Fortunately, the answer is yes! The alternative, improved strategy for comparing multiple population means is called ANOVA (analysis of variance) and its the focus of this section.
+
+\hypertarget{analysis-of-variance}{%
+\section{Analysis of variance}\label{analysis-of-variance}}
+
+The general setup is as follows: we conduct an experiment in which we observe a random sample of size \(n\) from each of \(J\) populations so that the total sample size is \(N=nJ\). Dentoe the samples by \(X_{ij}\) for individual \(i=1, \ldots, n\) in the sample from population \(j=1,\ldots, J\). (It's possible, of course, to consider random samples of different sizes, but for simplicity we consider only the \emph{balanced} case). Our goal in this experiemnt is to evaluate the null hypothesis \(H_0: \mu_j = \mu\) for all \(j = 1,\ldots, J\), meaning that all the populations have the same mean. Further, we assume populations are normal with equal variance; this means that the populations are, essentially, equivalent under \(H_0\). The alternative hypothesis is that at least one population mean differs from the others.
+
+Rather than comparing sample means to evaluate \(H_0\) we (somewhat counterintuitively) compare two estimators of the population variance. Consider the following decomposition:
+
+\[\sum_{i=1}^n\sum_{j=1}^J(X_{ij} - \overline X)^2 = \sum_{i=1}^n\sum_{j=1}^J (X_{ij} - \overline X_j)^2 + n\sum_{j=1}^J (\overline X_j - \overline X)^2.\]
+The left hand side of the equals sign in the above display is called the total sum of squares TSS and it decomposes into the sum of the error sum of squares ESS (or residual sum of squares) and the treatment sum of squares TrSS. Under the null hypothesis all three of these sums of squares can be used to estimate \(\sigma^2\), the common variance among the \(J\) populations. Further, the error sum of squares and treatment sum of squares are independent and satisfy
+\[\frac{TrSS}{ESS} \stackrel{H_0}{\sim}F(J-1, J(n-1)).\]
+The ANOVA F-test rejects the null hypothesis of equality of group means if \(F = TrSS/ESS\) is more extreme than the upper \(1-\alpha\) quantile of the F distribution with df \(J-1\) and \(J(n-1)\).
+
+\hypertarget{crop-data-in-depth-example}{%
+\section{Crop data in-depth example}\label{crop-data-in-depth-example}}
+
+The embedded data comes from an experiment examining the effects of three types of fertilizer on crop yield. According to the data below there are 96 observations of yield, 32 each from each fertilizer type. And, the mean yields for the three fertilizer types are all very close to 177.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{crops }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"crop.data.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{colClasses =} \FunctionTok{c}\NormalTok{(}\StringTok{"factor"}\NormalTok{, }\StringTok{"factor"}\NormalTok{, }\StringTok{"factor"}\NormalTok{, }\StringTok{"numeric"}\NormalTok{))}
+\NormalTok{m }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield)}
+\NormalTok{m1 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{1}\NormalTok{])}
+\NormalTok{m2 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{2}\NormalTok{])}
+\NormalTok{m3 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{3}\NormalTok{])}
+
+\NormalTok{m}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 177.0155
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 176.757
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 176.9332
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m3}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 177.3562
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{length}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 96
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 32
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 32
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 32
+\end{verbatim}
+
+We can compute the ANOVA F-test ``by hand'' in R by computing the component sums of squares and comparing to the appropriate lower and upper F quantiles using the qf function or by computing the p-value.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# SSE}
+
+\NormalTok{SSE }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{((crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ m1)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{((crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ m2)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{((crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{3}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ m3)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{SSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 35.88619
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# SSTr}
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{1}\NormalTok{)}
+\NormalTok{n}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 32
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SSTr }\OtherTok{\textless{}{-}}\NormalTok{ n}\SpecialCharTok{*}\NormalTok{((m1}\SpecialCharTok{{-}}\NormalTok{m)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{+}\NormalTok{n}\SpecialCharTok{*}\NormalTok{((m2}\SpecialCharTok{{-}}\NormalTok{m)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{+}\NormalTok{n}\SpecialCharTok{*}\NormalTok{((m3}\SpecialCharTok{{-}}\NormalTok{m)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{SSTr}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 6.068047
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# F test}
+\NormalTok{J }\OtherTok{\textless{}{-}} \DecValTok{3}
+\NormalTok{F }\OtherTok{\textless{}{-}}\NormalTok{ (SSTr }\SpecialCharTok{/}\NormalTok{ (J}\DecValTok{{-}1}\NormalTok{)) }\SpecialCharTok{/}\NormalTok{ (SSE }\SpecialCharTok{/}\NormalTok{ (J}\SpecialCharTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{)))}
+\NormalTok{F}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 7.862752
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{MSE }\OtherTok{\textless{}{-}}\NormalTok{ (SSE }\SpecialCharTok{/}\NormalTok{ (J}\SpecialCharTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{)))}
+
+\NormalTok{p.value }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pf}\NormalTok{(}\FunctionTok{abs}\NormalTok{(F), J}\DecValTok{{-}1}\NormalTok{, J}\SpecialCharTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{))}
+\NormalTok{p.value}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0006999158
+\end{verbatim}
+
+We can also use built-in R functions to compute the ANOVA F-test. Note the matching p-values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{aov}\NormalTok{(yield }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fertilizer, }\AttributeTok{data =}\NormalTok{ crops))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             Df Sum Sq Mean Sq F value Pr(>F)    
+## fertilizer   2   6.07  3.0340   7.863  7e-04 ***
+## Residuals   93  35.89  0.3859                   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A }\OtherTok{\textless{}{-}} \FunctionTok{aov}\NormalTok{(yield }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fertilizer, }\AttributeTok{data =}\NormalTok{ crops)}
+\NormalTok{A}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call:
+##    aov(formula = yield ~ fertilizer, data = crops)
+## 
+## Terms:
+##                 fertilizer Residuals
+## Sum of Squares     6.06805  35.88619
+## Deg. of Freedom          2        93
+## 
+## Residual standard error: 0.6211867
+## Estimated effects may be unbalanced
+\end{verbatim}
+
+An important part of applying ANOVA is checking the normalitay and equal variance assumptions are reasonable. If they are not, then the F-test may be misleading because the test statistic may not have an F distribution under the null. The best way to check for normality is to examine the \emph{residuals}---the values \(x_{ij} - \overline x_{j}\); under the null and assuming equal variance these \(N\) values are approximately normally distributed with variance \(\sigma^2\). We can also examine the Studentized resisduals by normalizing the residuals by the sample standard deviation---these should look approximately standard normal for a large sample (otherwise approximately Student's t with n-1 df).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(A}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{14-ANOVA_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qqnorm}\NormalTok{(A}\SpecialCharTok{$}\NormalTok{residuals)}
+\FunctionTok{qqline}\NormalTok{(A}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{14-ANOVA_files/figure-latex/unnamed-chunk-5-2.pdf}
+
+Finally, we can also check the group-wise variances for equality. A formal method for checking these is Levene's test, which amounts to performing ANOVA on the absolute values of the residuals themselves. The null hypothesis of Levene's ANOVA is equality of variances over groups/populations.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sd}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer}\SpecialCharTok{==}\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.6849233
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sd}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer}\SpecialCharTok{==}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5740668
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sd}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer}\SpecialCharTok{==}\DecValTok{3}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5991214
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{crops}\SpecialCharTok{$}\NormalTok{resid }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{abs}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer}\SpecialCharTok{==}\DecValTok{1}\NormalTok{]}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer}\SpecialCharTok{==}\DecValTok{1}\NormalTok{])),}
+\FunctionTok{abs}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer}\SpecialCharTok{==}\DecValTok{2}\NormalTok{]}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer}\SpecialCharTok{==}\DecValTok{2}\NormalTok{])),}
+\FunctionTok{abs}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer}\SpecialCharTok{==}\DecValTok{3}\NormalTok{]}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield[crops}\SpecialCharTok{$}\NormalTok{fertilizer}\SpecialCharTok{==}\DecValTok{3}\NormalTok{])))}
+
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{aov}\NormalTok{(resid }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fertilizer, }\AttributeTok{data =}\NormalTok{ crops))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             Df Sum Sq Mean Sq F value Pr(>F)
+## fertilizer   2   0.24  0.1197    0.88  0.418
+## Residuals   93  12.65  0.1360
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ml }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{resid)}
+\NormalTok{m1l }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{resid[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{1}\NormalTok{])}
+\NormalTok{m2l }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{resid[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{2}\NormalTok{])}
+\NormalTok{m3l }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{resid[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{3}\NormalTok{])}
+
+\NormalTok{ml}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4894152
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m1l}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5596244
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m2l}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4475853
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m3l}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4610358
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# SSE}
+
+\NormalTok{SSE.L }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{((crops}\SpecialCharTok{$}\NormalTok{resid[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ m1l)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{((crops}\SpecialCharTok{$}\NormalTok{resid[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ m2l)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{((crops}\SpecialCharTok{$}\NormalTok{resid[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{3}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ m3l)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{SSE.L}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 12.65207
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# SSTr}
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{1}\NormalTok{)}
+\NormalTok{n}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 32
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SSTr.L }\OtherTok{\textless{}{-}}\NormalTok{ n}\SpecialCharTok{*}\NormalTok{((m1l}\SpecialCharTok{{-}}\NormalTok{ml)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{+}\NormalTok{n}\SpecialCharTok{*}\NormalTok{((m2l}\SpecialCharTok{{-}}\NormalTok{ml)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{+}\NormalTok{n}\SpecialCharTok{*}\NormalTok{((m3l}\SpecialCharTok{{-}}\NormalTok{ml)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{SSTr.L}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2395029
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Levene F test}
+\NormalTok{J }\OtherTok{\textless{}{-}} \DecValTok{3}
+\NormalTok{F.L }\OtherTok{\textless{}{-}}\NormalTok{ (SSTr.L }\SpecialCharTok{/}\NormalTok{ (J}\DecValTok{{-}1}\NormalTok{)) }\SpecialCharTok{/}\NormalTok{ (SSE.L }\SpecialCharTok{/}\NormalTok{ (J}\SpecialCharTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{)))}
+\NormalTok{F.L}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.880242
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qf}\NormalTok{(.}\DecValTok{95}\NormalTok{, J}\DecValTok{{-}1}\NormalTok{, J}\SpecialCharTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.094337
 \end{verbatim}
 
   \bibliography{book.bib,packages.bib}
