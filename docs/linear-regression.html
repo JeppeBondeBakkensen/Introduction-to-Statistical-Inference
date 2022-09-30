@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>A First Course in Probability and Statistics</title>
+  <title>Chapter 8 Linear Regression | A First Course in Probability and Statistics</title>
   <meta name="description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="A First Course in Probability and Statistics" />
+  <meta property="og:title" content="Chapter 8 Linear Regression | A First Course in Probability and Statistics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="A First Course in Probability and Statistics" />
+  <meta name="twitter:title" content="Chapter 8 Linear Regression | A First Course in Probability and Statistics" />
   
   <meta name="twitter:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="anova.html"/>
 
-<link rel="next" href="data-analysis-and-statistical-inference.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -272,25 +272,100 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">A First Course in Probability and Statistics</h1>
-<p class="author"><em>Nick Syring</em></p>
-<p class="date"><em>2022-09-30</em></p>
+<div id="linear-regression" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Linear Regression<a href="linear-regression.html#linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this chapter we consider estimation and inference of a random response, conditional on another observed variable—the independent variable, also called predictor or covariate. <br><br></p>
+<div id="simple-linear-regression" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Simple linear regression<a href="linear-regression.html#simple-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The simple linear regression model says that a random response <span class="math inline">\(Y_i\)</span> has conditional mean <span class="math inline">\(\beta_0 + \beta_1 x_i\)</span> given <span class="math inline">\(X_i = x_i\)</span> where <span class="math inline">\(X_i\)</span> may be a random variable. Moreover, the responses <span class="math inline">\(Y_i\)</span>, <span class="math inline">\(i = 1, \ldots, n\)</span>, are independent, with common variance <span class="math inline">\(\sigma^2\)</span>, and are normally distributed. This is commonly written using the following statistical notation:
+<span class="math display">\[Y_i = \beta_0 + \beta_1 x_i + \epsilon_i, \quad \epsilon_i\stackrel{iid}{\sim} N(0, \sigma^2)\]</span>
+where <span class="math inline">\(\epsilon_i\)</span> is the “random residual”—what is left over after subtracting the mean from the response. <br><br></p>
+<p>The model is “linear” because the mean <span class="math inline">\(E(Y_i|x_i) = \beta_0 + \beta_1 x_i\)</span> is a linear function (a line in two dimensions <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>). The model is “simple” because it is the simplest line (two dimensions). Later we will expand the model by adding covariates, i.e., <span class="math inline">\(x_{1i}, x_{2i}, \ldots\)</span>, to the linear conditional mean function and call it <em>multiple linear regression</em>.</p>
+<div id="estimation" class="section level3 hasAnchor" number="8.1.1">
+<h3><span class="header-section-number">8.1.1</span> Estimation<a href="linear-regression.html#estimation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We estimate <span class="math inline">\((\beta_0, \beta_1)\)</span> simultaneously using the method of “least squares”. The method of least squares defines the line <span class="math inline">\(y = \beta_0 + \beta_1 x\)</span> that is “closest” to the points <span class="math inline">\((y_i, x_i), i=1, \ldots, n\)</span> is the one minimizing the sum of square vertical distances (residuals) from the points to the line:
+<span class="math display">\[(\hat\beta_0, \hat\beta_1) = \arg\min_{(\beta_0, \beta_1)}\sum_{i=1}^n(y_i - \beta_0 - \beta_1x_i)^2.\]</span>
+The plot below shows these residuals for three points (1.0,1.1), (1.5,2.1), and (2.0,1.8), compared to the line <span class="math inline">\(y=x\)</span>.</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="linear-regression.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">1.5</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="fl">1.1</span>,<span class="fl">2.1</span>,<span class="fl">1.8</span>), <span class="at">xlab =</span> <span class="st">&#39;x&#39;</span>, <span class="at">ylab =</span> <span class="st">&#39;y&#39;</span>, <span class="at">main =</span> <span class="st">&#39;&#39;</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="fl">0.5</span>,<span class="fl">2.5</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">3</span>))</span>
+<span id="cb171-2"><a href="linear-regression.html#cb171-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="fl">0.5</span>,<span class="fl">2.5</span>),<span class="fu">c</span>(<span class="fl">0.5</span>,<span class="fl">2.5</span>))</span>
+<span id="cb171-3"><a href="linear-regression.html#cb171-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">1.1</span>), <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb171-4"><a href="linear-regression.html#cb171-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">1.5</span>), <span class="fu">c</span>(<span class="fl">1.5</span>,<span class="fl">2.1</span>), <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb171-5"><a href="linear-regression.html#cb171-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="fl">1.8</span>), <span class="at">lty =</span> <span class="dv">3</span>)</span></code></pre></div>
+<p><img src="15-Regression_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>We can determine the estimators <span class="math inline">\((\hat\beta_0, \hat\beta_1)\)</span> by minimizing the sum of squared residuals using calculus:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\partial}{\partial\beta_0} \sum_{i=1}^n(y_i - \beta_0 - \beta_1x_i)^2 \\
+&amp; = -2\sum_{i=1}^n(y_i - \beta_0 - \beta_1x_i)\\
+\text{set  }0 &amp;= -2\sum_{i=1}^n(y_i - \beta_0 - \beta_1x_i)\\
+&amp;\Rightarrow \hat\beta_0 = n^{-1}\sum_{i=1}^n(y_i - \beta_1x_i)\\
+&amp; = \bar y - \beta_1\bar x
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\partial}{\partial\beta_1} \sum_{i=1}^n(y_i - \beta_0 - \beta_1x_i)^2 \\
+&amp; = -2 \sum_{i=1}^n x_i(y_i - \beta_0 - \beta_1x_i)\\
+\text{set  }0 &amp;= -2 \sum_{i=1}^n x_i(y_i - \beta_0 - \beta_1x_i)\\
+&amp;\Rightarrow 0 = \sum_{i=1}^n (y_ix_i - x_i(\bar y - \beta_1 \bar x) - \beta_1 x_i^2)\quad \text{by substituting }\beta_0\\
+&amp; \beta_1\sum(x_i^2 - x_i\bar x) = \sum_{i=1}^n(y_ix_i - \bar y x_i)\\
+&amp;\Rightarrow \hat\beta_1 = \frac{\sum_{i=1}^n (y_ix_i) - n\bar y\bar x}{\sum_{i=1}^n
+(x_i^2) - n\bar x^2} = \frac{\sum_{i=1}^n [(y_i - \bar y)(x_i - \bar x)]}{\sum_{i=1}^n (x_i - \bar x)^2}
+\end{aligned}
+\]</span>
+### LSEs are unbiased</p>
+<p>A nice property of the least squares method is that it produces unbiased estimators. Consider the expectation <span class="math inline">\(E(\hat\beta_1)\)</span>. Since the <span class="math inline">\(x_i&#39;\)</span>s are non-random, treat these as constants, and find <span class="math inline">\(\hat\beta_1\)</span> is unbiased:</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(\hat\beta_1) &amp; = \frac{\sum_{i=1}^n E((y_i - \bar y))(x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2}\\
+&amp; = \frac{\sum_{i=1}^n (\beta_0 + \beta_1 x_i - n^{-1}\sum_{i=1}^n [\beta_0 +\beta_1 x_i])(x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2}\\
+&amp; = \frac{\beta_1\sum_{i=1}^n ( x_i - \bar x)(x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2}\\
+&amp; = \beta_1.
+\end{aligned}
+\]</span></p>
+<p>Similarly, the estimator of the intercept is unbiased:</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(\hat\beta_0) &amp; = E(\bar y - \hat\beta_1 \bar x)\\
+&amp; = n^{-1}\sum_{i=1}^n (\beta_0 + \beta_1x_i) - \beta_1 \bar x\\
+&amp; = \beta_0 + \beta_1 \bar x - \beta_1 \bar x\\
+&amp; = \beta_0
+\end{aligned}
+\]</span></p>
 </div>
-<div id="about" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Chapter 1</span> About<a href="index.html#about" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>This is a collection of notes intended for students studying probability and statistics at the advanced undergraduate level at Iowa State University. Specifically, these notes are modeled after course notes for STAT 588, 341, and 342. This site is a work in progress.</p>
-<p><br><br></p>
-<p>Some relevant textbook references include John E. Freund’s Mathematical Statistics with Applications by Miller and Miller, or Modern Mathematical Statistics with Applications by Devore and Berk, although many books on this material are available.</p>
+<div id="estimation-of-the-common-variance" class="section level3 hasAnchor" number="8.1.2">
+<h3><span class="header-section-number">8.1.2</span> Estimation of the common variance<a href="linear-regression.html#estimation-of-the-common-variance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Estimating <span class="math inline">\(\sigma^2\)</span> in the regression model is similar to the method used in ANOVA. Define the observed/fitted residuals <span class="math inline">\(\hat e_i = y_i - \hat y_i = y_i - \hat\beta_0 - \hat\beta_1 x_i\)</span>. Since <span class="math inline">\((\hat\beta_0, \hat\beta_1)\)</span> are unbiased, we have <span class="math inline">\(E(\hat e_i) = E(Y_i - \hat\beta_0 - \hat\beta_1 x_i) = 0\)</span>. Therefore, <span class="math inline">\(V(\hat e_i) = E(\hat e_i ^2)\)</span>. And, the method of moments suggests we estimate the variance(in this case second moment) by the sample variance:</p>
+<p><span class="math display">\[\hat\sigma^2 = \frac{1}{n-2}\sum_{i=1}^n (y_i - \hat\beta_0 - \hat\beta_1 x_i)^2,\]</span>
+where we divide by <span class="math inline">\(n-2\)</span> so that the resulting estimator is unbiased. (I’ll leave that as a challenging exercise for the reader).</p>
+</div>
+<div id="inference-for-regression-parameters" class="section level3 hasAnchor" number="8.1.3">
+<h3><span class="header-section-number">8.1.3</span> Inference for regression parameters<a href="linear-regression.html#inference-for-regression-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>There are two main inference (and prediction) problems of interest in regression. The first is inference on <span class="math inline">\(\beta_1\)</span>, and, in particular, testing <span class="math inline">\(\beta_1 = 0\)</span>. If <span class="math inline">\(\beta_1=0\)</span> then there is no linear relationship between the covariate <span class="math inline">\(x\)</span> and the response <span class="math inline">\(Y\)</span>, and <span class="math inline">\(Y\)</span> has a constant mean (so is iid, rather than independent). Testing <span class="math inline">\(\beta_1=0\)</span> is similar to the ANOVA F test for categorical <span class="math inline">\(x\)</span>, rather than continuous <span class="math inline">\(x\)</span> in regression.<br />
+<br><br></p>
+<p>For inference on <span class="math inline">\(\beta_1\)</span> we need the sampling distribution of <span class="math inline">\(\hat\beta_1\)</span>. Recognize that we can write this estimator as
+<span class="math display">\[\hat\beta_1 = \frac{\sum_{i=1}^n Y_i(x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2}\]</span> because <span class="math inline">\(\sum_{i=1}^n \bar Y(x_i - \bar x) = 0\)</span>. Then, we see that <span class="math inline">\(\hat\beta_1\)</span> is a linear combination of <span class="math inline">\(Y_i\)</span>, i.e., <span class="math inline">\(\hat\beta_1 = \sum_{i=1}^nc_i Y_i\)</span> for non-random <span class="math inline">\(c_i\)</span>. By a MGF argument we have used before, linear combinations of normal random variables are also normally-distributed. This means,
+<span class="math display">\[\hat\beta_1 \sim N\left(\beta_1, \sigma_2\sum_{i=1}^n c_i^2\right).\]</span></p>
+<p>Furthermore, by essentially the same argument as in the proof of Student’s Theorem,
+<span class="math display">\[\frac{(n-2)\hat\sigma^2}{\sigma^2}\sim \chi^2(n-2)\]</span>
+so that the studentized slope estimator has a Student’s <span class="math inline">\(t\)</span> distribution:
+<span class="math display">\[t = \frac{\hat\beta_1 - \beta_1}{\sqrt{\hat\sigma^2 \left[\sum_{i=1}^n (x_i - \bar x)^2\right]^{-1}}}\sim t_{n-2}\]</span></p>
+<p><br></p>
+<p>A test of <span class="math inline">\(H_0:\beta_1 = b\)</span> versus <span class="math inline">\(H_a:\beta_1 \ne b\)</span> rejects the null if
+<span class="math display">\[\frac{|\hat\beta_1 - b|}{\sqrt{\hat\sigma^2 \left[\sum_{i=1}^n (x_i - \bar x)^2\right]^{-1}}} &gt; t_{1-\alpha/2, n-2}\]</span></p>
+<p>Similarly, a <span class="math inline">\(100(1-\alpha)\%\)</span> CI for <span class="math inline">\(\beta_1\)</span> is given by
+<span class="math display">\[\left(\hat\beta_1 \pm t_{1-\alpha/2, n-2}\sqrt{\hat\sigma^2 \left[\sum_{i=1}^n (x_i - \bar x)^2\right]^{-1}}\right).\]</span></p>
 
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
+<a href="anova.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="data-analysis-and-statistical-inference.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -321,7 +396,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/index.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/15-Regression.Rmd",
 "text": "Edit"
 },
 "history": {

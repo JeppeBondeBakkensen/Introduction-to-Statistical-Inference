@@ -23,7 +23,7 @@
 <meta name="author" content="Nick Syring" />
 
 
-<meta name="date" content="2022-09-20" />
+<meta name="date" content="2022-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="hypothesis-testing.html"/>
-
+<link rel="next" href="linear-regression.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -237,7 +237,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7" data-path="anova.html"><a href="anova.html"><i class="fa fa-check"></i><b>7</b> ANOVA</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="anova.html"><a href="anova.html#analysis-of-variance"><i class="fa fa-check"></i><b>7.1</b> Analysis of variance</a></li>
-<li class="chapter" data-level="7.2" data-path="anova.html"><a href="anova.html#crop-data-in-depth-example"><i class="fa fa-check"></i><b>7.2</b> Crop data in-depth example</a></li>
+<li class="chapter" data-level="7.2" data-path="anova.html"><a href="anova.html#crop-data-in-depth-example"><i class="fa fa-check"></i><b>7.2</b> Crop data in-depth example</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="anova.html"><a href="anova.html#checking-the-equal-variance-assumption"><i class="fa fa-check"></i><b>7.2.1</b> Checking the equal variance assumption</a></li>
+<li class="chapter" data-level="7.2.2" data-path="anova.html"><a href="anova.html#normality-and-alternatives-to-the-f-test"><i class="fa fa-check"></i><b>7.2.2</b> Normality and alternatives to the F test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="linear-regression.html"><a href="linear-regression.html"><i class="fa fa-check"></i><b>8</b> Linear Regression</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="linear-regression.html"><a href="linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>8.1</b> Simple linear regression</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="linear-regression.html"><a href="linear-regression.html#estimation"><i class="fa fa-check"></i><b>8.1.1</b> Estimation</a></li>
+<li class="chapter" data-level="8.1.2" data-path="linear-regression.html"><a href="linear-regression.html#estimation-of-the-common-variance"><i class="fa fa-check"></i><b>8.1.2</b> Estimation of the common variance</a></li>
+<li class="chapter" data-level="8.1.3" data-path="linear-regression.html"><a href="linear-regression.html#inference-for-regression-parameters"><i class="fa fa-check"></i><b>8.1.3</b> Inference for regression parameters</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -264,7 +277,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>One of the most important experiments we’ve discussed in the course involves the comparison of two populations in terms of their means. This kind of comparison motivated our study of the two-sample t-test and CI for the difference of two population means. These are very useful statistical methods, but why stop at comparing two populations? Often, we would like to compare three or more populations. For example, suppose a company marketing laundry detergent wants to compare 4 product designs (the detergent container and its labeling) in a pilot study. Using t-tests or CIs we could make pairwise comparisons (there are 4 choose 2, or, 6 pf these) but this causes some issues. Specifically, suppose there are no difference in the product designs and suppose we conduct 6 pairwise <span class="math inline">\(t\)</span> tests at <span class="math inline">\(\alpha = 0.05\)</span>. If the 6 tests are independent (the test statistics are mutually independen r.v.’s) then the chance we make at least 1 Type 1 error is <span class="math inline">\(1-0.95^6 = 0.265\)</span>! Even if there are no deifferences, there’s a good chance we’ll find at least one difference by chance alone. In order to avoid the Type 1 error inflation caused by <em>multiple testing</em> one strategy—called Bonferroni correction—requires that we conduct each test at level <span class="math inline">\(\alpha / 6 = 0.00833\)</span> so that the <em>family-wise</em> Type 1 error rate is no more than <span class="math inline">\(1-(1-0.00833)^6 = 0.041 \leq 0.05\)</span>. This fixes our Type 1 error inflation problem, but it also means our power to detect fale null hypotheses (detect differences in response for different product designs) is severely hampered. Can we do better? Fortunately, the answer is yes! The alternative, improved strategy for comparing multiple population means is called ANOVA (analysis of variance) and its the focus of this section.</p>
 <div id="analysis-of-variance" class="section level2 hasAnchor" number="7.1">
 <h2><span class="header-section-number">7.1</span> Analysis of variance<a href="anova.html#analysis-of-variance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The general setup is as follows: we conduct an experiment in which we observe a random sample of size <span class="math inline">\(n\)</span> from each of <span class="math inline">\(J\)</span> populations so that the total sample size is <span class="math inline">\(N=nJ\)</span>. Dentoe the samples by <span class="math inline">\(X_{ij}\)</span> for individual <span class="math inline">\(i=1, \ldots, n\)</span> in the sample from population <span class="math inline">\(j=1,\ldots, J\)</span>. (It’s possible, of course, to consider random samples of different sizes, but for simplicity we consider only the <em>balanced</em> case). Our goal in this experiemnt is to evaluate the null hypothesis <span class="math inline">\(H_0: \mu_j = \mu\)</span> for all <span class="math inline">\(j = 1,\ldots, J\)</span>, meaning that all the populations have the same mean. Further, we assume populations are normal with equal variance; this means that the populations are, essentially, equivalent under <span class="math inline">\(H_0\)</span>. The alternative hypothesis is that at least one population mean differs from the others.<br><br></p>
+<p>The general setup is as follows: we conduct an experiment in which we observe a random sample of size <span class="math inline">\(n\)</span> from each of <span class="math inline">\(J\)</span> populations so that the total sample size is <span class="math inline">\(N=nJ\)</span>. Denote the samples by <span class="math inline">\(X_{ij}\)</span> for individual <span class="math inline">\(i=1, \ldots, n\)</span> in the sample from population <span class="math inline">\(j=1,\ldots, J\)</span>. (It’s possible, of course, to consider random samples of different sizes, but for simplicity we consider only the <em>balanced</em> case). Our goal in this experiemnt is to evaluate the null hypothesis <span class="math inline">\(H_0: \mu_j = \mu\)</span> for all <span class="math inline">\(j = 1,\ldots, J\)</span>, meaning that all the populations have the same mean. Further, we assume populations are normal with equal variance; this means that the populations are, essentially, equivalent under <span class="math inline">\(H_0\)</span>. The alternative hypothesis is that at least one population mean differs from the others.<br><br></p>
 <p>Rather than comparing sample means to evaluate <span class="math inline">\(H_0\)</span> we (somewhat counterintuitively) compare two estimators of the population variance. Consider the following decomposition:</p>
 <p><span class="math display">\[\sum_{i=1}^n\sum_{j=1}^J(X_{ij} - \overline X)^2 = \sum_{i=1}^n\sum_{j=1}^J (X_{ij} - \overline X_j)^2 + n\sum_{j=1}^J (\overline X_j - \overline X)^2.\]</span>
 The left hand side of the equals sign in the above display is called the total sum of squares TSS and it decomposes into the sum of the error sum of squares ESS (or residual sum of squares) and the treatment sum of squares TrSS. Under the null hypothesis all three of these sums of squares can be used to estimate <span class="math inline">\(\sigma^2\)</span>, the common variance among the <span class="math inline">\(J\)</span> populations. Further, the error sum of squares and treatment sum of squares are independent and satisfy
@@ -345,7 +358,9 @@ The ANOVA F-test rejects the null hypothesis of equality of group means if <span
 <div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="anova.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(A<span class="sc">$</span>residuals)</span>
 <span id="cb131-2"><a href="anova.html#cb131-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(A<span class="sc">$</span>residuals)</span></code></pre></div>
 <p><img src="14-ANOVA_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
-<p>Finally, we can also check the group-wise variances for equality. A formal method for checking these is Levene’s test, which amounts to performing ANOVA on the absolute values of the residuals themselves. The null hypothesis of Levene’s ANOVA is equality of variances over groups/populations.</p>
+<div id="checking-the-equal-variance-assumption" class="section level3 hasAnchor" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> Checking the equal variance assumption<a href="anova.html#checking-the-equal-variance-assumption" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can also check the group-wise variances for equality. A formal method for checking these is Levene’s test, which amounts to performing ANOVA on the absolute values of the residuals themselves. The null hypothesis of Levene’s ANOVA is equality of variances over groups/populations.</p>
 <div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="anova.html#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer<span class="sc">==</span><span class="dv">1</span>])</span></code></pre></div>
 <pre><code>## [1] 0.6849233</code></pre>
 <div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="anova.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(crops<span class="sc">$</span>yield[crops<span class="sc">$</span>fertilizer<span class="sc">==</span><span class="dv">2</span>])</span></code></pre></div>
@@ -392,7 +407,57 @@ The ANOVA F-test rejects the null hypothesis of equality of group means if <span
 <pre><code>## [1] 0.880242</code></pre>
 <div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="anova.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(.<span class="dv">95</span>, J<span class="dv">-1</span>, J<span class="sc">*</span>(n<span class="dv">-1</span>))</span></code></pre></div>
 <pre><code>## [1] 3.094337</code></pre>
+</div>
+<div id="normality-and-alternatives-to-the-f-test" class="section level3 hasAnchor" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> Normality and alternatives to the F test<a href="anova.html#normality-and-alternatives-to-the-f-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>As we have done in the past, we can investigate the assumption of normality by constructing plots of residuals. The observed, Studentized residuals are given by
+<span class="math display">\[e_{ij} = \frac{y_{ij} - \bar y_{i\cdot}}{\sqrt{MSW}}\stackrel{\cdot}{\sim} t_{N-I}\]</span></p>
+<p>The qq-plot reveals no obvious signs of non-normality of residuals.</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="anova.html#cb158-1" aria-hidden="true" tabindex="-1"></a>resids <span class="ot">&lt;-</span> A<span class="sc">$</span>residuals</span>
+<span id="cb158-2"><a href="anova.html#cb158-2" aria-hidden="true" tabindex="-1"></a>stu.resids <span class="ot">&lt;-</span> resids<span class="sc">/</span><span class="fu">sqrt</span>(MSE)</span>
+<span id="cb158-3"><a href="anova.html#cb158-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqplot</span>(stu.resids, <span class="fu">rt</span>(<span class="dv">300</span>, <span class="at">df =</span> J<span class="sc">*</span>(n<span class="dv">-1</span>)))</span>
+<span id="cb158-4"><a href="anova.html#cb158-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(stu.resids, <span class="at">distribution =</span> <span class="cf">function</span>(p) <span class="fu">qt</span>(p, <span class="at">df =</span> J<span class="sc">*</span>(n<span class="dv">-1</span>)),<span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="at">col =</span> <span class="dv">2</span>)</span>
+<span id="cb158-5"><a href="anova.html#cb158-5" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(stu.resids)</span></code></pre></div>
+<p><img src="14-ANOVA_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>In case the qq-plot suggests normality does NOT hold, then an alternative approximate test may be used. The Kruskal-Wallis test is similar (but not exactly the same) as performing ANOVA on the ranks <span class="math inline">\(r_{ij}\)</span> of the responses <span class="math inline">\(y_{ij}\)</span>. Ranking means sorting the responses from least to greatest and associating each with its order in that sequence. If there are any tied values, ranks are averaged. For example, the sequence of responses <span class="math inline">\(24.3, 27.9, 27.9, 29.3, 30,1\)</span> has ranks <span class="math inline">\(1, 2.5, 2.5, 4, 5\)</span>. <br><br></p>
+<p>Let <span class="math inline">\(r_{ij}\)</span> be the ranks of the <span class="math inline">\(y_{ij}\)</span> and let <span class="math inline">\(\bar r_{i\cdot}\)</span> and <span class="math inline">\(\bar r_{\cdot\cdot}\)</span> be the averages of ranks in each population sample and overall, respectively. Then, the Kruskal-Wallis test statistic is the ratio of the SSB (or called SSTr) to SST of the ranks, multiplied by <span class="math inline">\(N-1\)</span>:</p>
+<p><span class="math display">\[\chi^2 = (N-1) \cdot \frac{\sum_{i=1}^I n_{i}(\bar r_{i\cdot} - \bar r_{\cdot\cdot})^2}{\sum_{i=1}^I\sum_{j=1}^{n_i}(r_{ij} - \bar r_{\cdot\cdot})^2}.\]</span></p>
+<p><br>
+The null hypothesis of the Kruskall-Wallis test is that the <span class="math inline">\(I\)</span> populations are really all the same population (the <span class="math inline">\(I\)</span> distributions are equal). In the special case in which we assume all populations are normal with the same mean, this null hypothesis is equivalent to the assertion all the means are equal. Under the Kruskal-Wallis null hypothesis, the test statistic <span class="math inline">\(\chi^2\)</span> is <em>approximately</em> distributed as a Chi-squared r.v. with <span class="math inline">\(I-1\)</span> degrees of freedom.<br />
+<br><br></p>
+<p>Next, we will compute the K-W test statistic and associated p-value by hand, and then compare our results to the built-in R function “kruskal.test”.</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="anova.html#cb159-1" aria-hidden="true" tabindex="-1"></a>rij <span class="ot">&lt;-</span> <span class="fu">rank</span>(crops<span class="sc">$</span>yield)</span>
+<span id="cb159-2"><a href="anova.html#cb159-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-3"><a href="anova.html#cb159-3" aria-hidden="true" tabindex="-1"></a>r1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(rij[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">1</span>])</span>
+<span id="cb159-4"><a href="anova.html#cb159-4" aria-hidden="true" tabindex="-1"></a>r2 <span class="ot">&lt;-</span> <span class="fu">mean</span>(rij[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">2</span>])</span>
+<span id="cb159-5"><a href="anova.html#cb159-5" aria-hidden="true" tabindex="-1"></a>r3 <span class="ot">&lt;-</span> <span class="fu">mean</span>(rij[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">3</span>])</span>
+<span id="cb159-6"><a href="anova.html#cb159-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-7"><a href="anova.html#cb159-7" aria-hidden="true" tabindex="-1"></a><span class="co"># SSE</span></span>
+<span id="cb159-8"><a href="anova.html#cb159-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-9"><a href="anova.html#cb159-9" aria-hidden="true" tabindex="-1"></a>SSE <span class="ot">&lt;-</span> <span class="fu">sum</span>((rij[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">1</span>] <span class="sc">-</span> r1)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">+</span><span class="fu">sum</span>((rij[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">2</span>] <span class="sc">-</span> r2)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">+</span><span class="fu">sum</span>((rij[crops<span class="sc">$</span>fertilizer <span class="sc">==</span> <span class="dv">3</span>] <span class="sc">-</span> r3)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb159-10"><a href="anova.html#cb159-10" aria-hidden="true" tabindex="-1"></a>SSE</span></code></pre></div>
+<pre><code>## [1] 63603.81</code></pre>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="anova.html#cb161-1" aria-hidden="true" tabindex="-1"></a>SST <span class="ot">&lt;-</span> <span class="fu">sum</span>((rij <span class="sc">-</span> <span class="fu">mean</span>(rij))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb161-2"><a href="anova.html#cb161-2" aria-hidden="true" tabindex="-1"></a>SST</span></code></pre></div>
+<pre><code>## [1] 73720</code></pre>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="anova.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SSTr</span></span>
+<span id="cb163-2"><a href="anova.html#cb163-2" aria-hidden="true" tabindex="-1"></a>SSTr <span class="ot">&lt;-</span> SST<span class="sc">-</span>SSE</span>
+<span id="cb163-3"><a href="anova.html#cb163-3" aria-hidden="true" tabindex="-1"></a>SSTr</span></code></pre></div>
+<pre><code>## [1] 10116.19</code></pre>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="anova.html#cb165-1" aria-hidden="true" tabindex="-1"></a>test.stat <span class="ot">&lt;-</span> (n<span class="sc">*</span>J <span class="sc">-</span> <span class="dv">1</span>)<span class="sc">*</span>(SSTr <span class="sc">/</span> SST)</span>
+<span id="cb165-2"><a href="anova.html#cb165-2" aria-hidden="true" tabindex="-1"></a>test.stat</span></code></pre></div>
+<pre><code>## [1] 13.03632</code></pre>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="anova.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pchisq</span>(test.stat, J<span class="dv">-1</span>)</span></code></pre></div>
+<pre><code>## [1] 0.00147638</code></pre>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="anova.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(yield <span class="sc">~</span> fertilizer, <span class="at">data =</span> crops)</span></code></pre></div>
+<pre><code>## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  yield by fertilizer
+## Kruskal-Wallis chi-squared = 13.036, df = 2, p-value = 0.001476</code></pre>
+<p>Note that the Kruskal-Wallis test rejects the null hypothesis that the three populations of crop yields are the same, which agrees with the ANOVA F test.</p>
 
+</div>
 </div>
 </div>
             </section>
@@ -400,8 +465,8 @@ The ANOVA F-test rejects the null hypothesis of equality of group means if <span
           </div>
         </div>
       </div>
-<a href="hypothesis-testing.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="hypothesis-testing.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="linear-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

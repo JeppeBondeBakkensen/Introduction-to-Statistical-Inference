@@ -117,7 +117,7 @@
 
 \title{A First Course in Probability and Statistics}
 \author{Nick Syring}
-\date{2022-09-20}
+\date{2022-09-30}
 
 \begin{document}
 \maketitle
@@ -1007,7 +1007,7 @@ Here's a quick simulation to illustrate the above power function: we'll sample d
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.6687
+## [1] 0.6677
 \end{verbatim}
 
 \hypertarget{test-for-a-normal-population-variance}{%
@@ -1714,7 +1714,7 @@ One of the most important experiments we've discussed in the course involves the
 \hypertarget{analysis-of-variance}{%
 \section{Analysis of variance}\label{analysis-of-variance}}
 
-The general setup is as follows: we conduct an experiment in which we observe a random sample of size \(n\) from each of \(J\) populations so that the total sample size is \(N=nJ\). Dentoe the samples by \(X_{ij}\) for individual \(i=1, \ldots, n\) in the sample from population \(j=1,\ldots, J\). (It's possible, of course, to consider random samples of different sizes, but for simplicity we consider only the \emph{balanced} case). Our goal in this experiemnt is to evaluate the null hypothesis \(H_0: \mu_j = \mu\) for all \(j = 1,\ldots, J\), meaning that all the populations have the same mean. Further, we assume populations are normal with equal variance; this means that the populations are, essentially, equivalent under \(H_0\). The alternative hypothesis is that at least one population mean differs from the others.
+The general setup is as follows: we conduct an experiment in which we observe a random sample of size \(n\) from each of \(J\) populations so that the total sample size is \(N=nJ\). Denote the samples by \(X_{ij}\) for individual \(i=1, \ldots, n\) in the sample from population \(j=1,\ldots, J\). (It's possible, of course, to consider random samples of different sizes, but for simplicity we consider only the \emph{balanced} case). Our goal in this experiemnt is to evaluate the null hypothesis \(H_0: \mu_j = \mu\) for all \(j = 1,\ldots, J\), meaning that all the populations have the same mean. Further, we assume populations are normal with equal variance; this means that the populations are, essentially, equivalent under \(H_0\). The alternative hypothesis is that at least one population mean differs from the others.
 
 Rather than comparing sample means to evaluate \(H_0\) we (somewhat counterintuitively) compare two estimators of the population variance. Consider the following decomposition:
 
@@ -1933,7 +1933,10 @@ An important part of applying ANOVA is checking the normalitay and equal varianc
 
 \includegraphics{14-ANOVA_files/figure-latex/unnamed-chunk-5-2.pdf}
 
-Finally, we can also check the group-wise variances for equality. A formal method for checking these is Levene's test, which amounts to performing ANOVA on the absolute values of the residuals themselves. The null hypothesis of Levene's ANOVA is equality of variances over groups/populations.
+\hypertarget{checking-the-equal-variance-assumption}{%
+\subsection{Checking the equal variance assumption}\label{checking-the-equal-variance-assumption}}
+
+We can also check the group-wise variances for equality. A formal method for checking these is Levene's test, which amounts to performing ANOVA on the absolute values of the residuals themselves. The null hypothesis of Levene's ANOVA is equality of variances over groups/populations.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2084,6 +2087,223 @@ Finally, we can also check the group-wise variances for equality. A formal metho
 \begin{verbatim}
 ## [1] 3.094337
 \end{verbatim}
+
+\hypertarget{normality-and-alternatives-to-the-f-test}{%
+\subsection{Normality and alternatives to the F test}\label{normality-and-alternatives-to-the-f-test}}
+
+As we have done in the past, we can investigate the assumption of normality by constructing plots of residuals. The observed, Studentized residuals are given by
+\[e_{ij} = \frac{y_{ij} - \bar y_{i\cdot}}{\sqrt{MSW}}\stackrel{\cdot}{\sim} t_{N-I}\]
+
+The qq-plot reveals no obvious signs of non-normality of residuals.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{resids }\OtherTok{\textless{}{-}}\NormalTok{ A}\SpecialCharTok{$}\NormalTok{residuals}
+\NormalTok{stu.resids }\OtherTok{\textless{}{-}}\NormalTok{ resids}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(MSE)}
+\FunctionTok{qqplot}\NormalTok{(stu.resids, }\FunctionTok{rt}\NormalTok{(}\DecValTok{300}\NormalTok{, }\AttributeTok{df =}\NormalTok{ J}\SpecialCharTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{)))}
+\FunctionTok{qqline}\NormalTok{(stu.resids, }\AttributeTok{distribution =} \ControlFlowTok{function}\NormalTok{(p) }\FunctionTok{qt}\NormalTok{(p, }\AttributeTok{df =}\NormalTok{ J}\SpecialCharTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{)),}\AttributeTok{probs =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.25}\NormalTok{, }\FloatTok{0.75}\NormalTok{), }\AttributeTok{col =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{qqline}\NormalTok{(stu.resids)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{14-ANOVA_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+In case the qq-plot suggests normality does NOT hold, then an alternative approximate test may be used. The Kruskal-Wallis test is similar (but not exactly the same) as performing ANOVA on the ranks \(r_{ij}\) of the responses \(y_{ij}\). Ranking means sorting the responses from least to greatest and associating each with its order in that sequence. If there are any tied values, ranks are averaged. For example, the sequence of responses \(24.3, 27.9, 27.9, 29.3, 30,1\) has ranks \(1, 2.5, 2.5, 4, 5\).
+
+Let \(r_{ij}\) be the ranks of the \(y_{ij}\) and let \(\bar r_{i\cdot}\) and \(\bar r_{\cdot\cdot}\) be the averages of ranks in each population sample and overall, respectively. Then, the Kruskal-Wallis test statistic is the ratio of the SSB (or called SSTr) to SST of the ranks, multiplied by \(N-1\):
+
+\[\chi^2 = (N-1) \cdot \frac{\sum_{i=1}^I n_{i}(\bar r_{i\cdot} - \bar r_{\cdot\cdot})^2}{\sum_{i=1}^I\sum_{j=1}^{n_i}(r_{ij} - \bar r_{\cdot\cdot})^2}.\]
+
+The null hypothesis of the Kruskall-Wallis test is that the \(I\) populations are really all the same population (the \(I\) distributions are equal). In the special case in which we assume all populations are normal with the same mean, this null hypothesis is equivalent to the assertion all the means are equal. Under the Kruskal-Wallis null hypothesis, the test statistic \(\chi^2\) is \emph{approximately} distributed as a Chi-squared r.v. with \(I-1\) degrees of freedom.\\
+
+Next, we will compute the K-W test statistic and associated p-value by hand, and then compare our results to the built-in R function ``kruskal.test''.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rij }\OtherTok{\textless{}{-}} \FunctionTok{rank}\NormalTok{(crops}\SpecialCharTok{$}\NormalTok{yield)}
+
+\NormalTok{r1 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(rij[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{1}\NormalTok{])}
+\NormalTok{r2 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(rij[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{2}\NormalTok{])}
+\NormalTok{r3 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(rij[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{3}\NormalTok{])}
+
+\CommentTok{\# SSE}
+
+\NormalTok{SSE }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{((rij[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ r1)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{((rij[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ r2)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{+}\FunctionTok{sum}\NormalTok{((rij[crops}\SpecialCharTok{$}\NormalTok{fertilizer }\SpecialCharTok{==} \DecValTok{3}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ r3)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{SSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 63603.81
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SST }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{((rij }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(rij))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{SST}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 73720
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# SSTr}
+\NormalTok{SSTr }\OtherTok{\textless{}{-}}\NormalTok{ SST}\SpecialCharTok{{-}}\NormalTok{SSE}
+\NormalTok{SSTr}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10116.19
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test.stat }\OtherTok{\textless{}{-}}\NormalTok{ (n}\SpecialCharTok{*}\NormalTok{J }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(SSTr }\SpecialCharTok{/}\NormalTok{ SST)}
+\NormalTok{test.stat}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 13.03632
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pchisq}\NormalTok{(test.stat, J}\DecValTok{{-}1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.00147638
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{kruskal.test}\NormalTok{(yield }\SpecialCharTok{\textasciitilde{}}\NormalTok{ fertilizer, }\AttributeTok{data =}\NormalTok{ crops)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  yield by fertilizer
+## Kruskal-Wallis chi-squared = 13.036, df = 2, p-value = 0.001476
+\end{verbatim}
+
+Note that the Kruskal-Wallis test rejects the null hypothesis that the three populations of crop yields are the same, which agrees with the ANOVA F test.
+
+\hypertarget{linear-regression}{%
+\chapter{Linear Regression}\label{linear-regression}}
+
+In this chapter we consider estimation and inference of a random response, conditional on another observed variable---the independent variable, also called predictor or covariate.
+
+\hypertarget{simple-linear-regression}{%
+\section{Simple linear regression}\label{simple-linear-regression}}
+
+The simple linear regression model says that a random response \(Y_i\) has conditional mean \(\beta_0 + \beta_1 x_i\) given \(X_i = x_i\) where \(X_i\) may be a random variable. Moreover, the responses \(Y_i\), \(i = 1, \ldots, n\), are independent, with common variance \(\sigma^2\), and are normally distributed. This is commonly written using the following statistical notation:
+\[Y_i = \beta_0 + \beta_1 x_i + \epsilon_i, \quad \epsilon_i\stackrel{iid}{\sim} N(0, \sigma^2)\]
+where \(\epsilon_i\) is the ``random residual''---what is left over after subtracting the mean from the response.
+
+The model is ``linear'' because the mean \(E(Y_i|x_i) = \beta_0 + \beta_1 x_i\) is a linear function (a line in two dimensions \(y\) and \(x\)). The model is ``simple'' because it is the simplest line (two dimensions). Later we will expand the model by adding covariates, i.e., \(x_{1i}, x_{2i}, \ldots\), to the linear conditional mean function and call it \emph{multiple linear regression}.
+
+\hypertarget{estimation}{%
+\subsection{Estimation}\label{estimation}}
+
+We estimate \((\beta_0, \beta_1)\) simultaneously using the method of ``least squares''. The method of least squares defines the line \(y = \beta_0 + \beta_1 x\) that is ``closest'' to the points \((y_i, x_i), i=1, \ldots, n\) is the one minimizing the sum of square vertical distances (residuals) from the points to the line:
+\[(\hat\beta_0, \hat\beta_1) = \arg\min_{(\beta_0, \beta_1)}\sum_{i=1}^n(y_i - \beta_0 - \beta_1x_i)^2.\]
+The plot below shows these residuals for three points (1.0,1.1), (1.5,2.1), and (2.0,1.8), compared to the line \(y=x\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\FloatTok{1.5}\NormalTok{,}\DecValTok{2}\NormalTok{),}\FunctionTok{c}\NormalTok{(}\FloatTok{1.1}\NormalTok{,}\FloatTok{2.1}\NormalTok{,}\FloatTok{1.8}\NormalTok{), }\AttributeTok{xlab =} \StringTok{\textquotesingle{}x\textquotesingle{}}\NormalTok{, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}y\textquotesingle{}}\NormalTok{, }\AttributeTok{main =} \StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\FloatTok{0.5}\NormalTok{,}\FloatTok{2.5}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FloatTok{0.5}\NormalTok{,}\FloatTok{2.5}\NormalTok{),}\FunctionTok{c}\NormalTok{(}\FloatTok{0.5}\NormalTok{,}\FloatTok{2.5}\NormalTok{))}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\FloatTok{1.1}\NormalTok{), }\AttributeTok{lty =} \DecValTok{3}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FloatTok{1.5}\NormalTok{,}\FloatTok{1.5}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\FloatTok{1.5}\NormalTok{,}\FloatTok{2.1}\NormalTok{), }\AttributeTok{lty =} \DecValTok{3}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\FloatTok{1.8}\NormalTok{), }\AttributeTok{lty =} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{15-Regression_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+We can determine the estimators \((\hat\beta_0, \hat\beta_1)\) by minimizing the sum of squared residuals using calculus:
+
+\[
+\begin{aligned}
+\frac{\partial}{\partial\beta_0} \sum_{i=1}^n(y_i - \beta_0 - \beta_1x_i)^2 \\
+& = -2\sum_{i=1}^n(y_i - \beta_0 - \beta_1x_i)\\
+\text{set  }0 &= -2\sum_{i=1}^n(y_i - \beta_0 - \beta_1x_i)\\
+&\Rightarrow \hat\beta_0 = n^{-1}\sum_{i=1}^n(y_i - \beta_1x_i)\\
+& = \bar y - \beta_1\bar x
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+\frac{\partial}{\partial\beta_1} \sum_{i=1}^n(y_i - \beta_0 - \beta_1x_i)^2 \\
+& = -2 \sum_{i=1}^n x_i(y_i - \beta_0 - \beta_1x_i)\\
+\text{set  }0 &= -2 \sum_{i=1}^n x_i(y_i - \beta_0 - \beta_1x_i)\\
+&\Rightarrow 0 = \sum_{i=1}^n (y_ix_i - x_i(\bar y - \beta_1 \bar x) - \beta_1 x_i^2)\quad \text{by substituting }\beta_0\\
+& \beta_1\sum(x_i^2 - x_i\bar x) = \sum_{i=1}^n(y_ix_i - \bar y x_i)\\
+&\Rightarrow \hat\beta_1 = \frac{\sum_{i=1}^n (y_ix_i) - n\bar y\bar x}{\sum_{i=1}^n 
+(x_i^2) - n\bar x^2} = \frac{\sum_{i=1}^n [(y_i - \bar y)(x_i - \bar x)]}{\sum_{i=1}^n (x_i - \bar x)^2}
+\end{aligned}
+\]
+\#\#\# LSEs are unbiased
+
+A nice property of the least squares method is that it produces unbiased estimators. Consider the expectation \(E(\hat\beta_1)\). Since the \(x_i'\)s are non-random, treat these as constants, and find \(\hat\beta_1\) is unbiased:
+
+\[
+\begin{aligned}
+E(\hat\beta_1) & = \frac{\sum_{i=1}^n E((y_i - \bar y))(x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2}\\
+& = \frac{\sum_{i=1}^n (\beta_0 + \beta_1 x_i - n^{-1}\sum_{i=1}^n [\beta_0 +\beta_1 x_i])(x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2}\\
+& = \frac{\beta_1\sum_{i=1}^n ( x_i - \bar x)(x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2}\\
+& = \beta_1.
+\end{aligned}
+\]
+
+Similarly, the estimator of the intercept is unbiased:
+
+\[
+\begin{aligned}
+E(\hat\beta_0) & = E(\bar y - \hat\beta_1 \bar x)\\
+& = n^{-1}\sum_{i=1}^n (\beta_0 + \beta_1x_i) - \beta_1 \bar x\\
+& = \beta_0 + \beta_1 \bar x - \beta_1 \bar x\\
+& = \beta_0
+\end{aligned}
+\]
+
+\hypertarget{estimation-of-the-common-variance}{%
+\subsection{Estimation of the common variance}\label{estimation-of-the-common-variance}}
+
+Estimating \(\sigma^2\) in the regression model is similar to the method used in ANOVA. Define the observed/fitted residuals \(\hat e_i = y_i - \hat y_i = y_i - \hat\beta_0 - \hat\beta_1 x_i\). Since \((\hat\beta_0, \hat\beta_1)\) are unbiased, we have \(E(\hat e_i) = E(Y_i - \hat\beta_0 - \hat\beta_1 x_i) = 0\). Therefore, \(V(\hat e_i) = E(\hat e_i ^2)\). And, the method of moments suggests we estimate the variance(in this case second moment) by the sample variance:
+
+\[\hat\sigma^2 = \frac{1}{n-2}\sum_{i=1}^n (y_i - \hat\beta_0 - \hat\beta_1 x_i)^2,\]
+where we divide by \(n-2\) so that the resulting estimator is unbiased. (I'll leave that as a challenging exercise for the reader).
+
+\hypertarget{inference-for-regression-parameters}{%
+\subsection{Inference for regression parameters}\label{inference-for-regression-parameters}}
+
+There are two main inference (and prediction) problems of interest in regression. The first is inference on \(\beta_1\), and, in particular, testing \(\beta_1 = 0\). If \(\beta_1=0\) then there is no linear relationship between the covariate \(x\) and the response \(Y\), and \(Y\) has a constant mean (so is iid, rather than independent). Testing \(\beta_1=0\) is similar to the ANOVA F test for categorical \(x\), rather than continuous \(x\) in regression.\\
+
+For inference on \(\beta_1\) we need the sampling distribution of \(\hat\beta_1\). Recognize that we can write this estimator as
+\[\hat\beta_1 = \frac{\sum_{i=1}^n Y_i(x_i - \bar x)}{\sum_{i=1}^n (x_i - \bar x)^2}\] because \(\sum_{i=1}^n \bar Y(x_i - \bar x) = 0\). Then, we see that \(\hat\beta_1\) is a linear combination of \(Y_i\), i.e., \(\hat\beta_1 = \sum_{i=1}^nc_i Y_i\) for non-random \(c_i\). By a MGF argument we have used before, linear combinations of normal random variables are also normally-distributed. This means,
+\[\hat\beta_1 \sim N\left(\beta_1, \sigma_2\sum_{i=1}^n c_i^2\right).\]
+
+Furthermore, by essentially the same argument as in the proof of Student's Theorem,
+\[\frac{(n-2)\hat\sigma^2}{\sigma^2}\sim \chi^2(n-2)\]
+so that the studentized slope estimator has a Student's \(t\) distribution:
+\[t = \frac{\hat\beta_1 - \beta_1}{\sqrt{\hat\sigma^2 \left[\sum_{i=1}^n (x_i - \bar x)^2\right]^{-1}}}\sim t_{n-2}\]
+
+A test of \(H_0:\beta_1 = b\) versus \(H_a:\beta_1 \ne b\) rejects the null if
+\[\frac{|\hat\beta_1 - b|}{\sqrt{\hat\sigma^2 \left[\sum_{i=1}^n (x_i - \bar x)^2\right]^{-1}}} > t_{1-\alpha/2, n-2}\]
+
+Similarly, a \(100(1-\alpha)\%\) CI for \(\beta_1\) is given by
+\[\left(\hat\beta_1 \pm t_{1-\alpha/2, n-2}\sqrt{\hat\sigma^2 \left[\sum_{i=1}^n (x_i - \bar x)^2\right]^{-1}}\right).\]
 
   \bibliography{book.bib,packages.bib}
 

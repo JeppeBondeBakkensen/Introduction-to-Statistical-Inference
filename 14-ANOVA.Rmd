@@ -4,7 +4,7 @@ One of the most important experiments we've discussed in the course involves the
 
 ## Analysis of variance
 
-The general setup is as follows: we conduct an experiment in which we observe a random sample of size $n$ from each of $J$ populations so that the total sample size is $N=nJ$.  Dentoe the samples by $X_{ij}$ for individual $i=1, \ldots, n$ in the sample from population $j=1,\ldots, J$.  (It's possible, of course, to consider random samples of different sizes, but for simplicity we consider only the *balanced* case).  Our goal in this experiemnt is to evaluate the null hypothesis $H_0: \mu_j = \mu$ for all $j = 1,\ldots, J$, meaning that all the populations have the same mean.  Further, we assume populations are normal with equal variance; this means that the populations are, essentially, equivalent under $H_0$.  The alternative hypothesis is that at least one population mean differs from the others.<br><br>
+The general setup is as follows: we conduct an experiment in which we observe a random sample of size $n$ from each of $J$ populations so that the total sample size is $N=nJ$.  Denote the samples by $X_{ij}$ for individual $i=1, \ldots, n$ in the sample from population $j=1,\ldots, J$.  (It's possible, of course, to consider random samples of different sizes, but for simplicity we consider only the *balanced* case).  Our goal in this experiemnt is to evaluate the null hypothesis $H_0: \mu_j = \mu$ for all $j = 1,\ldots, J$, meaning that all the populations have the same mean.  Further, we assume populations are normal with equal variance; this means that the populations are, essentially, equivalent under $H_0$.  The alternative hypothesis is that at least one population mean differs from the others.<br><br>
 
 Rather than comparing sample means to evaluate $H_0$ we (somewhat counterintuitively) compare two estimators of the population variance.  Consider the following decomposition:
 
@@ -80,7 +80,9 @@ qqnorm(A$residuals)
 qqline(A$residuals)
 ```
 
-Finally, we can also check the group-wise variances for equality.  A formal method for checking these is Levene's test, which amounts to performing ANOVA on the absolute values of the residuals themselves.  The null hypothesis of Levene's ANOVA is equality of variances over groups/populations.
+### Checking the equal variance assumption
+
+We can also check the group-wise variances for equality.  A formal method for checking these is Levene's test, which amounts to performing ANOVA on the absolute values of the residuals themselves.  The null hypothesis of Levene's ANOVA is equality of variances over groups/populations.
 
 ```{r, echo = T, eval = T}
 sd(crops$yield[crops$fertilizer==1])
@@ -121,6 +123,63 @@ F.L
 qf(.95, J-1, J*(n-1))
 
 ```
+
+
+### Normality and alternatives to the F test
+
+As we have done in the past, we can investigate the assumption of normality by constructing plots of residuals.  The observed, Studentized residuals are given by
+\[e_{ij} = \frac{y_{ij} - \bar y_{i\cdot}}{\sqrt{MSW}}\stackrel{\cdot}{\sim} t_{N-I}\]
+
+The qq-plot reveals no obvious signs of non-normality of residuals.  
+
+```{r}
+resids <- A$residuals
+stu.resids <- resids/sqrt(MSE)
+qqplot(stu.resids, rt(300, df = J*(n-1)))
+qqline(stu.resids, distribution = function(p) qt(p, df = J*(n-1)),probs = c(0.25, 0.75), col = 2)
+qqline(stu.resids)
+```
+
+In case the qq-plot suggests normality does NOT hold, then an alternative approximate test may be used.  The Kruskal-Wallis test is similar (but not exactly the same) as performing ANOVA on the ranks $r_{ij}$ of the responses $y_{ij}$.  Ranking means sorting the responses from least to greatest and associating each with its order in that sequence.  If there are any tied values, ranks are averaged.  For example, the sequence of responses $24.3, 27.9, 27.9, 29.3, 30,1$ has ranks $1, 2.5, 2.5, 4, 5$.  <br><br>
+
+Let $r_{ij}$ be the ranks of the $y_{ij}$ and let $\bar r_{i\cdot}$ and $\bar r_{\cdot\cdot}$ be the averages of ranks in each population sample and overall, respectively.  Then, the Kruskal-Wallis test statistic is the ratio of the SSB (or called SSTr) to SST of the ranks, multiplied by $N-1$:
+
+\[\chi^2 = (N-1) \cdot \frac{\sum_{i=1}^I n_{i}(\bar r_{i\cdot} - \bar r_{\cdot\cdot})^2}{\sum_{i=1}^I\sum_{j=1}^{n_i}(r_{ij} - \bar r_{\cdot\cdot})^2}.\]
+
+<br>
+The null hypothesis of the Kruskall-Wallis test is that the $I$ populations are really all the same population (the $I$ distributions are equal).  In the special case in which we assume all populations are normal with the same mean, this null hypothesis is equivalent to the assertion all the means are equal.  Under the Kruskal-Wallis null hypothesis, the test statistic $\chi^2$ is *approximately* distributed as a Chi-squared r.v. with $I-1$ degrees of freedom.  
+<br><br>
+
+Next, we will compute the K-W test statistic and associated p-value by hand, and then compare our results to the built-in R function "kruskal.test".
+
+```{r}
+rij <- rank(crops$yield)
+
+r1 <- mean(rij[crops$fertilizer == 1])
+r2 <- mean(rij[crops$fertilizer == 2])
+r3 <- mean(rij[crops$fertilizer == 3])
+
+# SSE
+
+SSE <- sum((rij[crops$fertilizer == 1] - r1)^2)+sum((rij[crops$fertilizer == 2] - r2)^2)+sum((rij[crops$fertilizer == 3] - r3)^2)
+SSE
+
+SST <- sum((rij - mean(rij))^2)
+SST
+
+# SSTr
+SSTr <- SST-SSE
+SSTr
+
+test.stat <- (n*J - 1)*(SSTr / SST)
+test.stat
+1-pchisq(test.stat, J-1)
+
+
+kruskal.test(yield ~ fertilizer, data = crops)
+```
+
+Note that the Kruskal-Wallis test rejects the null hypothesis that the three populations of crop yields are the same, which agrees with the ANOVA F test.
 
 
 
