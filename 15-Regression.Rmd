@@ -78,7 +78,7 @@ Estimating $\sigma^2$ in the regression model is similar to the method used in A
 \[\hat\sigma^2 = \frac{1}{n-2}\sum_{i=1}^n (y_i - \hat\beta_0 - \hat\beta_1 x_i)^2,\]
 where we divide by $n-2$ so that the resulting estimator is unbiased.  (I'll leave that as a challenging exercise for the reader).
 
-### Inference for regression parameters
+### Inference for regression slope parameter
 
 There are two main inference (and prediction) problems of interest in regression.  The first is inference on $\beta_1$, and, in particular, testing $\beta_1 = 0$.  If $\beta_1=0$ then there is no linear relationship between the covariate $x$ and the response $Y$, and $Y$ has a constant mean (so is iid, rather than independent).  Testing $\beta_1=0$ is similar to the ANOVA F test for categorical $x$, rather than continuous $x$ in regression.   
 <br><br>
@@ -101,16 +101,176 @@ Similarly, a $100(1-\alpha)\%$ CI for $\beta_1$ is given by
 \[\left(\hat\beta_1 \pm t_{1-\alpha/2, n-2}\sqrt{\hat\sigma^2 \left[\sum_{i=1}^n (x_i - \bar x)^2\right]^{-1}}\right).\]
 
 
+### Inference on the conditional mean response
+
+Besides testing for $H_0:\beta_1 = 0$, which means that the covariate has no effect on the mean response, experimenters often want to make inferences about the conditional mean response at a particular covariate value $x$.  As we showed above, $\hat\beta_0 + \hat\beta_1 x$ is unbiased for $E(Y|x) = \beta_0 + \beta_1 x$.  Furthermore, the variance of the estimator of the conditional mean is as follows:
+
+\begin{align*}
+V(\hat\beta_0 + \hat\beta_1 x) &= V(\overline Y - \hat\beta_1 \overline x + \hat\beta_1 x) \\
+& = V\left(\overline Y + (x - \overline x)\frac{\sum Y_i(x_i - \overline x)}{\sum (x_i - \overline x)^2}\right)\\
+& = V\left( \sum Y_i \left(n^{-1} + (x - \overline x)\frac{(x_i - \overline x)}{\sum (x_i - \overline x)^2}\right)\right)\\
+& = \sum_{i=1}^n V\left(Y_i\left(n^{-1} + (x - \overline x)\frac{(x_i - \overline x)}{\sum (x_i - \overline x)^2}\right)\right)\\
+& = \sigma^2\sum_{i=1}^n \frac{1}{n^2} + \frac{(x - \overline x)^2(x_i - \overline x)^2}{\left[\sum (x_i - \overline x)^2\right]^2}\\
+& = \sigma^2\left(n^{-1} + \frac{(x - \overline x)^2}{\sum (x_i - \overline x)^2}\right)
+\end{align*}
+
+Replacing the unknown variance $\sigma^2$ by its estimator (the MSE) we obtain a Student's $t$ random variable with $n-2$ degrees of freedom:
+\[t = \frac{\hat\beta_0 + \hat\beta_1 x  - (\beta_0 + \beta_1 x)}{\sqrt{MSE \left(n^{-1} + \frac{(x - \overline x)^2}{\sum (x_i - \overline x)^2}\right)}}\sim t_{n-2}.\]
+
+This may be used to define a confidence interval for the conditional mean response at a given covariate value $x$:
+
+\[\left(\hat\beta_0 + \hat\beta_1 x \pm t_{1-\alpha/2, n-2}\sqrt{MSE \left(n^{-1} + \frac{(x - \overline x)^2}{\sum (x_i - \overline x)^2}\right)}  \right)\]
 
 
+### Prediction of responses at given x values
+
+Let $Y^\star$ denote a future response for a given covariate value $x$.  We want to predict $Y^\star\sim N(\beta_0 + \beta_1 x, \sigma^2)$.  Now, we can represent $Y^\star$ using the regression model as
+\[Y^\star = \beta_0 + \beta_1 x + \epsilon^\star\]
+for a future random residual $\epsilon^\star$.  An unbiased point prediction of $Y^\star$ is given by the estimate of its mean $\hat\beta_0 + \hat\beta_1 x$.  The variance of the point prediction is 
+\[V(\hat{Y^\star}) = V(\hat\beta_0 + \hat\beta_1 x + \epsilon^\star) = \sigma^2\left(1 +n^{-1} + \frac{(x - \overline x)^2}{\sum (x_i - \overline x)^2}\right).\]
+
+Therefore, a $100(1-\alpha)\%$ prediction interval for $Y^\star$ is given by
+\[\left(\hat\beta_0 + \hat\beta_1 x \pm t_{1-\alpha/2, n-2}\sqrt{MSE \left(1 +n^{-1} + \frac{(x - \overline x)^2}{\sum (x_i - \overline x)^2}\right)}  \right).\]
+
+Prediction intervals have interpretations similar to confidence intervals.  If the model is true, a $95\%$ prediction interval for $Y^\star$ at a given $x$ has the following property: suppose we repeat a regression experiment many, many times.  Each time we compute a $95\%$ interval and then observe a new response $Y^\star$.  then, about $95\%$ of the time, our computed prediction interval contains that realized $Y^\star$.  This is easiest to see given a simulation experiment.
+
+```{r}
+x <- 1:10  # covariate values are 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+cover <- rep(0,1000) # record whether the prediction interval contains the new response Y*
+for(r in 1:1000){  # loop 1000 "experiments"
+Y <- rnorm(10,1+2*x)  # randomly sample the responses 
+my.lm <- summary(lm(Y~x))  # compute the point estimates of beta0, beta1 and sigma^2
+MSE <- sum(my.lm$residuals^2)/8 # point estimate of sigma^2
+beta0.hat <- my.lm$coefficients[1] # storing the estimates of beta0 and beta 1
+beta1.hat <- my.lm$coefficients[2]
+mean.hat <- beta0.hat + beta1.hat*4 # the estimated conditional mean response
+se.term <- (1+1/10 + ((4-mean(x))^2) / (sum((x-mean(x))^2))) # the 1 + 1/n + (x-xbar)^2/sum(xi - xbar)^2 term in the standard error
+my.PI <- c(mean.hat + qt(0.025,8)*sqrt(MSE*se.term), mean.hat + qt(0.975,8)*sqrt(MSE*se.term)) # prediction intervals
+Y.star <- rnorm(1,1+2*4) # sample a new response Y*
+cover[r] <- ifelse(my.PI[1] < Y.star & my.PI[2] > Y.star, 1, 0) # check if interval contains ("covers") the Y*
+}
+mean(cover)  # realized coverage proportion, should be about 95%
+```
 
 
+### Simultaneous confidence bands for the regression line
 
 
+If experimenters want to quantify uncertainty about the entire regression line, then we may compute simultaneous confidence bands.  The interpretation of these bands is similar to the interpretation of a confidence interval for a ream response at a given $x$, except the object we are claiming to capture by the bands is the line itself, rather than a point on the line.  <br><br>
+
+We may construct such bands based on simultaneous confidence intervals for the two parameters the line depends on, which are $(\beta_0, \beta_1)$.  By *simultaneous*, we mean a confidence set (in two dimensions) that has probability $100(1-\alpha)\%$ to capture the point $(\beta_0, \beta_1)$ with respect to repeated experimentation/random sampling.<br><br>
+
+The Scheffe method may be used to construct simultaneous CIs for $(\beta_0, \beta_1)$.  The Scheffe simultaneous CIs are given by
+\[\left(\hat\beta_0 \pm \sqrt{\frac{2F_{1-\alpha, 2, n-2}MSE n^{-1}\sum x_i^2}{\sum(x_i - \overline x)^2}}\right),\]
+and
+\[\left(\hat\beta_1 \pm \sqrt{\frac{2F_{1-\alpha, 2, n-2}MSE }{\sum(x_i - \overline x)^2}}\right).\]
+
+A simultaneous confidence band for $\beta_0 + \beta_1 x$ over $x \in (a,b)$  has lower bound $b_0 + b_1 x$ and upper bound $B_0 +B_1 x$ where $b_0$ and $b_1$ are the lower bounds of the simultaneous CIs of $\beta_0$ and $\beta_1$ and $B_0$ and $B_1$ are the upper bounds.
 
 
+## Example: House prices as function of house age
 
 
+```{r echo=FALSE}
+xfun::embed_file('Real estate.csv')
+```
+
+```{r}
+houses <- read.csv("Real estate.csv", header = TRUE)
+plot(houses$X2.house.age, houses$Y.house.price.of.unit.area, xlab = 'age', ylab = 'price by unit area')
+```
+
+
+### Fitting the regression
+
+From the output of the summary of teh lm fit we see that the fitted regression line is
+\[\text{Price by unit area } = 42.4347 - 0.2515\text{ age}. \]
+The estimated variance is $MSE = \hat\sigma^2 = 13.32^2$.  
+
+We have the observed test statistics:
+\[\frac{\hat\beta_0}{\sqrt{\frac{MSE n^{-1}\sum x_i^2}{\sum(x_i - \overline x)^2}}} = 35.042\]
+and
+\[\frac{\hat\beta_1}{\sqrt{\frac{MSE }{\sum(x_i - \overline x)^2}}} = -4.372\]
+which are both significant, meaning the intercept and slope are not zero.
+
+
+```{r}
+my.lm <- lm(Y.house.price.of.unit.area~X2.house.age, data = houses)
+summary(my.lm)
+```
+
+
+The fitted line, overlaid on the data:
+```{r}
+houses <- read.csv("Real estate.csv", header = TRUE)
+plot(houses$X2.house.age, houses$Y.house.price.of.unit.area, xlab = 'age', ylab = 'price by unit area')
+abline(a = 42.43470, b = -.25149, col = 'blue', lwd = 2)
+```
+
+
+Predicting the home price of a house that is 20 years old:
+```{r}
+my.summ <- summary(my.lm)
+MSE <- my.summ$sigma^2
+n<- length(houses$Y.house.price.of.unit.area)
+se.term <- 1+ 1/n + ((20-mean(houses$X2.house.age))^2) / sum((houses$X2.house.age - mean(houses$X2.house.age))^2)
+PI <- c(my.summ$coefficients[1] + my.summ$coefficients[2]*20 + qt(0.025, my.summ$df[2])*sqrt(MSE*se.term), my.summ$coefficients[1] + my.summ$coefficients[2]*20 + qt(0.975, my.summ$df[2])*sqrt(MSE*se.term))
+PI
+```
+```{r}
+houses <- read.csv("Real estate.csv", header = TRUE)
+plot(houses$X2.house.age, houses$Y.house.price.of.unit.area, xlab = 'age', ylab = 'price by unit area')
+abline(a = 42.43470, b = -.25149, col = 'blue', lwd = 2)
+lines(c(20,20), PI, col = 'red', type = 'o')
+```
+
+
+Simultaneous Confidence bands:
+```{r}
+my.summ <- summary(my.lm)
+MSE <- my.summ$sigma^2
+n<- length(houses$Y.house.price.of.unit.area)
+se.term0 <- (1/n)*sum(houses$X2.house.age^2)/sum((houses$X2.house.age - mean(houses$X2.house.age))^2)
+se.term1 <- 1/sum((houses$X2.house.age - mean(houses$X2.house.age))^2)
+
+beta0.intv <- c(my.summ$coefficients[1] - sqrt(2*qf(0.95,2,my.summ$df[2])*MSE*se.term0), my.summ$coefficients[1] + sqrt(2*qf(0.95,2,my.summ$df[2])*MSE*se.term0))
+beta1.intv <- c(my.summ$coefficients[2] - sqrt(2*qf(0.95,2,my.summ$df[2])*MSE*se.term1), my.summ$coefficients[2] + sqrt(2*qf(0.95,2,my.summ$df[2])*MSE*se.term1))
+```
+
+```{r}
+houses <- read.csv("Real estate.csv", header = TRUE)
+plot(houses$X2.house.age, houses$Y.house.price.of.unit.area, xlab = 'age', ylab = 'price by unit area')
+abline(a = 42.43470, b = -.25149, col = 'blue', lwd = 2)
+abline(a = beta0.intv[1], b = beta1.intv[1], col = 'red', lwd = 2)
+abline(a = beta0.intv[2], b = beta1.intv[2], col = 'red', lwd = 2)
+```
+
+
+Pointwise confidence bands using CIs for conditional mean responses:
+```{r}
+my.summ <- summary(my.lm)
+MSE <- my.summ$sigma^2
+n<- length(houses$Y.house.price.of.unit.area)
+CI.fun <- function(x){
+  se.term <- 1/n + ((x-mean(houses$X2.house.age))^2) / sum((houses$X2.house.age - mean(houses$X2.house.age))^2)
+  ci <- c(my.summ$coefficients[1] + my.summ$coefficients[2]*x + qt(0.025, my.summ$df[2])*sqrt(MSE*se.term), my.summ$coefficients[1] + my.summ$coefficients[2]*x + qt(0.975, my.summ$df[2])*sqrt(MSE*se.term))
+  return(ci)
+}
+```
+
+Pointwise intervals in green:
+```{r}
+houses <- read.csv("Real estate.csv", header = TRUE)
+plot(houses$X2.house.age, houses$Y.house.price.of.unit.area, xlab = 'age', ylab = 'price by unit area')
+abline(a = 42.43470, b = -.25149, col = 'blue', lwd = 2)
+
+x.seq <- seq(from = 0, to = 50, length.out = 400)
+app.fun <- apply(matrix(x.seq, 400,1),1,CI.fun)
+lines(x.seq, app.fun[1,], col = 'green', lwd = 2)
+lines(x.seq, app.fun[2,], col = 'green', lwd = 2)
+abline(a = beta0.intv[1], b = beta1.intv[1], col = 'red', lwd = 2)
+abline(a = beta0.intv[2], b = beta1.intv[2], col = 'red', lwd = 2)
+```
 
 
 

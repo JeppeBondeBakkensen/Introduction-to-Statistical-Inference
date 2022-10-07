@@ -23,7 +23,7 @@
 <meta name="author" content="Nick Syring" />
 
 
-<meta name="date" content="2022-09-30" />
+<meta name="date" content="2022-10-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -249,7 +249,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="8.1.1" data-path="linear-regression.html"><a href="linear-regression.html#estimation"><i class="fa fa-check"></i><b>8.1.1</b> Estimation</a></li>
 <li class="chapter" data-level="8.1.2" data-path="linear-regression.html"><a href="linear-regression.html#estimation-of-the-common-variance"><i class="fa fa-check"></i><b>8.1.2</b> Estimation of the common variance</a></li>
-<li class="chapter" data-level="8.1.3" data-path="linear-regression.html"><a href="linear-regression.html#inference-for-regression-parameters"><i class="fa fa-check"></i><b>8.1.3</b> Inference for regression parameters</a></li>
+<li class="chapter" data-level="8.1.3" data-path="linear-regression.html"><a href="linear-regression.html#inference-for-regression-slope-parameter"><i class="fa fa-check"></i><b>8.1.3</b> Inference for regression slope parameter</a></li>
+<li class="chapter" data-level="8.1.4" data-path="linear-regression.html"><a href="linear-regression.html#inference-on-the-conditional-mean-response"><i class="fa fa-check"></i><b>8.1.4</b> Inference on the conditional mean response</a></li>
+<li class="chapter" data-level="8.1.5" data-path="linear-regression.html"><a href="linear-regression.html#prediction-of-responses-at-given-x-values"><i class="fa fa-check"></i><b>8.1.5</b> Prediction of responses at given x values</a></li>
+<li class="chapter" data-level="8.1.6" data-path="linear-regression.html"><a href="linear-regression.html#simultaneous-confidence-bands-for-the-regression-line"><i class="fa fa-check"></i><b>8.1.6</b> Simultaneous confidence bands for the regression line</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="linear-regression.html"><a href="linear-regression.html#example-house-prices-as-function-of-house-age"><i class="fa fa-check"></i><b>8.2</b> Example: House prices as function of house age</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="linear-regression.html"><a href="linear-regression.html#fitting-the-regression"><i class="fa fa-check"></i><b>8.2.1</b> Fitting the regression</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -349,7 +356,7 @@ The random variable <span class="math inline">\(\frac{\overline X - y}{S/\sqrt{n
 <span id="cb10-4"><a href="hypothesis-testing.html#cb10-4" aria-hidden="true" tabindex="-1"></a>  res[i] <span class="ot">=</span> <span class="fu">t.test</span>(x,<span class="at">mu =</span> mu0,<span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)<span class="sc">$</span>p.value</span>
 <span id="cb10-5"><a href="hypothesis-testing.html#cb10-5" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb10-6"><a href="hypothesis-testing.html#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(res<span class="sc">&lt;</span><span class="fl">0.05</span>)<span class="sc">/</span><span class="dv">10000</span></span></code></pre></div>
-<pre><code>## [1] 0.66</code></pre>
+<pre><code>## [1] 0.6632</code></pre>
 </div>
 <div id="test-for-a-normal-population-variance" class="section level3 hasAnchor" number="6.3.3">
 <h3><span class="header-section-number">6.3.3</span> Test for a normal population variance<a href="hypothesis-testing.html#test-for-a-normal-population-variance" class="anchor-section" aria-label="Anchor link to header"></a></h3>

@@ -71,4 +71,9 @@ linear-regression
 simple-linear-regression
 estimation
 estimation-of-the-common-variance
-inference-for-regression-parameters
+inference-for-regression-slope-parameter
+inference-on-the-conditional-mean-response
+prediction-of-responses-at-given-x-values
+simultaneous-confidence-bands-for-the-regression-line
+example-house-prices-as-function-of-house-age
+fitting-the-regression

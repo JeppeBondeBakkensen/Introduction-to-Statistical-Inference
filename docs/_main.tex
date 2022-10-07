@@ -117,7 +117,7 @@
 
 \title{A First Course in Probability and Statistics}
 \author{Nick Syring}
-\date{2022-09-30}
+\date{2022-10-06}
 
 \begin{document}
 \maketitle
@@ -1007,7 +1007,7 @@ Here's a quick simulation to illustrate the above power function: we'll sample d
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.6677
+## [1] 0.6655
 \end{verbatim}
 
 \hypertarget{test-for-a-normal-population-variance}{%
@@ -2285,8 +2285,8 @@ Estimating \(\sigma^2\) in the regression model is similar to the method used in
 \[\hat\sigma^2 = \frac{1}{n-2}\sum_{i=1}^n (y_i - \hat\beta_0 - \hat\beta_1 x_i)^2,\]
 where we divide by \(n-2\) so that the resulting estimator is unbiased. (I'll leave that as a challenging exercise for the reader).
 
-\hypertarget{inference-for-regression-parameters}{%
-\subsection{Inference for regression parameters}\label{inference-for-regression-parameters}}
+\hypertarget{inference-for-regression-slope-parameter}{%
+\subsection{Inference for regression slope parameter}\label{inference-for-regression-slope-parameter}}
 
 There are two main inference (and prediction) problems of interest in regression. The first is inference on \(\beta_1\), and, in particular, testing \(\beta_1 = 0\). If \(\beta_1=0\) then there is no linear relationship between the covariate \(x\) and the response \(Y\), and \(Y\) has a constant mean (so is iid, rather than independent). Testing \(\beta_1=0\) is similar to the ANOVA F test for categorical \(x\), rather than continuous \(x\) in regression.\\
 
@@ -2304,6 +2304,232 @@ A test of \(H_0:\beta_1 = b\) versus \(H_a:\beta_1 \ne b\) rejects the null if
 
 Similarly, a \(100(1-\alpha)\%\) CI for \(\beta_1\) is given by
 \[\left(\hat\beta_1 \pm t_{1-\alpha/2, n-2}\sqrt{\hat\sigma^2 \left[\sum_{i=1}^n (x_i - \bar x)^2\right]^{-1}}\right).\]
+
+\hypertarget{inference-on-the-conditional-mean-response}{%
+\subsection{Inference on the conditional mean response}\label{inference-on-the-conditional-mean-response}}
+
+Besides testing for \(H_0:\beta_1 = 0\), which means that the covariate has no effect on the mean response, experimenters often want to make inferences about the conditional mean response at a particular covariate value \(x\). As we showed above, \(\hat\beta_0 + \hat\beta_1 x\) is unbiased for \(E(Y|x) = \beta_0 + \beta_1 x\). Furthermore, the variance of the estimator of the conditional mean is as follows:
+
+\begin{align*}
+V(\hat\beta_0 + \hat\beta_1 x) &= V(\overline Y - \hat\beta_1 \overline x + \hat\beta_1 x) \\
+& = V\left(\overline Y + (x - \overline x)\frac{\sum Y_i(x_i - \overline x)}{\sum (x_i - \overline x)^2}\right)\\
+& = V\left( \sum Y_i \left(n^{-1} + (x - \overline x)\frac{(x_i - \overline x)}{\sum (x_i - \overline x)^2}\right)\right)\\
+& = \sum_{i=1}^n V\left(Y_i\left(n^{-1} + (x - \overline x)\frac{(x_i - \overline x)}{\sum (x_i - \overline x)^2}\right)\right)\\
+& = \sigma^2\sum_{i=1}^n \frac{1}{n^2} + \frac{(x - \overline x)^2(x_i - \overline x)^2}{\left[\sum (x_i - \overline x)^2\right]^2}\\
+& = \sigma^2\left(n^{-1} + \frac{(x - \overline x)^2}{\sum (x_i - \overline x)^2}\right)
+\end{align*}
+
+Replacing the unknown variance \(\sigma^2\) by its estimator (the MSE) we obtain a Student's \(t\) random variable with \(n-2\) degrees of freedom:
+\[t = \frac{\hat\beta_0 + \hat\beta_1 x  - (\beta_0 + \beta_1 x)}{\sqrt{MSE \left(n^{-1} + \frac{(x - \overline x)^2}{\sum (x_i - \overline x)^2}\right)}}\sim t_{n-2}.\]
+
+This may be used to define a confidence interval for the conditional mean response at a given covariate value \(x\):
+
+\[\left(\hat\beta_0 + \hat\beta_1 x \pm t_{1-\alpha/2, n-2}\sqrt{MSE \left(n^{-1} + \frac{(x - \overline x)^2}{\sum (x_i - \overline x)^2}\right)}  \right)\]
+
+\hypertarget{prediction-of-responses-at-given-x-values}{%
+\subsection{Prediction of responses at given x values}\label{prediction-of-responses-at-given-x-values}}
+
+Let \(Y^\star\) denote a future response for a given covariate value \(x\). We want to predict \(Y^\star\sim N(\beta_0 + \beta_1 x, \sigma^2)\). Now, we can represent \(Y^\star\) using the regression model as
+\[Y^\star = \beta_0 + \beta_1 x + \epsilon^\star\]
+for a future random residual \(\epsilon^\star\). An unbiased point prediction of \(Y^\star\) is given by the estimate of its mean \(\hat\beta_0 + \hat\beta_1 x\). The variance of the point prediction is
+\[V(\hat{Y^\star}) = V(\hat\beta_0 + \hat\beta_1 x + \epsilon^\star) = \sigma^2\left(1 +n^{-1} + \frac{(x - \overline x)^2}{\sum (x_i - \overline x)^2}\right).\]
+
+Therefore, a \(100(1-\alpha)\%\) prediction interval for \(Y^\star\) is given by
+\[\left(\hat\beta_0 + \hat\beta_1 x \pm t_{1-\alpha/2, n-2}\sqrt{MSE \left(1 +n^{-1} + \frac{(x - \overline x)^2}{\sum (x_i - \overline x)^2}\right)}  \right).\]
+
+Prediction intervals have interpretations similar to confidence intervals. If the model is true, a \(95\%\) prediction interval for \(Y^\star\) at a given \(x\) has the following property: suppose we repeat a regression experiment many, many times. Each time we compute a \(95\%\) interval and then observe a new response \(Y^\star\). then, about \(95\%\) of the time, our computed prediction interval contains that realized \(Y^\star\). This is easiest to see given a simulation experiment.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{10}  \CommentTok{\# covariate values are 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+\NormalTok{cover }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1000}\NormalTok{) }\CommentTok{\# record whether the prediction interval contains the new response Y*}
+\ControlFlowTok{for}\NormalTok{(r }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{1000}\NormalTok{)\{  }\CommentTok{\# loop 1000 "experiments"}
+\NormalTok{Y }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{1}\SpecialCharTok{+}\DecValTok{2}\SpecialCharTok{*}\NormalTok{x)  }\CommentTok{\# randomly sample the responses }
+\NormalTok{my.lm }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(}\FunctionTok{lm}\NormalTok{(Y}\SpecialCharTok{\textasciitilde{}}\NormalTok{x))  }\CommentTok{\# compute the point estimates of beta0, beta1 and sigma\^{}2}
+\NormalTok{MSE }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(my.lm}\SpecialCharTok{$}\NormalTok{residuals}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\DecValTok{8} \CommentTok{\# point estimate of sigma\^{}2}
+\NormalTok{beta0.hat }\OtherTok{\textless{}{-}}\NormalTok{ my.lm}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{1}\NormalTok{] }\CommentTok{\# storing the estimates of beta0 and beta 1}
+\NormalTok{beta1.hat }\OtherTok{\textless{}{-}}\NormalTok{ my.lm}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{]}
+\NormalTok{mean.hat }\OtherTok{\textless{}{-}}\NormalTok{ beta0.hat }\SpecialCharTok{+}\NormalTok{ beta1.hat}\SpecialCharTok{*}\DecValTok{4} \CommentTok{\# the estimated conditional mean response}
+\NormalTok{se.term }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{+}\DecValTok{1}\SpecialCharTok{/}\DecValTok{10} \SpecialCharTok{+}\NormalTok{ ((}\DecValTok{4}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(x))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{/}\NormalTok{ (}\FunctionTok{sum}\NormalTok{((x}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(x))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))) }\CommentTok{\# the 1 + 1/n + (x{-}xbar)\^{}2/sum(xi {-} xbar)\^{}2 term in the standard error}
+\NormalTok{my.PI }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(mean.hat }\SpecialCharTok{+} \FunctionTok{qt}\NormalTok{(}\FloatTok{0.025}\NormalTok{,}\DecValTok{8}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(MSE}\SpecialCharTok{*}\NormalTok{se.term), mean.hat }\SpecialCharTok{+} \FunctionTok{qt}\NormalTok{(}\FloatTok{0.975}\NormalTok{,}\DecValTok{8}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(MSE}\SpecialCharTok{*}\NormalTok{se.term)) }\CommentTok{\# prediction intervals}
+\NormalTok{Y.star }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\SpecialCharTok{+}\DecValTok{2}\SpecialCharTok{*}\DecValTok{4}\NormalTok{) }\CommentTok{\# sample a new response Y*}
+\NormalTok{cover[r] }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(my.PI[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{\textless{}}\NormalTok{ Y.star }\SpecialCharTok{\&}\NormalTok{ my.PI[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{\textgreater{}}\NormalTok{ Y.star, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{) }\CommentTok{\# check if interval contains ("covers") the Y*}
+\NormalTok{\}}
+\FunctionTok{mean}\NormalTok{(cover)  }\CommentTok{\# realized coverage proportion, should be about 95\%}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.948
+\end{verbatim}
+
+\hypertarget{simultaneous-confidence-bands-for-the-regression-line}{%
+\subsection{Simultaneous confidence bands for the regression line}\label{simultaneous-confidence-bands-for-the-regression-line}}
+
+If experimenters want to quantify uncertainty about the entire regression line, then we may compute simultaneous confidence bands. The interpretation of these bands is similar to the interpretation of a confidence interval for a ream response at a given \(x\), except the object we are claiming to capture by the bands is the line itself, rather than a point on the line.
+
+We may construct such bands based on simultaneous confidence intervals for the two parameters the line depends on, which are \((\beta_0, \beta_1)\). By \emph{simultaneous}, we mean a confidence set (in two dimensions) that has probability \(100(1-\alpha)\%\) to capture the point \((\beta_0, \beta_1)\) with respect to repeated experimentation/random sampling.
+
+The Scheffe method may be used to construct simultaneous CIs for \((\beta_0, \beta_1)\). The Scheffe simultaneous CIs are given by
+\[\left(\hat\beta_0 \pm \sqrt{\frac{2F_{1-\alpha, 2, n-2}MSE n^{-1}\sum x_i^2}{\sum(x_i - \overline x)^2}}\right),\]
+and
+\[\left(\hat\beta_1 \pm \sqrt{\frac{2F_{1-\alpha, 2, n-2}MSE }{\sum(x_i - \overline x)^2}}\right).\]
+
+A simultaneous confidence band for \(\beta_0 + \beta_1 x\) over \(x \in (a,b)\) has lower bound \(b_0 + b_1 x\) and upper bound \(B_0 +B_1 x\) where \(b_0\) and \(b_1\) are the lower bounds of the simultaneous CIs of \(\beta_0\) and \(\beta_1\) and \(B_0\) and \(B_1\) are the upper bounds.
+
+\hypertarget{example-house-prices-as-function-of-house-age}{%
+\section{Example: House prices as function of house age}\label{example-house-prices-as-function-of-house-age}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{houses }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"Real estate.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{X2.house.age, houses}\SpecialCharTok{$}\NormalTok{Y.house.price.of.unit.area, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}age\textquotesingle{}}\NormalTok{, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}price by unit area\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{15-Regression_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\hypertarget{fitting-the-regression}{%
+\subsection{Fitting the regression}\label{fitting-the-regression}}
+
+From the output of the summary of teh lm fit we see that the fitted regression line is
+\[\text{Price by unit area } = 42.4347 - 0.2515\text{ age}. \]
+The estimated variance is \(MSE = \hat\sigma^2 = 13.32^2\).
+
+We have the observed test statistics:
+\[\frac{\hat\beta_0}{\sqrt{\frac{MSE n^{-1}\sum x_i^2}{\sum(x_i - \overline x)^2}}} = 35.042\]
+and
+\[\frac{\hat\beta_1}{\sqrt{\frac{MSE }{\sum(x_i - \overline x)^2}}} = -4.372\]
+which are both significant, meaning the intercept and slope are not zero.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my.lm }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Y.house.price.of.unit.area}\SpecialCharTok{\textasciitilde{}}\NormalTok{X2.house.age, }\AttributeTok{data =}\NormalTok{ houses)}
+\FunctionTok{summary}\NormalTok{(my.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Y.house.price.of.unit.area ~ X2.house.age, data = houses)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -31.113 -10.738   1.626   8.199  77.781 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  42.43470    1.21098  35.042  < 2e-16 ***
+## X2.house.age -0.25149    0.05752  -4.372 1.56e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 13.32 on 412 degrees of freedom
+## Multiple R-squared:  0.04434,    Adjusted R-squared:  0.04202 
+## F-statistic: 19.11 on 1 and 412 DF,  p-value: 1.56e-05
+\end{verbatim}
+
+The fitted line, overlaid on the data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{houses }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"Real estate.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{X2.house.age, houses}\SpecialCharTok{$}\NormalTok{Y.house.price.of.unit.area, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}age\textquotesingle{}}\NormalTok{, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}price by unit area\textquotesingle{}}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{a =} \FloatTok{42.43470}\NormalTok{, }\AttributeTok{b =} \SpecialCharTok{{-}}\NormalTok{.}\DecValTok{25149}\NormalTok{, }\AttributeTok{col =} \StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{15-Regression_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+Predicting the home price of a house that is 20 years old:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my.summ }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(my.lm)}
+\NormalTok{MSE }\OtherTok{\textless{}{-}}\NormalTok{ my.summ}\SpecialCharTok{$}\NormalTok{sigma}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{n}\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{Y.house.price.of.unit.area)}
+\NormalTok{se.term }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{+} \DecValTok{1}\SpecialCharTok{/}\NormalTok{n }\SpecialCharTok{+}\NormalTok{ ((}\DecValTok{20}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{X2.house.age))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{((houses}\SpecialCharTok{$}\NormalTok{X2.house.age }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{X2.house.age))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{PI }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(my.summ}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ my.summ}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{*}\DecValTok{20} \SpecialCharTok{+} \FunctionTok{qt}\NormalTok{(}\FloatTok{0.025}\NormalTok{, my.summ}\SpecialCharTok{$}\NormalTok{df[}\DecValTok{2}\NormalTok{])}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(MSE}\SpecialCharTok{*}\NormalTok{se.term), my.summ}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ my.summ}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{*}\DecValTok{20} \SpecialCharTok{+} \FunctionTok{qt}\NormalTok{(}\FloatTok{0.975}\NormalTok{, my.summ}\SpecialCharTok{$}\NormalTok{df[}\DecValTok{2}\NormalTok{])}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(MSE}\SpecialCharTok{*}\NormalTok{se.term))}
+\NormalTok{PI}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 11.19322 63.61663
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{houses }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"Real estate.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{X2.house.age, houses}\SpecialCharTok{$}\NormalTok{Y.house.price.of.unit.area, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}age\textquotesingle{}}\NormalTok{, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}price by unit area\textquotesingle{}}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{a =} \FloatTok{42.43470}\NormalTok{, }\AttributeTok{b =} \SpecialCharTok{{-}}\NormalTok{.}\DecValTok{25149}\NormalTok{, }\AttributeTok{col =} \StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{20}\NormalTok{,}\DecValTok{20}\NormalTok{), PI, }\AttributeTok{col =} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, }\AttributeTok{type =} \StringTok{\textquotesingle{}o\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{15-Regression_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+Simultaneous Confidence bands:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my.summ }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(my.lm)}
+\NormalTok{MSE }\OtherTok{\textless{}{-}}\NormalTok{ my.summ}\SpecialCharTok{$}\NormalTok{sigma}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{n}\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{Y.house.price.of.unit.area)}
+\NormalTok{se.term0 }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{/}\NormalTok{n)}\SpecialCharTok{*}\FunctionTok{sum}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{X2.house.age}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{((houses}\SpecialCharTok{$}\NormalTok{X2.house.age }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{X2.house.age))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{se.term1 }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{((houses}\SpecialCharTok{$}\NormalTok{X2.house.age }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{X2.house.age))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+
+\NormalTok{beta0.intv }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(my.summ}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}} \FunctionTok{sqrt}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\FunctionTok{qf}\NormalTok{(}\FloatTok{0.95}\NormalTok{,}\DecValTok{2}\NormalTok{,my.summ}\SpecialCharTok{$}\NormalTok{df[}\DecValTok{2}\NormalTok{])}\SpecialCharTok{*}\NormalTok{MSE}\SpecialCharTok{*}\NormalTok{se.term0), my.summ}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{+} \FunctionTok{sqrt}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\FunctionTok{qf}\NormalTok{(}\FloatTok{0.95}\NormalTok{,}\DecValTok{2}\NormalTok{,my.summ}\SpecialCharTok{$}\NormalTok{df[}\DecValTok{2}\NormalTok{])}\SpecialCharTok{*}\NormalTok{MSE}\SpecialCharTok{*}\NormalTok{se.term0))}
+\NormalTok{beta1.intv }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(my.summ}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}} \FunctionTok{sqrt}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\FunctionTok{qf}\NormalTok{(}\FloatTok{0.95}\NormalTok{,}\DecValTok{2}\NormalTok{,my.summ}\SpecialCharTok{$}\NormalTok{df[}\DecValTok{2}\NormalTok{])}\SpecialCharTok{*}\NormalTok{MSE}\SpecialCharTok{*}\NormalTok{se.term1), my.summ}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{+} \FunctionTok{sqrt}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\FunctionTok{qf}\NormalTok{(}\FloatTok{0.95}\NormalTok{,}\DecValTok{2}\NormalTok{,my.summ}\SpecialCharTok{$}\NormalTok{df[}\DecValTok{2}\NormalTok{])}\SpecialCharTok{*}\NormalTok{MSE}\SpecialCharTok{*}\NormalTok{se.term1))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{houses }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"Real estate.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{X2.house.age, houses}\SpecialCharTok{$}\NormalTok{Y.house.price.of.unit.area, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}age\textquotesingle{}}\NormalTok{, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}price by unit area\textquotesingle{}}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{a =} \FloatTok{42.43470}\NormalTok{, }\AttributeTok{b =} \SpecialCharTok{{-}}\NormalTok{.}\DecValTok{25149}\NormalTok{, }\AttributeTok{col =} \StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{a =}\NormalTok{ beta0.intv[}\DecValTok{1}\NormalTok{], }\AttributeTok{b =}\NormalTok{ beta1.intv[}\DecValTok{1}\NormalTok{], }\AttributeTok{col =} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{a =}\NormalTok{ beta0.intv[}\DecValTok{2}\NormalTok{], }\AttributeTok{b =}\NormalTok{ beta1.intv[}\DecValTok{2}\NormalTok{], }\AttributeTok{col =} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{15-Regression_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+Pointwise confidence bands using CIs for conditional mean responses:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my.summ }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(my.lm)}
+\NormalTok{MSE }\OtherTok{\textless{}{-}}\NormalTok{ my.summ}\SpecialCharTok{$}\NormalTok{sigma}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{n}\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{Y.house.price.of.unit.area)}
+\NormalTok{CI.fun }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{  se.term }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{/}\NormalTok{n }\SpecialCharTok{+}\NormalTok{ ((x}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{X2.house.age))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{((houses}\SpecialCharTok{$}\NormalTok{X2.house.age }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{X2.house.age))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{  ci }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(my.summ}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ my.summ}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{*}\NormalTok{x }\SpecialCharTok{+} \FunctionTok{qt}\NormalTok{(}\FloatTok{0.025}\NormalTok{, my.summ}\SpecialCharTok{$}\NormalTok{df[}\DecValTok{2}\NormalTok{])}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(MSE}\SpecialCharTok{*}\NormalTok{se.term), my.summ}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ my.summ}\SpecialCharTok{$}\NormalTok{coefficients[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{*}\NormalTok{x }\SpecialCharTok{+} \FunctionTok{qt}\NormalTok{(}\FloatTok{0.975}\NormalTok{, my.summ}\SpecialCharTok{$}\NormalTok{df[}\DecValTok{2}\NormalTok{])}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(MSE}\SpecialCharTok{*}\NormalTok{se.term))}
+  \FunctionTok{return}\NormalTok{(ci)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Pointwise intervals in green:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{houses }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"Real estate.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{X2.house.age, houses}\SpecialCharTok{$}\NormalTok{Y.house.price.of.unit.area, }\AttributeTok{xlab =} \StringTok{\textquotesingle{}age\textquotesingle{}}\NormalTok{, }\AttributeTok{ylab =} \StringTok{\textquotesingle{}price by unit area\textquotesingle{}}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{a =} \FloatTok{42.43470}\NormalTok{, }\AttributeTok{b =} \SpecialCharTok{{-}}\NormalTok{.}\DecValTok{25149}\NormalTok{, }\AttributeTok{col =} \StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+
+\NormalTok{x.seq }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\AttributeTok{from =} \DecValTok{0}\NormalTok{, }\AttributeTok{to =} \DecValTok{50}\NormalTok{, }\AttributeTok{length.out =} \DecValTok{400}\NormalTok{)}
+\NormalTok{app.fun }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(x.seq, }\DecValTok{400}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DecValTok{1}\NormalTok{,CI.fun)}
+\FunctionTok{lines}\NormalTok{(x.seq, app.fun[}\DecValTok{1}\NormalTok{,], }\AttributeTok{col =} \StringTok{\textquotesingle{}green\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(x.seq, app.fun[}\DecValTok{2}\NormalTok{,], }\AttributeTok{col =} \StringTok{\textquotesingle{}green\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{a =}\NormalTok{ beta0.intv[}\DecValTok{1}\NormalTok{], }\AttributeTok{b =}\NormalTok{ beta1.intv[}\DecValTok{1}\NormalTok{], }\AttributeTok{col =} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{a =}\NormalTok{ beta0.intv[}\DecValTok{2}\NormalTok{], }\AttributeTok{b =}\NormalTok{ beta1.intv[}\DecValTok{2}\NormalTok{], }\AttributeTok{col =} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{15-Regression_files/figure-latex/unnamed-chunk-12-1.pdf}
 
   \bibliography{book.bib,packages.bib}
 
