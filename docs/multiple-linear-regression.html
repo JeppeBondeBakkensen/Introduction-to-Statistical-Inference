@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 Multiple Linear Regression | A First Course in Probability and Statistics</title>
+  <meta name="description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 9 Multiple Linear Regression | A First Course in Probability and Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 9 Multiple Linear Regression | A First Course in Probability and Statistics" />
+  
+  <meta name="twitter:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  
+
+<meta name="author" content="Nick Syring" />
+
+
+<meta name="date" content="2022-10-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="simple-linear-regression.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction to Statistical Inference</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html"><i class="fa fa-check"></i><b>2</b> Data Analysis and Statistical Inference</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies"><i class="fa fa-check"></i><b>2.1</b> Data, Experiments, and Studies</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial"><i class="fa fa-check"></i><b>2.1.1</b> James Lind’s Scurvy Trial</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#framingham-heart-study"><i class="fa fa-check"></i><b>2.1.2</b> Framingham Heart Study</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study"><i class="fa fa-check"></i><b>2.1.3</b> Harris Bank Sex Pay Study</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets"><i class="fa fa-check"></i><b>2.1.4</b> Large, Aggregated Data Sets</a></li>
+<li class="chapter" data-level="2.1.5" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#study-concepts"><i class="fa fa-check"></i><b>2.1.5</b> Study Concepts</a></li>
+<li class="chapter" data-level="2.1.6" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation"><i class="fa fa-check"></i><b>2.1.6</b> Randomization, control, and causation</a></li>
+<li class="chapter" data-level="2.1.7" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference"><i class="fa fa-check"></i><b>2.1.7</b> Populations and scope of inference</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-summaries"><i class="fa fa-check"></i><b>2.2</b> Data Summaries</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#numerical-summaries"><i class="fa fa-check"></i><b>2.2.1</b> Numerical Summaries</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#visual-summaries"><i class="fa fa-check"></i><b>2.2.2</b> Visual Summaries</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#statistical-inference"><i class="fa fa-check"></i><b>2.3</b> Statistical Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="statistical-estimation.html"><a href="statistical-estimation.html"><i class="fa fa-check"></i><b>3</b> Statistical Estimation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#vocabulary"><i class="fa fa-check"></i><b>3.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="3.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-estimators"><i class="fa fa-check"></i><b>3.2</b> Properties of Estimators</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#bias-and-unbiasedness"><i class="fa fa-check"></i><b>3.2.1</b> Bias and Unbiasedness</a></li>
+<li class="chapter" data-level="3.2.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#minimum-variance-unbiased-estimators"><i class="fa fa-check"></i><b>3.2.2</b> Minimum Variance Unbiased Estimators</a></li>
+<li class="chapter" data-level="3.2.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#mean-squared-error-and-bias-variance-tradeoff"><i class="fa fa-check"></i><b>3.2.3</b> Mean Squared Error and Bias-Variance tradeoff</a></li>
+<li class="chapter" data-level="3.2.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#consistency"><i class="fa fa-check"></i><b>3.2.4</b> Consistency</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#finding-estimators---method-of-moments"><i class="fa fa-check"></i><b>3.3</b> Finding estimators - Method of Moments</a></li>
+<li class="chapter" data-level="3.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#method-of-maximum-likelihood"><i class="fa fa-check"></i><b>3.4</b> Method of Maximum Likelihood</a></li>
+<li class="chapter" data-level="3.5" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-mles"><i class="fa fa-check"></i><b>3.5</b> Properties of MLEs</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sampling-distributions.html"><a href="sampling-distributions.html"><i class="fa fa-check"></i><b>4</b> Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-mean"><i class="fa fa-check"></i><b>4.1</b> Sample Mean</a></li>
+<li class="chapter" data-level="4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-variance"><i class="fa fa-check"></i><b>4.2</b> Sample Variance</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#large-sample-sampling-distribution-of-sample-variance"><i class="fa fa-check"></i><b>4.2.1</b> Large-sample sampling distribution of sample variance</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sampling-distribution-of-studentized-sample-mean"><i class="fa fa-check"></i><b>4.3</b> Sampling distribution of studentized sample mean</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2"><i class="fa fa-check"></i><b>4.3.1</b> Part of Student’s Theorem - Indepndence of <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="sampling-distributions.html"><a href="sampling-distributions.html#differences-of-sample-means"><i class="fa fa-check"></i><b>4.4</b> Differences of Sample Means</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#standarized-difference"><i class="fa fa-check"></i><b>4.4.1</b> Standarized difference</a></li>
+<li class="chapter" data-level="4.4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-equal-variances"><i class="fa fa-check"></i><b>4.4.2</b> Studentized difference, equal variances</a></li>
+<li class="chapter" data-level="4.4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-unequal-variances"><i class="fa fa-check"></i><b>4.4.3</b> Studentized difference, unequal variances</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="sampling-distributions.html"><a href="sampling-distributions.html#ratios-of-sample-variances"><i class="fa fa-check"></i><b>4.5</b> Ratios of Sample Variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>5</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#why-want-interval-valued-estimates"><i class="fa fa-check"></i><b>5.1</b> Why want interval-valued estimates?</a></li>
+<li class="chapter" data-level="5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#normal-population-mean-example"><i class="fa fa-check"></i><b>5.2</b> Normal population mean example</a></li>
+<li class="chapter" data-level="5.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#other-exact-cis-for-normal-population-mean-and-variance-parameters"><i class="fa fa-check"></i><b>5.3</b> Other “Exact” CIs for normal population mean and variance parameters</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-mean-unknown-variance"><i class="fa fa-check"></i><b>5.3.1</b> Population mean, unknown variance</a></li>
+<li class="chapter" data-level="5.3.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-variance-unknown-mean"><i class="fa fa-check"></i><b>5.3.2</b> Population variance, unknown mean</a></li>
+<li class="chapter" data-level="5.3.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-means"><i class="fa fa-check"></i><b>5.3.3</b> Two normal samples, comparing means</a></li>
+<li class="chapter" data-level="5.3.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-variances"><i class="fa fa-check"></i><b>5.3.4</b> Two normal samples, comparing variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#cis-for-proportions"><i class="fa fa-check"></i><b>5.4</b> CIs for proportions</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#a-single-bernoulli-proportion"><i class="fa fa-check"></i><b>5.4.1</b> A single Bernoulli proportion</a></li>
+<li class="chapter" data-level="5.4.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#difference-of-two-bernoulli-proportions"><i class="fa fa-check"></i><b>5.4.2</b> Difference of two Bernoulli proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#approximate-cis-based-on-mles"><i class="fa fa-check"></i><b>5.5</b> Approximate CIs based on MLEs</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#multivariate-case"><i class="fa fa-check"></i><b>5.5.1</b> Multivariate case</a></li>
+<li class="chapter" data-level="5.5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#the-delta-method"><i class="fa fa-check"></i><b>5.5.2</b> The Delta method</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#notation"><i class="fa fa-check"></i><b>6.1</b> Notation</a></li>
+<li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#hypothesis-testing-outcomes"><i class="fa fa-check"></i><b>6.2</b> Hypothesis testing outcomes</a></li>
+<li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#tests-based-on-a-normal-population"><i class="fa fa-check"></i><b>6.3</b> Tests based on a normal population</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-a-normal-mean-when-the-variance-is-known"><i class="fa fa-check"></i><b>6.3.1</b> Test for a normal mean when the variance is known</a></li>
+<li class="chapter" data-level="6.3.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-a-normal-mean-when-the-variance-is-unknown"><i class="fa fa-check"></i><b>6.3.2</b> Test for a normal mean when the variance is unknown</a></li>
+<li class="chapter" data-level="6.3.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-a-normal-population-variance"><i class="fa fa-check"></i><b>6.3.3</b> Test for a normal population variance</a></li>
+<li class="chapter" data-level="6.3.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#example-the-lifetimes-of-infected-guinea-pigs"><i class="fa fa-check"></i><b>6.3.4</b> Example: The lifetimes of infected Guinea pigs</a></li>
+<li class="chapter" data-level="6.3.5" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#tests-for-a-difference-of-normal-population-means"><i class="fa fa-check"></i><b>6.3.5</b> Tests for a difference of normal population means</a></li>
+<li class="chapter" data-level="6.3.6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-equality-of-normal-population-variances"><i class="fa fa-check"></i><b>6.3.6</b> Test for equality of normal population variances</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#likelihood-based-tests"><i class="fa fa-check"></i><b>6.4</b> Likelihood-based Tests</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#wald-type-tests"><i class="fa fa-check"></i><b>6.4.1</b> Wald type tests</a></li>
+<li class="chapter" data-level="6.4.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#likelihood-ratio-tests"><i class="fa fa-check"></i><b>6.4.2</b> Likelihood ratio tests</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#chi-squared-tests-for-tabulated-data"><i class="fa fa-check"></i><b>6.5</b> Chi Squared tests for tabulated data</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#goodness-of-fit-tests"><i class="fa fa-check"></i><b>6.5.1</b> Goodness of fit tests</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="anova.html"><a href="anova.html"><i class="fa fa-check"></i><b>7</b> ANOVA</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="anova.html"><a href="anova.html#analysis-of-variance"><i class="fa fa-check"></i><b>7.1</b> Analysis of variance</a></li>
+<li class="chapter" data-level="7.2" data-path="anova.html"><a href="anova.html#crop-data-in-depth-example"><i class="fa fa-check"></i><b>7.2</b> Crop data in-depth example</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="anova.html"><a href="anova.html#checking-the-equal-variance-assumption"><i class="fa fa-check"></i><b>7.2.1</b> Checking the equal variance assumption</a></li>
+<li class="chapter" data-level="7.2.2" data-path="anova.html"><a href="anova.html#normality-and-alternatives-to-the-f-test"><i class="fa fa-check"></i><b>7.2.2</b> Normality and alternatives to the F test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html"><i class="fa fa-check"></i><b>8</b> Simple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#simple-linear-regression-model"><i class="fa fa-check"></i><b>8.1</b> Simple linear regression model</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#estimation"><i class="fa fa-check"></i><b>8.1.1</b> Estimation</a></li>
+<li class="chapter" data-level="8.1.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#estimation-of-the-common-variance"><i class="fa fa-check"></i><b>8.1.2</b> Estimation of the common variance</a></li>
+<li class="chapter" data-level="8.1.3" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#inference-for-regression-slope-parameter"><i class="fa fa-check"></i><b>8.1.3</b> Inference for regression slope parameter</a></li>
+<li class="chapter" data-level="8.1.4" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#inference-on-the-conditional-mean-response"><i class="fa fa-check"></i><b>8.1.4</b> Inference on the conditional mean response</a></li>
+<li class="chapter" data-level="8.1.5" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#prediction-of-responses-at-given-x-values"><i class="fa fa-check"></i><b>8.1.5</b> Prediction of responses at given x values</a></li>
+<li class="chapter" data-level="8.1.6" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#simultaneous-confidence-bands-for-the-regression-line"><i class="fa fa-check"></i><b>8.1.6</b> Simultaneous confidence bands for the regression line</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#example-house-prices-as-function-of-house-age"><i class="fa fa-check"></i><b>8.2</b> Example: House prices as function of house age</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#fitting-the-regression"><i class="fa fa-check"></i><b>8.2.1</b> Fitting the regression</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="multiple-linear-regression.html"><a href="multiple-linear-regression.html"><i class="fa fa-check"></i><b>9</b> Multiple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="multiple-linear-regression.html"><a href="multiple-linear-regression.html#the-multiple-linear-regression-model"><i class="fa fa-check"></i><b>9.1</b> The Multiple Linear Regression Model</a></li>
+<li class="chapter" data-level="9.2" data-path="multiple-linear-regression.html"><a href="multiple-linear-regression.html#point-estimation"><i class="fa fa-check"></i><b>9.2</b> Point estimation</a></li>
+<li class="chapter" data-level="9.3" data-path="multiple-linear-regression.html"><a href="multiple-linear-regression.html#sampling-distributions-1"><i class="fa fa-check"></i><b>9.3</b> Sampling Distributions</a></li>
+<li class="chapter" data-level="9.4" data-path="multiple-linear-regression.html"><a href="multiple-linear-regression.html#inference-on-regression-coefficients"><i class="fa fa-check"></i><b>9.4</b> Inference on regression coefficients</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="multiple-linear-regression.html"><a href="multiple-linear-regression.html#example-housing-price-data"><i class="fa fa-check"></i><b>9.4.1</b> Example: Housing price data</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A First Course in Probability and Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="multiple-linear-regression" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Multiple Linear Regression<a href="multiple-linear-regression.html#multiple-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this chapter we extend the simple linear regression model to accomodate multiple covariates <span class="math inline">\(X_1, \ldots, X_p\)</span> to better predict the response <span class="math inline">\(Y\)</span>. <br><br></p>
+<div id="the-multiple-linear-regression-model" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> The Multiple Linear Regression Model<a href="multiple-linear-regression.html#the-multiple-linear-regression-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Multiple linear regression is a model for predicting the behavior of a response variable <span class="math inline">\(Y\)</span> using several predictors (also called covariates or explanatory variables) <span class="math inline">\(X_1, \ldots, X_p\)</span> assumed to have some influence on the response. In particular, the model is linear:
+<span class="math display">\[Y_i = \beta_0 + \beta_1 X_{1,i} + \beta_2 X_{2,i} + \cdots + \beta_p X_{p,i} + \epsilon_i\]</span>
+for <span class="math inline">\(i=1, \ldots, n\)</span> responses. We assume the random residuals <span class="math inline">\(\epsilon_i\)</span> are a normal random sample with mean zero and constant variance <span class="math inline">\(\sigma^2\)</span>.<br><br></p>
+<p>It is convenient to write the multiple linear regression model in matrix-vector form:
+<span class="math display">\[Y = X\beta+\epsilon\]</span>
+where <span class="math inline">\(Y\)</span> is the <span class="math inline">\(n\times 1\)</span> vector of response variables, <span class="math inline">\(X\)</span> is the <span class="math inline">\(n \times (p+1)\)</span> matrix consisting of an <span class="math inline">\(n\times 1\)</span> column vector of 1’s and the <span class="math inline">\(p\)</span> columns of predictor variables, where <span class="math inline">\(\beta\)</span> is a <span class="math inline">\((p+1) \times 1\)</span> vector of unknown coefficients, and where <span class="math inline">\(\epsilon\)</span> is the <span class="math inline">\(n\times 1\)</span> vector of random residuals.</p>
+</div>
+<div id="point-estimation" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Point estimation<a href="multiple-linear-regression.html#point-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Just as in simple linear regression, we estimate <span class="math inline">\(\beta\)</span> using the method of least squares. Define the observed residuals</p>
+<p><span class="math display">\[e(\hat\beta) = Y_i - X_i^\top\hat\beta\]</span></p>
+<p>where <span class="math inline">\(\hat\beta\)</span> is some particular value of the vector <span class="math inline">\(\beta\)</span> and <span class="math inline">\(X_i\)</span> is the <span class="math inline">\(i^{th}\)</span> row of the “design matrix” <span class="math inline">\(X\)</span> defined above. Then, the sum of squared observed residuals (often called sum of squares errors) is
+<span class="math display">\[SSE = \sum_{i=1}^n \left(Y_i - X_i^\top\hat\beta\right)^2.\]</span>
+In matrix-vector notation, the SSE is an inner product (dot product):
+<span class="math display">\[SSE = (Y-X\hat\beta)^\top (Y-X\hat\beta).\]</span></p>
+<p>The method of least squares says that we should choose the estimator <span class="math inline">\(\hat\beta\)</span> to be the value minimizing the SSE. And, just as in simple linear regression, we can compute this minimizer using calculus. In multiple linear regression, the calculus is a bit more complicated, because we are dealing with vector rather than scalar quantities. To compute the least squares estimator, begin by expanding SSE:
+<span class="math display">\[\begin{align*}
+SSE &amp;= (Y-X\hat\beta)^\top (Y-X\hat\beta)\\
+&amp; = Y^\top Y - Y^\top X\beta - \beta^\top X^\top Y + \hat\beta^\top X^\top X\beta
+\end{align*}\]</span>
+Next, differentiate term by term, using the following facts from calculus: for <span class="math inline">\(n \times 1\)</span> vectors <span class="math inline">\(a\)</span> and <span class="math inline">\(x\)</span>
+<span class="math display">\[\frac{\partial}{\partial x} a^\top x = a^\top;\]</span>
+and, for an <span class="math inline">\(n\times n\)</span> matrix <span class="math inline">\(A\)</span>:
+<span class="math display">\[\frac{\partial}{\partial x}  x^\top A x = (A + A^\top) x.\]</span>
+Applying these rules, we obtain
+<span class="math display">\[\begin{align*}
+\frac{\partial}{\partial \beta} SSE &amp;= -Y^\top X - (Y^\top X)^\top + (X^\top X + X^\top X) \beta\\
+&amp; = 2X^\top X \beta - 2X^\top Y
+\end{align*}\]</span>
+If <span class="math inline">\(X^\top X\)</span> is invertible, we may set this equation equal to the <span class="math inline">\((p+1)\times 1\)</span> zero vector and solve, obtaining
+<span class="math display">\[\hat\beta = (X^\top X)^{-1}X^\top Y.\]</span>
+Just as in simple linear regression, our least squares estimator is unbiased:
+<span class="math display">\[E(\hat\beta) = E((X^\top X)^{-1}X^\top Y) = (X^\top X)^{-1}X^\top X\beta = \beta.\]</span>
+To estimate <span class="math inline">\(\sigma^2\)</span>, we use (an adjustment to) the method of moments,
+<span class="math display">\[\hat\sigma^2 = \frac{1}{n-(p+1)}SSE = \frac{1}{n-(p+1)}(Y - X\hat\beta)^\top(Y - X\hat\beta).\]</span>
+This estimator is also unbiased, i.e., <span class="math inline">\(E(\hat\sigma^2) = \sigma^2\)</span>.</p>
+</div>
+<div id="sampling-distributions-1" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> Sampling Distributions<a href="multiple-linear-regression.html#sampling-distributions-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The estimated regression coefficients have a multivariate normal distribution due to the fact they are equal to linear combinations of the normally-distributed responses:
+<span class="math display">\[\hat\beta \sim N_{p+1}\left(\beta, \sigma^2 (X^\top X)^{-1}\right).\]</span>
+This means the least squares estimator is normally distributed, unbiased, and has covariance matrix <span class="math inline">\(\sigma^2 (X^\top X)^{-1}\)</span>. For example, <span class="math inline">\(V(\hat\beta_j) = \sigma^2 (X^\top X)^{-1}_{j,j}\)</span>, which is the variance parameter <span class="math inline">\(\sigma^2\)</span> multiplies by the <span class="math inline">\(j^{th}\)</span> diagonal entry of the matrix <span class="math inline">\((X^\top X)^{-1}\)</span>.<br><br></p>
+<p>The variance estimator <span class="math inline">\(\hat\sigma^2\)</span> (properly scaled) has a Chi-Squared distribution:
+<span class="math display">\[\frac{[n-(p+1)]\hat\sigma^2}{\sigma^2}\sim \chi^2( n - p - 1).\]</span></p>
+<p>Furthermore, the least squares estimator is independent of the variance estimator, which implies the Studentized estimated coefficients are <span class="math inline">\(t-\)</span>distributed:
+<span class="math display">\[\frac{\hat\beta_j - \beta_j}{\sqrt{\hat\sigma^2 (X^\top X)^{-1}_{j,j}}}\sim t_{n-p-1}.\]</span></p>
+</div>
+<div id="inference-on-regression-coefficients" class="section level2 hasAnchor" number="9.4">
+<h2><span class="header-section-number">9.4</span> Inference on regression coefficients<a href="multiple-linear-regression.html#inference-on-regression-coefficients" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Student’s t sampling distribution noted above enables us to derive exact confidence intervals and hypothesis tests for individual regression coefficients. A <span class="math inline">\(100(1-\alpha)\%\)</span> CI for <span class="math inline">\(\beta_j\)</span> is given by
+<span class="math display">\[(\hat\beta_j \pm t_{1-\alpha/2, n-p-1}\sqrt{\hat\sigma^2 (X^\top X)^{-1}_{j,j}}).\]</span>
+To test <span class="math inline">\(H_0:\beta_j = 0\)</span> versus <span class="math inline">\(H_a:\beta_j\ne 0\)</span> we reject the null hypothesis at level <span class="math inline">\(\alpha\)</span> if <span class="math inline">\(|t| &gt; t_{1-\alpha.2, n-p-1}\)</span> where
+<span class="math display">\[t = \frac{\hat\beta_j - 0}{\sqrt{\hat\sigma^2 (X^\top X)^{-1}_{j,j}}}.\]</span>
+The interpretation of the above null hypothesis is that including covariate <span class="math inline">\(X_j\)</span> in the model does not significantly improve accuracy of predicting <span class="math inline">\(Y\)</span>. <br><br></p>
+<p>We can also test for significance/insignificance of several covariates at a time using <em>partial F tests</em>. Let <span class="math inline">\(X^R\)</span> denote a subset of the columns of the design matrix <span class="math inline">\(X\)</span> where we have removed columns corresponding to a subset of <span class="math inline">\(r\)</span> of the coefficients in <span class="math inline">\(\beta\)</span>. Fit the model <span class="math inline">\(Y = X^R\beta^R + \epsilon\)</span> and compute the sum of squared residuals for this <strong>reduced</strong> model, call it, <span class="math inline">\(\text{SSE}^R\)</span>. Let <span class="math inline">\(\text{SSE}^F\)</span> denote the sum of squared residuals for the <strong>full</strong> model with all <span class="math inline">\(p\)</span> covariates. Define
+<span class="math display">\[F = \frac{(SSE^R - SSE^F)/r }{SSE^F / (n-p-1)}.\]</span>
+Then, under <span class="math inline">\(H_0:\text{all of these }r\text{ covariates have coefficients equal to zero}\)</span> we have <span class="math inline">\(F\sim F_{r, n-p-1}\)</span>, that is, the test statistic <span class="math inline">\(F\)</span> has an <span class="math inline">\(F\)</span> distribution with numerator and denominator degrees of freedom <span class="math inline">\(r\)</span> and <span class="math inline">\(n-p-1\)</span>. We reject the null hypothesis at level <span class="math inline">\(\alpha\)</span> if <span class="math inline">\(F &gt; F_{1-\alpha, r, n-p-1}\)</span>.</p>
+<div id="example-housing-price-data" class="section level3 hasAnchor" number="9.4.1">
+<h3><span class="header-section-number">9.4.1</span> Example: Housing price data<a href="multiple-linear-regression.html#example-housing-price-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<a href="data:text/csv;base64,Tm8sWDEgdHJhbnNhY3Rpb24gZGF0ZSxYMiBob3VzZSBhZ2UsWDMgZGlzdGFuY2UgdG8gdGhlIG5lYXJlc3QgTVJUIHN0YXRpb24sWDQgbnVtYmVyIG9mIGNvbnZlbmllbmNlIHN0b3JlcyxYNSBsYXRpdHVkZSxYNiBsb25naXR1ZGUsWSBob3VzZSBwcmljZSBvZiB1bml0IGFyZWENCjEsMjAxMi45MTcsMzIsODQuODc4ODIsMTAsMjQuOTgyOTgsMTIxLjU0MDI0LDM3LjkNCjIsMjAxMi45MTcsMTkuNSwzMDYuNTk0Nyw5LDI0Ljk4MDM0LDEyMS41Mzk1MSw0Mi4yDQozLDIwMTMuNTgzLDEzLjMsNTYxLjk4NDUsNSwyNC45ODc0NiwxMjEuNTQzOTEsNDcuMw0KNCwyMDEzLjUwMCwxMy4zLDU2MS45ODQ1LDUsMjQuOTg3NDYsMTIxLjU0MzkxLDU0LjgNCjUsMjAxMi44MzMsNSwzOTAuNTY4NCw1LDI0Ljk3OTM3LDEyMS41NDI0NSw0My4xDQo2LDIwMTIuNjY3LDcuMSwyMTc1LjAzLDMsMjQuOTYzMDUsMTIxLjUxMjU0LDMyLjENCjcsMjAxMi42NjcsMzQuNSw2MjMuNDczMSw3LDI0Ljk3OTMzLDEyMS41MzY0Miw0MC4zDQo4LDIwMTMuNDE3LDIwLjMsMjg3LjYwMjUsNiwyNC45ODA0MiwxMjEuNTQyMjgsNDYuNw0KOSwyMDEzLjUwMCwzMS43LDU1MTIuMDM4LDEsMjQuOTUwOTUsMTIxLjQ4NDU4LDE4LjgNCjEwLDIwMTMuNDE3LDE3LjksMTc4My4xOCwzLDI0Ljk2NzMxLDEyMS41MTQ4NiwyMi4xDQoxMSwyMDEzLjA4MywzNC44LDQwNS4yMTM0LDEsMjQuOTczNDksMTIxLjUzMzcyLDQxLjQNCjEyLDIwMTMuMzMzLDYuMyw5MC40NTYwNiw5LDI0Ljk3NDMzLDEyMS41NDMxLDU4LjENCjEzLDIwMTIuOTE3LDEzLDQ5Mi4yMzEzLDUsMjQuOTY1MTUsMTIxLjUzNzM3LDM5LjMNCjE0LDIwMTIuNjY3LDIwLjQsMjQ2OS42NDUsNCwyNC45NjEwOCwxMjEuNTEwNDYsMjMuOA0KMTUsMjAxMy41MDAsMTMuMiwxMTY0LjgzOCw0LDI0Ljk5MTU2LDEyMS41MzQwNiwzNC4zDQoxNiwyMDEzLjU4MywzNS43LDU3OS4yMDgzLDIsMjQuOTgyNCwxMjEuNTQ2MTksNTAuNQ0KMTcsMjAxMy4yNTAsMCwyOTIuOTk3OCw2LDI0Ljk3NzQ0LDEyMS41NDQ1OCw3MC4xDQoxOCwyMDEyLjc1MCwxNy43LDM1MC44NTE1LDEsMjQuOTc1NDQsMTIxLjUzMTE5LDM3LjQNCjE5LDIwMTMuNDE3LDE2LjksMzY4LjEzNjMsOCwyNC45Njc1LDEyMS41NDQ1MSw0Mi4zDQoyMCwyMDEyLjY2NywxLjUsMjMuMzgyODQsNywyNC45Njc3MiwxMjEuNTQxMDIsNDcuNw0KMjEsMjAxMy40MTcsNC41LDIyNzUuODc3LDMsMjQuOTYzMTQsMTIxLjUxMTUxLDI5LjMNCjIyLDIwMTMuNDE3LDEwLjUsMjc5LjE3MjYsNywyNC45NzUyOCwxMjEuNTQ1NDEsNTEuNg0KMjMsMjAxMi45MTcsMTQuNywxMzYwLjEzOSwxLDI0Ljk1MjA0LDEyMS41NDg0MiwyNC42DQoyNCwyMDEzLjA4MywxMC4xLDI3OS4xNzI2LDcsMjQuOTc1MjgsMTIxLjU0NTQxLDQ3LjkNCjI1LDIwMTMuMDAwLDM5LjYsNDgwLjY5NzcsNCwyNC45NzM1MywxMjEuNTM4ODUsMzguOA0KMjYsMjAxMy4wODMsMjkuMywxNDg3Ljg2OCwyLDI0Ljk3NTQyLDEyMS41MTcyNiwyNw0KMjcsMjAxMi42NjcsMy4xLDM4My44NjI0LDUsMjQuOTgwODUsMTIxLjU0MzkxLDU2LjINCjI4LDIwMTMuMjUwLDEwLjQsMjc2LjQ0OSw1LDI0Ljk1NTkzLDEyMS41MzkxMywzMy42DQoyOSwyMDEzLjUwMCwxOS4yLDU1Ny40NzgsNCwyNC45NzQxOSwxMjEuNTM3OTcsNDcNCjMwLDIwMTMuMDgzLDcuMSw0NTEuMjQzOCw1LDI0Ljk3NTYzLDEyMS41NDY5NCw1Ny4xDQozMSwyMDEzLjUwMCwyNS45LDQ1MTkuNjksMCwyNC45NDgyNiwxMjEuNDk1ODcsMjIuMQ0KMzIsMjAxMi43NTAsMjkuNiw3NjkuNDAzNCw3LDI0Ljk4MjgxLDEyMS41MzQwOCwyNQ0KMzMsMjAxMi43NTAsMzcuOSw0ODguNTcyNywxLDI0Ljk3MzQ5LDEyMS41MzQ1MSwzNC4yDQozNCwyMDEzLjI1MCwxNi41LDMyMy42NTUsNiwyNC45Nzg0MSwxMjEuNTQyODEsNDkuMw0KMzUsMjAxMi43NTAsMTUuNCwyMDUuMzY3LDcsMjQuOTg0MTksMTIxLjU0MjQzLDU1LjENCjM2LDIwMTMuNTAwLDEzLjksNDA3OS40MTgsMCwyNS4wMTQ1OSwxMjEuNTE4MTYsMjcuMw0KMzcsMjAxMi45MTcsMTQuNywxOTM1LjAwOSwyLDI0Ljk2Mzg2LDEyMS41MTQ1OCwyMi45DQozOCwyMDEzLjE2NywxMiwxMzYwLjEzOSwxLDI0Ljk1MjA0LDEyMS41NDg0MiwyNS4zDQozOSwyMDEyLjY2NywzLjEsNTc3Ljk2MTUsNiwyNC45NzIwMSwxMjEuNTQ3MjIsNDcuNw0KNDAsMjAxMy4xNjcsMTYuMiwyODkuMzI0OCw1LDI0Ljk4MjAzLDEyMS41NDM0OCw0Ni4yDQo0MSwyMDEzLjAwMCwxMy42LDQwODIuMDE1LDAsMjQuOTQxNTUsMTIxLjUwMzgxLDE1LjkNCjQyLDIwMTMuNTAwLDE2LjgsNDA2Ni41ODcsMCwyNC45NDI5NywxMjEuNTAzNDIsMTguMg0KNDMsMjAxMy40MTcsMzYuMSw1MTkuNDYxNyw1LDI0Ljk2MzA1LDEyMS41Mzc1OCwzNC43DQo0NCwyMDEyLjc1MCwzNC40LDUxMi43ODcxLDYsMjQuOTg3NDgsMTIxLjU0MzAxLDM0LjENCjQ1LDIwMTMuNTgzLDIuNyw1MzMuNDc2Miw0LDI0Ljk3NDQ1LDEyMS41NDc2NSw1My45DQo0NiwyMDEzLjA4MywzNi42LDQ4OC44MTkzLDgsMjQuOTcwMTUsMTIxLjU0NDk0LDM4LjMNCjQ3LDIwMTMuNDE3LDIxLjcsNDYzLjk2MjMsOSwyNC45NzAzLDEyMS41NDQ1OCw0Mg0KNDgsMjAxMy41ODMsMzUuOSw2NDAuNzM5MSwzLDI0Ljk3NTYzLDEyMS41MzcxNSw2MS41DQo0OSwyMDEzLjQxNywyNC4yLDQ2MDUuNzQ5LDAsMjQuOTQ2ODQsMTIxLjQ5NTc4LDEzLjQNCjUwLDIwMTIuNjY3LDI5LjQsNDUxMC4zNTksMSwyNC45NDkyNSwxMjEuNDk1NDIsMTMuMg0KNTEsMjAxMy40MTcsMjEuNyw1MTIuNTQ4Nyw0LDI0Ljk3NCwxMjEuNTM4NDIsNDQuMg0KNTIsMjAxMy4wODMsMzEuMywxNzU4LjQwNiwxLDI0Ljk1NDAyLDEyMS41NTI4MiwyMC43DQo1MywyMDEzLjU4MywzMi4xLDE0MzguNTc5LDMsMjQuOTc0MTksMTIxLjUxNzUsMjcNCjU0LDIwMTMuMDgzLDEzLjMsNDkyLjIzMTMsNSwyNC45NjUxNSwxMjEuNTM3MzcsMzguOQ0KNTUsMjAxMy4wODMsMTYuMSwyODkuMzI0OCw1LDI0Ljk4MjAzLDEyMS41NDM0OCw1MS43DQo1NiwyMDEyLjgzMywzMS43LDExNjAuNjMyLDAsMjQuOTQ5NjgsMTIxLjUzMDA5LDEzLjcNCjU3LDIwMTMuNDE3LDMzLjYsMzcxLjI0OTUsOCwyNC45NzI1NCwxMjEuNTQwNTksNDEuOQ0KNTgsMjAxMi45MTcsMy41LDU2LjQ3NDI1LDcsMjQuOTU3NDQsMTIxLjUzNzExLDUzLjUNCjU5LDIwMTMuNTAwLDMwLjMsNDUxMC4zNTksMSwyNC45NDkyNSwxMjEuNDk1NDIsMjIuNg0KNjAsMjAxMy4wODMsMTMuMywzMzYuMDUzMiw1LDI0Ljk1Nzc2LDEyMS41MzQzOCw0Mi40DQo2MSwyMDEzLjQxNywxMSwxOTMxLjIwNywyLDI0Ljk2MzY1LDEyMS41MTQ3MSwyMS4zDQo2MiwyMDEzLjUwMCw1LjMsMjU5LjY2MDcsNiwyNC45NzU4NSwxMjEuNTQ1MTYsNjMuMg0KNjMsMjAxMi45MTcsMTcuMiwyMTc1Ljg3NywzLDI0Ljk2MzAzLDEyMS41MTI1NCwyNy43DQo2NCwyMDEzLjU4MywyLjYsNTMzLjQ3NjIsNCwyNC45NzQ0NSwxMjEuNTQ3NjUsNTUNCjY1LDIwMTMuMzMzLDE3LjUsOTk1Ljc1NTQsMCwyNC45NjMwNSwxMjEuNTQ5MTUsMjUuMw0KNjYsMjAxMy40MTcsNDAuMSwxMjMuNzQyOSw4LDI0Ljk3NjM1LDEyMS41NDMyOSw0NC4zDQo2NywyMDEzLjAwMCwxLDE5My41ODQ1LDYsMjQuOTY1NzEsMTIxLjU0MDg5LDUwLjcNCjY4LDIwMTMuNTAwLDguNSwxMDQuODEwMSw1LDI0Ljk2Njc0LDEyMS41NDA2Nyw1Ni44DQo2OSwyMDEzLjQxNywzMC40LDQ2NC4yMjMsNiwyNC45Nzk2NCwxMjEuNTM4MDUsMzYuMg0KNzAsMjAxMi44MzMsMTIuNSw1NjEuOTg0NSw1LDI0Ljk4NzQ2LDEyMS41NDM5MSw0Mg0KNzEsMjAxMy41ODMsNi42LDkwLjQ1NjA2LDksMjQuOTc0MzMsMTIxLjU0MzEsNTkNCjcyLDIwMTMuMDgzLDM1LjUsNjQwLjczOTEsMywyNC45NzU2MywxMjEuNTM3MTUsNDAuOA0KNzMsMjAxMy41ODMsMzIuNSw0MjQuNTQ0Miw4LDI0Ljk3NTg3LDEyMS41MzkxMywzNi4zDQo3NCwyMDEzLjE2NywxMy44LDQwODIuMDE1LDAsMjQuOTQxNTUsMTIxLjUwMzgxLDIwDQo3NSwyMDEyLjkxNyw2LjgsMzc5LjU1NzUsMTAsMjQuOTgzNDMsMTIxLjUzNzYyLDU0LjQNCjc2LDIwMTMuNTAwLDEyLjMsMTM2MC4xMzksMSwyNC45NTIwNCwxMjEuNTQ4NDIsMjkuNQ0KNzcsMjAxMy41ODMsMzUuOSw2MTYuNDAwNCwzLDI0Ljk3NzIzLDEyMS41Mzc2NywzNi44DQo3OCwyMDEyLjgzMywyMC41LDIxODUuMTI4LDMsMjQuOTYzMjIsMTIxLjUxMjM3LDI1LjYNCjc5LDIwMTIuOTE3LDM4LjIsNTUyLjQzNzEsMiwyNC45NzU5OCwxMjEuNTMzODEsMjkuOA0KODAsMjAxMy4wMDAsMTgsMTQxNC44MzcsMSwyNC45NTE4MiwxMjEuNTQ4ODcsMjYuNQ0KODEsMjAxMy41MDAsMTEuOCw1MzMuNDc2Miw0LDI0Ljk3NDQ1LDEyMS41NDc2NSw0MC4zDQo4MiwyMDEzLjAwMCwzMC44LDM3Ny43OTU2LDYsMjQuOTY0MjcsMTIxLjUzOTY0LDM2LjgNCjgzLDIwMTMuMDgzLDEzLjIsMTUwLjkzNDcsNywyNC45NjcyNSwxMjEuNTQyNTIsNDguMQ0KODQsMjAxMi45MTcsMjUuMywyNzA3LjM5MiwzLDI0Ljk2MDU2LDEyMS41MDgzMSwxNy43DQo4NSwyMDEzLjA4MywxNS4xLDM4My4yODA1LDcsMjQuOTY3MzUsMTIxLjU0NDY0LDQzLjcNCjg2LDIwMTIuNzUwLDAsMzM4Ljk2NzksOSwyNC45Njg1MywxMjEuNTQ0MTMsNTAuOA0KODcsMjAxMi44MzMsMS44LDE0NTUuNzk4LDEsMjQuOTUxMiwxMjEuNTQ5LDI3DQo4OCwyMDEzLjU4MywxNi45LDQwNjYuNTg3LDAsMjQuOTQyOTcsMTIxLjUwMzQyLDE4LjMNCjg5LDIwMTIuOTE3LDguOSwxNDA2LjQzLDAsMjQuOTg1NzMsMTIxLjUyNzU4LDQ4DQo5MCwyMDEzLjUwMCwyMywzOTQ3Ljk0NSwwLDI0Ljk0NzgzLDEyMS41MDI0MywyNS4zDQo5MSwyMDEyLjgzMywwLDI3NC4wMTQ0LDEsMjQuOTc0OCwxMjEuNTMwNTksNDUuNA0KOTIsMjAxMy4yNTAsOS4xLDE0MDIuMDE2LDAsMjQuOTg1NjksMTIxLjUyNzYsNDMuMg0KOTMsMjAxMi45MTcsMjAuNiwyNDY5LjY0NSw0LDI0Ljk2MTA4LDEyMS41MTA0NiwyMS44DQo5NCwyMDEyLjkxNywzMS45LDExNDYuMzI5LDAsMjQuOTQ5MiwxMjEuNTMwNzYsMTYuMQ0KOTUsMjAxMi45MTcsNDAuOSwxNjcuNTk4OSw1LDI0Ljk2NjMsMTIxLjU0MDI2LDQxDQo5NiwyMDEyLjkxNyw4LDEwNC44MTAxLDUsMjQuOTY2NzQsMTIxLjU0MDY3LDUxLjgNCjk3LDIwMTMuNDE3LDYuNCw5MC40NTYwNiw5LDI0Ljk3NDMzLDEyMS41NDMxLDU5LjUNCjk4LDIwMTMuMDgzLDI4LjQsNjE3LjQ0MjQsMywyNC45Nzc0NiwxMjEuNTMyOTksMzQuNg0KOTksMjAxMy40MTcsMTYuNCwyODkuMzI0OCw1LDI0Ljk4MjAzLDEyMS41NDM0OCw1MQ0KMTAwLDIwMTMuNDE3LDYuNCw5MC40NTYwNiw5LDI0Ljk3NDMzLDEyMS41NDMxLDYyLjINCjEwMSwyMDEzLjUwMCwxNy41LDk2NC43NDk2LDQsMjQuOTg4NzIsMTIxLjUzNDExLDM4LjINCjEwMiwyMDEyLjgzMywxMi43LDE3MC4xMjg5LDEsMjQuOTczNzEsMTIxLjUyOTg0LDMyLjkNCjEwMywyMDEzLjA4MywxLjEsMTkzLjU4NDUsNiwyNC45NjU3MSwxMjEuNTQwODksNTQuNA0KMTA0LDIwMTIuNzUwLDAsMjA4LjM5MDUsNiwyNC45NTYxOCwxMjEuNTM4NDQsNDUuNw0KMTA1LDIwMTIuNjY3LDMyLjcsMzkyLjQ0NTksNiwyNC45NjM5OCwxMjEuNTQyNSwzMC41DQoxMDYsMjAxMi44MzMsMCwyOTIuOTk3OCw2LDI0Ljk3NzQ0LDEyMS41NDQ1OCw3MQ0KMTA3LDIwMTMuMDgzLDE3LjIsMTg5LjUxODEsOCwyNC45NzcwNywxMjEuNTQzMDgsNDcuMQ0KMTA4LDIwMTMuMzMzLDEyLjIsMTM2MC4xMzksMSwyNC45NTIwNCwxMjEuNTQ4NDIsMjYuNg0KMTA5LDIwMTMuNDE3LDMxLjQsNTkyLjUwMDYsMiwyNC45NzI2LDEyMS41MzU2MSwzNC4xDQoxMTAsMjAxMy41ODMsNCwyMTQ3LjM3NiwzLDI0Ljk2Mjk5LDEyMS41MTI4NCwyOC40DQoxMTEsMjAxMy4wODMsOC4xLDEwNC44MTAxLDUsMjQuOTY2NzQsMTIxLjU0MDY3LDUxLjYNCjExMiwyMDEzLjU4MywzMy4zLDE5Ni42MTcyLDcsMjQuOTc3MDEsMTIxLjU0MjI0LDM5LjQNCjExMywyMDEzLjQxNyw5LjksMjEwMi40MjcsMywyNC45NjA0NCwxMjEuNTE0NjIsMjMuMQ0KMTE0LDIwMTMuMzMzLDE0LjgsMzkzLjI2MDYsNiwyNC45NjE3MiwxMjEuNTM4MTIsNy42DQoxMTUsMjAxMi42NjcsMzAuNiwxNDMuODM4Myw4LDI0Ljk4MTU1LDEyMS41NDE0Miw1My4zDQoxMTYsMjAxMy4wODMsMjAuNiw3MzcuOTE2MSwyLDI0Ljk4MDkyLDEyMS41NDczOSw0Ni40DQoxMTcsMjAxMy4wMDAsMzAuOSw2Mzk2LjI4MywxLDI0Ljk0Mzc1LDEyMS40Nzg4MywxMi4yDQoxMTgsMjAxMy4wMDAsMTMuNiw0MTk3LjM0OSwwLDI0LjkzODg1LDEyMS41MDM4MywxMw0KMTE5LDIwMTMuNTAwLDI1LjMsMTU4My43MjIsMywyNC45NjYyMiwxMjEuNTE3MDksMzAuNg0KMTIwLDIwMTMuNTAwLDE2LjYsMjg5LjMyNDgsNSwyNC45ODIwMywxMjEuNTQzNDgsNTkuNg0KMTIxLDIwMTMuMTY3LDEzLjMsNDkyLjIzMTMsNSwyNC45NjUxNSwxMjEuNTM3MzcsMzEuMw0KMTIyLDIwMTMuNTAwLDEzLjYsNDkyLjIzMTMsNSwyNC45NjUxNSwxMjEuNTM3MzcsNDgNCjEyMywyMDEzLjI1MCwzMS41LDQxNC45NDc2LDQsMjQuOTgxOTksMTIxLjU0NDY0LDMyLjUNCjEyNCwyMDEzLjQxNywwLDE4NS40Mjk2LDAsMjQuOTcxMSwxMjEuNTMxNyw0NS41DQoxMjUsMjAxMi45MTcsOS45LDI3OS4xNzI2LDcsMjQuOTc1MjgsMTIxLjU0NTQxLDU3LjQNCjEyNiwyMDEzLjE2NywxLjEsMTkzLjU4NDUsNiwyNC45NjU3MSwxMjEuNTQwODksNDguNg0KMTI3LDIwMTMuMDgzLDM4LjYsODA0LjY4OTcsNCwyNC45NzgzOCwxMjEuNTM0NzcsNjIuOQ0KMTI4LDIwMTMuMjUwLDMuOCwzODMuODYyNCw1LDI0Ljk4MDg1LDEyMS41NDM5MSw1NQ0KMTI5LDIwMTMuMDgzLDQxLjMsMTI0Ljk5MTIsNiwyNC45NjY3NCwxMjEuNTQwMzksNjAuNw0KMTMwLDIwMTMuNDE3LDM4LjUsMjE2LjgzMjksNywyNC45ODA4NiwxMjEuNTQxNjIsNDENCjEzMSwyMDEzLjI1MCwyOS42LDUzNS41MjcsOCwyNC45ODA5MiwxMjEuNTM2NTMsMzcuNQ0KMTMyLDIwMTMuNTAwLDQsMjE0Ny4zNzYsMywyNC45NjI5OSwxMjEuNTEyODQsMzAuNw0KMTMzLDIwMTMuMTY3LDI2LjYsNDgyLjc1ODEsNSwyNC45NzQzMywxMjEuNTM4NjMsMzcuNQ0KMTM0LDIwMTIuODMzLDE4LDM3My4zOTM3LDgsMjQuOTg2NiwxMjEuNTQwODIsMzkuNQ0KMTM1LDIwMTIuNjY3LDMzLjQsMTg2Ljk2ODYsNiwyNC45NjYwNCwxMjEuNTQyMTEsNDIuMg0KMTM2LDIwMTIuOTE3LDE4LjksMTAwOS4yMzUsMCwyNC45NjM1NywxMjEuNTQ5NTEsMjAuOA0KMTM3LDIwMTIuNzUwLDExLjQsMzkwLjU2ODQsNSwyNC45NzkzNywxMjEuNTQyNDUsNDYuOA0KMTM4LDIwMTMuNTAwLDEzLjYsMzE5LjA3MDgsNiwyNC45NjQ5NSwxMjEuNTQyNzcsNDcuNA0KMTM5LDIwMTMuMTY3LDEwLDk0Mi40NjY0LDAsMjQuOTc4NDMsMTIxLjUyNDA2LDQzLjUNCjE0MCwyMDEyLjY2NywxMi45LDQ5Mi4yMzEzLDUsMjQuOTY1MTUsMTIxLjUzNzM3LDQyLjUNCjE0MSwyMDEzLjI1MCwxNi4yLDI4OS4zMjQ4LDUsMjQuOTgyMDMsMTIxLjU0MzQ4LDUxLjQNCjE0MiwyMDEzLjMzMyw1LjEsMTU1OS44MjcsMywyNC45NzIxMywxMjEuNTE2MjcsMjguOQ0KMTQzLDIwMTMuNDE3LDE5LjgsNjQwLjYwNzEsNSwyNC45NzAxNywxMjEuNTQ2NDcsMzcuNQ0KMTQ0LDIwMTMuNTAwLDEzLjYsNDkyLjIzMTMsNSwyNC45NjUxNSwxMjEuNTM3MzcsNDAuMQ0KMTQ1LDIwMTMuMDgzLDExLjksMTM2MC4xMzksMSwyNC45NTIwNCwxMjEuNTQ4NDIsMjguNA0KMTQ2LDIwMTIuOTE3LDIuMSw0NTEuMjQzOCw1LDI0Ljk3NTYzLDEyMS41NDY5NCw0NS41DQoxNDcsMjAxMi43NTAsMCwxODUuNDI5NiwwLDI0Ljk3MTEsMTIxLjUzMTcsNTIuMg0KMTQ4LDIwMTIuNzUwLDMuMiw0ODkuODgyMSw4LDI0Ljk3MDE3LDEyMS41NDQ5NCw0My4yDQoxNDksMjAxMy41MDAsMTYuNCwzNzgwLjU5LDAsMjQuOTMyOTMsMTIxLjUxMjAzLDQ1LjENCjE1MCwyMDEyLjY2NywzNC45LDE3OS40NTM4LDgsMjQuOTczNDksMTIxLjU0MjQ1LDM5LjcNCjE1MSwyMDEzLjI1MCwzNS44LDE3MC43MzExLDcsMjQuOTY3MTksMTIxLjU0MjY5LDQ4LjUNCjE1MiwyMDEzLjUwMCw0LjksMzg3Ljc3MjEsOSwyNC45ODExOCwxMjEuNTM3ODgsNDQuNw0KMTUzLDIwMTMuMzMzLDEyLDEzNjAuMTM5LDEsMjQuOTUyMDQsMTIxLjU0ODQyLDI4LjkNCjE1NCwyMDEzLjI1MCw2LjUsMzc2LjE3MDksNiwyNC45NTQxOCwxMjEuNTM3MTMsNDAuOQ0KMTU1LDIwMTMuNTAwLDE2LjksNDA2Ni41ODcsMCwyNC45NDI5NywxMjEuNTAzNDIsMjAuNw0KMTU2LDIwMTMuMTY3LDEzLjgsNDA4Mi4wMTUsMCwyNC45NDE1NSwxMjEuNTAzODEsMTUuNg0KMTU3LDIwMTMuNTgzLDMwLjcsMTI2NC43MywwLDI0Ljk0ODgzLDEyMS41Mjk1NCwxOC4zDQoxNTgsMjAxMy4yNTAsMTYuMSw4MTUuOTMxNCw0LDI0Ljk3ODg2LDEyMS41MzQ2NCwzNS42DQoxNTksMjAxMy4wMDAsMTEuNiwzOTAuNTY4NCw1LDI0Ljk3OTM3LDEyMS41NDI0NSwzOS40DQoxNjAsMjAxMi42NjcsMTUuNSw4MTUuOTMxNCw0LDI0Ljk3ODg2LDEyMS41MzQ2NCwzNy40DQoxNjEsMjAxMi45MTcsMy41LDQ5LjY2MTA1LDgsMjQuOTU4MzYsMTIxLjUzNzU2LDU3LjgNCjE2MiwyMDEzLjQxNywxOS4yLDYxNi40MDA0LDMsMjQuOTc3MjMsMTIxLjUzNzY3LDM5LjYNCjE2MywyMDEyLjc1MCwxNiw0MDY2LjU4NywwLDI0Ljk0Mjk3LDEyMS41MDM0MiwxMS42DQoxNjQsMjAxMy41MDAsOC41LDEwNC44MTAxLDUsMjQuOTY2NzQsMTIxLjU0MDY3LDU1LjUNCjE2NSwyMDEyLjgzMywwLDE4NS40Mjk2LDAsMjQuOTcxMSwxMjEuNTMxNyw1NS4yDQoxNjYsMjAxMi45MTcsMTMuNywxMjM2LjU2NCwxLDI0Ljk3Njk0LDEyMS41NTM5MSwzMC42DQoxNjcsMjAxMy40MTcsMCwyOTIuOTk3OCw2LDI0Ljk3NzQ0LDEyMS41NDQ1OCw3My42DQoxNjgsMjAxMy40MTcsMjguMiwzMzAuMDg1NCw4LDI0Ljk3NDA4LDEyMS41NDAxMSw0My40DQoxNjksMjAxMy4wODMsMjcuNiw1MTUuMTEyMiw1LDI0Ljk2Mjk5LDEyMS41NDMyLDM3LjQNCjE3MCwyMDEzLjQxNyw4LjQsMTk2Mi42MjgsMSwyNC45NTQ2OCwxMjEuNTU0ODEsMjMuNQ0KMTcxLDIwMTMuMzMzLDI0LDQ1MjcuNjg3LDAsMjQuOTQ3NDEsMTIxLjQ5NjI4LDE0LjQNCjE3MiwyMDEzLjA4MywzLjYsMzgzLjg2MjQsNSwyNC45ODA4NSwxMjEuNTQzOTEsNTguOA0KMTczLDIwMTMuNTgzLDYuNiw5MC40NTYwNiw5LDI0Ljk3NDMzLDEyMS41NDMxLDU4LjENCjE3NCwyMDEzLjA4Myw0MS4zLDQwMS44ODA3LDQsMjQuOTgzMjYsMTIxLjU0NDYsMzUuMQ0KMTc1LDIwMTMuNDE3LDQuMyw0MzIuMDM4NSw3LDI0Ljk4MDUsMTIxLjUzNzc4LDQ1LjINCjE3NiwyMDEzLjA4MywzMC4yLDQ3Mi4xNzQ1LDMsMjQuOTcwMDUsMTIxLjUzNzU4LDM2LjUNCjE3NywyMDEyLjgzMywxMy45LDQ1NzMuNzc5LDAsMjQuOTQ4NjcsMTIxLjQ5NTA3LDE5LjINCjE3OCwyMDEzLjA4MywzMywxODEuMDc2Niw5LDI0Ljk3Njk3LDEyMS41NDI2Miw0Mg0KMTc5LDIwMTMuNTAwLDEzLjEsMTE0NC40MzYsNCwyNC45OTE3NiwxMjEuNTM0NTYsMzYuNw0KMTgwLDIwMTMuMDgzLDE0LDQzOC44NTEzLDEsMjQuOTc0OTMsMTIxLjUyNzMsNDIuNg0KMTgxLDIwMTIuNjY3LDI2LjksNDQ0OS4yNywwLDI0Ljk0ODk4LDEyMS40OTYyMSwxNS41DQoxODIsMjAxMy4xNjcsMTEuNiwyMDEuODkzOSw4LDI0Ljk4NDg5LDEyMS41NDEyMSw1NS45DQoxODMsMjAxMy41MDAsMTMuNSwyMTQ3LjM3NiwzLDI0Ljk2Mjk5LDEyMS41MTI4NCwyMy42DQoxODQsMjAxMy41MDAsMTcsNDA4Mi4wMTUsMCwyNC45NDE1NSwxMjEuNTAzODEsMTguOA0KMTg1LDIwMTIuNzUwLDE0LjEsMjYxNS40NjUsMCwyNC45NTQ5NSwxMjEuNTYxNzQsMjEuOA0KMTg2LDIwMTIuNzUwLDMxLjQsMTQ0Ny4yODYsMywyNC45NzI4NSwxMjEuNTE3MywyMS41DQoxODcsMjAxMy4xNjcsMjAuOSwyMTg1LjEyOCwzLDI0Ljk2MzIyLDEyMS41MTIzNywyNS43DQoxODgsMjAxMy4wMDAsOC45LDMwNzguMTc2LDAsMjQuOTU0NjQsMTIxLjU2NjI3LDIyDQoxODksMjAxMi45MTcsMzQuOCwxOTAuMDM5Miw4LDI0Ljk3NzA3LDEyMS41NDMxMiw0NC4zDQoxOTAsMjAxMi45MTcsMTYuMyw0MDY2LjU4NywwLDI0Ljk0Mjk3LDEyMS41MDM0MiwyMC41DQoxOTEsMjAxMy41MDAsMzUuMyw2MTYuNTczNSw4LDI0Ljk3OTQ1LDEyMS41MzY0Miw0Mi4zDQoxOTIsMjAxMy4xNjcsMTMuMiw3NTAuMDcwNCwyLDI0Ljk3MzcxLDEyMS41NDk1MSwzNy44DQoxOTMsMjAxMy4xNjcsNDMuOCw1Ny41ODk0NSw3LDI0Ljk2NzUsMTIxLjU0MDY5LDQyLjcNCjE5NCwyMDEzLjQxNyw5LjcsNDIxLjQ3OSw1LDI0Ljk4MjQ2LDEyMS41NDQ3Nyw0OS4zDQoxOTUsMjAxMy41MDAsMTUuMiwzNzcxLjg5NSwwLDI0LjkzMzYzLDEyMS41MTE1OCwyOS4zDQoxOTYsMjAxMy4zMzMsMTUuMiw0NjEuMTAxNiw1LDI0Ljk1NDI1LDEyMS41Mzk5LDM0LjYNCjE5NywyMDEzLjAwMCwyMi44LDcwNy45MDY3LDIsMjQuOTgxLDEyMS41NDcxMywzNi42DQoxOTgsMjAxMy4yNTAsMzQuNCwxMjYuNzI4Niw4LDI0Ljk2ODgxLDEyMS41NDA4OSw0OC4yDQoxOTksMjAxMy4wODMsMzQsMTU3LjYwNTIsNywyNC45NjYyOCwxMjEuNTQxOTYsMzkuMQ0KMjAwLDIwMTMuNDE3LDE4LjIsNDUxLjY0MTksOCwyNC45Njk0NSwxMjEuNTQ0OSwzMS42DQoyMDEsMjAxMy40MTcsMTcuNCw5OTUuNzU1NCwwLDI0Ljk2MzA1LDEyMS41NDkxNSwyNS41DQoyMDIsMjAxMy40MTcsMTMuMSw1NjEuOTg0NSw1LDI0Ljk4NzQ2LDEyMS41NDM5MSw0NS45DQoyMDMsMjAxMi45MTcsMzguMyw2NDIuNjk4NSwzLDI0Ljk3NTU5LDEyMS41MzcxMywzMS41DQoyMDQsMjAxMi42NjcsMTUuNiwyODkuMzI0OCw1LDI0Ljk4MjAzLDEyMS41NDM0OCw0Ni4xDQoyMDUsMjAxMy4wMDAsMTgsMTQxNC44MzcsMSwyNC45NTE4MiwxMjEuNTQ4ODcsMjYuNg0KMjA2LDIwMTMuMDgzLDEyLjgsMTQ0OS43MjIsMywyNC45NzI4OSwxMjEuNTE3MjgsMjEuNA0KMjA3LDIwMTMuMjUwLDIyLjIsMzc5LjU1NzUsMTAsMjQuOTgzNDMsMTIxLjUzNzYyLDQ0DQoyMDgsMjAxMy4wODMsMzguNSw2NjUuMDYzNiwzLDI0Ljk3NTAzLDEyMS41MzY5MiwzNC4yDQoyMDksMjAxMi43NTAsMTEuNSwxMzYwLjEzOSwxLDI0Ljk1MjA0LDEyMS41NDg0MiwyNi4yDQoyMTAsMjAxMi44MzMsMzQuOCwxNzUuNjI5NCw4LDI0Ljk3MzQ3LDEyMS41NDI3MSw0MC45DQoyMTEsMjAxMy41MDAsNS4yLDM5MC41Njg0LDUsMjQuOTc5MzcsMTIxLjU0MjQ1LDUyLjINCjIxMiwyMDEzLjA4MywwLDI3NC4wMTQ0LDEsMjQuOTc0OCwxMjEuNTMwNTksNDMuNQ0KMjEzLDIwMTMuMzMzLDE3LjYsMTgwNS42NjUsMiwyNC45ODY3MiwxMjEuNTIwOTEsMzEuMQ0KMjE0LDIwMTMuMDgzLDYuMiw5MC40NTYwNiw5LDI0Ljk3NDMzLDEyMS41NDMxLDU4DQoyMTUsMjAxMy41ODMsMTguMSwxNzgzLjE4LDMsMjQuOTY3MzEsMTIxLjUxNDg2LDIwLjkNCjIxNiwyMDEzLjMzMywxOS4yLDM4My43MTI5LDgsMjQuOTcyLDEyMS41NDQ3Nyw0OC4xDQoyMTcsMjAxMy4yNTAsMzcuOCw1OTAuOTI5MiwxLDI0Ljk3MTUzLDEyMS41MzU1OSwzOS43DQoyMTgsMjAxMi45MTcsMjgsMzcyLjYyNDIsNiwyNC45NzgzOCwxMjEuNTQxMTksNDAuOA0KMjE5LDIwMTMuNDE3LDEzLjYsNDkyLjIzMTMsNSwyNC45NjUxNSwxMjEuNTM3MzcsNDMuOA0KMjIwLDIwMTIuNzUwLDI5LjMsNTI5Ljc3NzEsOCwyNC45ODEwMiwxMjEuNTM2NTUsNDAuMg0KMjIxLDIwMTMuMzMzLDM3LjIsMTg2LjUxMDEsOSwyNC45NzcwMywxMjEuNTQyNjUsNzguMw0KMjIyLDIwMTMuMzMzLDksMTQwMi4wMTYsMCwyNC45ODU2OSwxMjEuNTI3NiwzOC41DQoyMjMsMjAxMy41ODMsMzAuNiw0MzEuMTExNCwxMCwyNC45ODEyMywxMjEuNTM3NDMsNDguNQ0KMjI0LDIwMTMuMjUwLDkuMSwxNDAyLjAxNiwwLDI0Ljk4NTY5LDEyMS41Mjc2LDQyLjMNCjIyNSwyMDEzLjMzMywzNC41LDMyNC45NDE5LDYsMjQuOTc4MTQsMTIxLjU0MTcsNDYNCjIyNiwyMDEzLjI1MCwxLjEsMTkzLjU4NDUsNiwyNC45NjU3MSwxMjEuNTQwODksNDkNCjIyNywyMDEzLjAwMCwxNi41LDQwODIuMDE1LDAsMjQuOTQxNTUsMTIxLjUwMzgxLDEyLjgNCjIyOCwyMDEyLjkxNywzMi40LDI2NS4wNjA5LDgsMjQuOTgwNTksMTIxLjUzOTg2LDQwLjINCjIyOSwyMDEzLjQxNywxMS45LDMxNzEuMzI5LDAsMjUuMDAxMTUsMTIxLjUxNzc2LDQ2LjYNCjIzMCwyMDEzLjU4MywzMSwxMTU2LjQxMiwwLDI0Ljk0ODksMTIxLjUzMDk1LDE5DQoyMzEsMjAxMy41MDAsNCwyMTQ3LjM3NiwzLDI0Ljk2Mjk5LDEyMS41MTI4NCwzMy40DQoyMzIsMjAxMi44MzMsMTYuMiw0MDc0LjczNiwwLDI0Ljk0MjM1LDEyMS41MDM1NywxNC43DQoyMzMsMjAxMi45MTcsMjcuMSw0NDEyLjc2NSwxLDI0Ljk1MDMyLDEyMS40OTU4NywxNy40DQoyMzQsMjAxMy4zMzMsMzkuNywzMzMuMzY3OSw5LDI0Ljk4MDE2LDEyMS41MzkzMiwzMi40DQoyMzUsMjAxMy4yNTAsOCwyMjE2LjYxMiw0LDI0Ljk2MDA3LDEyMS41MTM2MSwyMy45DQoyMzYsMjAxMi43NTAsMTIuOSwyNTAuNjMxLDcsMjQuOTY2MDYsMTIxLjU0Mjk3LDM5LjMNCjIzNywyMDEzLjE2NywzLjYsMzczLjgzODksMTAsMjQuOTgzMjIsMTIxLjUzNzY1LDYxLjkNCjIzOCwyMDEzLjE2NywxMyw3MzIuODUyOCwwLDI0Ljk3NjY4LDEyMS41MjUxOCwzOQ0KMjM5LDIwMTMuMDgzLDEyLjgsNzMyLjg1MjgsMCwyNC45NzY2OCwxMjEuNTI1MTgsNDAuNg0KMjQwLDIwMTMuNTAwLDE4LjEsODM3LjcyMzMsMCwyNC45NjMzNCwxMjEuNTQ3NjcsMjkuNw0KMjQxLDIwMTMuMDgzLDExLDE3MTIuNjMyLDIsMjQuOTY0MTIsMTIxLjUxNjcsMjguOA0KMjQyLDIwMTMuNTAwLDEzLjcsMjUwLjYzMSw3LDI0Ljk2NjA2LDEyMS41NDI5Nyw0MS40DQoyNDMsMjAxMi44MzMsMiwyMDc3LjM5LDMsMjQuOTYzNTcsMTIxLjUxMzI5LDMzLjQNCjI0NCwyMDEzLjQxNywzMi44LDIwNC4xNzA1LDgsMjQuOTgyMzYsMTIxLjUzOTIzLDQ4LjINCjI0NSwyMDEzLjA4Myw0LjgsMTU1OS44MjcsMywyNC45NzIxMywxMjEuNTE2MjcsMjEuNw0KMjQ2LDIwMTMuNDE3LDcuNSw2MzkuNjE5OCw1LDI0Ljk3MjU4LDEyMS41NDgxNCw0MC44DQoyNDcsMjAxMy40MTcsMTYuNCwzODkuODIxOSw2LDI0Ljk2NDEyLDEyMS41NDI3Myw0MC42DQoyNDgsMjAxMy4zMzMsMjEuNywxMDU1LjA2NywwLDI0Ljk2MjExLDEyMS41NDkyOCwyMy4xDQoyNDksMjAxMy4wMDAsMTksMTAwOS4yMzUsMCwyNC45NjM1NywxMjEuNTQ5NTEsMjIuMw0KMjUwLDIwMTIuODMzLDE4LDYzMDYuMTUzLDEsMjQuOTU3NDMsMTIxLjQ3NTE2LDE1DQoyNTEsMjAxMy4xNjcsMzkuMiw0MjQuNzEzMiw3LDI0Ljk3NDI5LDEyMS41MzkxNywzMA0KMjUyLDIwMTIuOTE3LDMxLjcsMTE1OS40NTQsMCwyNC45NDk2LDEyMS41MzAxOCwxMy44DQoyNTMsMjAxMi44MzMsNS45LDkwLjQ1NjA2LDksMjQuOTc0MzMsMTIxLjU0MzEsNTIuNw0KMjU0LDIwMTIuNjY3LDMwLjQsMTczNS41OTUsMiwyNC45NjQ2NCwxMjEuNTE2MjMsMjUuOQ0KMjU1LDIwMTIuNjY3LDEuMSwzMjkuOTc0Nyw1LDI0Ljk4MjU0LDEyMS41NDM5NSw1MS44DQoyNTYsMjAxMy40MTcsMzEuNSw1NTEyLjAzOCwxLDI0Ljk1MDk1LDEyMS40ODQ1OCwxNy40DQoyNTcsMjAxMi42NjcsMTQuNiwzMzkuMjI4OSwxLDI0Ljk3NTE5LDEyMS41MzE1MSwyNi41DQoyNTgsMjAxMy4yNTAsMTcuMyw0NDQuMTMzNCwxLDI0Ljk3NTAxLDEyMS41MjczLDQzLjkNCjI1OSwyMDEzLjQxNywwLDI5Mi45OTc4LDYsMjQuOTc3NDQsMTIxLjU0NDU4LDYzLjMNCjI2MCwyMDEzLjA4MywxNy43LDgzNy43MjMzLDAsMjQuOTYzMzQsMTIxLjU0NzY3LDI4LjgNCjI2MSwyMDEzLjI1MCwxNywxNDg1LjA5Nyw0LDI0Ljk3MDczLDEyMS41MTcsMzAuNw0KMjYyLDIwMTMuMTY3LDE2LjIsMjI4OC4wMTEsMywyNC45NTg4NSwxMjEuNTEzNTksMjQuNA0KMjYzLDIwMTIuOTE3LDE1LjksMjg5LjMyNDgsNSwyNC45ODIwMywxMjEuNTQzNDgsNTMNCjI2NCwyMDEzLjQxNywzLjksMjE0Ny4zNzYsMywyNC45NjI5OSwxMjEuNTEyODQsMzEuNw0KMjY1LDIwMTMuMTY3LDMyLjYsNDkzLjY1Nyw3LDI0Ljk2OTY4LDEyMS41NDUyMiw0MC42DQoyNjYsMjAxMi44MzMsMTUuNyw4MTUuOTMxNCw0LDI0Ljk3ODg2LDEyMS41MzQ2NCwzOC4xDQoyNjcsMjAxMy4yNTAsMTcuOCwxNzgzLjE4LDMsMjQuOTY3MzEsMTIxLjUxNDg2LDIzLjcNCjI2OCwyMDEyLjgzMywzNC43LDQ4Mi43NTgxLDUsMjQuOTc0MzMsMTIxLjUzODYzLDQxLjENCjI2OSwyMDEzLjQxNywxNy4yLDM5MC41Njg0LDUsMjQuOTc5MzcsMTIxLjU0MjQ1LDQwLjENCjI3MCwyMDEzLjAwMCwxNy42LDgzNy43MjMzLDAsMjQuOTYzMzQsMTIxLjU0NzY3LDIzDQoyNzEsMjAxMy4zMzMsMTAuOCwyNTIuNTgyMiwxLDI0Ljk3NDYsMTIxLjUzMDQ2LDExNy41DQoyNzIsMjAxMi45MTcsMTcuNyw0NTEuNjQxOSw4LDI0Ljk2OTQ1LDEyMS41NDQ5LDI2LjUNCjI3MywyMDEyLjc1MCwxMyw0OTIuMjMxMyw1LDI0Ljk2NTE1LDEyMS41MzczNyw0MC41DQoyNzQsMjAxMy40MTcsMTMuMiwxNzAuMTI4OSwxLDI0Ljk3MzcxLDEyMS41Mjk4NCwyOS4zDQoyNzUsMjAxMy4xNjcsMjcuNSwzOTQuMDE3Myw3LDI0Ljk3MzA1LDEyMS41Mzk5NCw0MQ0KMjc2LDIwMTIuNjY3LDEuNSwyMy4zODI4NCw3LDI0Ljk2NzcyLDEyMS41NDEwMiw0OS43DQoyNzcsMjAxMy4wMDAsMTkuMSw0NjEuMTAxNiw1LDI0Ljk1NDI1LDEyMS41Mzk5LDM0DQoyNzgsMjAxMy40MTcsMjEuMiwyMTg1LjEyOCwzLDI0Ljk2MzIyLDEyMS41MTIzNywyNy43DQoyNzksMjAxMi43NTAsMCwyMDguMzkwNSw2LDI0Ljk1NjE4LDEyMS41Mzg0NCw0NA0KMjgwLDIwMTMuNDE3LDIuNiwxNTU0LjI1LDMsMjQuOTcwMjYsMTIxLjUxNjQyLDMxLjENCjI4MSwyMDEzLjI1MCwyLjMsMTg0LjMzMDIsNiwyNC45NjU4MSwxMjEuNTQwODYsNDUuNA0KMjgyLDIwMTMuMzMzLDQuNywzODcuNzcyMSw5LDI0Ljk4MTE4LDEyMS41Mzc4OCw0NC44DQoyODMsMjAxMi45MTcsMiwxNDU1Ljc5OCwxLDI0Ljk1MTIsMTIxLjU0OSwyNS42DQoyODQsMjAxMy40MTcsMzMuNSwxOTc4LjY3MSwyLDI0Ljk4Njc0LDEyMS41MTg0NCwyMy41DQoyODUsMjAxMi45MTcsMTUsMzgzLjI4MDUsNywyNC45NjczNSwxMjEuNTQ0NjQsMzQuNA0KMjg2LDIwMTMuMTY3LDMwLjEsNzE4LjI5MzcsMywyNC45NzUwOSwxMjEuNTM2NDQsNTUuMw0KMjg3LDIwMTIuOTE3LDUuOSw5MC40NTYwNiw5LDI0Ljk3NDMzLDEyMS41NDMxLDU2LjMNCjI4OCwyMDEzLjAwMCwxOS4yLDQ2MS4xMDE2LDUsMjQuOTU0MjUsMTIxLjUzOTksMzIuOQ0KMjg5LDIwMTMuNTgzLDE2LjYsMzIzLjY5MTIsNiwyNC45Nzg0MSwxMjEuNTQyOCw1MQ0KMjkwLDIwMTMuMzMzLDEzLjksMjg5LjMyNDgsNSwyNC45ODIwMywxMjEuNTQzNDgsNDQuNQ0KMjkxLDIwMTMuMDgzLDM3LjcsNDkwLjM0NDYsMCwyNC45NzIxNywxMjEuNTM0NzEsMzcNCjI5MiwyMDEyLjgzMywzLjQsNTYuNDc0MjUsNywyNC45NTc0NCwxMjEuNTM3MTEsNTQuNA0KMjkzLDIwMTMuMDgzLDE3LjUsMzk1LjY3NDcsNSwyNC45NTY3NCwxMjEuNTM0LDI0LjUNCjI5NCwyMDEyLjY2NywxMi42LDM4My4yODA1LDcsMjQuOTY3MzUsMTIxLjU0NDY0LDQyLjUNCjI5NSwyMDEzLjUwMCwyNi40LDMzNS41MjczLDYsMjQuOTc5NiwxMjEuNTQxNCwzOC4xDQoyOTYsMjAxMy4xNjcsMTguMiwyMTc5LjU5LDMsMjQuOTYyOTksMTIxLjUxMjUyLDIxLjgNCjI5NywyMDEyLjc1MCwxMi41LDExNDQuNDM2LDQsMjQuOTkxNzYsMTIxLjUzNDU2LDM0LjENCjI5OCwyMDEyLjgzMywzNC45LDU2Ny4wMzQ5LDQsMjQuOTcwMDMsMTIxLjU0NTgsMjguNQ0KMjk5LDIwMTMuMzMzLDE2LjcsNDA4Mi4wMTUsMCwyNC45NDE1NSwxMjEuNTAzODEsMTYuNw0KMzAwLDIwMTMuMTY3LDMzLjIsMTIxLjcyNjIsMTAsMjQuOTgxNzgsMTIxLjU0MDU5LDQ2LjENCjMwMSwyMDEzLjA4MywyLjUsMTU2LjI0NDIsNCwyNC45NjY5NiwxMjEuNTM5OTIsMzYuOQ0KMzAyLDIwMTIuNzUwLDM4LDQ2MS43ODQ4LDAsMjQuOTcyMjksMTIxLjUzNDQ1LDM1LjcNCjMwMywyMDEzLjUwMCwxNi41LDIyODguMDExLDMsMjQuOTU4ODUsMTIxLjUxMzU5LDIzLjINCjMwNCwyMDEzLjUwMCwzOC4zLDQzOS43MTA1LDAsMjQuOTcxNjEsMTIxLjUzNDIzLDM4LjQNCjMwNSwyMDEzLjQxNywyMCwxNjI2LjA4MywzLDI0Ljk2NjIyLDEyMS41MTY2OCwyOS40DQozMDYsMjAxMy4wODMsMTYuMiwyODkuMzI0OCw1LDI0Ljk4MjAzLDEyMS41NDM0OCw1NQ0KMzA3LDIwMTMuNTAwLDE0LjQsMTY5Ljk4MDMsMSwyNC45NzM2OSwxMjEuNTI5NzksNTAuMg0KMzA4LDIwMTIuODMzLDEwLjMsMzA3OS44OSwwLDI0Ljk1NDYsMTIxLjU2NjI3LDI0LjcNCjMwOSwyMDEzLjQxNywxNi40LDI4OS4zMjQ4LDUsMjQuOTgyMDMsMTIxLjU0MzQ4LDUzDQozMTAsMjAxMy4yNTAsMzAuMywxMjY0LjczLDAsMjQuOTQ4ODMsMTIxLjUyOTU0LDE5LjENCjMxMSwyMDEzLjU4MywxNi40LDE2NDMuNDk5LDIsMjQuOTUzOTQsMTIxLjU1MTc0LDI0LjcNCjMxMiwyMDEzLjE2NywyMS4zLDUzNy43OTcxLDQsMjQuOTc0MjUsMTIxLjUzODE0LDQyLjINCjMxMywyMDEzLjU4MywzNS40LDMxOC41MjkyLDksMjQuOTcwNzEsMTIxLjU0MDY5LDc4DQozMTQsMjAxMy4zMzMsOC4zLDEwNC44MTAxLDUsMjQuOTY2NzQsMTIxLjU0MDY3LDQyLjgNCjMxNSwyMDEzLjI1MCwzLjcsNTc3Ljk2MTUsNiwyNC45NzIwMSwxMjEuNTQ3MjIsNDEuNg0KMzE2LDIwMTMuMDgzLDE1LjYsMTc1Ni40MTEsMiwyNC45ODMyLDEyMS41MTgxMiwyNy4zDQozMTcsMjAxMy4yNTAsMTMuMywyNTAuNjMxLDcsMjQuOTY2MDYsMTIxLjU0Mjk3LDQyDQozMTgsMjAxMi43NTAsMTUuNiw3NTIuNzY2OSwyLDI0Ljk3Nzk1LDEyMS41MzQ1MSwzNy41DQozMTksMjAxMy4zMzMsNy4xLDM3OS41NTc1LDEwLDI0Ljk4MzQzLDEyMS41Mzc2Miw0OS44DQozMjAsMjAxMy4yNTAsMzQuNiwyNzIuNjc4Myw1LDI0Ljk1NTYyLDEyMS41Mzg3MiwyNi45DQozMjEsMjAxMi43NTAsMTMuNSw0MTk3LjM0OSwwLDI0LjkzODg1LDEyMS41MDM4MywxOC42DQozMjIsMjAxMi45MTcsMTYuOSw5NjQuNzQ5Niw0LDI0Ljk4ODcyLDEyMS41MzQxMSwzNy43DQozMjMsMjAxMy4wMDAsMTIuOSwxODcuNDgyMywxLDI0Ljk3Mzg4LDEyMS41Mjk4MSwzMy4xDQozMjQsMjAxMy40MTcsMjguNiwxOTcuMTMzOCw2LDI0Ljk3NjMxLDEyMS41NDQzNiw0Mi41DQozMjUsMjAxMi42NjcsMTIuNCwxNzEyLjYzMiwyLDI0Ljk2NDEyLDEyMS41MTY3LDMxLjMNCjMyNiwyMDEzLjA4MywzNi42LDQ4OC44MTkzLDgsMjQuOTcwMTUsMTIxLjU0NDk0LDM4LjENCjMyNywyMDEzLjUwMCw0LjEsNTYuNDc0MjUsNywyNC45NTc0NCwxMjEuNTM3MTEsNjIuMQ0KMzI4LDIwMTMuNDE3LDMuNSw3NTcuMzM3NywzLDI0Ljk3NTM4LDEyMS41NDk3MSwzNi43DQozMjksMjAxMi44MzMsMTUuOSwxNDk3LjcxMywzLDI0Ljk3MDAzLDEyMS41MTY5NiwyMy42DQozMzAsMjAxMy4wMDAsMTMuNiw0MTk3LjM0OSwwLDI0LjkzODg1LDEyMS41MDM4MywxOS4yDQozMzEsMjAxMy4wODMsMzIsMTE1Ni43NzcsMCwyNC45NDkzNSwxMjEuNTMwNDYsMTIuOA0KMzMyLDIwMTMuMzMzLDI1LjYsNDUxOS42OSwwLDI0Ljk0ODI2LDEyMS40OTU4NywxNS42DQozMzMsMjAxMy4xNjcsMzkuOCw2MTcuNzEzNCwyLDI0Ljk3NTc3LDEyMS41MzQ3NSwzOS42DQozMzQsMjAxMi43NTAsNy44LDEwNC44MTAxLDUsMjQuOTY2NzQsMTIxLjU0MDY3LDM4LjQNCjMzNSwyMDEyLjkxNywzMCwxMDEzLjM0MSw1LDI0Ljk5MDA2LDEyMS41MzQ2LDIyLjgNCjMzNiwyMDEzLjU4MywyNy4zLDMzNy42MDE2LDYsMjQuOTY0MzEsMTIxLjU0MDYzLDM2LjUNCjMzNywyMDEyLjgzMyw1LjEsMTg2Ny4yMzMsMiwyNC45ODQwNywxMjEuNTE3NDgsMzUuNg0KMzM4LDIwMTIuODMzLDMxLjMsNjAwLjg2MDQsNSwyNC45Njg3MSwxMjEuNTQ2NTEsMzAuOQ0KMzM5LDIwMTIuOTE3LDMxLjUsMjU4LjE4Niw5LDI0Ljk2ODY3LDEyMS41NDMzMSwzNi4zDQozNDAsMjAxMy4zMzMsMS43LDMyOS45NzQ3LDUsMjQuOTgyNTQsMTIxLjU0Mzk1LDUwLjQNCjM0MSwyMDEzLjMzMywzMy42LDI3MC44ODk1LDAsMjQuOTcyODEsMTIxLjUzMjY1LDQyLjkNCjM0MiwyMDEzLjAwMCwxMyw3NTAuMDcwNCwyLDI0Ljk3MzcxLDEyMS41NDk1MSwzNw0KMzQzLDIwMTIuNjY3LDUuNyw5MC40NTYwNiw5LDI0Ljk3NDMzLDEyMS41NDMxLDUzLjUNCjM0NCwyMDEzLjAwMCwzMy41LDU2My4yODU0LDgsMjQuOTgyMjMsMTIxLjUzNTk3LDQ2LjYNCjM0NSwyMDEzLjUwMCwzNC42LDMwODUuMTcsMCwyNC45OTgsMTIxLjUxNTUsNDEuMg0KMzQ2LDIwMTIuNjY3LDAsMTg1LjQyOTYsMCwyNC45NzExLDEyMS41MzE3LDM3LjkNCjM0NywyMDEzLjQxNywxMy4yLDE3MTIuNjMyLDIsMjQuOTY0MTIsMTIxLjUxNjcsMzAuOA0KMzQ4LDIwMTMuNTgzLDE3LjQsNjQ4OC4wMjEsMSwyNC45NTcxOSwxMjEuNDczNTMsMTEuMg0KMzQ5LDIwMTIuODMzLDQuNiwyNTkuNjYwNyw2LDI0Ljk3NTg1LDEyMS41NDUxNiw1My43DQozNTAsMjAxMi43NTAsNy44LDEwNC44MTAxLDUsMjQuOTY2NzQsMTIxLjU0MDY3LDQ3DQozNTEsMjAxMy4wMDAsMTMuMiw0OTIuMjMxMyw1LDI0Ljk2NTE1LDEyMS41MzczNyw0Mi4zDQozNTIsMjAxMi44MzMsNCwyMTgwLjI0NSwzLDI0Ljk2MzI0LDEyMS41MTI0MSwyOC42DQozNTMsMjAxMi44MzMsMTguNCwyNjc0Ljk2MSwzLDI0Ljk2MTQzLDEyMS41MDgyNywyNS43DQozNTQsMjAxMy41MDAsNC4xLDIxNDcuMzc2LDMsMjQuOTYyOTksMTIxLjUxMjg0LDMxLjMNCjM1NSwyMDEzLjQxNywxMi4yLDEzNjAuMTM5LDEsMjQuOTUyMDQsMTIxLjU0ODQyLDMwLjENCjM1NiwyMDEzLjI1MCwzLjgsMzgzLjg2MjQsNSwyNC45ODA4NSwxMjEuNTQzOTEsNjAuNw0KMzU3LDIwMTIuODMzLDEwLjMsMjExLjQ0NzMsMSwyNC45NzQxNywxMjEuNTI5OTksNDUuMw0KMzU4LDIwMTMuNDE3LDAsMzM4Ljk2NzksOSwyNC45Njg1MywxMjEuNTQ0MTMsNDQuOQ0KMzU5LDIwMTMuMTY3LDEuMSwxOTMuNTg0NSw2LDI0Ljk2NTcxLDEyMS41NDA4OSw0NS4xDQozNjAsMjAxMy41MDAsNS42LDI0MDguOTkzLDAsMjQuOTU1MDUsMTIxLjU1OTY0LDI0LjcNCjM2MSwyMDEyLjY2NywzMi45LDg3LjMwMjIyLDEwLDI0Ljk4MywxMjEuNTQwMjIsNDcuMQ0KMzYyLDIwMTMuMDgzLDQxLjQsMjgxLjIwNSw4LDI0Ljk3MzQ1LDEyMS41NDA5Myw2My4zDQozNjMsMjAxMy40MTcsMTcuMSw5NjcuNCw0LDI0Ljk4ODcyLDEyMS41MzQwOCw0MA0KMzY0LDIwMTMuNTAwLDMyLjMsMTA5Ljk0NTUsMTAsMjQuOTgxODIsMTIxLjU0MDg2LDQ4DQozNjUsMjAxMy40MTcsMzUuMyw2MTQuMTM5NCw3LDI0Ljk3OTEzLDEyMS41MzY2NiwzMy4xDQozNjYsMjAxMi45MTcsMTcuMywyMjYxLjQzMiw0LDI0Ljk2MTgyLDEyMS41MTIyMiwyOS41DQozNjcsMjAxMi43NTAsMTQuMiwxODAxLjU0NCwxLDI0Ljk1MTUzLDEyMS41NTI1NCwyNC44DQozNjgsMjAxMi44MzMsMTUsMTgyOC4zMTksMiwyNC45NjQ2NCwxMjEuNTE1MzEsMjAuOQ0KMzY5LDIwMTMuNDE3LDE4LjIsMzUwLjg1MTUsMSwyNC45NzU0NCwxMjEuNTMxMTksNDMuMQ0KMzcwLDIwMTIuNjY3LDIwLjIsMjE4NS4xMjgsMywyNC45NjMyMiwxMjEuNTEyMzcsMjIuOA0KMzcxLDIwMTIuNzUwLDE1LjksMjg5LjMyNDgsNSwyNC45ODIwMywxMjEuNTQzNDgsNDIuMQ0KMzcyLDIwMTMuNTAwLDQuMSwzMTIuODk2Myw1LDI0Ljk1NTkxLDEyMS41Mzk1Niw1MS43DQozNzMsMjAxMy4wMDAsMzMuOSwxNTcuNjA1Miw3LDI0Ljk2NjI4LDEyMS41NDE5Niw0MS41DQozNzQsMjAxMy4wODMsMCwyNzQuMDE0NCwxLDI0Ljk3NDgsMTIxLjUzMDU5LDUyLjINCjM3NSwyMDEzLjI1MCw1LjQsMzkwLjU2ODQsNSwyNC45NzkzNywxMjEuNTQyNDUsNDkuNQ0KMzc2LDIwMTMuMjUwLDIxLjcsMTE1Ny45ODgsMCwyNC45NjE2NSwxMjEuNTUwMTEsMjMuOA0KMzc3LDIwMTMuNDE3LDE0LjcsMTcxNy4xOTMsMiwyNC45NjQ0NywxMjEuNTE2NDksMzAuNQ0KMzc4LDIwMTMuMzMzLDMuOSw0OS42NjEwNSw4LDI0Ljk1ODM2LDEyMS41Mzc1Niw1Ni44DQozNzksMjAxMy4zMzMsMzcuMyw1ODcuODg3Nyw4LDI0Ljk3MDc3LDEyMS41NDYzNCwzNy40DQozODAsMjAxMy4zMzMsMCwyOTIuOTk3OCw2LDI0Ljk3NzQ0LDEyMS41NDQ1OCw2OS43DQozODEsMjAxMy4zMzMsMTQuMSwyODkuMzI0OCw1LDI0Ljk4MjAzLDEyMS41NDM0OCw1My4zDQozODIsMjAxMy40MTcsOCwxMzIuNTQ2OSw5LDI0Ljk4Mjk4LDEyMS41Mzk4MSw0Ny4zDQozODMsMjAxMy4wMDAsMTYuMywzNTI5LjU2NCwwLDI0LjkzMjA3LDEyMS41MTU5NywyOS4zDQozODQsMjAxMi42NjcsMjkuMSw1MDYuMTE0NCw0LDI0Ljk3ODQ1LDEyMS41Mzg4OSw0MC4zDQozODUsMjAxMi43NTAsMTYuMSw0MDY2LjU4NywwLDI0Ljk0Mjk3LDEyMS41MDM0MiwxMi45DQozODYsMjAxMy4wMDAsMTguMyw4Mi44ODY0MywxMCwyNC45ODMsMTIxLjU0MDI2LDQ2LjYNCjM4NywyMDEyLjgzMywwLDE4NS40Mjk2LDAsMjQuOTcxMSwxMjEuNTMxNyw1NS4zDQozODgsMjAxMy4yNTAsMTYuMiwyMTAzLjU1NSwzLDI0Ljk2MDQyLDEyMS41MTQ2MiwyNS42DQozODksMjAxMy41MDAsMTAuNCwyMjUxLjkzOCw0LDI0Ljk1OTU3LDEyMS41MTM1MywyNy4zDQozOTAsMjAxMy4yNTAsNDAuOSwxMjIuMzYxOSw4LDI0Ljk2NzU2LDEyMS41NDIzLDY3LjcNCjM5MSwyMDEzLjUwMCwzMi44LDM3Ny44MzAyLDksMjQuOTcxNTEsMTIxLjU0MzUsMzguNg0KMzkyLDIwMTMuNTgzLDYuMiwxOTM5Ljc0OSwxLDI0Ljk1MTU1LDEyMS41NTM4NywzMS4zDQozOTMsMjAxMy4wODMsNDIuNyw0NDMuODAyLDYsMjQuOTc5MjcsMTIxLjUzODc0LDM1LjMNCjM5NCwyMDEzLjAwMCwxNi45LDk2Ny40LDQsMjQuOTg4NzIsMTIxLjUzNDA4LDQwLjMNCjM5NSwyMDEzLjUwMCwzMi42LDQxMzYuMjcxLDEsMjQuOTU1NDQsMTIxLjQ5NjMsMjQuNw0KMzk2LDIwMTIuOTE3LDIxLjIsNTEyLjU0ODcsNCwyNC45NzQsMTIxLjUzODQyLDQyLjUNCjM5NywyMDEyLjY2NywzNy4xLDkxOC42MzU3LDEsMjQuOTcxOTgsMTIxLjU1MDYzLDMxLjkNCjM5OCwyMDEzLjQxNywxMy4xLDExNjQuODM4LDQsMjQuOTkxNTYsMTIxLjUzNDA2LDMyLjINCjM5OSwyMDEzLjQxNywxNC43LDE3MTcuMTkzLDIsMjQuOTY0NDcsMTIxLjUxNjQ5LDIzDQo0MDAsMjAxMi45MTcsMTIuNywxNzAuMTI4OSwxLDI0Ljk3MzcxLDEyMS41Mjk4NCwzNy4zDQo0MDEsMjAxMy4yNTAsMjYuOCw0ODIuNzU4MSw1LDI0Ljk3NDMzLDEyMS41Mzg2MywzNS41DQo0MDIsMjAxMy4wODMsNy42LDIxNzUuMDMsMywyNC45NjMwNSwxMjEuNTEyNTQsMjcuNw0KNDAzLDIwMTIuODMzLDEyLjcsMTg3LjQ4MjMsMSwyNC45NzM4OCwxMjEuNTI5ODEsMjguNQ0KNDA0LDIwMTIuNjY3LDMwLjksMTYxLjk0Miw5LDI0Ljk4MzUzLDEyMS41Mzk2NiwzOS43DQo0MDUsMjAxMy4zMzMsMTYuNCwyODkuMzI0OCw1LDI0Ljk4MjAzLDEyMS41NDM0OCw0MS4yDQo0MDYsMjAxMi42NjcsMjMsMTMwLjk5NDUsNiwyNC45NTY2MywxMjEuNTM3NjUsMzcuMg0KNDA3LDIwMTMuMTY3LDEuOSwzNzIuMTM4Niw3LDI0Ljk3MjkzLDEyMS41NDAyNiw0MC41DQo0MDgsMjAxMy4wMDAsNS4yLDI0MDguOTkzLDAsMjQuOTU1MDUsMTIxLjU1OTY0LDIyLjMNCjQwOSwyMDEzLjQxNywxOC41LDIxNzUuNzQ0LDMsMjQuOTYzMywxMjEuNTEyNDMsMjguMQ0KNDEwLDIwMTMuMDAwLDEzLjcsNDA4Mi4wMTUsMCwyNC45NDE1NSwxMjEuNTAzODEsMTUuNA0KNDExLDIwMTIuNjY3LDUuNiw5MC40NTYwNiw5LDI0Ljk3NDMzLDEyMS41NDMxLDUwDQo0MTIsMjAxMy4yNTAsMTguOCwzOTAuOTY5Niw3LDI0Ljk3OTIzLDEyMS41Mzk4Niw0MC42DQo0MTMsMjAxMy4wMDAsOC4xLDEwNC44MTAxLDUsMjQuOTY2NzQsMTIxLjU0MDY3LDUyLjUNCjQxNCwyMDEzLjUwMCw2LjUsOTAuNDU2MDYsOSwyNC45NzQzMywxMjEuNTQzMSw2My45DQo=" download="Real estate.csv">Download Real estate.csv</a>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="multiple-linear-regression.html#cb185-1" aria-hidden="true" tabindex="-1"></a>houses <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;Real estate.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb185-2"><a href="multiple-linear-regression.html#cb185-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(houses) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;date&#39;</span>, <span class="st">&#39;age&#39;</span>, <span class="st">&#39;distance_to_transit&#39;</span>, <span class="st">&#39;num_stores&#39;</span>, <span class="st">&#39;lat&#39;</span>, <span class="st">&#39;long&#39;</span>, <span class="st">&#39;price_per_unit_area&#39;</span>)</span></code></pre></div>
+<p>Let’s fit a multiple linear regression model to predict price per unit area using a house’s age, its distance to the nearest transit station, and the number of nearby convenience stores. Intuitively, age affects a home’s value, while the other two variables have to do with the value of the location and neighborhood.</p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="multiple-linear-regression.html#cb186-1" aria-hidden="true" tabindex="-1"></a>my.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(price_per_unit_area<span class="sc">~</span>age<span class="sc">+</span>distance_to_transit<span class="sc">+</span>num_stores, <span class="at">data =</span> houses)</span>
+<span id="cb186-2"><a href="multiple-linear-regression.html#cb186-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(my.lm)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = price_per_unit_area ~ age + distance_to_transit + 
+##     num_stores, data = houses)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.013025 -0.003845 -0.000584  0.002303  0.052341 
+## 
+## Coefficients:
+##                       Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          1.206e+02  3.203e+00   37.65   &lt;2e-16 ***
+## age                  4.619e-04  1.591e-03    0.29    0.772    
+## distance_to_transit -3.774e-05  3.932e-05   -0.96    0.338    
+## num_stores          -9.802e-06  3.555e-07  -27.57   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.0091 on 410 degrees of freedom
+## Multiple R-squared:  0.651,  Adjusted R-squared:  0.6484 
+## F-statistic: 254.9 on 3 and 410 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>The fitted regression line is
+<span class="math display">\[\text{price per unit area} = 120.6 + 0.0004619 \times \text{age} - 0.00003774 \times \text{distance to transit} - 0.000009802 \times \text{number of stores}.\]</span>
+However, t-tests suggest that neither the inclusion of age nor distance to transit in the model are improving the price predictions (p-values are 0.772 and 0.338).</p>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="multiple-linear-regression.html#cb188-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(price_per_unit_area<span class="sc">~</span>age<span class="sc">+</span>distance_to_transit<span class="sc">+</span>num_stores, <span class="at">data =</span> houses)</span>
+<span id="cb188-2"><a href="multiple-linear-regression.html#cb188-2" aria-hidden="true" tabindex="-1"></a>hat.sigma2 <span class="ot">&lt;-</span> <span class="fu">summary</span>(my.lm)<span class="sc">$</span>sigma<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb188-3"><a href="multiple-linear-regression.html#cb188-3" aria-hidden="true" tabindex="-1"></a>cov.beta <span class="ot">&lt;-</span> hat.sigma2<span class="sc">*</span><span class="fu">solve</span>(<span class="fu">t</span>(X)<span class="sc">%*%</span>X)</span>
+<span id="cb188-4"><a href="multiple-linear-regression.html#cb188-4" aria-hidden="true" tabindex="-1"></a>cov.beta[<span class="dv">2</span>,<span class="dv">3</span>]<span class="sc">/</span><span class="fu">sqrt</span>(cov.beta[<span class="dv">2</span>,<span class="dv">2</span>]<span class="sc">*</span>cov.beta[<span class="dv">3</span>,<span class="dv">3</span>])</span></code></pre></div>
+<pre><code>## [1] -0.01602387</code></pre>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="multiple-linear-regression.html#cb190-1" aria-hidden="true" tabindex="-1"></a>cov.beta[<span class="dv">2</span>,<span class="dv">4</span>]<span class="sc">/</span><span class="fu">sqrt</span>(cov.beta[<span class="dv">2</span>,<span class="dv">2</span>]<span class="sc">*</span>cov.beta[<span class="dv">4</span>,<span class="dv">4</span>])</span></code></pre></div>
+<pre><code>## [1] -0.06045947</code></pre>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="multiple-linear-regression.html#cb192-1" aria-hidden="true" tabindex="-1"></a>cov.beta[<span class="dv">3</span>,<span class="dv">4</span>]<span class="sc">/</span><span class="fu">sqrt</span>(cov.beta[<span class="dv">3</span>,<span class="dv">3</span>]<span class="sc">*</span>cov.beta[<span class="dv">4</span>,<span class="dv">4</span>])</span></code></pre></div>
+<pre><code>## [1] -0.0246031</code></pre>
+<p>Above we computed the estimated correlation between the coefficients of age, distance to transit, and number of stores. These estimated correlations are all close to zero, meaning the estimated coefficients are not correlated. When estimated coefficients are strongly correlated, it is challenging to interpret the multiple linear regression model. For example, the estimate of <span class="math inline">\(\hat\beta_1 = 0.0004619\)</span> means that for a one unit increase in age, the home price by unit area increases by 0.0004619 units <strong>provided all other covariates are held constant</strong>. If the covariates are not correlated, this explanation makes sense. However, if two covariates are strongly, say, positively correlated, then when one goes up it must be that the other goes up as well, so it is not reasonable to assume one can be changed while the other is held constant. Correlation of the covariates is called <em>multicollinearity</em> and it is important to check for multicollinearity before attempting to interpret coefficients as above.</p>
+<p><br><br></p>
+<p>Note that the summary of the lm function call includes an F test result in the last line. It says “F-statistic: 254.9 on 3 and 410 DF, p-value: &lt; 2.2e-16”. This is called the <em>model F test</em> and it is a partial F test of the hypothesis that only the intercept coefficient is non zero, i.e. <span class="math inline">\(\beta_0 \ne 0\)</span> but <span class="math inline">\(\beta_j = 0\)</span> for all <span class="math inline">\(j &gt; 0\)</span>. We can match this F test result by fitting the “intercept-only” model and comparing SSEs:</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="multiple-linear-regression.html#cb194-1" aria-hidden="true" tabindex="-1"></a>my.lm.int <span class="ot">&lt;-</span> <span class="fu">lm</span>(price_per_unit_area<span class="sc">~</span><span class="dv">1</span>, <span class="at">data =</span> houses)</span>
+<span id="cb194-2"><a href="multiple-linear-regression.html#cb194-2" aria-hidden="true" tabindex="-1"></a>SSE.R <span class="ot">&lt;-</span> <span class="fu">sum</span>(my.lm.int<span class="sc">$</span>residuals<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb194-3"><a href="multiple-linear-regression.html#cb194-3" aria-hidden="true" tabindex="-1"></a>SSE.F <span class="ot">&lt;-</span> <span class="fu">sum</span>(my.lm<span class="sc">$</span>residuals<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb194-4"><a href="multiple-linear-regression.html#cb194-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(houses<span class="sc">$</span>price_per_unit_area)</span>
+<span id="cb194-5"><a href="multiple-linear-regression.html#cb194-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb194-6"><a href="multiple-linear-regression.html#cb194-6" aria-hidden="true" tabindex="-1"></a>F <span class="ot">&lt;-</span> ((SSE.R <span class="sc">-</span> SSE.F)<span class="sc">/</span><span class="dv">3</span>)<span class="sc">/</span>(SSE.F <span class="sc">/</span> (n<span class="dv">-4</span>))</span>
+<span id="cb194-7"><a href="multiple-linear-regression.html#cb194-7" aria-hidden="true" tabindex="-1"></a>F</span></code></pre></div>
+<pre><code>## [1] 254.923</code></pre>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="multiple-linear-regression.html#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(F,<span class="dv">3</span>,n<span class="dv">-4</span>)</span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="simple-linear-regression.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/16-MultipleRegression.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

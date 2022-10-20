@@ -1,0 +1,133 @@
+# Multiple Linear Regression
+
+In this chapter we extend the simple linear regression model to accomodate multiple covariates $X_1, \ldots, X_p$ to better predict the response $Y$.  <br><br>
+
+
+
+## The Multiple Linear Regression Model
+
+Multiple linear regression is a model for predicting the behavior of a response variable $Y$ using several predictors (also called covariates or explanatory variables) $X_1, \ldots, X_p$ assumed to have some influence on the response.  In particular, the model is linear:
+\[Y_i = \beta_0 + \beta_1 X_{1,i} + \beta_2 X_{2,i} + \cdots + \beta_p X_{p,i} + \epsilon_i\]
+for $i=1, \ldots, n$ responses.  We assume the random residuals $\epsilon_i$ are a normal random sample with mean zero and constant variance $\sigma^2$.<br><br>
+
+It is convenient to write the multiple linear regression model in matrix-vector form:
+\[Y = X\beta+\epsilon\]
+where $Y$ is the $n\times 1$ vector of response variables, $X$ is the $n \times (p+1)$ matrix consisting of an $n\times 1$ column vector of 1's and the $p$ columns of predictor variables, where $\beta$ is a $(p+1) \times 1$ vector of unknown coefficients, and where $\epsilon$ is the $n\times 1$ vector of random residuals.
+
+
+## Point estimation
+
+Just as in simple linear regression, we estimate $\beta$ using the method of least squares.  Define the observed residuals
+
+\[e(\hat\beta) = Y_i - X_i^\top\hat\beta\]
+
+where $\hat\beta$ is some particular value of the vector $\beta$ and $X_i$ is the $i^{th}$ row of the "design matrix" $X$ defined above.  Then, the sum of squared observed residuals (often called sum of squares errors) is
+\[SSE = \sum_{i=1}^n \left(Y_i - X_i^\top\hat\beta\right)^2.\]
+In matrix-vector notation, the SSE is an inner product (dot product): 
+\[SSE = (Y-X\hat\beta)^\top (Y-X\hat\beta).\]
+
+The method of least squares says that we should choose the estimator $\hat\beta$ to be the value minimizing the SSE.  And, just as in simple linear regression, we can compute this minimizer using calculus.  In multiple linear regression, the calculus is a bit more complicated, because we are dealing with vector rather than scalar quantities.  To compute the least squares estimator, begin by expanding SSE:
+\begin{align*}
+SSE &= (Y-X\hat\beta)^\top (Y-X\hat\beta)\\
+& = Y^\top Y - Y^\top X\beta - \beta^\top X^\top Y + \hat\beta^\top X^\top X\beta
+\end{align*}
+Next, differentiate term by term, using the following facts from calculus: for $n \times 1$ vectors $a$ and $x$
+\[\frac{\partial}{\partial x} a^\top x = a^\top;\]
+and, for an $n\times n$ matrix $A$:
+\[\frac{\partial}{\partial x}  x^\top A x = (A + A^\top) x.\]
+Applying these rules, we obtain
+\begin{align*}
+\frac{\partial}{\partial \beta} SSE &= -Y^\top X - (Y^\top X)^\top + (X^\top X + X^\top X) \beta\\
+& = 2X^\top X \beta - 2X^\top Y
+\end{align*}
+If $X^\top X$ is invertible, we may set this equation equal to the $(p+1)\times 1$ zero vector and solve, obtaining
+\[\hat\beta = (X^\top X)^{-1}X^\top Y.\]
+Just as in simple linear regression, our least squares estimator is unbiased:
+\[E(\hat\beta) = E((X^\top X)^{-1}X^\top Y) = (X^\top X)^{-1}X^\top X\beta = \beta.\]
+To estimate $\sigma^2$, we use (an adjustment to) the method of moments, 
+\[\hat\sigma^2 = \frac{1}{n-(p+1)}SSE = \frac{1}{n-(p+1)}(Y - X\hat\beta)^\top(Y - X\hat\beta).\]
+This estimator is also unbiased, i.e., $E(\hat\sigma^2) = \sigma^2$.
+
+## Sampling Distributions
+
+The estimated regression coefficients have a multivariate normal distribution due to the fact they are equal to linear combinations of the normally-distributed responses:
+\[\hat\beta \sim N_{p+1}\left(\beta, \sigma^2 (X^\top X)^{-1}\right).\]
+This means the least squares estimator is normally distributed, unbiased, and has covariance matrix $\sigma^2 (X^\top X)^{-1}$.  For example, $V(\hat\beta_j) = \sigma^2 (X^\top X)^{-1}_{j,j}$, which is the variance parameter $\sigma^2$ multiplies by the $j^{th}$ diagonal entry of the matrix $(X^\top X)^{-1}$.<br><br>
+
+The variance estimator $\hat\sigma^2$ (properly scaled) has a Chi-Squared distribution:
+\[\frac{[n-(p+1)]\hat\sigma^2}{\sigma^2}\sim \chi^2( n - p - 1).\]
+
+Furthermore, the least squares estimator is independent of the variance estimator, which implies the Studentized estimated coefficients are $t-$distributed:
+\[\frac{\hat\beta_j - \beta_j}{\sqrt{\hat\sigma^2 (X^\top X)^{-1}_{j,j}}}\sim t_{n-p-1}.\]
+
+
+## Inference on regression coefficients
+
+The Student's t sampling distribution noted above enables us to derive exact confidence intervals and hypothesis tests for individual regression coefficients.  A $100(1-\alpha)\%$ CI for $\beta_j$ is given by
+\[(\hat\beta_j \pm t_{1-\alpha/2, n-p-1}\sqrt{\hat\sigma^2 (X^\top X)^{-1}_{j,j}}).\]
+To test $H_0:\beta_j = 0$ versus $H_a:\beta_j\ne 0$ we reject the null hypothesis at level $\alpha$ if $|t| > t_{1-\alpha.2, n-p-1}$ where
+\[t = \frac{\hat\beta_j - 0}{\sqrt{\hat\sigma^2 (X^\top X)^{-1}_{j,j}}}.\]
+The interpretation of the above null hypothesis is that including covariate $X_j$ in the model does not significantly improve accuracy of predicting $Y$.  <br><br>
+
+We can also test for significance/insignificance of several covariates at a time using *partial F tests*.  Let $X^R$ denote a subset of the columns of the design matrix $X$ where we have removed columns corresponding to a subset of $r$ of the coefficients in $\beta$.  Fit the model $Y = X^R\beta^R + \epsilon$ and compute the sum of squared residuals for this **reduced** model, call it, $\text{SSE}^R$. Let $\text{SSE}^F$ denote the sum of squared residuals for the **full** model with all $p$ covariates.  Define
+\[F = \frac{(SSE^R - SSE^F)/r }{SSE^F / (n-p-1)}.\]
+Then, under $H_0:\text{all of these }r\text{ covariates have coefficients equal to zero}$ we have $F\sim F_{r, n-p-1}$, that is, the test statistic $F$ has an $F$ distribution with numerator and denominator degrees of freedom $r$ and $n-p-1$.  We reject the null hypothesis at level $\alpha$ if $F > F_{1-\alpha, r, n-p-1}$.
+
+
+### Example: Housing price data
+
+
+```{r echo=FALSE}
+xfun::embed_file('Real estate.csv')
+```
+
+```{r}
+houses <- read.csv("Real estate.csv", header = TRUE)
+colnames(houses) <- c('date', 'age', 'distance_to_transit', 'num_stores', 'lat', 'long', 'price_per_unit_area')
+```
+
+Let's fit a multiple linear regression model to predict price per unit area using a house's age, its distance to the nearest transit station, and the number of nearby convenience stores.  Intuitively, age affects a home's value, while the other two variables have to do with the value of the location and neighborhood.  
+
+```{r}
+my.lm <- lm(price_per_unit_area~age+distance_to_transit+num_stores, data = houses)
+summary(my.lm)
+```
+
+The fitted regression line is
+\[\text{price per unit area} = 120.6 + 0.0004619 \times \text{age} - 0.00003774 \times \text{distance to transit} - 0.000009802 \times \text{number of stores}.\]
+However, t-tests suggest that neither the inclusion of age nor distance to transit in the model are improving the price predictions (p-values are 0.772 and 0.338).
+
+```{r}
+X <- model.matrix(price_per_unit_area~age+distance_to_transit+num_stores, data = houses)
+hat.sigma2 <- summary(my.lm)$sigma^2
+cov.beta <- hat.sigma2*solve(t(X)%*%X)
+cov.beta[2,3]/sqrt(cov.beta[2,2]*cov.beta[3,3])
+cov.beta[2,4]/sqrt(cov.beta[2,2]*cov.beta[4,4])
+cov.beta[3,4]/sqrt(cov.beta[3,3]*cov.beta[4,4])
+```
+
+Above we computed the estimated correlation between the coefficients of age, distance to transit, and number of stores.  These estimated correlations are all close to zero, meaning the estimated coefficients are not correlated.  When estimated coefficients are strongly correlated, it is challenging to interpret the multiple linear regression model.   For example, the estimate of $\hat\beta_1 = 0.0004619$ means that for a one unit increase in age, the home price by unit area increases by 0.0004619 units **provided all other covariates are held constant**.  If the covariates are not correlated, this explanation makes sense.  However, if two covariates are strongly, say, positively correlated, then when one goes up it must be that the other goes up as well, so it is not reasonable to assume one can be changed while the other is held constant.  Correlation of the covariates is called *multicollinearity* and it is important to check for multicollinearity before attempting to interpret coefficients as above.
+
+<br><br>
+
+Note that the summary of the lm function call includes an F test result in the last line.  It says "F-statistic: 254.9 on 3 and 410 DF,  p-value: < 2.2e-16".  This is called the *model F test* and it is a partial F test of the hypothesis that only the intercept coefficient is non zero, i.e. $\beta_0 \ne 0$ but $\beta_j = 0$ for all $j > 0$.  We can match this F test result by fitting the "intercept-only" model and comparing SSEs:
+
+```{r}
+
+my.lm.int <- lm(price_per_unit_area~1, data = houses)
+SSE.R <- sum(my.lm.int$residuals^2)
+SSE.F <- sum(my.lm$residuals^2)
+n <- length(houses$price_per_unit_area)
+
+F <- ((SSE.R - SSE.F)/3)/(SSE.F / (n-4))
+F
+1-pf(F,3,n-4)
+
+
+
+
+```
+
+
+
+

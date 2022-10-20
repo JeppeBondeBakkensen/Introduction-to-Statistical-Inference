@@ -117,7 +117,7 @@
 
 \title{A First Course in Probability and Statistics}
 \author{Nick Syring}
-\date{2022-10-06}
+\date{2022-10-20}
 
 \begin{document}
 \maketitle
@@ -1007,7 +1007,7 @@ Here's a quick simulation to illustrate the above power function: we'll sample d
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.6655
+## [1] 0.656
 \end{verbatim}
 
 \hypertarget{test-for-a-normal-population-variance}{%
@@ -2197,13 +2197,13 @@ Next, we will compute the K-W test statistic and associated p-value by hand, and
 
 Note that the Kruskal-Wallis test rejects the null hypothesis that the three populations of crop yields are the same, which agrees with the ANOVA F test.
 
-\hypertarget{linear-regression}{%
-\chapter{Linear Regression}\label{linear-regression}}
+\hypertarget{simple-linear-regression}{%
+\chapter{Simple Linear Regression}\label{simple-linear-regression}}
 
 In this chapter we consider estimation and inference of a random response, conditional on another observed variable---the independent variable, also called predictor or covariate.
 
-\hypertarget{simple-linear-regression}{%
-\section{Simple linear regression}\label{simple-linear-regression}}
+\hypertarget{simple-linear-regression-model}{%
+\section{Simple linear regression model}\label{simple-linear-regression-model}}
 
 The simple linear regression model says that a random response \(Y_i\) has conditional mean \(\beta_0 + \beta_1 x_i\) given \(X_i = x_i\) where \(X_i\) may be a random variable. Moreover, the responses \(Y_i\), \(i = 1, \ldots, n\), are independent, with common variance \(\sigma^2\), and are normally distributed. This is commonly written using the following statistical notation:
 \[Y_i = \beta_0 + \beta_1 x_i + \epsilon_i, \quad \epsilon_i\stackrel{iid}{\sim} N(0, \sigma^2)\]
@@ -2360,7 +2360,7 @@ Prediction intervals have interpretations similar to confidence intervals. If th
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.948
+## [1] 0.95
 \end{verbatim}
 
 \hypertarget{simultaneous-confidence-bands-for-the-regression-line}{%
@@ -2530,6 +2530,192 @@ Pointwise intervals in green:
 \end{Shaded}
 
 \includegraphics{15-Regression_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\hypertarget{multiple-linear-regression}{%
+\chapter{Multiple Linear Regression}\label{multiple-linear-regression}}
+
+In this chapter we extend the simple linear regression model to accomodate multiple covariates \(X_1, \ldots, X_p\) to better predict the response \(Y\).
+
+\hypertarget{the-multiple-linear-regression-model}{%
+\section{The Multiple Linear Regression Model}\label{the-multiple-linear-regression-model}}
+
+Multiple linear regression is a model for predicting the behavior of a response variable \(Y\) using several predictors (also called covariates or explanatory variables) \(X_1, \ldots, X_p\) assumed to have some influence on the response. In particular, the model is linear:
+\[Y_i = \beta_0 + \beta_1 X_{1,i} + \beta_2 X_{2,i} + \cdots + \beta_p X_{p,i} + \epsilon_i\]
+for \(i=1, \ldots, n\) responses. We assume the random residuals \(\epsilon_i\) are a normal random sample with mean zero and constant variance \(\sigma^2\).
+
+It is convenient to write the multiple linear regression model in matrix-vector form:
+\[Y = X\beta+\epsilon\]
+where \(Y\) is the \(n\times 1\) vector of response variables, \(X\) is the \(n \times (p+1)\) matrix consisting of an \(n\times 1\) column vector of 1's and the \(p\) columns of predictor variables, where \(\beta\) is a \((p+1) \times 1\) vector of unknown coefficients, and where \(\epsilon\) is the \(n\times 1\) vector of random residuals.
+
+\hypertarget{point-estimation}{%
+\section{Point estimation}\label{point-estimation}}
+
+Just as in simple linear regression, we estimate \(\beta\) using the method of least squares. Define the observed residuals
+
+\[e(\hat\beta) = Y_i - X_i^\top\hat\beta\]
+
+where \(\hat\beta\) is some particular value of the vector \(\beta\) and \(X_i\) is the \(i^{th}\) row of the ``design matrix'' \(X\) defined above. Then, the sum of squared observed residuals (often called sum of squares errors) is
+\[SSE = \sum_{i=1}^n \left(Y_i - X_i^\top\hat\beta\right)^2.\]
+In matrix-vector notation, the SSE is an inner product (dot product):
+\[SSE = (Y-X\hat\beta)^\top (Y-X\hat\beta).\]
+
+The method of least squares says that we should choose the estimator \(\hat\beta\) to be the value minimizing the SSE. And, just as in simple linear regression, we can compute this minimizer using calculus. In multiple linear regression, the calculus is a bit more complicated, because we are dealing with vector rather than scalar quantities. To compute the least squares estimator, begin by expanding SSE:
+\begin{align*}
+SSE &= (Y-X\hat\beta)^\top (Y-X\hat\beta)\\
+& = Y^\top Y - Y^\top X\beta - \beta^\top X^\top Y + \hat\beta^\top X^\top X\beta
+\end{align*}
+Next, differentiate term by term, using the following facts from calculus: for \(n \times 1\) vectors \(a\) and \(x\)
+\[\frac{\partial}{\partial x} a^\top x = a^\top;\]
+and, for an \(n\times n\) matrix \(A\):
+\[\frac{\partial}{\partial x}  x^\top A x = (A + A^\top) x.\]
+Applying these rules, we obtain
+\begin{align*}
+\frac{\partial}{\partial \beta} SSE &= -Y^\top X - (Y^\top X)^\top + (X^\top X + X^\top X) \beta\\
+& = 2X^\top X \beta - 2X^\top Y
+\end{align*}
+If \(X^\top X\) is invertible, we may set this equation equal to the \((p+1)\times 1\) zero vector and solve, obtaining
+\[\hat\beta = (X^\top X)^{-1}X^\top Y.\]
+Just as in simple linear regression, our least squares estimator is unbiased:
+\[E(\hat\beta) = E((X^\top X)^{-1}X^\top Y) = (X^\top X)^{-1}X^\top X\beta = \beta.\]
+To estimate \(\sigma^2\), we use (an adjustment to) the method of moments,
+\[\hat\sigma^2 = \frac{1}{n-(p+1)}SSE = \frac{1}{n-(p+1)}(Y - X\hat\beta)^\top(Y - X\hat\beta).\]
+This estimator is also unbiased, i.e., \(E(\hat\sigma^2) = \sigma^2\).
+
+\hypertarget{sampling-distributions-1}{%
+\section{Sampling Distributions}\label{sampling-distributions-1}}
+
+The estimated regression coefficients have a multivariate normal distribution due to the fact they are equal to linear combinations of the normally-distributed responses:
+\[\hat\beta \sim N_{p+1}\left(\beta, \sigma^2 (X^\top X)^{-1}\right).\]
+This means the least squares estimator is normally distributed, unbiased, and has covariance matrix \(\sigma^2 (X^\top X)^{-1}\). For example, \(V(\hat\beta_j) = \sigma^2 (X^\top X)^{-1}_{j,j}\), which is the variance parameter \(\sigma^2\) multiplies by the \(j^{th}\) diagonal entry of the matrix \((X^\top X)^{-1}\).
+
+The variance estimator \(\hat\sigma^2\) (properly scaled) has a Chi-Squared distribution:
+\[\frac{[n-(p+1)]\hat\sigma^2}{\sigma^2}\sim \chi^2( n - p - 1).\]
+
+Furthermore, the least squares estimator is independent of the variance estimator, which implies the Studentized estimated coefficients are \(t-\)distributed:
+\[\frac{\hat\beta_j - \beta_j}{\sqrt{\hat\sigma^2 (X^\top X)^{-1}_{j,j}}}\sim t_{n-p-1}.\]
+
+\hypertarget{inference-on-regression-coefficients}{%
+\section{Inference on regression coefficients}\label{inference-on-regression-coefficients}}
+
+The Student's t sampling distribution noted above enables us to derive exact confidence intervals and hypothesis tests for individual regression coefficients. A \(100(1-\alpha)\%\) CI for \(\beta_j\) is given by
+\[(\hat\beta_j \pm t_{1-\alpha/2, n-p-1}\sqrt{\hat\sigma^2 (X^\top X)^{-1}_{j,j}}).\]
+To test \(H_0:\beta_j = 0\) versus \(H_a:\beta_j\ne 0\) we reject the null hypothesis at level \(\alpha\) if \(|t| > t_{1-\alpha.2, n-p-1}\) where
+\[t = \frac{\hat\beta_j - 0}{\sqrt{\hat\sigma^2 (X^\top X)^{-1}_{j,j}}}.\]
+The interpretation of the above null hypothesis is that including covariate \(X_j\) in the model does not significantly improve accuracy of predicting \(Y\).
+
+We can also test for significance/insignificance of several covariates at a time using \emph{partial F tests}. Let \(X^R\) denote a subset of the columns of the design matrix \(X\) where we have removed columns corresponding to a subset of \(r\) of the coefficients in \(\beta\). Fit the model \(Y = X^R\beta^R + \epsilon\) and compute the sum of squared residuals for this \textbf{reduced} model, call it, \(\text{SSE}^R\). Let \(\text{SSE}^F\) denote the sum of squared residuals for the \textbf{full} model with all \(p\) covariates. Define
+\[F = \frac{(SSE^R - SSE^F)/r }{SSE^F / (n-p-1)}.\]
+Then, under \(H_0:\text{all of these }r\text{ covariates have coefficients equal to zero}\) we have \(F\sim F_{r, n-p-1}\), that is, the test statistic \(F\) has an \(F\) distribution with numerator and denominator degrees of freedom \(r\) and \(n-p-1\). We reject the null hypothesis at level \(\alpha\) if \(F > F_{1-\alpha, r, n-p-1}\).
+
+\hypertarget{example-housing-price-data}{%
+\subsection{Example: Housing price data}\label{example-housing-price-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{houses }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"Real estate.csv"}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{colnames}\NormalTok{(houses) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}date\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}age\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}distance\_to\_transit\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}num\_stores\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}lat\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}long\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}price\_per\_unit\_area\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Let's fit a multiple linear regression model to predict price per unit area using a house's age, its distance to the nearest transit station, and the number of nearby convenience stores. Intuitively, age affects a home's value, while the other two variables have to do with the value of the location and neighborhood.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my.lm }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(price\_per\_unit\_area}\SpecialCharTok{\textasciitilde{}}\NormalTok{age}\SpecialCharTok{+}\NormalTok{distance\_to\_transit}\SpecialCharTok{+}\NormalTok{num\_stores, }\AttributeTok{data =}\NormalTok{ houses)}
+\FunctionTok{summary}\NormalTok{(my.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = price_per_unit_area ~ age + distance_to_transit + 
+##     num_stores, data = houses)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.013025 -0.003845 -0.000584  0.002303  0.052341 
+## 
+## Coefficients:
+##                       Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)          1.206e+02  3.203e+00   37.65   <2e-16 ***
+## age                  4.619e-04  1.591e-03    0.29    0.772    
+## distance_to_transit -3.774e-05  3.932e-05   -0.96    0.338    
+## num_stores          -9.802e-06  3.555e-07  -27.57   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.0091 on 410 degrees of freedom
+## Multiple R-squared:  0.651,  Adjusted R-squared:  0.6484 
+## F-statistic: 254.9 on 3 and 410 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+The fitted regression line is
+\[\text{price per unit area} = 120.6 + 0.0004619 \times \text{age} - 0.00003774 \times \text{distance to transit} - 0.000009802 \times \text{number of stores}.\]
+However, t-tests suggest that neither the inclusion of age nor distance to transit in the model are improving the price predictions (p-values are 0.772 and 0.338).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{X }\OtherTok{\textless{}{-}} \FunctionTok{model.matrix}\NormalTok{(price\_per\_unit\_area}\SpecialCharTok{\textasciitilde{}}\NormalTok{age}\SpecialCharTok{+}\NormalTok{distance\_to\_transit}\SpecialCharTok{+}\NormalTok{num\_stores, }\AttributeTok{data =}\NormalTok{ houses)}
+\NormalTok{hat.sigma2 }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(my.lm)}\SpecialCharTok{$}\NormalTok{sigma}\SpecialCharTok{\^{}}\DecValTok{2}
+\NormalTok{cov.beta }\OtherTok{\textless{}{-}}\NormalTok{ hat.sigma2}\SpecialCharTok{*}\FunctionTok{solve}\NormalTok{(}\FunctionTok{t}\NormalTok{(X)}\SpecialCharTok{\%*\%}\NormalTok{X)}
+\NormalTok{cov.beta[}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{]}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(cov.beta[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{*}\NormalTok{cov.beta[}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.01602387
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cov.beta[}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{]}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(cov.beta[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{*}\NormalTok{cov.beta[}\DecValTok{4}\NormalTok{,}\DecValTok{4}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.06045947
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cov.beta[}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{]}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(cov.beta[}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{]}\SpecialCharTok{*}\NormalTok{cov.beta[}\DecValTok{4}\NormalTok{,}\DecValTok{4}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.0246031
+\end{verbatim}
+
+Above we computed the estimated correlation between the coefficients of age, distance to transit, and number of stores. These estimated correlations are all close to zero, meaning the estimated coefficients are not correlated. When estimated coefficients are strongly correlated, it is challenging to interpret the multiple linear regression model. For example, the estimate of \(\hat\beta_1 = 0.0004619\) means that for a one unit increase in age, the home price by unit area increases by 0.0004619 units \textbf{provided all other covariates are held constant}. If the covariates are not correlated, this explanation makes sense. However, if two covariates are strongly, say, positively correlated, then when one goes up it must be that the other goes up as well, so it is not reasonable to assume one can be changed while the other is held constant. Correlation of the covariates is called \emph{multicollinearity} and it is important to check for multicollinearity before attempting to interpret coefficients as above.
+
+Note that the summary of the lm function call includes an F test result in the last line. It says ``F-statistic: 254.9 on 3 and 410 DF, p-value: \textless{} 2.2e-16''. This is called the \emph{model F test} and it is a partial F test of the hypothesis that only the intercept coefficient is non zero, i.e.~\(\beta_0 \ne 0\) but \(\beta_j = 0\) for all \(j > 0\). We can match this F test result by fitting the ``intercept-only'' model and comparing SSEs:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my.lm.int }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(price\_per\_unit\_area}\SpecialCharTok{\textasciitilde{}}\DecValTok{1}\NormalTok{, }\AttributeTok{data =}\NormalTok{ houses)}
+\NormalTok{SSE.R }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(my.lm.int}\SpecialCharTok{$}\NormalTok{residuals}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{SSE.F }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(my.lm}\SpecialCharTok{$}\NormalTok{residuals}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(houses}\SpecialCharTok{$}\NormalTok{price\_per\_unit\_area)}
+
+\NormalTok{F }\OtherTok{\textless{}{-}}\NormalTok{ ((SSE.R }\SpecialCharTok{{-}}\NormalTok{ SSE.F)}\SpecialCharTok{/}\DecValTok{3}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(SSE.F }\SpecialCharTok{/}\NormalTok{ (n}\DecValTok{{-}4}\NormalTok{))}
+\NormalTok{F}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 254.923
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pf}\NormalTok{(F,}\DecValTok{3}\NormalTok{,n}\DecValTok{{-}4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
 
   \bibliography{book.bib,packages.bib}
 
