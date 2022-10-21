@@ -117,7 +117,7 @@
 
 \title{A First Course in Probability and Statistics}
 \author{Nick Syring}
-\date{2022-10-20}
+\date{2022-10-21}
 
 \begin{document}
 \maketitle
@@ -1007,7 +1007,7 @@ Here's a quick simulation to illustrate the above power function: we'll sample d
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.656
+## [1] 0.6604
 \end{verbatim}
 
 \hypertarget{test-for-a-normal-population-variance}{%
@@ -2360,7 +2360,7 @@ Prediction intervals have interpretations similar to confidence intervals. If th
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.95
+## [1] 0.959
 \end{verbatim}
 
 \hypertarget{simultaneous-confidence-bands-for-the-regression-line}{%
@@ -2715,6 +2715,192 @@ Note that the summary of the lm function call includes an F test result in the l
 
 \begin{verbatim}
 ## [1] 0
+\end{verbatim}
+
+\hypertarget{likelihood-based-inferences}{%
+\chapter{Likelihood-Based Inferences}\label{likelihood-based-inferences}}
+
+Previously, we discussed approximate sampling distribution theory for maximum likelihood estimators. Recall that if \(\hat\theta\) is the MLE of \(\theta\), the parameter of a distribution family \(P_\theta\), then (under some technical conditions)
+\[\hat\theta \stackrel{\cdot}{\sim} N(\theta, I(\theta)^{-1})\]
+for large \(n\) where \(I(\theta)\) is the Fisher information
+\[I(\theta) = -E\left[\frac{\partial^2}{\partial \theta} \ell(\theta;X_1, \ldots, X_n)\right]\]
+for a random sample \(X_1,\ldots, X_n\) from \(P_\theta\).
+
+In this chapter we discuss how to use this (and other) approximate (large sample) sampling distributions to make inferences about population parameters.
+
+\hypertarget{wald-tests-and-cis}{%
+\section{Wald tests and CIs}\label{wald-tests-and-cis}}
+
+A \(100(1-\alpha)\%\) Wald approximate CI for a scalar parameter \(\theta\) has the form
+\[\left(\hat\theta \pm z_{1-\alpha/2}\sqrt{I(\hat\theta)^{-1}}\right)\]
+
+This CI is straightforward to obtain by the same argument we have used before. Start with the identity
+\[1-\alpha \approx P\left(z_{\alpha/2} < \frac{\hat\theta - \theta}{\sqrt{I(\theta)^{-1}}} < z_{1-\alpha/2}\right)\]
+which follows from the approximate pivot discussed above, and in Chapter 2. Then, simply multiply by the standard error \(\sqrt{I(\theta)^{-1}}\), subtract \(\hat\theta\) from both sides, and multiply by \(-1\) to get
+\[1-\alpha \approx P\left(\hat\theta - z_{1-\alpha/2}\sqrt{I(\theta)^{-1}} < \theta < \hat\theta + z_{1-\alpha/2}\sqrt{I(\theta)^{-1}}\right)\]
+Finally, since \(\theta\) is unknown, replace \(\theta\) by \(\hat\theta\) in the standard error to yield the so-called Wald type CI
+\[\left(\hat\theta \pm z_{1-\alpha/2}\sqrt{I(\hat\theta)^{-1}}\right).\]
+
+If \(\theta = (\theta_1, \ldots, \theta_p)\) is a vector, then, the marginal Wald approximate CI for \(\theta_j\) is given by
+\[\left(\hat\theta_j \pm z_{1-\alpha/2}\sqrt{I(\hat\theta)_{j,j}^{-1}}\right).\]
+where \(I(\theta)\) is the Fisher information \emph{matrix} and \(I(\theta)_{j,j}\) is the \(j^{th}\) diagonal entry of the Fisher information matrix.
+
+Besides CIs, the approximate pivot may be used for hypothesis tests as well. To test \(H_0:\theta = \theta_0\) versus \(H_a: \theta\ne \theta_0\) for a scalar parameter \(\theta\), reject the null hypothesis if \(|z| > z_{1-\alpha/2}\) where
+\[z=\frac{\hat\theta - \theta_0}{\sqrt{I(\theta_0)^{-1}}}.\]
+(Alternatively, one may use \(\hat\theta\) in the standard error rather than \(\theta_0\). Under the null hypothesis, there is little difference.)
+
+For a vector parameter \(\theta\) let
+\[W = (\hat\theta - \theta_0)^\top I(\theta_0)^{-1}(\hat\theta - \theta_0).\]
+Under \(H_0:\theta = \theta_0\), \(W\stackrel{\cdot}{\sim}\chi^2(p)\). And, if we use the estimated covariance:
+\[V = (\hat\theta - \theta_0)^\top I(\hat\theta)^{-1}(\hat\theta - \theta_0),\]
+then, \(V\stackrel{\cdot}{\sim} F(p, n-p)\). So, we get either a Chi-Squared or F-based test for a vector parameter.
+
+\hypertarget{example-auto-insurance-claims}{%
+\subsection{Example: Auto insurance claims}\label{example-auto-insurance-claims}}
+
+We have the following data on 100 auto insurance claims:
+
+\includegraphics{17-LikelihoodInference_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+Given the auto claims are positively skewed, we will assume a Gamma distribution reasonably models the population and fit a Gamma to the data by maximum likelihood.
+
+The Gamma density has form
+\[f(x;\alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-x\beta}, \quad x,\alpha, \beta>0\]
+where \((\alpha, \beta)\) are shape and rate parameters. The likelihood for a random sample of size \(n\) is
+\[L(\alpha, \beta; X_1, \ldots, X_n) = \left(\frac{\beta^\alpha}{\Gamma(\alpha)}\right)^n \prod_{i=1}^n (x_i)^{\alpha - 1} e^{-\beta\sum_{i=1}^n x_i}.\]
+Taking the log, we have the loglikelihood function (suppressing dependence on data)
+\[\ell(\alpha, \beta) = n\alpha\log \beta - n\log \Gamma(\alpha) + (\alpha - 1)\sum_{i=1}^n \log(x_i) - \beta\sum_{i=1}^n x_i.\]
+Next, we need the gradient (the first derivatives) w.r.t. the parameters \((\alpha,\beta)\):
+\[\frac{\partial \ell}{\partial \alpha} = n\log\beta - \text{DiGamma}(\alpha) + \sum_{i=1}^n \log(x_i)\]
+where the function DiGamma\((\alpha)\) is the logarithmic derivative of the Gamma function. Next, we have
+\[\frac{\partial \ell}{\partial \beta} = \frac{n\alpha}{\beta} - \sum_{i=1}^n x_i.\]
+
+We also need the second derivatives in order to compute the Fisher information:
+\[\frac{\partial^2 \ell}{\partial \alpha^2} = -\text{TriGamma}(\alpha)\]
+where the TriGamma function is (you guessed it!) the second logarithmic derivative fo the Gamma function \(\Gamma(\alpha)\).\\
+\[\frac{\partial^2 \ell}{\partial \alpha\partial\beta} = n/\beta.\]
+\[\frac{\partial^2 \ell}{\partial \beta^2} = -\frac{n\alpha}{\beta^2}.\]
+
+You may have guessed we will not be able to compute the MLEs by hand by solving \(\frac{\partial \ell}{\partial \alpha}=0\) and \(\frac{\partial \ell}{\partial \beta} = 0\). Instead, we need an iterative solver (an algorithm). In R we can use \emph{optim} to solve for the MLEs. Or, we can code our own version of Newton's method\ldots{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(data)}
+\NormalTok{loglik }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(param)\{}
+  \FunctionTok{sum}\NormalTok{(}\FunctionTok{dgamma}\NormalTok{(data, }\AttributeTok{shape =}\NormalTok{ param[}\DecValTok{1}\NormalTok{], }\AttributeTok{rate =}\NormalTok{ param[}\DecValTok{2}\NormalTok{], }\AttributeTok{log =} \ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{\}}
+\NormalTok{grad }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(param)\{}
+\NormalTok{  g1 }\OtherTok{\textless{}{-}}\NormalTok{ n}\SpecialCharTok{*}\FunctionTok{log}\NormalTok{(param[}\DecValTok{2}\NormalTok{]) }\SpecialCharTok{{-}} \FunctionTok{digamma}\NormalTok{(param[}\DecValTok{1}\NormalTok{]) }\SpecialCharTok{+} \FunctionTok{sum}\NormalTok{(}\FunctionTok{log}\NormalTok{(data))}
+\NormalTok{  g2 }\OtherTok{\textless{}{-}}\NormalTok{ n}\SpecialCharTok{*}\NormalTok{param[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{/}\NormalTok{param[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{(data)}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{c}\NormalTok{(g1,g2))}
+\NormalTok{\}}
+\NormalTok{H }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(param)\{}
+\NormalTok{  h1 }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\FunctionTok{trigamma}\NormalTok{(param[}\DecValTok{1}\NormalTok{])}
+\NormalTok{  h2 }\OtherTok{\textless{}{-}}\NormalTok{ n}\SpecialCharTok{/}\NormalTok{param[}\DecValTok{2}\NormalTok{]}
+\NormalTok{  h3 }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\NormalTok{n}\SpecialCharTok{*}\NormalTok{param[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{/}\NormalTok{(param[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(h1,h2,h2,h3),}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\NormalTok{\}}
+
+\NormalTok{m }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(data)}
+\NormalTok{v }\OtherTok{\textless{}{-}} \FunctionTok{var}\NormalTok{(data)}
+
+\NormalTok{beta0 }\OtherTok{\textless{}{-}}\NormalTok{ m}\SpecialCharTok{/}\NormalTok{v}
+\NormalTok{alpha0 }\OtherTok{\textless{}{-}}\NormalTok{ m}\SpecialCharTok{*}\NormalTok{beta0}
+
+\NormalTok{delta }\OtherTok{\textless{}{-}} \FloatTok{0.00001}
+\NormalTok{diff.step }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{par.old }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(alpha0, beta0)}
+\NormalTok{steps }\OtherTok{\textless{}{-}} \DecValTok{0}
+\ControlFlowTok{while}\NormalTok{((diff.step }\SpecialCharTok{\textgreater{}}\NormalTok{ delta) }\SpecialCharTok{\&}\NormalTok{ (steps }\SpecialCharTok{\textless{}} \DecValTok{100}\NormalTok{))\{}
+\NormalTok{  par.new }\OtherTok{\textless{}{-}}\NormalTok{ par.old }\SpecialCharTok{{-}} \FunctionTok{solve}\NormalTok{(}\FunctionTok{H}\NormalTok{(par.old))}\SpecialCharTok{\%*\%}\FunctionTok{matrix}\NormalTok{(}\FunctionTok{grad}\NormalTok{(par.old),}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{) }
+\NormalTok{  diff.step }\OtherTok{\textless{}{-}} \FunctionTok{max}\NormalTok{(}\FunctionTok{abs}\NormalTok{(par.new }\SpecialCharTok{{-}}\NormalTok{ par.old))}
+\NormalTok{  steps }\OtherTok{\textless{}{-}}\NormalTok{ steps }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{  par.old }\OtherTok{\textless{}{-}}\NormalTok{ par.new}
+\NormalTok{\}}
+\NormalTok{par.old}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             [,1]
+## [1,] 1.314900300
+## [2,] 0.001302721
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{loglik}\NormalTok{(par.old)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -784.811
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{H}\NormalTok{(par.old)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              [,1]        [,2]
+## [1,]    -1.116659     76762.4
+## [2,] 76762.401301 -77480056.4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{solve}\NormalTok{(}\FunctionTok{H}\NormalTok{(par.old))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              [,1]         [,2]
+## [1,] 1.334495e-02 1.322134e-05
+## [2,] 1.322134e-05 1.923302e-10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mle.optim }\OtherTok{\textless{}{-}} \FunctionTok{optim}\NormalTok{(}\FunctionTok{c}\NormalTok{(alpha0, beta0), loglik, }\AttributeTok{gr =}\NormalTok{ grad, }\AttributeTok{control =} \FunctionTok{list}\NormalTok{(}\AttributeTok{fnscale =} \SpecialCharTok{{-}}\DecValTok{1}\NormalTok{), }\AttributeTok{method =} \StringTok{\textquotesingle{}BFGS\textquotesingle{}}\NormalTok{, }\AttributeTok{hessian =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{mle.optim}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $par
+## [1] 2.004494690 0.001985928
+## 
+## $value
+## [1] -780.6075
+## 
+## $counts
+## function gradient 
+##       23        1 
+## 
+## $convergence
+## [1] 0
+## 
+## $message
+## NULL
+## 
+## $hessian
+##               [,1]         [,2]
+## [1,]    -0.6431228     52879.21
+## [2,] 52879.2051016 -68089522.01
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{solve}\NormalTok{(mle.optim}\SpecialCharTok{$}\NormalTok{hessian)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              [,1]         [,2]
+## [1,] 2.473805e-02 1.921189e-05
+## [2,] 1.921189e-05 2.336572e-10
 \end{verbatim}
 
   \bibliography{book.bib,packages.bib}

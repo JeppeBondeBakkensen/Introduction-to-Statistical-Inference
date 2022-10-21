@@ -83,3 +83,6 @@ point-estimation
 sampling-distributions-1
 inference-on-regression-coefficients
 example-housing-price-data
+likelihood-based-inferences
+wald-tests-and-cis
+example-auto-insurance-claims

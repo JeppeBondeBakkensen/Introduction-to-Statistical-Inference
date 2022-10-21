@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Sampling Distributions | A First Course in Probability and Statistics</title>
+  <title>Chapter 10 Likelihood-Based Inferences | A First Course in Probability and Statistics</title>
   <meta name="description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 Sampling Distributions | A First Course in Probability and Statistics" />
+  <meta property="og:title" content="Chapter 10 Likelihood-Based Inferences | A First Course in Probability and Statistics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Sampling Distributions | A First Course in Probability and Statistics" />
+  <meta name="twitter:title" content="Chapter 10 Likelihood-Based Inferences | A First Course in Probability and Statistics" />
   
   <meta name="twitter:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="statistical-estimation.html"/>
-<link rel="next" href="confidence-intervals.html"/>
+<link rel="prev" href="multiple-linear-regression.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -296,120 +296,134 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="sampling-distributions" class="section level1 hasAnchor" number="4">
-<h1><span class="header-section-number">Chapter 4</span> Sampling Distributions<a href="sampling-distributions.html#sampling-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="sample-mean" class="section level2 hasAnchor" number="4.1">
-<h2><span class="header-section-number">4.1</span> Sample Mean<a href="sampling-distributions.html#sample-mean" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Let <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> denote a random sample from a distribution/population with a finite mean <span class="math inline">\(\mu\)</span> and a finite variance <span class="math inline">\(\sigma^2\)</span>. Denote the sample mean by <span class="math inline">\(\overline X_n = n^{-1}\sum_{i=1}^n X_i\)</span>. According to the Central Limit Theorem,
-<span class="math display">\[\frac{\overline X_n - \mu}{\sigma / \sqrt{n}} \stackrel{i.d.}{\rightarrow} N(0,1)\]</span>
-for large sample size, meaning the distribution of the centered and scaled (standardized) sample mean converges to standard normal. Therefore, for large sample sizes,
-<span class="math display">\[\overline X_n \stackrel{\cdot}{\sim} N(\mu, \sigma^2/n)\]</span>
-We say the <em>approximate/large-sample sampling distribution</em> of the sample mean is Normal.<br><br></p>
-<p>If <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> constitutes a random sample from a Normal population, then the sampling distribution of the sample mean is <em>exactly</em> normal:
-<span class="math display">\[\overline X_n \sim N(\mu, \sigma^2/n)\quad \text{for all }n,\]</span>
-which can be verified using MGFs.<br><br></p>
-<p>How large is large? For many disributions the CLT will “kick in” for modest sample size, even, say, <span class="math inline">\(n=50\)</span> is often sufficient. But, ultimately, the number of samples needed in order for the sample mean to be nearly normally distributed depends on the underlying distribution. Very skewed or multimodal distributions may “resist” the CLT much longer than distributions that already are close to normal. Below is a quick Monte Carlo experiment illustrating the CLT, and sample mean sampling distribution, for two distributions: exponential and log-normal.</p>
-<p><img src="10-Sampling-Distributions_files/figure-html/unnamed-chunk-1-1.png" width="672" /><img src="10-Sampling-Distributions_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
-<p>As a final reminder, note the CLT does not apply to “heavy-tailed” distributions that lack a mean. For example, the Cauchy distribution is very likely to produce extreme values, and, as a result, it has no finite mean. Therefore, the CLT does not apply and it’s unclear what will be the sampling distribution of it’s sample mean. It turns out the sample mean is still Cauchy-distributed—taking the average of Cauchy samples does not reduce uncertainty at all. For an illustration, see the Monte-Carlo-approximated distribution of the sample mean of 50 samples from a Cauchy population:</p>
-<p><img src="10-Sampling-Distributions_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-</div>
-<div id="sample-variance" class="section level2 hasAnchor" number="4.2">
-<h2><span class="header-section-number">4.2</span> Sample Variance<a href="sampling-distributions.html#sample-variance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Let <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> denote a random sample from a Normal population with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. Denote the sample variance by <span class="math inline">\(S^2_n = \frac{1}{n-1}\sum_{i=1}^n (X_i - \overline X_n)^2\)</span>. Next, we will discover the sampling distribution of the (normal) sample variance.<br><br></p>
-<p>First, we need to establish the fact that if <span class="math inline">\(Z\sim N(0,1)\)</span>, then <span class="math inline">\(Z^2\)</span> has what is called a Chi-squared distribution, with one “degree of freedom”—this is the parameter of this distribution. This Chi-squared distribution has MGF <span class="math inline">\(\left(1-2t\right)^{-k/2}\)</span> where <span class="math inline">\(k\)</span> is the degrees of freedom parameter. It’s corresponding density function is
-<span class="math display">\[f(x) = 2^{-k/2}\left[\Gamma(k/2)\right]^{-1}x^{k/2-1}e^{-x/2},\quad x&gt;0\]</span>
-and you might recognize this as a Gamma distribution with shape <span class="math inline">\(k/2\)</span> and rate <span class="math inline">\(1/2\)</span>, so it’s mean is <span class="math inline">\((k/2)/(1/2) = k\)</span>. Ww can establish this fact by the MGF technique. Evaluate the MGF of <span class="math inline">\(Z^2\)</span> as follows:</p>
-<p><span class="math display">\[\begin{align*}
-M_{Z^2}(t) &amp;= E(e^{tZ^2}) = \int_{-\infty}^{\infty} e^{tz^2}\frac{1}{\sqrt{2\pi}}e^{-\tfrac12 z^2}dz\\
-&amp; = \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2\frac{1}{1-2t}}z^2}dz\\
-&amp; = \sqrt{\frac{1}{1-2t}}\int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi\frac{1}{1-2t}}} e^{-\frac{1}{2\frac{1}{1-2t}}z^2}dz\\
-&amp; = \sqrt{\frac{1}{1-2t}}
-\end{align*}\]</span>
-where the last inequality follows from the fact the integrand is a normal density function with mean zero and variance <span class="math inline">\(\frac{1}{1-2t}\)</span> (provided <span class="math inline">\(t&lt;2\)</span>) so that the integral equals one. This shows <span class="math inline">\(Z^2\)</span> is Chi-squared distributed with <span class="math inline">\(1\)</span> degree of freedom. <br><br></p>
-<p>As we’ve many times, the MGF argument works particularly well with sums of independent random variables. If <span class="math inline">\(Z_1, Z_2, \ldots, Z_n\)</span> are iid standard normal, then <span class="math inline">\(\sum_{i=1}^n Z_i^2\)</span> is Chi-squared distributed with <span class="math inline">\(n\)</span> degrees of freedom. To show this, simply show the MGF of <span class="math inline">\(\sum_{i=1}^n Z_i^2\)</span> equals <span class="math inline">\(\left(1-2t\right)^{-n/2}\)</span> using the previous result for <span class="math inline">\(n=1\)</span>, the definition of the MGF, and independence.<br><br></p>
-<p>Next, we’ll show a linear transformation of the the sample variance has a Chi-squared distribution with <span class="math inline">\(n-1\)</span> degrees of freedom.<br><br></p>
-<p>Start by making the linear transformation
-<span class="math display">\[\frac{(n-1)S_n^2}{\sigma^2} = \sum_{i=1}^n \left(\frac{X_i - \overline X_n}{\sigma}\right)^2.\]</span>
-Here’s the main trick: add and subtract <span class="math inline">\(\mu\)</span> inside the square in the sum, then expand the square and simplify:
-<span class="math display">\[\begin{align*}
-\frac{(n-1)S_n^2}{\sigma^2} &amp;= \sum_{i=1}^n \left(\frac{X_i - \mu + \mu - \overline X_n}{\sigma}\right)^2\\
-&amp; = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 + 2\sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)\left(\frac{\mu - \overline X_n}{\sigma}\right) + \sum_{i=1}^n \left(\frac{\mu - \overline X_n}{\sigma}\right)^2\\
-&amp; = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 - 2n\left(\frac{\overline X_n - \mu}{\sigma}\right)^2 + n\left(\frac{\overline X_n - \mu}{\sigma}\right)^2\\
-&amp; = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 - n\left(\frac{\overline X_n - \mu}{\sigma}\right)^2\\
-&amp; = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 - \left(\frac{\overline X_n - \mu}{\sigma/\sqrt{n}}\right)^2
-\end{align*}\]</span></p>
-<p>So far, we have shown
-<span class="math display">\[\sum_{i=1}^n \left(\frac{X_i - \overline X_n}{\sigma}\right)^2 = \sum_{i=1}^n \left(\frac{X_i - \mu}{\sigma}\right)^2 - \left(\frac{\overline X_n - \mu}{\sigma/\sqrt{n}}\right)^2.\]</span></p>
-<p>The first term on the right hand side is a summation of <span class="math inline">\(n\)</span> squares of independent, standard normal r.v.’s <span class="math inline">\(Z_i = \frac{X_i - \overline X_n}{\sigma}\)</span>. Baed on our previous result, this sum must be distributed as Chi-squared with <span class="math inline">\(n\)</span> degrees of freedom. The second term on the right is also the square of a standard normal random variable, so it must be distributed as Chi-squared with one degree of freedom. Consequently, the sum on the left hand side must be a Chi-squared random variable with <span class="math inline">\(n-1\)</span> degrees of freedom.</p>
-<div id="large-sample-sampling-distribution-of-sample-variance" class="section level3 hasAnchor" number="4.2.1">
-<h3><span class="header-section-number">4.2.1</span> Large-sample sampling distribution of sample variance<a href="sampling-distributions.html#large-sample-sampling-distribution-of-sample-variance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>If <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> is a random sample from a distribution with at least 4 finite moments, then the sample variance <span class="math inline">\(S_n^2\)</span> is approximately normally distributed for large <span class="math inline">\(n\)</span>. To see this, note
-<span class="math display">\[S_n^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \overline X_n)^2 \approx \frac{1}{n}\sum_{i=1}^n Z_i\]</span>
-where <span class="math inline">\(Z_i = (X_i - \mu)^2\)</span>. The latter expression is a sample average of iid random variables, and, as such, the CLT implies (the centered and scaled transformation of) it has a limiting normal distribution. This reasoning can be made rigorous.</p>
-</div>
-</div>
-<div id="sampling-distribution-of-studentized-sample-mean" class="section level2 hasAnchor" number="4.3">
-<h2><span class="header-section-number">4.3</span> Sampling distribution of studentized sample mean<a href="sampling-distributions.html#sampling-distribution-of-studentized-sample-mean" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Let <span class="math inline">\(X_1, X_2, \ldots, X_n\)</span> be a random sample from a normal population with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>; and, let <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span> denote the sample mean and sample variance, respectively.<br><br></p>
-<p>Let
-<span class="math display">\[T_n:=\frac{\overline X_n - \mu}{\sqrt{S_n^2 / n}}\]</span>
-denote the “studentized sample mean”. <span class="math inline">\(T_n\)</span> is the standardized sample mean—<span class="math inline">\(\overline X_n\)</span> minus <span class="math inline">\(\mu\)</span> and divided by <span class="math inline">\(\sqrt{\sigma^2/n}\)</span>—with the true variance replaced by its estimate, the sample variance.<br><br></p>
-<p>The standardized sample mean has a standard normal distribution (even approximately so for non-normal random samples by the CLT), but the studentized sample mean is <em>not</em> normally-distributed. Rather, the studentized sample mean has a Student’s <span class="math inline">\(t\)</span> distribution with <span class="math inline">\((n-1)\)</span> degrees of freedom.<br><br></p>
-<p>A Student’s <span class="math inline">\(t\)</span> random variable is defined in the following way: If <span class="math inline">\(Z\)</span> is standard normal and independent of <span class="math inline">\(V \sim\)</span> Chi-Squared <span class="math inline">\((n-1)\)</span>, then
-<span class="math display">\[T:=\frac{Z}{\sqrt{V/(n-1)}}\]</span>
-is a Student’s <span class="math inline">\(t\)</span> random variable with <span class="math inline">\(n-1\)</span> degrees of freedom. <br><br></p>
-<p>Rewriting the studentized sample mean, we have
-<span class="math display">\[T_n = \frac{\overline X_n - \mu}{\sqrt{S_n^2 / n}} = \frac{\frac{\overline X_n - \mu}{\sqrt{\sigma^2 / n}}}{\sqrt{(n-1)S_n^2/\{(n-1)\sigma^2\}}} = \frac{Z}{\sqrt{V/(n-1)}}.\]</span>
-It remains to verify <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span> are independent, and a sketch of this result is given next.</p>
-<div id="part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2" class="section level3 hasAnchor" number="4.3.1">
-<h3><span class="header-section-number">4.3.1</span> Part of Student’s Theorem - Indepndence of <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span><a href="sampling-distributions.html#part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Let <span class="math inline">\(Z_1, \ldots, Z_n\)</span> be a random sample of standard normal random variables. Without loss of generality let’s sketch a proof that <span class="math inline">\(\overline Z_n\)</span> and <span class="math inline">\(W = \sum_{i=1}^n (Z_i - \overline Z_n)^2\)</span> are independent. Define the matrix <span class="math inline">\(O_n\)</span> to be the <span class="math inline">\(n\times n\)</span> matrix with entries defined by:
-<span class="math display">\[For 1 \leq i \leq n-1, \quad o_{ij} = \Bigg\{ \begin{matrix} \frac{1}{\sqrt{i(i+1)}}, &amp;j\leq i \\
--\frac{1}{\sqrt{i(i+1)}}, &amp;j= i+1
-\end{matrix}\]</span>
-and zero otherwise; except that <span class="math inline">\(o_{nj} = n^{-1/2}\)</span>. Then, it can be checked that <span class="math inline">\(O_n\)</span> is <em>orthogonal</em>, i.e., <span class="math inline">\(O_n^\top O_n = I_n\)</span>, the identity. Next, define the vectors <span class="math inline">\(Z = (Z_1, \ldots, Z_n)^\top\)</span> and <span class="math inline">\(Y = O_n Z\)</span>. By construction of <span class="math inline">\(O_n\)</span> we have
-<span class="math display">\[Y^\top Y = Z^\top O_n^\top O_n Z = Z^\top Z = \sum_{i=1}^n Z_i^2.\]</span>
-And, we also have
-<span class="math display">\[Y_n = \sum_{i=1}^n \frac{Z_i}{\sqrt{n}} = \sqrt{n} \overline Z_n.\]</span>
-Therefore,
-<span class="math display">\[\sum_{i=1}^{n-1}Y_i^2 = \sum_{i=1}^{n}Y_i^2 - Y_n^2 = Z^\top Z - n\overline Z_n^2 = W.\]</span>
-So far, we have shown <span class="math inline">\(\overline Z_n\)</span> is a function of <span class="math inline">\(Y_n\)</span> and <span class="math inline">\(W\)</span> is a function of <span class="math inline">\(Y_1, \ldots, Y_{n-1}\)</span>. But, <span class="math inline">\(Y = O_n Z\)</span> is normally distributed with covariance <span class="math inline">\(O_n^\top O_n = I_n\)</span>. Therefore, <span class="math inline">\(Y_i\)</span>, <span class="math inline">\(i=1, \ldots, n\)</span>, are independent, which implies <span class="math inline">\(\overline Z_n\)</span> and <span class="math inline">\(W\)</span> are independent.</p>
-</div>
-</div>
-<div id="differences-of-sample-means" class="section level2 hasAnchor" number="4.4">
-<h2><span class="header-section-number">4.4</span> Differences of Sample Means<a href="sampling-distributions.html#differences-of-sample-means" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>So far we have considered statistics baed on a single random sample. Now, we’ll consider statistics based on separate random samples from two populations. First, consider a random sample <span class="math inline">\(X_1, X_2, \ldots, X_{n}\)</span> from a normal distribution with mean and variance <span class="math inline">\(\mu_X\)</span> and <span class="math inline">\(\sigma_X^2\)</span> and another random sample <span class="math inline">\(Y_1, Y_2, \ldots, Y_m\)</span> from a different normal distribution with mean and variance <span class="math inline">\(\mu_Y\)</span> and <span class="math inline">\(\sigma_Y^2\)</span>.</p>
-<div id="standarized-difference" class="section level3 hasAnchor" number="4.4.1">
-<h3><span class="header-section-number">4.4.1</span> Standarized difference<a href="sampling-distributions.html#standarized-difference" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The standardized difference of means is given by
-<span class="math display">\[Z = \frac{\overline X_n - \overline Y_m - (\mu_X - \mu_Y)}{\sqrt{\frac{\sigma_X^2}{n} + \frac{\sigma_Y^2}{m}}}\]</span>
-and follows a standard normal distribution.</p>
-</div>
-<div id="studentized-difference-equal-variances" class="section level3 hasAnchor" number="4.4.2">
-<h3><span class="header-section-number">4.4.2</span> Studentized difference, equal variances<a href="sampling-distributions.html#studentized-difference-equal-variances" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Suppose <span class="math inline">\(\sigma_X^2 = \sigma_Y^2\)</span>, and define the <em>pooled sample variance</em> <span class="math inline">\(S_P^2 = \frac{(n-1)S_X^2 + (m-1)S_Y^2}{n+m-2}\)</span>. The studentized difference of sample means is defined by
-<span class="math display">\[T = \frac{\overline X_n - \overline Y_m - (\mu_X - \mu_Y)}{\sqrt{S_p^2(\frac{1}{n}+\frac{1}{m})}}\]</span>
-follows a Student’s <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n+m - 2\)</span> degrees of freedom.</p>
-</div>
-<div id="studentized-difference-unequal-variances" class="section level3 hasAnchor" number="4.4.3">
-<h3><span class="header-section-number">4.4.3</span> Studentized difference, unequal variances<a href="sampling-distributions.html#studentized-difference-unequal-variances" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>When the population variances are unequal a different version of the studentized difference of means is sometimes used:
-<span class="math display">\[T = \frac{\overline X_n - \overline Y_m - (\mu_X - \mu_Y)}{\sqrt{\frac{S_X^2}{n}+\frac{S_Y^2}{m}}}.\]</span>
-This difference does not have an exact <span class="math inline">\(t\)</span> distribution, but can be approximated well by a <span class="math inline">\(t\)</span> distribution with degrees of freedom given by Satterthwaite’s formula:
-<span class="math display">\[df = \frac{\left(\frac{S_X^2}{n}+\frac{S_Y^2}{m}\right)^2}{\frac{1}{n-1}\left(\frac{S_X^2}{n}\right)^2 + \frac{1}{m-1}\left(\frac{S_Y^2}{m}\right)^2}.\]</span>
-Since the degrees of freedom is an integer-valued parameter the result of this formula is <em>rounded down</em> to the nearest integer.</p>
-</div>
-</div>
-<div id="ratios-of-sample-variances" class="section level2 hasAnchor" number="4.5">
-<h2><span class="header-section-number">4.5</span> Ratios of Sample Variances<a href="sampling-distributions.html#ratios-of-sample-variances" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>As above, consider a random sample <span class="math inline">\(X_1, X_2, \ldots, X_{n}\)</span> from a normal distribution with mean and variance <span class="math inline">\(\mu_X\)</span> and <span class="math inline">\(\sigma_X^2\)</span> and another random sample <span class="math inline">\(Y_1, Y_2, \ldots, Y_m\)</span> from a different normal distribution with mean and variance <span class="math inline">\(\mu_Y\)</span> and <span class="math inline">\(\sigma_Y^2\)</span>.<br><br></p>
-<p>If <span class="math inline">\(U\sim\)</span> Chi-Squared with df <span class="math inline">\(n-1\)</span> and <span class="math inline">\(V\sim\)</span> Chi-Squared with df <span class="math inline">\(m-1\)</span> and <span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span> are independent, then
-<span class="math display">\[F := \frac{U/(n-1)}{V/(m-1)}\]</span>
-has an F distribution with two degrees of freedom parameters <span class="math inline">\(df1 = n-1\)</span> and <span class="math inline">\(df2 = m-1\)</span>, often called the numerator and denominator degrees of freedom.<br><br></p>
-<p>If <span class="math inline">\(S_X^2\)</span> and <span class="math inline">\(S_Y^2\)</span> are sample variances, then
-<span class="math display">\[\frac{\frac{(n-1)S_X^2}{\sigma_X^2(n-1)}}{\frac{(m-1)S_Y^2}{\sigma_Y^2(m-1)}} = \frac{S_X^2/\sigma_X^2}{S_Y^2/\sigma_Y^2}\]</span>
-has an <span class="math inline">\(F(n-1, m-1)\)</span> distribution.</p>
+<div id="likelihood-based-inferences" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">Chapter 10</span> Likelihood-Based Inferences<a href="likelihood-based-inferences.html#likelihood-based-inferences" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Previously, we discussed approximate sampling distribution theory for maximum likelihood estimators. Recall that if <span class="math inline">\(\hat\theta\)</span> is the MLE of <span class="math inline">\(\theta\)</span>, the parameter of a distribution family <span class="math inline">\(P_\theta\)</span>, then (under some technical conditions)
+<span class="math display">\[\hat\theta \stackrel{\cdot}{\sim} N(\theta, I(\theta)^{-1})\]</span>
+for large <span class="math inline">\(n\)</span> where <span class="math inline">\(I(\theta)\)</span> is the Fisher information
+<span class="math display">\[I(\theta) = -E\left[\frac{\partial^2}{\partial \theta} \ell(\theta;X_1, \ldots, X_n)\right]\]</span>
+for a random sample <span class="math inline">\(X_1,\ldots, X_n\)</span> from <span class="math inline">\(P_\theta\)</span>.</p>
+<p><br><br></p>
+<p>In this chapter we discuss how to use this (and other) approximate (large sample) sampling distributions to make inferences about population parameters.</p>
+<div id="wald-tests-and-cis" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> Wald tests and CIs<a href="likelihood-based-inferences.html#wald-tests-and-cis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A <span class="math inline">\(100(1-\alpha)\%\)</span> Wald approximate CI for a scalar parameter <span class="math inline">\(\theta\)</span> has the form
+<span class="math display">\[\left(\hat\theta \pm z_{1-\alpha/2}\sqrt{I(\hat\theta)^{-1}}\right)\]</span></p>
+<p>This CI is straightforward to obtain by the same argument we have used before. Start with the identity
+<span class="math display">\[1-\alpha \approx P\left(z_{\alpha/2} &lt; \frac{\hat\theta - \theta}{\sqrt{I(\theta)^{-1}}} &lt; z_{1-\alpha/2}\right)\]</span>
+which follows from the approximate pivot discussed above, and in Chapter 2. Then, simply multiply by the standard error <span class="math inline">\(\sqrt{I(\theta)^{-1}}\)</span>, subtract <span class="math inline">\(\hat\theta\)</span> from both sides, and multiply by <span class="math inline">\(-1\)</span> to get
+<span class="math display">\[1-\alpha \approx P\left(\hat\theta - z_{1-\alpha/2}\sqrt{I(\theta)^{-1}} &lt; \theta &lt; \hat\theta + z_{1-\alpha/2}\sqrt{I(\theta)^{-1}}\right)\]</span>
+Finally, since <span class="math inline">\(\theta\)</span> is unknown, replace <span class="math inline">\(\theta\)</span> by <span class="math inline">\(\hat\theta\)</span> in the standard error to yield the so-called Wald type CI
+<span class="math display">\[\left(\hat\theta \pm z_{1-\alpha/2}\sqrt{I(\hat\theta)^{-1}}\right).\]</span></p>
+<p>If <span class="math inline">\(\theta = (\theta_1, \ldots, \theta_p)\)</span> is a vector, then, the marginal Wald approximate CI for <span class="math inline">\(\theta_j\)</span> is given by
+<span class="math display">\[\left(\hat\theta_j \pm z_{1-\alpha/2}\sqrt{I(\hat\theta)_{j,j}^{-1}}\right).\]</span>
+where <span class="math inline">\(I(\theta)\)</span> is the Fisher information <em>matrix</em> and <span class="math inline">\(I(\theta)_{j,j}\)</span> is the <span class="math inline">\(j^{th}\)</span> diagonal entry of the Fisher information matrix.</p>
+<p><br><br></p>
+<p>Besides CIs, the approximate pivot may be used for hypothesis tests as well. To test <span class="math inline">\(H_0:\theta = \theta_0\)</span> versus <span class="math inline">\(H_a: \theta\ne \theta_0\)</span> for a scalar parameter <span class="math inline">\(\theta\)</span>, reject the null hypothesis if <span class="math inline">\(|z| &gt; z_{1-\alpha/2}\)</span> where
+<span class="math display">\[z=\frac{\hat\theta - \theta_0}{\sqrt{I(\theta_0)^{-1}}}.\]</span>
+(Alternatively, one may use <span class="math inline">\(\hat\theta\)</span> in the standard error rather than <span class="math inline">\(\theta_0\)</span>. Under the null hypothesis, there is little difference.)</p>
+<p><br><br></p>
+<p>For a vector parameter <span class="math inline">\(\theta\)</span> let
+<span class="math display">\[W = (\hat\theta - \theta_0)^\top I(\theta_0)^{-1}(\hat\theta - \theta_0).\]</span>
+Under <span class="math inline">\(H_0:\theta = \theta_0\)</span>, <span class="math inline">\(W\stackrel{\cdot}{\sim}\chi^2(p)\)</span>. And, if we use the estimated covariance:
+<span class="math display">\[V = (\hat\theta - \theta_0)^\top I(\hat\theta)^{-1}(\hat\theta - \theta_0),\]</span>
+then, <span class="math inline">\(V\stackrel{\cdot}{\sim} F(p, n-p)\)</span>. So, we get either a Chi-Squared or F-based test for a vector parameter.</p>
+<div id="example-auto-insurance-claims" class="section level3 hasAnchor" number="10.1.1">
+<h3><span class="header-section-number">10.1.1</span> Example: Auto insurance claims<a href="likelihood-based-inferences.html#example-auto-insurance-claims" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We have the following data on 100 auto insurance claims:</p>
+<p><img src="17-LikelihoodInference_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Given the auto claims are positively skewed, we will assume a Gamma distribution reasonably models the population and fit a Gamma to the data by maximum likelihood.<br><br></p>
+<p>The Gamma density has form
+<span class="math display">\[f(x;\alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-x\beta}, \quad x,\alpha, \beta&gt;0\]</span>
+where <span class="math inline">\((\alpha, \beta)\)</span> are shape and rate parameters. The likelihood for a random sample of size <span class="math inline">\(n\)</span> is
+<span class="math display">\[L(\alpha, \beta; X_1, \ldots, X_n) = \left(\frac{\beta^\alpha}{\Gamma(\alpha)}\right)^n \prod_{i=1}^n (x_i)^{\alpha - 1} e^{-\beta\sum_{i=1}^n x_i}.\]</span>
+Taking the log, we have the loglikelihood function (suppressing dependence on data)
+<span class="math display">\[\ell(\alpha, \beta) = n\alpha\log \beta - n\log \Gamma(\alpha) + (\alpha - 1)\sum_{i=1}^n \log(x_i) - \beta\sum_{i=1}^n x_i.\]</span>
+Next, we need the gradient (the first derivatives) w.r.t. the parameters <span class="math inline">\((\alpha,\beta)\)</span>:
+<span class="math display">\[\frac{\partial \ell}{\partial \alpha} = n\log\beta - \text{DiGamma}(\alpha) + \sum_{i=1}^n \log(x_i)\]</span>
+where the function DiGamma<span class="math inline">\((\alpha)\)</span> is the logarithmic derivative of the Gamma function. Next, we have
+<span class="math display">\[\frac{\partial \ell}{\partial \beta} = \frac{n\alpha}{\beta} - \sum_{i=1}^n x_i.\]</span></p>
+<p>We also need the second derivatives in order to compute the Fisher information:
+<span class="math display">\[\frac{\partial^2 \ell}{\partial \alpha^2} = -\text{TriGamma}(\alpha)\]</span>
+where the TriGamma function is (you guessed it!) the second logarithmic derivative fo the Gamma function <span class="math inline">\(\Gamma(\alpha)\)</span>.<br />
+<span class="math display">\[\frac{\partial^2 \ell}{\partial \alpha\partial\beta} = n/\beta.\]</span>
+<span class="math display">\[\frac{\partial^2 \ell}{\partial \beta^2} = -\frac{n\alpha}{\beta^2}.\]</span>
+<br></p>
+<p>You may have guessed we will not be able to compute the MLEs by hand by solving <span class="math inline">\(\frac{\partial \ell}{\partial \alpha}=0\)</span> and <span class="math inline">\(\frac{\partial \ell}{\partial \beta} = 0\)</span>. Instead, we need an iterative solver (an algorithm). In R we can use <em>optim</em> to solve for the MLEs. Or, we can code our own version of Newton’s method…</p>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="likelihood-based-inferences.html#cb198-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(data)</span>
+<span id="cb198-2"><a href="likelihood-based-inferences.html#cb198-2" aria-hidden="true" tabindex="-1"></a>loglik <span class="ot">&lt;-</span> <span class="cf">function</span>(param){</span>
+<span id="cb198-3"><a href="likelihood-based-inferences.html#cb198-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">dgamma</span>(data, <span class="at">shape =</span> param[<span class="dv">1</span>], <span class="at">rate =</span> param[<span class="dv">2</span>], <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb198-4"><a href="likelihood-based-inferences.html#cb198-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb198-5"><a href="likelihood-based-inferences.html#cb198-5" aria-hidden="true" tabindex="-1"></a>grad <span class="ot">&lt;-</span> <span class="cf">function</span>(param){</span>
+<span id="cb198-6"><a href="likelihood-based-inferences.html#cb198-6" aria-hidden="true" tabindex="-1"></a>  g1 <span class="ot">&lt;-</span> n<span class="sc">*</span><span class="fu">log</span>(param[<span class="dv">2</span>]) <span class="sc">-</span> <span class="fu">digamma</span>(param[<span class="dv">1</span>]) <span class="sc">+</span> <span class="fu">sum</span>(<span class="fu">log</span>(data))</span>
+<span id="cb198-7"><a href="likelihood-based-inferences.html#cb198-7" aria-hidden="true" tabindex="-1"></a>  g2 <span class="ot">&lt;-</span> n<span class="sc">*</span>param[<span class="dv">1</span>]<span class="sc">/</span>param[<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">sum</span>(data)</span>
+<span id="cb198-8"><a href="likelihood-based-inferences.html#cb198-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(g1,g2))</span>
+<span id="cb198-9"><a href="likelihood-based-inferences.html#cb198-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb198-10"><a href="likelihood-based-inferences.html#cb198-10" aria-hidden="true" tabindex="-1"></a>H <span class="ot">&lt;-</span> <span class="cf">function</span>(param){</span>
+<span id="cb198-11"><a href="likelihood-based-inferences.html#cb198-11" aria-hidden="true" tabindex="-1"></a>  h1 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">trigamma</span>(param[<span class="dv">1</span>])</span>
+<span id="cb198-12"><a href="likelihood-based-inferences.html#cb198-12" aria-hidden="true" tabindex="-1"></a>  h2 <span class="ot">&lt;-</span> n<span class="sc">/</span>param[<span class="dv">2</span>]</span>
+<span id="cb198-13"><a href="likelihood-based-inferences.html#cb198-13" aria-hidden="true" tabindex="-1"></a>  h3 <span class="ot">&lt;-</span> <span class="sc">-</span>n<span class="sc">*</span>param[<span class="dv">1</span>]<span class="sc">/</span>(param[<span class="dv">2</span>]<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb198-14"><a href="likelihood-based-inferences.html#cb198-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(h1,h2,h2,h3),<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb198-15"><a href="likelihood-based-inferences.html#cb198-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb198-16"><a href="likelihood-based-inferences.html#cb198-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-17"><a href="likelihood-based-inferences.html#cb198-17" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">mean</span>(data)</span>
+<span id="cb198-18"><a href="likelihood-based-inferences.html#cb198-18" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">var</span>(data)</span>
+<span id="cb198-19"><a href="likelihood-based-inferences.html#cb198-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-20"><a href="likelihood-based-inferences.html#cb198-20" aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">&lt;-</span> m<span class="sc">/</span>v</span>
+<span id="cb198-21"><a href="likelihood-based-inferences.html#cb198-21" aria-hidden="true" tabindex="-1"></a>alpha0 <span class="ot">&lt;-</span> m<span class="sc">*</span>beta0</span>
+<span id="cb198-22"><a href="likelihood-based-inferences.html#cb198-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-23"><a href="likelihood-based-inferences.html#cb198-23" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fl">0.00001</span></span>
+<span id="cb198-24"><a href="likelihood-based-inferences.html#cb198-24" aria-hidden="true" tabindex="-1"></a>diff.step <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb198-25"><a href="likelihood-based-inferences.html#cb198-25" aria-hidden="true" tabindex="-1"></a>par.old <span class="ot">&lt;-</span> <span class="fu">c</span>(alpha0, beta0)</span>
+<span id="cb198-26"><a href="likelihood-based-inferences.html#cb198-26" aria-hidden="true" tabindex="-1"></a>steps <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb198-27"><a href="likelihood-based-inferences.html#cb198-27" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>((diff.step <span class="sc">&gt;</span> delta) <span class="sc">&amp;</span> (steps <span class="sc">&lt;</span> <span class="dv">100</span>)){</span>
+<span id="cb198-28"><a href="likelihood-based-inferences.html#cb198-28" aria-hidden="true" tabindex="-1"></a>  par.new <span class="ot">&lt;-</span> par.old <span class="sc">-</span> <span class="fu">solve</span>(<span class="fu">H</span>(par.old))<span class="sc">%*%</span><span class="fu">matrix</span>(<span class="fu">grad</span>(par.old),<span class="dv">2</span>,<span class="dv">1</span>) </span>
+<span id="cb198-29"><a href="likelihood-based-inferences.html#cb198-29" aria-hidden="true" tabindex="-1"></a>  diff.step <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">abs</span>(par.new <span class="sc">-</span> par.old))</span>
+<span id="cb198-30"><a href="likelihood-based-inferences.html#cb198-30" aria-hidden="true" tabindex="-1"></a>  steps <span class="ot">&lt;-</span> steps <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb198-31"><a href="likelihood-based-inferences.html#cb198-31" aria-hidden="true" tabindex="-1"></a>  par.old <span class="ot">&lt;-</span> par.new</span>
+<span id="cb198-32"><a href="likelihood-based-inferences.html#cb198-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb198-33"><a href="likelihood-based-inferences.html#cb198-33" aria-hidden="true" tabindex="-1"></a>par.old</span></code></pre></div>
+<pre><code>##             [,1]
+## [1,] 1.314900300
+## [2,] 0.001302721</code></pre>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="likelihood-based-inferences.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">loglik</span>(par.old)</span></code></pre></div>
+<pre><code>## [1] -784.811</code></pre>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="likelihood-based-inferences.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">H</span>(par.old)</span></code></pre></div>
+<pre><code>##              [,1]        [,2]
+## [1,]    -1.116659     76762.4
+## [2,] 76762.401301 -77480056.4</code></pre>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="likelihood-based-inferences.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(<span class="fu">H</span>(par.old))</span></code></pre></div>
+<pre><code>##              [,1]         [,2]
+## [1,] 1.334495e-02 1.322134e-05
+## [2,] 1.322134e-05 1.923302e-10</code></pre>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="likelihood-based-inferences.html#cb206-1" aria-hidden="true" tabindex="-1"></a>mle.optim <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="fu">c</span>(alpha0, beta0), loglik, <span class="at">gr =</span> grad, <span class="at">control =</span> <span class="fu">list</span>(<span class="at">fnscale =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">method =</span> <span class="st">&#39;BFGS&#39;</span>, <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb206-2"><a href="likelihood-based-inferences.html#cb206-2" aria-hidden="true" tabindex="-1"></a>mle.optim</span></code></pre></div>
+<pre><code>## $par
+## [1] 2.004494690 0.001985928
+## 
+## $value
+## [1] -780.6075
+## 
+## $counts
+## function gradient 
+##       23        1 
+## 
+## $convergence
+## [1] 0
+## 
+## $message
+## NULL
+## 
+## $hessian
+##               [,1]         [,2]
+## [1,]    -0.6431228     52879.21
+## [2,] 52879.2051016 -68089522.01</code></pre>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="likelihood-based-inferences.html#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(mle.optim<span class="sc">$</span>hessian)</span></code></pre></div>
+<pre><code>##              [,1]         [,2]
+## [1,] 2.473805e-02 1.921189e-05
+## [2,] 1.921189e-05 2.336572e-10</code></pre>
 
+</div>
 </div>
 </div>
             </section>
@@ -417,8 +431,8 @@ has an <span class="math inline">\(F(n-1, m-1)\)</span> distribution.</p>
           </div>
         </div>
       </div>
-<a href="statistical-estimation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="confidence-intervals.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="multiple-linear-regression.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -449,7 +463,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/10-Sampling-Distributions.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/17-LikelihoodInference.Rmd",
 "text": "Edit"
 },
 "history": {
