@@ -157,7 +157,7 @@ mean(cover)  # realized coverage proportion, should be about 95%
 ```
 
 ```
-## [1] 0.952
+## [1] 0.961
 ```
 
 

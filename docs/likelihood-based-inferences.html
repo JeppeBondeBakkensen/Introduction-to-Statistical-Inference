@@ -23,7 +23,7 @@
 <meta name="author" content="Nick Syring" />
 
 
-<meta name="date" content="2022-10-21" />
+<meta name="date" content="2022-10-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -355,12 +355,12 @@ where the TriGamma function is (you guessed it!) the second logarithmic derivati
 <span id="cb198-3"><a href="likelihood-based-inferences.html#cb198-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">dgamma</span>(data, <span class="at">shape =</span> param[<span class="dv">1</span>], <span class="at">rate =</span> param[<span class="dv">2</span>], <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb198-4"><a href="likelihood-based-inferences.html#cb198-4" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb198-5"><a href="likelihood-based-inferences.html#cb198-5" aria-hidden="true" tabindex="-1"></a>grad <span class="ot">&lt;-</span> <span class="cf">function</span>(param){</span>
-<span id="cb198-6"><a href="likelihood-based-inferences.html#cb198-6" aria-hidden="true" tabindex="-1"></a>  g1 <span class="ot">&lt;-</span> n<span class="sc">*</span><span class="fu">log</span>(param[<span class="dv">2</span>]) <span class="sc">-</span> <span class="fu">digamma</span>(param[<span class="dv">1</span>]) <span class="sc">+</span> <span class="fu">sum</span>(<span class="fu">log</span>(data))</span>
+<span id="cb198-6"><a href="likelihood-based-inferences.html#cb198-6" aria-hidden="true" tabindex="-1"></a>  g1 <span class="ot">&lt;-</span> n<span class="sc">*</span><span class="fu">log</span>(param[<span class="dv">2</span>]) <span class="sc">-</span> n<span class="sc">*</span><span class="fu">digamma</span>(param[<span class="dv">1</span>]) <span class="sc">+</span> <span class="fu">sum</span>(<span class="fu">log</span>(data))</span>
 <span id="cb198-7"><a href="likelihood-based-inferences.html#cb198-7" aria-hidden="true" tabindex="-1"></a>  g2 <span class="ot">&lt;-</span> n<span class="sc">*</span>param[<span class="dv">1</span>]<span class="sc">/</span>param[<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">sum</span>(data)</span>
 <span id="cb198-8"><a href="likelihood-based-inferences.html#cb198-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(g1,g2))</span>
 <span id="cb198-9"><a href="likelihood-based-inferences.html#cb198-9" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb198-10"><a href="likelihood-based-inferences.html#cb198-10" aria-hidden="true" tabindex="-1"></a>H <span class="ot">&lt;-</span> <span class="cf">function</span>(param){</span>
-<span id="cb198-11"><a href="likelihood-based-inferences.html#cb198-11" aria-hidden="true" tabindex="-1"></a>  h1 <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">trigamma</span>(param[<span class="dv">1</span>])</span>
+<span id="cb198-11"><a href="likelihood-based-inferences.html#cb198-11" aria-hidden="true" tabindex="-1"></a>  h1 <span class="ot">&lt;-</span> <span class="sc">-</span>n<span class="sc">*</span><span class="fu">trigamma</span>(param[<span class="dv">1</span>])</span>
 <span id="cb198-12"><a href="likelihood-based-inferences.html#cb198-12" aria-hidden="true" tabindex="-1"></a>  h2 <span class="ot">&lt;-</span> n<span class="sc">/</span>param[<span class="dv">2</span>]</span>
 <span id="cb198-13"><a href="likelihood-based-inferences.html#cb198-13" aria-hidden="true" tabindex="-1"></a>  h3 <span class="ot">&lt;-</span> <span class="sc">-</span>n<span class="sc">*</span>param[<span class="dv">1</span>]<span class="sc">/</span>(param[<span class="dv">2</span>]<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb198-14"><a href="likelihood-based-inferences.html#cb198-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(h1,h2,h2,h3),<span class="dv">2</span>,<span class="dv">2</span>))</span>
@@ -384,29 +384,67 @@ where the TriGamma function is (you guessed it!) the second logarithmic derivati
 <span id="cb198-32"><a href="likelihood-based-inferences.html#cb198-32" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb198-33"><a href="likelihood-based-inferences.html#cb198-33" aria-hidden="true" tabindex="-1"></a>par.old</span></code></pre></div>
 <pre><code>##             [,1]
-## [1,] 1.314900300
-## [2,] 0.001302721</code></pre>
+## [1,] 1.966640491
+## [2,] 0.001948425</code></pre>
 <div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="likelihood-based-inferences.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">loglik</span>(par.old)</span></code></pre></div>
-<pre><code>## [1] -784.811</code></pre>
+<pre><code>## [1] -780.5969</code></pre>
 <div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="likelihood-based-inferences.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">H</span>(par.old)</span></code></pre></div>
-<pre><code>##              [,1]        [,2]
-## [1,]    -1.116659     76762.4
-## [2,] 76762.401301 -77480056.4</code></pre>
+<pre><code>##             [,1]         [,2]
+## [1,]   -65.86955     51323.52
+## [2,] 51323.51588 -51803341.74</code></pre>
 <div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="likelihood-based-inferences.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(<span class="fu">H</span>(par.old))</span></code></pre></div>
-<pre><code>##              [,1]         [,2]
-## [1,] 1.334495e-02 1.322134e-05
-## [2,] 1.322134e-05 1.923302e-10</code></pre>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="likelihood-based-inferences.html#cb206-1" aria-hidden="true" tabindex="-1"></a>mle.optim <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="fu">c</span>(alpha0, beta0), loglik, <span class="at">gr =</span> grad, <span class="at">control =</span> <span class="fu">list</span>(<span class="at">fnscale =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">method =</span> <span class="st">&#39;BFGS&#39;</span>, <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb206-2"><a href="likelihood-based-inferences.html#cb206-2" aria-hidden="true" tabindex="-1"></a>mle.optim</span></code></pre></div>
+<pre><code>##               [,1]          [,2]
+## [1,] -6.657160e-02 -6.595499e-05
+## [2,] -6.595499e-05 -8.464786e-08</code></pre>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="likelihood-based-inferences.html#cb206-1" aria-hidden="true" tabindex="-1"></a>mle.optim <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="fu">c</span>(alpha0, beta0), loglik, <span class="at">gr =</span> grad, <span class="at">control =</span> <span class="fu">list</span>(<span class="at">fnscale =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">method =</span> <span class="st">&#39;BFGS&#39;</span>, <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced</code></pre>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="likelihood-based-inferences.html#cb208-1" aria-hidden="true" tabindex="-1"></a>mle.optim</span></code></pre></div>
 <pre><code>## $par
-## [1] 2.004494690 0.001985928
+## [1] 1.966641732 0.001948426
 ## 
 ## $value
-## [1] -780.6075
+## [1] -780.5969
 ## 
 ## $counts
 ## function gradient 
-##       23        1 
+##       34        4 
 ## 
 ## $convergence
 ## [1] 0
@@ -415,13 +453,14 @@ where the TriGamma function is (you guessed it!) the second logarithmic derivati
 ## NULL
 ## 
 ## $hessian
-##               [,1]         [,2]
-## [1,]    -0.6431228     52879.21
-## [2,] 52879.2051016 -68089522.01</code></pre>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="likelihood-based-inferences.html#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(mle.optim<span class="sc">$</span>hessian)</span></code></pre></div>
-<pre><code>##              [,1]         [,2]
-## [1,] 2.473805e-02 1.921189e-05
-## [2,] 1.921189e-05 2.336572e-10</code></pre>
+##             [,1]         [,2]
+## [1,]   -65.86951     54017.32
+## [2,] 54017.31581 -70328540.92</code></pre>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="likelihood-based-inferences.html#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(mle.optim<span class="sc">$</span>hessian)</span></code></pre></div>
+<pre><code>##               [,1]          [,2]
+## [1,] -4.101660e-02 -3.150366e-05
+## [2,] -3.150366e-05 -3.841603e-08</code></pre>
+<p><img src="17-LikelihoodInference_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 
 </div>
 </div>

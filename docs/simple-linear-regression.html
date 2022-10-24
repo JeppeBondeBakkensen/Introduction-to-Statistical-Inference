@@ -23,7 +23,7 @@
 <meta name="author" content="Nick Syring" />
 
 
-<meta name="date" content="2022-10-21" />
+<meta name="date" content="2022-10-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -420,7 +420,7 @@ for a future random residual <span class="math inline">\(\epsilon^\star\)</span>
 <span id="cb172-13"><a href="simple-linear-regression.html#cb172-13" aria-hidden="true" tabindex="-1"></a>cover[r] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(my.PI[<span class="dv">1</span>] <span class="sc">&lt;</span> Y.star <span class="sc">&amp;</span> my.PI[<span class="dv">2</span>] <span class="sc">&gt;</span> Y.star, <span class="dv">1</span>, <span class="dv">0</span>) <span class="co"># check if interval contains (&quot;covers&quot;) the Y*</span></span>
 <span id="cb172-14"><a href="simple-linear-regression.html#cb172-14" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb172-15"><a href="simple-linear-regression.html#cb172-15" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(cover)  <span class="co"># realized coverage proportion, should be about 95%</span></span></code></pre></div>
-<pre><code>## [1] 0.941</code></pre>
+<pre><code>## [1] 0.937</code></pre>
 </div>
 <div id="simultaneous-confidence-bands-for-the-regression-line" class="section level3 hasAnchor" number="8.1.6">
 <h3><span class="header-section-number">8.1.6</span> Simultaneous confidence bands for the regression line<a href="simple-linear-regression.html#simultaneous-confidence-bands-for-the-regression-line" class="anchor-section" aria-label="Anchor link to header"></a></h3>

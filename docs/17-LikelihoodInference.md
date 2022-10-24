@@ -80,12 +80,12 @@ loglik <- function(param){
   sum(dgamma(data, shape = param[1], rate = param[2], log = TRUE))
 }
 grad <- function(param){
-  g1 <- n*log(param[2]) - digamma(param[1]) + sum(log(data))
+  g1 <- n*log(param[2]) - n*digamma(param[1]) + sum(log(data))
   g2 <- n*param[1]/param[2] - sum(data)
   return(c(g1,g2))
 }
 H <- function(param){
-  h1 <- -trigamma(param[1])
+  h1 <- -n*trigamma(param[1])
   h2 <- n/param[2]
   h3 <- -n*param[1]/(param[2]^2)
   return(matrix(c(h1,h2,h2,h3),2,2))
@@ -112,8 +112,8 @@ par.old
 
 ```
 ##             [,1]
-## [1,] 1.314900300
-## [2,] 0.001302721
+## [1,] 1.966640491
+## [2,] 0.001948425
 ```
 
 ```r
@@ -121,7 +121,7 @@ loglik(par.old)
 ```
 
 ```
-## [1] -784.811
+## [1] -780.5969
 ```
 
 ```r
@@ -129,9 +129,9 @@ H(par.old)
 ```
 
 ```
-##              [,1]        [,2]
-## [1,]    -1.116659     76762.4
-## [2,] 76762.401301 -77480056.4
+##             [,1]         [,2]
+## [1,]   -65.86955     51323.52
+## [2,] 51323.51588 -51803341.74
 ```
 
 ```r
@@ -139,26 +139,70 @@ solve(H(par.old))
 ```
 
 ```
-##              [,1]         [,2]
-## [1,] 1.334495e-02 1.322134e-05
-## [2,] 1.322134e-05 1.923302e-10
+##               [,1]          [,2]
+## [1,] -6.657160e-02 -6.595499e-05
+## [2,] -6.595499e-05 -8.464786e-08
 ```
 
 ```r
 mle.optim <- optim(c(alpha0, beta0), loglik, gr = grad, control = list(fnscale = -1), method = 'BFGS', hessian = TRUE)
+```
+
+```
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+
+## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
+## produced
+```
+
+```r
 mle.optim
 ```
 
 ```
 ## $par
-## [1] 2.004494690 0.001985928
+## [1] 1.966641732 0.001948426
 ## 
 ## $value
-## [1] -780.6075
+## [1] -780.5969
 ## 
 ## $counts
 ## function gradient 
-##       23        1 
+##       34        4 
 ## 
 ## $convergence
 ## [1] 0
@@ -167,9 +211,9 @@ mle.optim
 ## NULL
 ## 
 ## $hessian
-##               [,1]         [,2]
-## [1,]    -0.6431228     52879.21
-## [2,] 52879.2051016 -68089522.01
+##             [,1]         [,2]
+## [1,]   -65.86951     54017.32
+## [2,] 54017.31581 -70328540.92
 ```
 
 ```r
@@ -177,13 +221,13 @@ solve(mle.optim$hessian)
 ```
 
 ```
-##              [,1]         [,2]
-## [1,] 2.473805e-02 1.921189e-05
-## [2,] 1.921189e-05 2.336572e-10
+##               [,1]          [,2]
+## [1,] -4.101660e-02 -3.150366e-05
+## [2,] -3.150366e-05 -3.841603e-08
 ```
 
 
-
+![](17-LikelihoodInference_files/figure-epub3/unnamed-chunk-4-1.png)<!-- -->
 
 
 

@@ -84,12 +84,12 @@ loglik <- function(param){
   sum(dgamma(data, shape = param[1], rate = param[2], log = TRUE))
 }
 grad <- function(param){
-  g1 <- n*log(param[2]) - digamma(param[1]) + sum(log(data))
+  g1 <- n*log(param[2]) - n*digamma(param[1]) + sum(log(data))
   g2 <- n*param[1]/param[2] - sum(data)
   return(c(g1,g2))
 }
 H <- function(param){
-  h1 <- -trigamma(param[1])
+  h1 <- -n*trigamma(param[1])
   h2 <- n/param[2]
   h3 <- -n*param[1]/(param[2]^2)
   return(matrix(c(h1,h2,h2,h3),2,2))
@@ -123,7 +123,11 @@ solve(mle.optim$hessian)
 ```
 
 
-
+```{r, echo = F}
+hist(data, main = '', xlab = 'Claim Cost', ylab = 'Proportion', freq = FALSE)
+dgam <- function(x) dgamma(x, shape = par.old[1], rate = par.old[2])
+curve(dgam, from = 0, to = 4000,col = 'blue', add = TRUE)
+```
 
 
 
