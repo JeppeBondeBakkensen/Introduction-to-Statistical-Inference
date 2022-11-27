@@ -117,7 +117,7 @@
 
 \title{A First Course in Probability and Statistics}
 \author{Nick Syring}
-\date{2022-10-24}
+\date{2022-11-27}
 
 \begin{document}
 \maketitle
@@ -1007,7 +1007,7 @@ Here's a quick simulation to illustrate the above power function: we'll sample d
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.655
+## [1] 0.6554
 \end{verbatim}
 
 \hypertarget{test-for-a-normal-population-variance}{%
@@ -2360,7 +2360,7 @@ Prediction intervals have interpretations similar to confidence intervals. If th
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.967
+## [1] 0.951
 \end{verbatim}
 
 \hypertarget{simultaneous-confidence-bands-for-the-regression-line}{%
@@ -2950,6 +2950,465 @@ You may have guessed we will not be able to compute the MLEs by hand by solving 
 \end{verbatim}
 
 \includegraphics{17-LikelihoodInference_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\hypertarget{bootstrap}{%
+\chapter{Bootstrap}\label{bootstrap}}
+
+\hypertarget{intro-to-the-bootstrap}{%
+\section{Intro to the bootstrap}\label{intro-to-the-bootstrap}}
+
+For hypothesis testing and confidence intervals, there is a ``statistic'' whose sampling distribution is required
+
+For example, to test \(H_0:\mu = \mu_0\) using a normal random sample \(X_1, ..., X_n\) with \(X_i \stackrel{iid}{\sim}N(\mu, \sigma^2)\) the test statistic
+\[T = \frac{\bar X - \mu_0}{S/\sqrt{n}}\]
+has a \(t\) distribution with \(n-1\) degrees of freedom given the null hypothesis is true.
+
+Only in very simple problems can we determine an ``exact'' test statistic. For example, in the two-sample t-test with unknown, unequal population variances, the T statistic is only approximate.
+
+We often rely on assumptions (like normality) or large sample sizes (CLT) in order to derive approximate (or asymptotic) distributions of statistics.
+
+The bootstrap (in a manner similar to Monte Carlo) tries to approximate the distribution of a test statistic using simulations.
+
+For a distribution with cdf \(F\), we are interested in a parameter \(\theta = \phi(F)\), and functional of \(F\).
+
+Examples:
+1. Mean - \(\phi(F) = \int xdF(x)\)
+2. Anything else that is a function of moments, like variance
+3. Median - \(\phi(F) = \inf\{x: F(x)\geq 0.5\}\)\ldots{}
+
+Given data \(X_1, ..., X_n\) the empirical CDF (think of this as an estimate of \(F\)) is
+\[\hat F(x) = \frac{1}{n}\sum_{i=1}^n 1\{X_i \leq x\}.\]
+
+A natural estimate of \(\theta\) is the ``plug-in'' estimator \(\hat\theta = \phi(\hat F)\).
+
+Given the previous setup of CDF and empirical CDF, suppose we want to estimate \(\theta\). If we could somehow simulate from \(F\), then our knowledge of Monte Carlo suggests the following:
+1. Simulate many data sets, say \(M\), of size \(n\): \(X_{1,1}, ..., X_{n,1}\), \ldots, \(X_{1,M}, ..., X_{n,M}\).
+2. From the \(M\) data sets, compute \(\hat{\theta}_i\) for \(i=1, ..., M\).
+3. Then, our many estimates should given us an idea of the mean and the variance of \(\hat{\theta}\).
+
+This actually works when we know the distribution of the test statistic. In the one-sample t-test for a normal mean, the test statistic has a \(t(n-1)\) distribution. So, if we sample from this distribution many times, we will be able to find the rejection region for the hypothesis test by computing Monte Carlo estimates of the \(t(n-1)\) quantiles, but this is rather trivial\ldots{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qt}\NormalTok{(}\FloatTok{0.025}\NormalTok{,}\DecValTok{9}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -2.262157
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qt}\NormalTok{(}\FloatTok{0.975}\NormalTok{,}\DecValTok{9}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.262157
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{quantile}\NormalTok{(}\FunctionTok{rt}\NormalTok{(}\DecValTok{100000}\NormalTok{,}\DecValTok{9}\NormalTok{), }\FloatTok{0.975}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    97.5% 
+## 2.251062
+\end{verbatim}
+
+Of course, we (usually) cannot simulate from \(F\) because it is unknown (depends on unknown parameters).
+
+Bootstrap idea: Replace simulation from \(F\) with simulation from \(\hat F\)!
+
+Note: it is easy to simulate from \(\hat F\), it's just simulation from a discrete uniform distribution with probabilities \(1/n\) on each data point.
+
+Suppose we are given the following two samples:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{3214354}\NormalTok{)}
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{rexp}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{1}\NormalTok{)}
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{rexp}\NormalTok{(}\DecValTok{9}\NormalTok{,}\FloatTok{0.8}\NormalTok{)}
+\FunctionTok{round}\NormalTok{(x,}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] 0.18 1.30 0.09 1.30 1.73 0.86 1.59 0.60 0.58 0.68
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(y,}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.02 0.50 0.41 0.19 0.19 0.69 2.40 1.11 0.11
+\end{verbatim}
+
+We could use the t-test, but wait\ldots{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\FunctionTok{qqnorm}\NormalTok{(x)}
+\FunctionTok{qqline}\NormalTok{(x)}
+\FunctionTok{qqnorm}\NormalTok{(y)}
+\FunctionTok{qqline}\NormalTok{(y)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{18-Bootstrap_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(x)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  x
+## W = 0.94146, p-value = 0.5694
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  y
+## W = 0.77085, p-value = 0.009449
+\end{verbatim}
+
+What ``test statistic'' should I use to test \(H_0:\mu_X = \mu_Y\)? Why not \(\bar X - \bar Y\)?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test.statistic }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(x) }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(y)}
+\NormalTok{boot.test.statistic }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\DecValTok{10000}\NormalTok{)}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{10000}\NormalTok{)\{}
+\NormalTok{  boot.x }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(x,}\AttributeTok{replace =}\NormalTok{ T)}
+\NormalTok{  boot.y }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(y, }\AttributeTok{replace =}\NormalTok{ T)}
+\NormalTok{  boot.test.statistic[i] }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(boot.x)}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(boot.y)}
+\NormalTok{\}}
+\NormalTok{test.statistic}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2657391
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{quantile}\NormalTok{(boot.test.statistic,}\FloatTok{0.025}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      2.5% 
+## -0.345881
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{quantile}\NormalTok{(boot.test.statistic,}\FloatTok{0.975}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    97.5% 
+## 0.792484
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m }\OtherTok{\textless{}{-}} \FunctionTok{median}\NormalTok{(boot.test.statistic)}
+
+\NormalTok{approx.p.value }\OtherTok{=} \FunctionTok{ifelse}\NormalTok{(test.statistic }\SpecialCharTok{\textgreater{}}\NormalTok{ m, }\FunctionTok{sum}\NormalTok{((boot.test.statistic}\SpecialCharTok{{-}}\NormalTok{m) }\SpecialCharTok{\textgreater{}}\NormalTok{ (test.statistic }\SpecialCharTok{{-}}\NormalTok{ m))}\SpecialCharTok{/}\DecValTok{10000} \SpecialCharTok{+} \FunctionTok{sum}\NormalTok{((boot.test.statistic}\SpecialCharTok{{-}}\NormalTok{m) }\SpecialCharTok{\textless{}}\NormalTok{ (m}\SpecialCharTok{{-}}\NormalTok{test.statistic))}\SpecialCharTok{/}\DecValTok{10000}\NormalTok{, }\FunctionTok{sum}\NormalTok{((boot.test.statistic}\SpecialCharTok{{-}}\NormalTok{m) }\SpecialCharTok{\textgreater{}}\NormalTok{ (m}\SpecialCharTok{{-}}\NormalTok{test.statistic))}\SpecialCharTok{/}\DecValTok{10000} \SpecialCharTok{+} \FunctionTok{sum}\NormalTok{((boot.test.statistic}\SpecialCharTok{{-}}\NormalTok{m) }\SpecialCharTok{\textless{}}\NormalTok{ (test.statistic}\SpecialCharTok{{-}}\NormalTok{m))}\SpecialCharTok{/}\DecValTok{10000}\NormalTok{ )}
+\NormalTok{approx.p.value }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.9726
+\end{verbatim}
+
+\hypertarget{bootstrap-confidence-intervals}{%
+\section{Bootstrap Confidence Intervals}\label{bootstrap-confidence-intervals}}
+
+A variety of methods are used to construct confidence intervals using the bootstrap distribution of an estimator. We'll discuss the percentile, basic, and Studentized methods, although several others are available, including the bias-corrected and accelerated (BCa) intervals computed by default in R's boot package.
+
+Suppose the bootstrap samples \(\hat\theta_1, \ldots, \hat\theta_B\) are available. The simplest bootstrap interval estimate is given by the percentile method, which defines the \(100(1-\alpha)\%\) CI to be the \(\alpha/2\) to \((1-\alpha/2)\) sample quantiles of \(\hat\theta_1, \ldots, \hat\theta_B\). There are good arguments against the percentile method, but we won't wade into the details presently. Those arguments tend to favor the basic bootstrap method, which defines the \(100(1-\alpha)\%\) CI to be the interval \((2\overline \theta - \hat\theta_{1-\alpha/2}, \, 2\overline \theta - \hat\theta_{\alpha/2})\), which is twise the sample mean of the bootstrapped estimates minus the \((1-\alpha/2)\) and \(\alpha/2\) sample quantiles of those bootstrapped estimates \(\hat\theta_1, \ldots, \hat\theta_B\).
+
+The last method we'll discuss is the Studentized bootstrap. The idea of the method is to mimic the usual z- or t-test pivotal quantity \(\frac{\hat\theta - \theta}{se(\hat\theta)}\). First, compute \(\hat\theta\) for teh original data. Then, perform the following nested bootstrap, for \(b\) in 1 to \(B\) do:
+1.Resample the data with replacement to generate the \(b^{th}\) bootstrap data set
+a. for this \(b^{th}\) data set compute the point estimate \(\tilde \theta_b\)
+b. Resample the resamples! Generate \(K\) nested bootstrap resamples sample of data. For each of them compute \(\tilde\theta_{b,k}\) for \(k=1, \ldots, K\).
+c.~Estimate \(se(\tilde \theta)\) as the standard deviation of \(\tilde\theta_{b,k}\) for \(k=1, \ldots, K\).
+d.~Keep the studentized value \(q_b = \frac{\tilde\theta_b - \hat\theta}{se(\tilde\theta_b)}\)
+2. Let \(se(\hat\theta)\) be estimated by the sample standard deviation of \(\tilde\theta_1, \ldots, \tilde\theta_B\).
+3. Define the Studentized interval as
+\[(\hat\theta - q_{1-\alpha/2}se(\hat\theta), \, \hat\theta - q_{\alpha/2}se(\hat\theta))\]
+where \(q_\alpha\) is the \(\alpha\) sample quantile of the Studentized \(q\) values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{3214354}\NormalTok{)}
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{rexp}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{1}\NormalTok{)}
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{rexp}\NormalTok{(}\DecValTok{9}\NormalTok{,}\FloatTok{0.8}\NormalTok{)}
+\FunctionTok{round}\NormalTok{(x,}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] 0.18 1.30 0.09 1.30 1.73 0.86 1.59 0.60 0.58 0.68
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(y,}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.02 0.50 0.41 0.19 0.19 0.69 2.40 1.11 0.11
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my.boot }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x,y, B, K, alpha)\{}
+\NormalTok{  hattheta }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(x) }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(y)}
+\NormalTok{  tildetheta }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{,B)}
+\NormalTok{  q }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{,B)}
+  \ControlFlowTok{for}\NormalTok{(b }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{B)\{}
+\NormalTok{  indices1 }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{)  }
+\NormalTok{  indices2 }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{9}\NormalTok{,}\DecValTok{9}\NormalTok{,}\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{)  }
+\NormalTok{  xstar }\OtherTok{\textless{}{-}}\NormalTok{ x[indices1]}
+\NormalTok{  ystar }\OtherTok{\textless{}{-}}\NormalTok{ y[indices2]}
+\NormalTok{  tildetheta[b] }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(xstar) }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(ystar)}
+\NormalTok{  tilde2 }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{,K)}
+    \ControlFlowTok{for}\NormalTok{(k }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{K)\{}
+\NormalTok{        indices1 }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{,}\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{)  }
+\NormalTok{        indices2 }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{9}\NormalTok{,}\DecValTok{9}\NormalTok{,}\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{) }
+\NormalTok{        xstar2 }\OtherTok{\textless{}{-}}\NormalTok{ xstar[indices1]}
+\NormalTok{        ystar2 }\OtherTok{\textless{}{-}}\NormalTok{ ystar[indices2]}
+\NormalTok{        tilde2[k] }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(xstar2)}\SpecialCharTok{{-}}\FunctionTok{mean}\NormalTok{(ystar2)}
+\NormalTok{    \}}
+\NormalTok{  q[b] }\OtherTok{\textless{}{-}}\NormalTok{ (tildetheta[b] }\SpecialCharTok{{-}}\NormalTok{ hattheta)}\SpecialCharTok{/}\FunctionTok{sd}\NormalTok{(tilde2)}
+\NormalTok{  \}}
+\NormalTok{  intv }\OtherTok{\textless{}{-}}\NormalTok{ hattheta }\SpecialCharTok{{-}} \FunctionTok{sd}\NormalTok{(tildetheta)}\SpecialCharTok{*}\FunctionTok{quantile}\NormalTok{(q,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{alpha}\SpecialCharTok{/}\DecValTok{2}\NormalTok{,alpha}\SpecialCharTok{/}\DecValTok{2}\NormalTok{))}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(intv))}
+\NormalTok{\}}
+\FunctionTok{my.boot}\NormalTok{(x,y,}\DecValTok{1000}\NormalTok{,}\DecValTok{50}\NormalTok{,}\FloatTok{0.05}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.6147748  0.8576096
+\end{verbatim}
+
+\hypertarget{bootstrapping-linear-models}{%
+\section{Bootstrapping linear models}\label{bootstrapping-linear-models}}
+
+When we have only one sample of iid data, bootstrapping is straightforward: simply sample with replacement n times from the original data to obtain a single bootstrap-resampled data set. Repeat many times, recording the estimate corresponding to each resampled set. When there is more ``structure'' present in the data we need to think carefully about how that structure should be treated by the resampling procedure.\\
+In linear models, i.e., the Gauss-Markov model, for each response \(Y_i\) there is a corresponding covariate vector \(X_i\). How should these pairs \((Y_i, X_i)\) be treated by the resampling procedure?
+One method for bootstrapping a linear model is called row-resampling. Imagine binding the \(n\times 1\) column of responses \(Y\) to the \(n\times p\) matrix of covariates \(X\) and then resampling rows with replacement. We can do this by sampling the integers \(1, \ldots, n\) with replacement, each time taking the corresponding row of \((Y, X)\) as the bootstrap resample. Row resampling treats the pairs \((Y_i, X_i)\) as random, but this is not always reasonable. For example, in a two-sample experiment in which we apply a treatment to 10 of 20 subjects at random and keep the remaining 10 as a control group, row resampling will produce resampled data sets with more than ten in one of the two groups and fewer in the other, which is not how the experiment was performed.
+When the \emph{design} is fixed, e.g., we have precisely ten subjects in each group, a different bootstrap method, called residual boostrap, makes more sense. The residual bootstrap starts with the residuals \(e = y - \hat y = y - X_i\hat\beta\). We resample the residuals to obtain \(e^\star = (e_1^\star, \ldots, e_n^\star)^\top\). Next, we compute the bootstrapped responses, \(y_i^\star = X_i\hat\beta + e_i^\star\). Finally, we compute \(\hat\beta^\star\) using \(X\) and \(y^\star\). This way, the design matrix \(X\) remains the same throughout the bootstrap procedure, preserving the structure of the experiment.
+Example: Consider the following experiment to evaluate the effect of a bacterial infection on the lifespan of Guinea pigs as measure in days. First, we apply the ro-resampling method. Admittedly, this method makes little sense if we intend for the experiment to have 64 pigs in the control group and 58 in the treatment group.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pigs }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}guinea\_pigs.csv\textquotesingle{}}\NormalTok{)}
+\NormalTok{my.lm }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Time}\SpecialCharTok{\textasciitilde{}}\NormalTok{Treatment, }\AttributeTok{data =}\NormalTok{ pigs)}
+\NormalTok{my.lm}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Time ~ Treatment, data = pigs)
+## 
+## Coefficients:
+##      (Intercept)  TreatmentControl  
+##            242.5             102.7
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my.lm}\SpecialCharTok{$}\NormalTok{coefficients}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      (Intercept) TreatmentControl 
+##         242.5345         102.6843
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(pigs}\SpecialCharTok{$}\NormalTok{Pig)}
+
+\NormalTok{r.r.coefs }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\ConstantTok{NA}\NormalTok{,}\DecValTok{1000}\NormalTok{,}\DecValTok{2}\NormalTok{)}
+\NormalTok{row.resample.boot }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(indices)\{}
+\NormalTok{  data.star }\OtherTok{\textless{}{-}}\NormalTok{ pigs[indices,]}
+\NormalTok{  my.lm }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Time}\SpecialCharTok{\textasciitilde{}}\NormalTok{Treatment, }\AttributeTok{data =}\NormalTok{ data.star)}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(my.lm}\SpecialCharTok{$}\NormalTok{coefficients))}
+\NormalTok{\}}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{1000}\NormalTok{)\{}
+\NormalTok{  r.r.coefs[i,] }\OtherTok{\textless{}{-}} \FunctionTok{row.resample.boot}\NormalTok{(}\FunctionTok{sample.int}\NormalTok{(n,n,}\ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{\}  }
+\NormalTok{r.r.means }\OtherTok{\textless{}{-}} \FunctionTok{colMeans}\NormalTok{(r.r.coefs)}
+\NormalTok{percentiles1 }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(r.r.coefs[,}\DecValTok{1}\NormalTok{], }\FunctionTok{c}\NormalTok{(}\FloatTok{0.05}\NormalTok{,}\FloatTok{0.95}\NormalTok{))}
+\NormalTok{percentiles1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       5%      95% 
+## 218.0000 268.3603
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{percentiles2 }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(r.r.coefs[,}\DecValTok{2}\NormalTok{], }\FunctionTok{c}\NormalTok{(}\FloatTok{0.05}\NormalTok{,}\FloatTok{0.95}\NormalTok{))}
+\NormalTok{percentiles2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        5%       95% 
+##  49.40079 154.59927
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{c}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{r.r.means[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ percentiles1[}\DecValTok{2}\NormalTok{], }\DecValTok{2}\SpecialCharTok{*}\NormalTok{r.r.means[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ percentiles1[}\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      95%       5% 
+## 216.4051 266.7653
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{c}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{r.r.means[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ percentiles2[}\DecValTok{2}\NormalTok{], }\DecValTok{2}\SpecialCharTok{*}\NormalTok{r.r.means[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ percentiles2[}\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       95%        5% 
+##  50.48009 155.67856
+\end{verbatim}
+
+Next, we implement the residual-bootstrap method. Note the two methods give very similar \(90\%\) basic bootstrap CIs for \(\beta_2\) but disagree a bit for \(\beta_1\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pigs }\OtherTok{\textless{}{-}} 
+\FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}guinea\_pigs.csv\textquotesingle{}}\NormalTok{)}
+\NormalTok{my.lm }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Time}\SpecialCharTok{\textasciitilde{}}\NormalTok{Treatment, }\AttributeTok{data =}\NormalTok{ pigs)}
+\NormalTok{my.lm}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Time ~ Treatment, data = pigs)
+## 
+## Coefficients:
+##      (Intercept)  TreatmentControl  
+##            242.5             102.7
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my.lm}\SpecialCharTok{$}\NormalTok{coefficients}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      (Intercept) TreatmentControl 
+##         242.5345         102.6843
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(pigs}\SpecialCharTok{$}\NormalTok{Pig)}
+\NormalTok{resids }\OtherTok{\textless{}{-}}\NormalTok{ my.lm}\SpecialCharTok{$}\NormalTok{residuals}
+
+\NormalTok{r.r.coefs }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\ConstantTok{NA}\NormalTok{,}\DecValTok{1000}\NormalTok{,}\DecValTok{2}\NormalTok{)}
+\NormalTok{resid.boot }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(indices)\{}
+\NormalTok{  resids.star }\OtherTok{\textless{}{-}}\NormalTok{ resids[indices]}
+\NormalTok{  y.star }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{,n), }\FunctionTok{ifelse}\NormalTok{(pigs}\SpecialCharTok{$}\NormalTok{Treatment}\SpecialCharTok{==}\StringTok{"Control"}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{))}\SpecialCharTok{\%*\%}\FunctionTok{matrix}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(my.lm}\SpecialCharTok{$}\NormalTok{coefficients),}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ resids.star}
+\NormalTok{  data.star }\OtherTok{\textless{}{-}}\NormalTok{ pigs}
+\NormalTok{  data.star}\SpecialCharTok{$}\NormalTok{y.star }\OtherTok{\textless{}{-}}\NormalTok{ y.star}
+\NormalTok{  my.lm }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(y.star}\SpecialCharTok{\textasciitilde{}}\NormalTok{Treatment, }\AttributeTok{data =}\NormalTok{ data.star)}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(my.lm}\SpecialCharTok{$}\NormalTok{coefficients))}
+\NormalTok{\}}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{1000}\NormalTok{)\{}
+\NormalTok{  r.r.coefs[i,] }\OtherTok{\textless{}{-}} \FunctionTok{resid.boot}\NormalTok{(}\FunctionTok{sample.int}\NormalTok{(n,n,}\ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{\}  }
+\NormalTok{r.r.means }\OtherTok{\textless{}{-}} \FunctionTok{colMeans}\NormalTok{(r.r.coefs)}
+\NormalTok{percentiles1 }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(r.r.coefs[,}\DecValTok{1}\NormalTok{], }\FunctionTok{c}\NormalTok{(}\FloatTok{0.05}\NormalTok{,}\FloatTok{0.95}\NormalTok{))}
+\NormalTok{percentiles1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       5%      95% 
+## 205.1938 281.0952
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{percentiles2 }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(r.r.coefs[,}\DecValTok{2}\NormalTok{], }\FunctionTok{c}\NormalTok{(}\FloatTok{0.05}\NormalTok{,}\FloatTok{0.95}\NormalTok{))}
+\NormalTok{percentiles2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        5%       95% 
+##  50.20677 154.69151
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{c}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{r.r.means[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ percentiles1[}\DecValTok{2}\NormalTok{], }\DecValTok{2}\SpecialCharTok{*}\NormalTok{r.r.means[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ percentiles1[}\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      95%       5% 
+## 203.5823 279.4838
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{c}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{r.r.means[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ percentiles2[}\DecValTok{2}\NormalTok{], }\DecValTok{2}\SpecialCharTok{*}\NormalTok{r.r.means[}\DecValTok{2}\NormalTok{] }\SpecialCharTok{{-}}\NormalTok{ percentiles2[}\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       95%        5% 
+##  52.21648 156.70123
+\end{verbatim}
 
   \bibliography{book.bib,packages.bib}
 

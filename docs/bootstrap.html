@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 11 Bootstrap | A First Course in Probability and Statistics</title>
+  <meta name="description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 11 Bootstrap | A First Course in Probability and Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 11 Bootstrap | A First Course in Probability and Statistics" />
+  
+  <meta name="twitter:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
+  
+
+<meta name="author" content="Nick Syring" />
+
+
+<meta name="date" content="2022-11-27" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="likelihood-based-inferences.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction to Statistical Inference</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html"><i class="fa fa-check"></i><b>2</b> Data Analysis and Statistical Inference</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-experiments-and-studies"><i class="fa fa-check"></i><b>2.1</b> Data, Experiments, and Studies</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#james-linds-scurvy-trial"><i class="fa fa-check"></i><b>2.1.1</b> James Lind’s Scurvy Trial</a></li>
+<li class="chapter" data-level="2.1.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#framingham-heart-study"><i class="fa fa-check"></i><b>2.1.2</b> Framingham Heart Study</a></li>
+<li class="chapter" data-level="2.1.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#harris-bank-sex-pay-study"><i class="fa fa-check"></i><b>2.1.3</b> Harris Bank Sex Pay Study</a></li>
+<li class="chapter" data-level="2.1.4" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#large-aggregated-data-sets"><i class="fa fa-check"></i><b>2.1.4</b> Large, Aggregated Data Sets</a></li>
+<li class="chapter" data-level="2.1.5" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#study-concepts"><i class="fa fa-check"></i><b>2.1.5</b> Study Concepts</a></li>
+<li class="chapter" data-level="2.1.6" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#randomization-control-and-causation"><i class="fa fa-check"></i><b>2.1.6</b> Randomization, control, and causation</a></li>
+<li class="chapter" data-level="2.1.7" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#populations-and-scope-of-inference"><i class="fa fa-check"></i><b>2.1.7</b> Populations and scope of inference</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#data-summaries"><i class="fa fa-check"></i><b>2.2</b> Data Summaries</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#numerical-summaries"><i class="fa fa-check"></i><b>2.2.1</b> Numerical Summaries</a></li>
+<li class="chapter" data-level="2.2.2" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#visual-summaries"><i class="fa fa-check"></i><b>2.2.2</b> Visual Summaries</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-analysis-and-statistical-inference.html"><a href="data-analysis-and-statistical-inference.html#statistical-inference"><i class="fa fa-check"></i><b>2.3</b> Statistical Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="statistical-estimation.html"><a href="statistical-estimation.html"><i class="fa fa-check"></i><b>3</b> Statistical Estimation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#vocabulary"><i class="fa fa-check"></i><b>3.1</b> Vocabulary</a></li>
+<li class="chapter" data-level="3.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-estimators"><i class="fa fa-check"></i><b>3.2</b> Properties of Estimators</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="statistical-estimation.html"><a href="statistical-estimation.html#bias-and-unbiasedness"><i class="fa fa-check"></i><b>3.2.1</b> Bias and Unbiasedness</a></li>
+<li class="chapter" data-level="3.2.2" data-path="statistical-estimation.html"><a href="statistical-estimation.html#minimum-variance-unbiased-estimators"><i class="fa fa-check"></i><b>3.2.2</b> Minimum Variance Unbiased Estimators</a></li>
+<li class="chapter" data-level="3.2.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#mean-squared-error-and-bias-variance-tradeoff"><i class="fa fa-check"></i><b>3.2.3</b> Mean Squared Error and Bias-Variance tradeoff</a></li>
+<li class="chapter" data-level="3.2.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#consistency"><i class="fa fa-check"></i><b>3.2.4</b> Consistency</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="statistical-estimation.html"><a href="statistical-estimation.html#finding-estimators---method-of-moments"><i class="fa fa-check"></i><b>3.3</b> Finding estimators - Method of Moments</a></li>
+<li class="chapter" data-level="3.4" data-path="statistical-estimation.html"><a href="statistical-estimation.html#method-of-maximum-likelihood"><i class="fa fa-check"></i><b>3.4</b> Method of Maximum Likelihood</a></li>
+<li class="chapter" data-level="3.5" data-path="statistical-estimation.html"><a href="statistical-estimation.html#properties-of-mles"><i class="fa fa-check"></i><b>3.5</b> Properties of MLEs</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="sampling-distributions.html"><a href="sampling-distributions.html"><i class="fa fa-check"></i><b>4</b> Sampling Distributions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-mean"><i class="fa fa-check"></i><b>4.1</b> Sample Mean</a></li>
+<li class="chapter" data-level="4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sample-variance"><i class="fa fa-check"></i><b>4.2</b> Sample Variance</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#large-sample-sampling-distribution-of-sample-variance"><i class="fa fa-check"></i><b>4.2.1</b> Large-sample sampling distribution of sample variance</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#sampling-distribution-of-studentized-sample-mean"><i class="fa fa-check"></i><b>4.3</b> Sampling distribution of studentized sample mean</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#part-of-students-theorem---indepndence-of-overline-x_n-and-s_n2"><i class="fa fa-check"></i><b>4.3.1</b> Part of Student’s Theorem - Indepndence of <span class="math inline">\(\overline X_n\)</span> and <span class="math inline">\(S_n^2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="sampling-distributions.html"><a href="sampling-distributions.html#differences-of-sample-means"><i class="fa fa-check"></i><b>4.4</b> Differences of Sample Means</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="sampling-distributions.html"><a href="sampling-distributions.html#standarized-difference"><i class="fa fa-check"></i><b>4.4.1</b> Standarized difference</a></li>
+<li class="chapter" data-level="4.4.2" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-equal-variances"><i class="fa fa-check"></i><b>4.4.2</b> Studentized difference, equal variances</a></li>
+<li class="chapter" data-level="4.4.3" data-path="sampling-distributions.html"><a href="sampling-distributions.html#studentized-difference-unequal-variances"><i class="fa fa-check"></i><b>4.4.3</b> Studentized difference, unequal variances</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="sampling-distributions.html"><a href="sampling-distributions.html#ratios-of-sample-variances"><i class="fa fa-check"></i><b>4.5</b> Ratios of Sample Variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="confidence-intervals.html"><a href="confidence-intervals.html"><i class="fa fa-check"></i><b>5</b> Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#why-want-interval-valued-estimates"><i class="fa fa-check"></i><b>5.1</b> Why want interval-valued estimates?</a></li>
+<li class="chapter" data-level="5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#normal-population-mean-example"><i class="fa fa-check"></i><b>5.2</b> Normal population mean example</a></li>
+<li class="chapter" data-level="5.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#other-exact-cis-for-normal-population-mean-and-variance-parameters"><i class="fa fa-check"></i><b>5.3</b> Other “Exact” CIs for normal population mean and variance parameters</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-mean-unknown-variance"><i class="fa fa-check"></i><b>5.3.1</b> Population mean, unknown variance</a></li>
+<li class="chapter" data-level="5.3.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#population-variance-unknown-mean"><i class="fa fa-check"></i><b>5.3.2</b> Population variance, unknown mean</a></li>
+<li class="chapter" data-level="5.3.3" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-means"><i class="fa fa-check"></i><b>5.3.3</b> Two normal samples, comparing means</a></li>
+<li class="chapter" data-level="5.3.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#two-normal-samples-comparing-variances"><i class="fa fa-check"></i><b>5.3.4</b> Two normal samples, comparing variances</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="confidence-intervals.html"><a href="confidence-intervals.html#cis-for-proportions"><i class="fa fa-check"></i><b>5.4</b> CIs for proportions</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#a-single-bernoulli-proportion"><i class="fa fa-check"></i><b>5.4.1</b> A single Bernoulli proportion</a></li>
+<li class="chapter" data-level="5.4.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#difference-of-two-bernoulli-proportions"><i class="fa fa-check"></i><b>5.4.2</b> Difference of two Bernoulli proportions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="confidence-intervals.html"><a href="confidence-intervals.html#approximate-cis-based-on-mles"><i class="fa fa-check"></i><b>5.5</b> Approximate CIs based on MLEs</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="confidence-intervals.html"><a href="confidence-intervals.html#multivariate-case"><i class="fa fa-check"></i><b>5.5.1</b> Multivariate case</a></li>
+<li class="chapter" data-level="5.5.2" data-path="confidence-intervals.html"><a href="confidence-intervals.html#the-delta-method"><i class="fa fa-check"></i><b>5.5.2</b> The Delta method</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html"><i class="fa fa-check"></i><b>6</b> Hypothesis Testing</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#notation"><i class="fa fa-check"></i><b>6.1</b> Notation</a></li>
+<li class="chapter" data-level="6.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#hypothesis-testing-outcomes"><i class="fa fa-check"></i><b>6.2</b> Hypothesis testing outcomes</a></li>
+<li class="chapter" data-level="6.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#tests-based-on-a-normal-population"><i class="fa fa-check"></i><b>6.3</b> Tests based on a normal population</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-a-normal-mean-when-the-variance-is-known"><i class="fa fa-check"></i><b>6.3.1</b> Test for a normal mean when the variance is known</a></li>
+<li class="chapter" data-level="6.3.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-a-normal-mean-when-the-variance-is-unknown"><i class="fa fa-check"></i><b>6.3.2</b> Test for a normal mean when the variance is unknown</a></li>
+<li class="chapter" data-level="6.3.3" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-a-normal-population-variance"><i class="fa fa-check"></i><b>6.3.3</b> Test for a normal population variance</a></li>
+<li class="chapter" data-level="6.3.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#example-the-lifetimes-of-infected-guinea-pigs"><i class="fa fa-check"></i><b>6.3.4</b> Example: The lifetimes of infected Guinea pigs</a></li>
+<li class="chapter" data-level="6.3.5" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#tests-for-a-difference-of-normal-population-means"><i class="fa fa-check"></i><b>6.3.5</b> Tests for a difference of normal population means</a></li>
+<li class="chapter" data-level="6.3.6" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#test-for-equality-of-normal-population-variances"><i class="fa fa-check"></i><b>6.3.6</b> Test for equality of normal population variances</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#likelihood-based-tests"><i class="fa fa-check"></i><b>6.4</b> Likelihood-based Tests</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#wald-type-tests"><i class="fa fa-check"></i><b>6.4.1</b> Wald type tests</a></li>
+<li class="chapter" data-level="6.4.2" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#likelihood-ratio-tests"><i class="fa fa-check"></i><b>6.4.2</b> Likelihood ratio tests</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#chi-squared-tests-for-tabulated-data"><i class="fa fa-check"></i><b>6.5</b> Chi Squared tests for tabulated data</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="hypothesis-testing.html"><a href="hypothesis-testing.html#goodness-of-fit-tests"><i class="fa fa-check"></i><b>6.5.1</b> Goodness of fit tests</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="anova.html"><a href="anova.html"><i class="fa fa-check"></i><b>7</b> ANOVA</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="anova.html"><a href="anova.html#analysis-of-variance"><i class="fa fa-check"></i><b>7.1</b> Analysis of variance</a></li>
+<li class="chapter" data-level="7.2" data-path="anova.html"><a href="anova.html#crop-data-in-depth-example"><i class="fa fa-check"></i><b>7.2</b> Crop data in-depth example</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="anova.html"><a href="anova.html#checking-the-equal-variance-assumption"><i class="fa fa-check"></i><b>7.2.1</b> Checking the equal variance assumption</a></li>
+<li class="chapter" data-level="7.2.2" data-path="anova.html"><a href="anova.html#normality-and-alternatives-to-the-f-test"><i class="fa fa-check"></i><b>7.2.2</b> Normality and alternatives to the F test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html"><i class="fa fa-check"></i><b>8</b> Simple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#simple-linear-regression-model"><i class="fa fa-check"></i><b>8.1</b> Simple linear regression model</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#estimation"><i class="fa fa-check"></i><b>8.1.1</b> Estimation</a></li>
+<li class="chapter" data-level="8.1.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#estimation-of-the-common-variance"><i class="fa fa-check"></i><b>8.1.2</b> Estimation of the common variance</a></li>
+<li class="chapter" data-level="8.1.3" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#inference-for-regression-slope-parameter"><i class="fa fa-check"></i><b>8.1.3</b> Inference for regression slope parameter</a></li>
+<li class="chapter" data-level="8.1.4" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#inference-on-the-conditional-mean-response"><i class="fa fa-check"></i><b>8.1.4</b> Inference on the conditional mean response</a></li>
+<li class="chapter" data-level="8.1.5" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#prediction-of-responses-at-given-x-values"><i class="fa fa-check"></i><b>8.1.5</b> Prediction of responses at given x values</a></li>
+<li class="chapter" data-level="8.1.6" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#simultaneous-confidence-bands-for-the-regression-line"><i class="fa fa-check"></i><b>8.1.6</b> Simultaneous confidence bands for the regression line</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#example-house-prices-as-function-of-house-age"><i class="fa fa-check"></i><b>8.2</b> Example: House prices as function of house age</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="simple-linear-regression.html"><a href="simple-linear-regression.html#fitting-the-regression"><i class="fa fa-check"></i><b>8.2.1</b> Fitting the regression</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="multiple-linear-regression.html"><a href="multiple-linear-regression.html"><i class="fa fa-check"></i><b>9</b> Multiple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="multiple-linear-regression.html"><a href="multiple-linear-regression.html#the-multiple-linear-regression-model"><i class="fa fa-check"></i><b>9.1</b> The Multiple Linear Regression Model</a></li>
+<li class="chapter" data-level="9.2" data-path="multiple-linear-regression.html"><a href="multiple-linear-regression.html#point-estimation"><i class="fa fa-check"></i><b>9.2</b> Point estimation</a></li>
+<li class="chapter" data-level="9.3" data-path="multiple-linear-regression.html"><a href="multiple-linear-regression.html#sampling-distributions-1"><i class="fa fa-check"></i><b>9.3</b> Sampling Distributions</a></li>
+<li class="chapter" data-level="9.4" data-path="multiple-linear-regression.html"><a href="multiple-linear-regression.html#inference-on-regression-coefficients"><i class="fa fa-check"></i><b>9.4</b> Inference on regression coefficients</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="multiple-linear-regression.html"><a href="multiple-linear-regression.html#example-housing-price-data"><i class="fa fa-check"></i><b>9.4.1</b> Example: Housing price data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="likelihood-based-inferences.html"><a href="likelihood-based-inferences.html"><i class="fa fa-check"></i><b>10</b> Likelihood-Based Inferences</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="likelihood-based-inferences.html"><a href="likelihood-based-inferences.html#wald-tests-and-cis"><i class="fa fa-check"></i><b>10.1</b> Wald tests and CIs</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="likelihood-based-inferences.html"><a href="likelihood-based-inferences.html#example-auto-insurance-claims"><i class="fa fa-check"></i><b>10.1.1</b> Example: Auto insurance claims</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="bootstrap.html"><a href="bootstrap.html"><i class="fa fa-check"></i><b>11</b> Bootstrap</a>
+<ul>
+<li class="chapter" data-level="11.0.1" data-path="bootstrap.html"><a href="bootstrap.html#intro-to-the-bootstrap"><i class="fa fa-check"></i><b>11.0.1</b> Intro to the bootstrap</a></li>
+<li class="chapter" data-level="11.0.2" data-path="bootstrap.html"><a href="bootstrap.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>11.0.2</b> Bootstrap Confidence Intervals</a></li>
+<li class="chapter" data-level="11.0.3" data-path="bootstrap.html"><a href="bootstrap.html#bootstrapping-linear-models"><i class="fa fa-check"></i><b>11.0.3</b> Bootstrapping linear models</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A First Course in Probability and Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="bootstrap" class="section level1 hasAnchor" number="11">
+<h1><span class="header-section-number">Chapter 11</span> Bootstrap<a href="bootstrap.html#bootstrap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="intro-to-the-bootstrap" class="section level3 hasAnchor" number="11.0.1">
+<h3><span class="header-section-number">11.0.1</span> Intro to the bootstrap<a href="bootstrap.html#intro-to-the-bootstrap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For hypothesis testing and confidence intervals, there is a “statistic” whose sampling distribution is required<br><br></p>
+<p>For example, to test <span class="math inline">\(H_0:\mu = \mu_0\)</span> using a normal random sample <span class="math inline">\(X_1, ..., X_n\)</span> with <span class="math inline">\(X_i \stackrel{iid}{\sim}N(\mu, \sigma^2)\)</span> the test statistic
+<span class="math display">\[T = \frac{\bar X - \mu_0}{S/\sqrt{n}}\]</span>
+has a <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-1\)</span> degrees of freedom given the null hypothesis is true.<br><br></p>
+<p>Only in very simple problems can we determine an “exact” test statistic. For example, in the two-sample t-test with unknown, unequal population variances, the T statistic is only approximate.<br><br></p>
+<p>We often rely on assumptions (like normality) or large sample sizes (CLT) in order to derive approximate (or asymptotic) distributions of statistics.<br><br></p>
+<p>The bootstrap (in a manner similar to Monte Carlo) tries to approximate the distribution of a test statistic using simulations.</p>
+<p>For a distribution with cdf <span class="math inline">\(F\)</span>, we are interested in a parameter <span class="math inline">\(\theta = \phi(F)\)</span>, and functional of <span class="math inline">\(F\)</span>.<br><br></p>
+<p>Examples:<br>
+1. Mean - <span class="math inline">\(\phi(F) = \int xdF(x)\)</span><br>
+2. Anything else that is a function of moments, like variance<br>
+3. Median - <span class="math inline">\(\phi(F) = \inf\{x: F(x)\geq 0.5\}\)</span>…<br><br></p>
+<p>Given data <span class="math inline">\(X_1, ..., X_n\)</span> the empirical CDF (think of this as an estimate of <span class="math inline">\(F\)</span>) is
+<span class="math display">\[\hat F(x) = \frac{1}{n}\sum_{i=1}^n 1\{X_i \leq x\}.\]</span></p>
+<p><br>
+A natural estimate of <span class="math inline">\(\theta\)</span> is the “plug-in” estimator <span class="math inline">\(\hat\theta = \phi(\hat F)\)</span>.</p>
+<p>Given the previous setup of CDF and empirical CDF, suppose we want to estimate <span class="math inline">\(\theta\)</span>. If we could somehow simulate from <span class="math inline">\(F\)</span>, then our knowledge of Monte Carlo suggests the following:<br>
+1. Simulate many data sets, say <span class="math inline">\(M\)</span>, of size <span class="math inline">\(n\)</span>: <span class="math inline">\(X_{1,1}, ..., X_{n,1}\)</span>, …, <span class="math inline">\(X_{1,M}, ..., X_{n,M}\)</span>. <br>
+2. From the <span class="math inline">\(M\)</span> data sets, compute <span class="math inline">\(\hat{\theta}_i\)</span> for <span class="math inline">\(i=1, ..., M\)</span>. <br>
+3. Then, our many estimates should given us an idea of the mean and the variance of <span class="math inline">\(\hat{\theta}\)</span>.<br><br></p>
+<p>This actually works when we know the distribution of the test statistic. In the one-sample t-test for a normal mean, the test statistic has a <span class="math inline">\(t(n-1)\)</span> distribution. So, if we sample from this distribution many times, we will be able to find the rejection region for the hypothesis test by computing Monte Carlo estimates of the <span class="math inline">\(t(n-1)\)</span> quantiles, but this is rather trivial…</p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="bootstrap.html#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qt</span>(<span class="fl">0.025</span>,<span class="dv">9</span>)</span></code></pre></div>
+<pre><code>## [1] -2.262157</code></pre>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="bootstrap.html#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qt</span>(<span class="fl">0.975</span>,<span class="dv">9</span>)</span></code></pre></div>
+<pre><code>## [1] 2.262157</code></pre>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="bootstrap.html#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(<span class="fu">rt</span>(<span class="dv">100000</span>,<span class="dv">9</span>), <span class="fl">0.975</span>)</span></code></pre></div>
+<pre><code>##    97.5% 
+## 2.265622</code></pre>
+<p>Of course, we (usually) cannot simulate from <span class="math inline">\(F\)</span> because it is unknown (depends on unknown parameters). <br><br></p>
+<p>Bootstrap idea: Replace simulation from <span class="math inline">\(F\)</span> with simulation from <span class="math inline">\(\hat F\)</span>! <br><br></p>
+<p>Note: it is easy to simulate from <span class="math inline">\(\hat F\)</span>, it’s just simulation from a discrete uniform distribution with probabilities <span class="math inline">\(1/n\)</span> on each data point.<br></p>
+<p>Suppose we are given the following two samples:</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="bootstrap.html#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3214354</span>)</span>
+<span id="cb218-2"><a href="bootstrap.html#cb218-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">10</span>,<span class="dv">1</span>)</span>
+<span id="cb218-3"><a href="bootstrap.html#cb218-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">9</span>,<span class="fl">0.8</span>)</span>
+<span id="cb218-4"><a href="bootstrap.html#cb218-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(x,<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##  [1] 0.18 1.30 0.09 1.30 1.73 0.86 1.59 0.60 0.58 0.68</code></pre>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="bootstrap.html#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(y,<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 0.02 0.50 0.41 0.19 0.19 0.69 2.40 1.11 0.11</code></pre>
+<p>We could use the t-test, but wait…</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="bootstrap.html#cb222-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb222-2"><a href="bootstrap.html#cb222-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(x)</span>
+<span id="cb222-3"><a href="bootstrap.html#cb222-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(x)</span>
+<span id="cb222-4"><a href="bootstrap.html#cb222-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(y)</span>
+<span id="cb222-5"><a href="bootstrap.html#cb222-5" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(y)</span></code></pre></div>
+<p><img src="18-Bootstrap_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="bootstrap.html#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(x)</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  x
+## W = 0.94146, p-value = 0.5694</code></pre>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="bootstrap.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(y)</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  y
+## W = 0.77085, p-value = 0.009449</code></pre>
+<p>What “test statistic” should I use to test <span class="math inline">\(H_0:\mu_X = \mu_Y\)</span>? Why not <span class="math inline">\(\bar X - \bar Y\)</span>?</p>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="bootstrap.html#cb227-1" aria-hidden="true" tabindex="-1"></a>test.statistic <span class="ot">&lt;-</span> <span class="fu">mean</span>(x) <span class="sc">-</span> <span class="fu">mean</span>(y)</span>
+<span id="cb227-2"><a href="bootstrap.html#cb227-2" aria-hidden="true" tabindex="-1"></a>boot.test.statistic <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">10000</span>)</span>
+<span id="cb227-3"><a href="bootstrap.html#cb227-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>){</span>
+<span id="cb227-4"><a href="bootstrap.html#cb227-4" aria-hidden="true" tabindex="-1"></a>  boot.x <span class="ot">&lt;-</span> <span class="fu">sample</span>(x,<span class="at">replace =</span> T)</span>
+<span id="cb227-5"><a href="bootstrap.html#cb227-5" aria-hidden="true" tabindex="-1"></a>  boot.y <span class="ot">&lt;-</span> <span class="fu">sample</span>(y, <span class="at">replace =</span> T)</span>
+<span id="cb227-6"><a href="bootstrap.html#cb227-6" aria-hidden="true" tabindex="-1"></a>  boot.test.statistic[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(boot.x)<span class="sc">-</span><span class="fu">mean</span>(boot.y)</span>
+<span id="cb227-7"><a href="bootstrap.html#cb227-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb227-8"><a href="bootstrap.html#cb227-8" aria-hidden="true" tabindex="-1"></a>test.statistic</span></code></pre></div>
+<pre><code>## [1] 0.2657391</code></pre>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="bootstrap.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(boot.test.statistic,<span class="fl">0.025</span>)</span></code></pre></div>
+<pre><code>##      2.5% 
+## -0.345881</code></pre>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="bootstrap.html#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(boot.test.statistic,<span class="fl">0.975</span>)</span></code></pre></div>
+<pre><code>##    97.5% 
+## 0.792484</code></pre>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="bootstrap.html#cb233-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">median</span>(boot.test.statistic)</span>
+<span id="cb233-2"><a href="bootstrap.html#cb233-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb233-3"><a href="bootstrap.html#cb233-3" aria-hidden="true" tabindex="-1"></a>approx.p.value <span class="ot">=</span> <span class="fu">ifelse</span>(test.statistic <span class="sc">&gt;</span> m, <span class="fu">sum</span>((boot.test.statistic<span class="sc">-</span>m) <span class="sc">&gt;</span> (test.statistic <span class="sc">-</span> m))<span class="sc">/</span><span class="dv">10000</span> <span class="sc">+</span> <span class="fu">sum</span>((boot.test.statistic<span class="sc">-</span>m) <span class="sc">&lt;</span> (m<span class="sc">-</span>test.statistic))<span class="sc">/</span><span class="dv">10000</span>, <span class="fu">sum</span>((boot.test.statistic<span class="sc">-</span>m) <span class="sc">&gt;</span> (m<span class="sc">-</span>test.statistic))<span class="sc">/</span><span class="dv">10000</span> <span class="sc">+</span> <span class="fu">sum</span>((boot.test.statistic<span class="sc">-</span>m) <span class="sc">&lt;</span> (test.statistic<span class="sc">-</span>m))<span class="sc">/</span><span class="dv">10000</span> )</span>
+<span id="cb233-4"><a href="bootstrap.html#cb233-4" aria-hidden="true" tabindex="-1"></a>approx.p.value </span></code></pre></div>
+<pre><code>## [1] 0.9726</code></pre>
+</div>
+<div id="bootstrap-confidence-intervals" class="section level3 hasAnchor" number="11.0.2">
+<h3><span class="header-section-number">11.0.2</span> Bootstrap Confidence Intervals<a href="bootstrap.html#bootstrap-confidence-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A variety of methods are used to construct confidence intervals using the bootstrap distribution of an estimator. We’ll discuss the percentile, basic, and Studentized methods, although several others are available, including the bias-corrected and accelerated (BCa) intervals computed by default in R’s boot package.</p>
+<p><br><br></p>
+<p>Suppose the bootstrap samples <span class="math inline">\(\hat\theta_1, \ldots, \hat\theta_B\)</span> are available. The simplest bootstrap interval estimate is given by the percentile method, which defines the <span class="math inline">\(100(1-\alpha)\%\)</span> CI to be the <span class="math inline">\(\alpha/2\)</span> to <span class="math inline">\((1-\alpha/2)\)</span> sample quantiles of <span class="math inline">\(\hat\theta_1, \ldots, \hat\theta_B\)</span>. There are good arguments against the percentile method, but we won’t wade into the details presently. Those arguments tend to favor the basic bootstrap method, which defines the <span class="math inline">\(100(1-\alpha)\%\)</span> CI to be the interval <span class="math inline">\((2\overline \theta - \hat\theta_{1-\alpha/2}, \, 2\overline \theta - \hat\theta_{\alpha/2})\)</span>, which is twise the sample mean of the bootstrapped estimates minus the <span class="math inline">\((1-\alpha/2)\)</span> and <span class="math inline">\(\alpha/2\)</span> sample quantiles of those bootstrapped estimates <span class="math inline">\(\hat\theta_1, \ldots, \hat\theta_B\)</span>.</p>
+<p><br><br></p>
+<p>The last method we’ll discuss is the Studentized bootstrap. The idea of the method is to mimic the usual z- or t-test pivotal quantity <span class="math inline">\(\frac{\hat\theta - \theta}{se(\hat\theta)}\)</span>. First, compute <span class="math inline">\(\hat\theta\)</span> for teh original data. Then, perform the following nested bootstrap, for <span class="math inline">\(b\)</span> in 1 to <span class="math inline">\(B\)</span> do:<br>
+1.Resample the data with replacement to generate the <span class="math inline">\(b^{th}\)</span> bootstrap data set<br>
+a. for this <span class="math inline">\(b^{th}\)</span> data set compute the point estimate <span class="math inline">\(\tilde \theta_b\)</span><br>
+b. Resample the resamples! Generate <span class="math inline">\(K\)</span> nested bootstrap resamples sample of data. For each of them compute <span class="math inline">\(\tilde\theta_{b,k}\)</span> for <span class="math inline">\(k=1, \ldots, K\)</span>.<br>
+c. Estimate <span class="math inline">\(se(\tilde \theta)\)</span> as the standard deviation of <span class="math inline">\(\tilde\theta_{b,k}\)</span> for <span class="math inline">\(k=1, \ldots, K\)</span>.<br>
+d. Keep the studentized value <span class="math inline">\(q_b = \frac{\tilde\theta_b - \hat\theta}{se(\tilde\theta_b)}\)</span><br>
+2. Let <span class="math inline">\(se(\hat\theta)\)</span> be estimated by the sample standard deviation of <span class="math inline">\(\tilde\theta_1, \ldots, \tilde\theta_B\)</span>.<br>
+3. Define the Studentized interval as
+<span class="math display">\[(\hat\theta - q_{1-\alpha/2}se(\hat\theta), \, \hat\theta - q_{\alpha/2}se(\hat\theta))\]</span>
+where <span class="math inline">\(q_\alpha\)</span> is the <span class="math inline">\(\alpha\)</span> sample quantile of the Studentized <span class="math inline">\(q\)</span> values.</p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="bootstrap.html#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3214354</span>)</span>
+<span id="cb235-2"><a href="bootstrap.html#cb235-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">10</span>,<span class="dv">1</span>)</span>
+<span id="cb235-3"><a href="bootstrap.html#cb235-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rexp</span>(<span class="dv">9</span>,<span class="fl">0.8</span>)</span>
+<span id="cb235-4"><a href="bootstrap.html#cb235-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(x,<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##  [1] 0.18 1.30 0.09 1.30 1.73 0.86 1.59 0.60 0.58 0.68</code></pre>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="bootstrap.html#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(y,<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 0.02 0.50 0.41 0.19 0.19 0.69 2.40 1.11 0.11</code></pre>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="bootstrap.html#cb239-1" aria-hidden="true" tabindex="-1"></a>my.boot <span class="ot">&lt;-</span> <span class="cf">function</span>(x,y, B, K, alpha){</span>
+<span id="cb239-2"><a href="bootstrap.html#cb239-2" aria-hidden="true" tabindex="-1"></a>  hattheta <span class="ot">&lt;-</span> <span class="fu">mean</span>(x) <span class="sc">-</span> <span class="fu">mean</span>(y)</span>
+<span id="cb239-3"><a href="bootstrap.html#cb239-3" aria-hidden="true" tabindex="-1"></a>  tildetheta <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,B)</span>
+<span id="cb239-4"><a href="bootstrap.html#cb239-4" aria-hidden="true" tabindex="-1"></a>  q <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,B)</span>
+<span id="cb239-5"><a href="bootstrap.html#cb239-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(b <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B){</span>
+<span id="cb239-6"><a href="bootstrap.html#cb239-6" aria-hidden="true" tabindex="-1"></a>  indices1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">10</span>,<span class="dv">10</span>,<span class="at">replace =</span> <span class="cn">TRUE</span>)  </span>
+<span id="cb239-7"><a href="bootstrap.html#cb239-7" aria-hidden="true" tabindex="-1"></a>  indices2 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">9</span>,<span class="dv">9</span>,<span class="at">replace =</span> <span class="cn">TRUE</span>)  </span>
+<span id="cb239-8"><a href="bootstrap.html#cb239-8" aria-hidden="true" tabindex="-1"></a>  xstar <span class="ot">&lt;-</span> x[indices1]</span>
+<span id="cb239-9"><a href="bootstrap.html#cb239-9" aria-hidden="true" tabindex="-1"></a>  ystar <span class="ot">&lt;-</span> y[indices2]</span>
+<span id="cb239-10"><a href="bootstrap.html#cb239-10" aria-hidden="true" tabindex="-1"></a>  tildetheta[b] <span class="ot">&lt;-</span> <span class="fu">mean</span>(xstar) <span class="sc">-</span> <span class="fu">mean</span>(ystar)</span>
+<span id="cb239-11"><a href="bootstrap.html#cb239-11" aria-hidden="true" tabindex="-1"></a>  tilde2 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>,K)</span>
+<span id="cb239-12"><a href="bootstrap.html#cb239-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>K){</span>
+<span id="cb239-13"><a href="bootstrap.html#cb239-13" aria-hidden="true" tabindex="-1"></a>        indices1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">10</span>,<span class="dv">10</span>,<span class="at">replace =</span> <span class="cn">TRUE</span>)  </span>
+<span id="cb239-14"><a href="bootstrap.html#cb239-14" aria-hidden="true" tabindex="-1"></a>        indices2 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">9</span>,<span class="dv">9</span>,<span class="at">replace =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb239-15"><a href="bootstrap.html#cb239-15" aria-hidden="true" tabindex="-1"></a>        xstar2 <span class="ot">&lt;-</span> xstar[indices1]</span>
+<span id="cb239-16"><a href="bootstrap.html#cb239-16" aria-hidden="true" tabindex="-1"></a>        ystar2 <span class="ot">&lt;-</span> ystar[indices2]</span>
+<span id="cb239-17"><a href="bootstrap.html#cb239-17" aria-hidden="true" tabindex="-1"></a>        tilde2[k] <span class="ot">&lt;-</span> <span class="fu">mean</span>(xstar2)<span class="sc">-</span><span class="fu">mean</span>(ystar2)</span>
+<span id="cb239-18"><a href="bootstrap.html#cb239-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb239-19"><a href="bootstrap.html#cb239-19" aria-hidden="true" tabindex="-1"></a>  q[b] <span class="ot">&lt;-</span> (tildetheta[b] <span class="sc">-</span> hattheta)<span class="sc">/</span><span class="fu">sd</span>(tilde2)</span>
+<span id="cb239-20"><a href="bootstrap.html#cb239-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb239-21"><a href="bootstrap.html#cb239-21" aria-hidden="true" tabindex="-1"></a>  intv <span class="ot">&lt;-</span> hattheta <span class="sc">-</span> <span class="fu">sd</span>(tildetheta)<span class="sc">*</span><span class="fu">quantile</span>(q,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>,alpha<span class="sc">/</span><span class="dv">2</span>))</span>
+<span id="cb239-22"><a href="bootstrap.html#cb239-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">as.numeric</span>(intv))</span>
+<span id="cb239-23"><a href="bootstrap.html#cb239-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb239-24"><a href="bootstrap.html#cb239-24" aria-hidden="true" tabindex="-1"></a><span class="fu">my.boot</span>(x,y,<span class="dv">1000</span>,<span class="dv">50</span>,<span class="fl">0.05</span>)</span></code></pre></div>
+<pre><code>## [1] -0.6147748  0.8576096</code></pre>
+</div>
+<div id="bootstrapping-linear-models" class="section level3 hasAnchor" number="11.0.3">
+<h3><span class="header-section-number">11.0.3</span> Bootstrapping linear models<a href="bootstrap.html#bootstrapping-linear-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>When we have only one sample of iid data, bootstrapping is straightforward: simply sample with replacement n times from the original data to obtain a single bootstrap-resampled data set. Repeat many times, recording the estimate corresponding to each resampled set. When there is more “structure” present in the data we need to think carefully about how that structure should be treated by the resampling procedure.<br />
+<br><br>
+In linear models, i.e., the Gauss-Markov model, for each response <span class="math inline">\(Y_i\)</span> there is a corresponding covariate vector <span class="math inline">\(X_i\)</span>. How should these pairs <span class="math inline">\((Y_i, X_i)\)</span> be treated by the resampling procedure?
+<br><br>
+One method for bootstrapping a linear model is called row-resampling. Imagine binding the <span class="math inline">\(n\times 1\)</span> column of responses <span class="math inline">\(Y\)</span> to the <span class="math inline">\(n\times p\)</span> matrix of covariates <span class="math inline">\(X\)</span> and then resampling rows with replacement. We can do this by sampling the integers <span class="math inline">\(1, \ldots, n\)</span> with replacement, each time taking the corresponding row of <span class="math inline">\((Y, X)\)</span> as the bootstrap resample. Row resampling treats the pairs <span class="math inline">\((Y_i, X_i)\)</span> as random, but this is not always reasonable. For example, in a two-sample experiment in which we apply a treatment to 10 of 20 subjects at random and keep the remaining 10 as a control group, row resampling will produce resampled data sets with more than ten in one of the two groups and fewer in the other, which is not how the experiment was performed.
+<br><br>
+When the <em>design</em> is fixed, e.g., we have precisely ten subjects in each group, a different bootstrap method, called residual boostrap, makes more sense. The residual bootstrap starts with the residuals <span class="math inline">\(e = y - \hat y = y - X_i\hat\beta\)</span>. We resample the residuals to obtain <span class="math inline">\(e^\star = (e_1^\star, \ldots, e_n^\star)^\top\)</span>. Next, we compute the bootstrapped responses, <span class="math inline">\(y_i^\star = X_i\hat\beta + e_i^\star\)</span>. Finally, we compute <span class="math inline">\(\hat\beta^\star\)</span> using <span class="math inline">\(X\)</span> and <span class="math inline">\(y^\star\)</span>. This way, the design matrix <span class="math inline">\(X\)</span> remains the same throughout the bootstrap procedure, preserving the structure of the experiment.
+<br><br>
+Example: Consider the following experiment to evaluate the effect of a bacterial infection on the lifespan of Guinea pigs as measure in days. First, we apply the ro-resampling method. Admittedly, this method makes little sense if we intend for the experiment to have 64 pigs in the control group and 58 in the treatment group.</p>
+<a href="data:text/csv;base64,UGlnLFRpbWUsVHJlYXRtZW50DQoxLDE4LENvbnRyb2wNCjIsMzYsQ29udHJvbA0KMyw1MCxDb250cm9sDQo0LDUyLENvbnRyb2wNCjUsODYsQ29udHJvbA0KNiw4NyxDb250cm9sDQo3LDg5LENvbnRyb2wNCjgsOTEsQ29udHJvbA0KOSwxMDIsQ29udHJvbA0KMTAsMTA4LENvbnRyb2wNCjExLDExMyxDb250cm9sDQoxMiwxMTQsQ29udHJvbA0KMTMsMTE1LENvbnRyb2wNCjE0LDExOCxDb250cm9sDQoxNSwxMTksQ29udHJvbA0KMTYsMTIwLENvbnRyb2wNCjE3LDE0OSxDb250cm9sDQoxOCwxNjAsQ29udHJvbA0KMTksMTY1LENvbnRyb2wNCjIwLDE2NixDb250cm9sDQoyMSwxNjcsQ29udHJvbA0KMjIsMTY3LENvbnRyb2wNCjIzLDE3MyxDb250cm9sDQoyNCwxNzgsQ29udHJvbA0KMjUsMTg5LENvbnRyb2wNCjI2LDIwOSxDb250cm9sDQoyNywyMTIsQ29udHJvbA0KMjgsMjE2LENvbnRyb2wNCjI5LDI3MyxDb250cm9sDQozMCwyNzgsQ29udHJvbA0KMzEsMjc5LENvbnRyb2wNCjMyLDI5MixDb250cm9sDQozMywzNDEsQ29udHJvbA0KMzQsMzU1LENvbnRyb2wNCjM1LDM2NyxDb250cm9sDQozNiwzODAsQ29udHJvbA0KMzcsMzgyLENvbnRyb2wNCjM4LDQyMSxDb250cm9sDQozOSw0MjEsQ29udHJvbA0KNDAsNDMyLENvbnRyb2wNCjQxLDQ0NixDb250cm9sDQo0Miw0NTUsQ29udHJvbA0KNDMsNDYzLENvbnRyb2wNCjQ0LDQ3NCxDb250cm9sDQo0NSw1MDUsQ29udHJvbA0KNDYsNTQ1LENvbnRyb2wNCjQ3LDU0NixDb250cm9sDQo0OCw1NjksQ29udHJvbA0KNDksNTc2LENvbnRyb2wNCjUwLDU5MCxDb250cm9sDQo1MSw2MDMsQ29udHJvbA0KNTIsNjA3LENvbnRyb2wNCjUzLDYwOCxDb250cm9sDQo1NCw2MjEsQ29udHJvbA0KNTUsNjM0LENvbnRyb2wNCjU2LDYzNyxDb250cm9sDQo1Nyw2MzgsQ29udHJvbA0KNTgsNjQxLENvbnRyb2wNCjU5LDY1MCxDb250cm9sDQo2MCw2NjMsQ29udHJvbA0KNjEsNjg1LENvbnRyb2wNCjYyLDY4OCxDb250cm9sDQo2Myw3MjUsQ29udHJvbA0KNjQsNzM1LENvbnRyb2wNCjY1LDc2LEJhY2lsbGkNCjY2LDkzLEJhY2lsbGkNCjY3LDk3LEJhY2lsbGkNCjY4LDEwNyxCYWNpbGxpDQo2OSwxMDgsQmFjaWxsaQ0KNzAsMTEzLEJhY2lsbGkNCjcxLDExNCxCYWNpbGxpDQo3MiwxMTksQmFjaWxsaQ0KNzMsMTM2LEJhY2lsbGkNCjc0LDEzOCxCYWNpbGxpDQo3NSwxMzksQmFjaWxsaQ0KNzYsMTUyLEJhY2lsbGkNCjc3LDE1NCxCYWNpbGxpDQo3OCwxNTQsQmFjaWxsaQ0KNzksMTYwLEJhY2lsbGkNCjgwLDE2NCxCYWNpbGxpDQo4MSwxNjQsQmFjaWxsaQ0KODIsMTY2LEJhY2lsbGkNCjgzLDE2OCxCYWNpbGxpDQo4NCwxNzgsQmFjaWxsaQ0KODUsMTc5LEJhY2lsbGkNCjg2LDE4MSxCYWNpbGxpDQo4NywxODEsQmFjaWxsaQ0KODgsMTgzLEJhY2lsbGkNCjg5LDE4NSxCYWNpbGxpDQo5MCwxOTQsQmFjaWxsaQ0KOTEsMTk4LEJhY2lsbGkNCjkyLDIxMixCYWNpbGxpDQo5MywyMTMsQmFjaWxsaQ0KOTQsMjE2LEJhY2lsbGkNCjk1LDIyMCxCYWNpbGxpDQo5NiwyMjUsQmFjaWxsaQ0KOTcsMjI1LEJhY2lsbGkNCjk4LDI0NCxCYWNpbGxpDQo5OSwyNTMsQmFjaWxsaQ0KMTAwLDI1NixCYWNpbGxpDQoxMDEsMjU5LEJhY2lsbGkNCjEwMiwyNjUsQmFjaWxsaQ0KMTAzLDI2OCxCYWNpbGxpDQoxMDQsMjcwLEJhY2lsbGkNCjEwNSwyODMsQmFjaWxsaQ0KMTA2LDI4OSxCYWNpbGxpDQoxMDcsMjkxLEJhY2lsbGkNCjEwOCwzMTEsQmFjaWxsaQ0KMTA5LDMxNSxCYWNpbGxpDQoxMTAsMzI2LEJhY2lsbGkNCjExMSwzMjYsQmFjaWxsaQ0KMTEyLDM2MSxCYWNpbGxpDQoxMTMsMzczLEJhY2lsbGkNCjExNCwzNzMsQmFjaWxsaQ0KMTE1LDM3NixCYWNpbGxpDQoxMTYsMzk3LEJhY2lsbGkNCjExNywzOTgsQmFjaWxsaQ0KMTE4LDQwNixCYWNpbGxpDQoxMTksNDU5LEJhY2lsbGkNCjEyMCw0NjYsQmFjaWxsaQ0KMTIxLDU5MixCYWNpbGxpDQoxMjIsNTk4LEJhY2lsbGkNCg==" download="guinea_pigs.csv">Download guinea_pigs.csv</a>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="bootstrap.html#cb241-1" aria-hidden="true" tabindex="-1"></a>pigs <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;guinea_pigs.csv&#39;</span>)</span>
+<span id="cb241-2"><a href="bootstrap.html#cb241-2" aria-hidden="true" tabindex="-1"></a>my.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Time<span class="sc">~</span>Treatment, <span class="at">data =</span> pigs)</span>
+<span id="cb241-3"><a href="bootstrap.html#cb241-3" aria-hidden="true" tabindex="-1"></a>my.lm</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Time ~ Treatment, data = pigs)
+## 
+## Coefficients:
+##      (Intercept)  TreatmentControl  
+##            242.5             102.7</code></pre>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="bootstrap.html#cb243-1" aria-hidden="true" tabindex="-1"></a>my.lm<span class="sc">$</span>coefficients</span></code></pre></div>
+<pre><code>##      (Intercept) TreatmentControl 
+##         242.5345         102.6843</code></pre>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="bootstrap.html#cb245-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(pigs<span class="sc">$</span>Pig)</span>
+<span id="cb245-2"><a href="bootstrap.html#cb245-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb245-3"><a href="bootstrap.html#cb245-3" aria-hidden="true" tabindex="-1"></a>r.r.coefs <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,<span class="dv">1000</span>,<span class="dv">2</span>)</span>
+<span id="cb245-4"><a href="bootstrap.html#cb245-4" aria-hidden="true" tabindex="-1"></a>row.resample.boot <span class="ot">&lt;-</span> <span class="cf">function</span>(indices){</span>
+<span id="cb245-5"><a href="bootstrap.html#cb245-5" aria-hidden="true" tabindex="-1"></a>  data.star <span class="ot">&lt;-</span> pigs[indices,]</span>
+<span id="cb245-6"><a href="bootstrap.html#cb245-6" aria-hidden="true" tabindex="-1"></a>  my.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Time<span class="sc">~</span>Treatment, <span class="at">data =</span> data.star)</span>
+<span id="cb245-7"><a href="bootstrap.html#cb245-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">as.numeric</span>(my.lm<span class="sc">$</span>coefficients))</span>
+<span id="cb245-8"><a href="bootstrap.html#cb245-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb245-9"><a href="bootstrap.html#cb245-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>){</span>
+<span id="cb245-10"><a href="bootstrap.html#cb245-10" aria-hidden="true" tabindex="-1"></a>  r.r.coefs[i,] <span class="ot">&lt;-</span> <span class="fu">row.resample.boot</span>(<span class="fu">sample.int</span>(n,n,<span class="cn">TRUE</span>))</span>
+<span id="cb245-11"><a href="bootstrap.html#cb245-11" aria-hidden="true" tabindex="-1"></a>}  </span>
+<span id="cb245-12"><a href="bootstrap.html#cb245-12" aria-hidden="true" tabindex="-1"></a>r.r.means <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(r.r.coefs)</span>
+<span id="cb245-13"><a href="bootstrap.html#cb245-13" aria-hidden="true" tabindex="-1"></a>percentiles1 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(r.r.coefs[,<span class="dv">1</span>], <span class="fu">c</span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>))</span>
+<span id="cb245-14"><a href="bootstrap.html#cb245-14" aria-hidden="true" tabindex="-1"></a>percentiles1</span></code></pre></div>
+<pre><code>##       5%      95% 
+## 218.0000 268.3603</code></pre>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="bootstrap.html#cb247-1" aria-hidden="true" tabindex="-1"></a>percentiles2 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(r.r.coefs[,<span class="dv">2</span>], <span class="fu">c</span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>))</span>
+<span id="cb247-2"><a href="bootstrap.html#cb247-2" aria-hidden="true" tabindex="-1"></a>percentiles2</span></code></pre></div>
+<pre><code>##        5%       95% 
+##  49.40079 154.59927</code></pre>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="bootstrap.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">2</span><span class="sc">*</span>r.r.means[<span class="dv">1</span>] <span class="sc">-</span> percentiles1[<span class="dv">2</span>], <span class="dv">2</span><span class="sc">*</span>r.r.means[<span class="dv">1</span>] <span class="sc">-</span> percentiles1[<span class="dv">1</span>])</span></code></pre></div>
+<pre><code>##      95%       5% 
+## 216.4051 266.7653</code></pre>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="bootstrap.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">2</span><span class="sc">*</span>r.r.means[<span class="dv">2</span>] <span class="sc">-</span> percentiles2[<span class="dv">2</span>], <span class="dv">2</span><span class="sc">*</span>r.r.means[<span class="dv">2</span>] <span class="sc">-</span> percentiles2[<span class="dv">1</span>])</span></code></pre></div>
+<pre><code>##       95%        5% 
+##  50.48009 155.67856</code></pre>
+<p>Next, we implement the residual-bootstrap method. Note the two methods give very similar <span class="math inline">\(90\%\)</span> basic bootstrap CIs for <span class="math inline">\(\beta_2\)</span> but disagree a bit for <span class="math inline">\(\beta_1\)</span>.</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="bootstrap.html#cb253-1" aria-hidden="true" tabindex="-1"></a>pigs <span class="ot">&lt;-</span> </span>
+<span id="cb253-2"><a href="bootstrap.html#cb253-2" aria-hidden="true" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">&#39;guinea_pigs.csv&#39;</span>)</span>
+<span id="cb253-3"><a href="bootstrap.html#cb253-3" aria-hidden="true" tabindex="-1"></a>my.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Time<span class="sc">~</span>Treatment, <span class="at">data =</span> pigs)</span>
+<span id="cb253-4"><a href="bootstrap.html#cb253-4" aria-hidden="true" tabindex="-1"></a>my.lm</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Time ~ Treatment, data = pigs)
+## 
+## Coefficients:
+##      (Intercept)  TreatmentControl  
+##            242.5             102.7</code></pre>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="bootstrap.html#cb255-1" aria-hidden="true" tabindex="-1"></a>my.lm<span class="sc">$</span>coefficients</span></code></pre></div>
+<pre><code>##      (Intercept) TreatmentControl 
+##         242.5345         102.6843</code></pre>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="bootstrap.html#cb257-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(pigs<span class="sc">$</span>Pig)</span>
+<span id="cb257-2"><a href="bootstrap.html#cb257-2" aria-hidden="true" tabindex="-1"></a>resids <span class="ot">&lt;-</span> my.lm<span class="sc">$</span>residuals</span>
+<span id="cb257-3"><a href="bootstrap.html#cb257-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb257-4"><a href="bootstrap.html#cb257-4" aria-hidden="true" tabindex="-1"></a>r.r.coefs <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,<span class="dv">1000</span>,<span class="dv">2</span>)</span>
+<span id="cb257-5"><a href="bootstrap.html#cb257-5" aria-hidden="true" tabindex="-1"></a>resid.boot <span class="ot">&lt;-</span> <span class="cf">function</span>(indices){</span>
+<span id="cb257-6"><a href="bootstrap.html#cb257-6" aria-hidden="true" tabindex="-1"></a>  resids.star <span class="ot">&lt;-</span> resids[indices]</span>
+<span id="cb257-7"><a href="bootstrap.html#cb257-7" aria-hidden="true" tabindex="-1"></a>  y.star <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">rep</span>(<span class="dv">1</span>,n), <span class="fu">ifelse</span>(pigs<span class="sc">$</span>Treatment<span class="sc">==</span><span class="st">&quot;Control&quot;</span>,<span class="dv">1</span>,<span class="dv">0</span>))<span class="sc">%*%</span><span class="fu">matrix</span>(<span class="fu">as.numeric</span>(my.lm<span class="sc">$</span>coefficients),<span class="dv">2</span>,<span class="dv">1</span>) <span class="sc">+</span> resids.star</span>
+<span id="cb257-8"><a href="bootstrap.html#cb257-8" aria-hidden="true" tabindex="-1"></a>  data.star <span class="ot">&lt;-</span> pigs</span>
+<span id="cb257-9"><a href="bootstrap.html#cb257-9" aria-hidden="true" tabindex="-1"></a>  data.star<span class="sc">$</span>y.star <span class="ot">&lt;-</span> y.star</span>
+<span id="cb257-10"><a href="bootstrap.html#cb257-10" aria-hidden="true" tabindex="-1"></a>  my.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(y.star<span class="sc">~</span>Treatment, <span class="at">data =</span> data.star)</span>
+<span id="cb257-11"><a href="bootstrap.html#cb257-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">as.numeric</span>(my.lm<span class="sc">$</span>coefficients))</span>
+<span id="cb257-12"><a href="bootstrap.html#cb257-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb257-13"><a href="bootstrap.html#cb257-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>){</span>
+<span id="cb257-14"><a href="bootstrap.html#cb257-14" aria-hidden="true" tabindex="-1"></a>  r.r.coefs[i,] <span class="ot">&lt;-</span> <span class="fu">resid.boot</span>(<span class="fu">sample.int</span>(n,n,<span class="cn">TRUE</span>))</span>
+<span id="cb257-15"><a href="bootstrap.html#cb257-15" aria-hidden="true" tabindex="-1"></a>}  </span>
+<span id="cb257-16"><a href="bootstrap.html#cb257-16" aria-hidden="true" tabindex="-1"></a>r.r.means <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(r.r.coefs)</span>
+<span id="cb257-17"><a href="bootstrap.html#cb257-17" aria-hidden="true" tabindex="-1"></a>percentiles1 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(r.r.coefs[,<span class="dv">1</span>], <span class="fu">c</span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>))</span>
+<span id="cb257-18"><a href="bootstrap.html#cb257-18" aria-hidden="true" tabindex="-1"></a>percentiles1</span></code></pre></div>
+<pre><code>##       5%      95% 
+## 205.1938 281.0952</code></pre>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="bootstrap.html#cb259-1" aria-hidden="true" tabindex="-1"></a>percentiles2 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(r.r.coefs[,<span class="dv">2</span>], <span class="fu">c</span>(<span class="fl">0.05</span>,<span class="fl">0.95</span>))</span>
+<span id="cb259-2"><a href="bootstrap.html#cb259-2" aria-hidden="true" tabindex="-1"></a>percentiles2</span></code></pre></div>
+<pre><code>##        5%       95% 
+##  50.20677 154.69151</code></pre>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="bootstrap.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">2</span><span class="sc">*</span>r.r.means[<span class="dv">1</span>] <span class="sc">-</span> percentiles1[<span class="dv">2</span>], <span class="dv">2</span><span class="sc">*</span>r.r.means[<span class="dv">1</span>] <span class="sc">-</span> percentiles1[<span class="dv">1</span>])</span></code></pre></div>
+<pre><code>##      95%       5% 
+## 203.5823 279.4838</code></pre>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="bootstrap.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">2</span><span class="sc">*</span>r.r.means[<span class="dv">2</span>] <span class="sc">-</span> percentiles2[<span class="dv">2</span>], <span class="dv">2</span><span class="sc">*</span>r.r.means[<span class="dv">2</span>] <span class="sc">-</span> percentiles2[<span class="dv">1</span>])</span></code></pre></div>
+<pre><code>##       95%        5% 
+##  52.21648 156.70123</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="likelihood-based-inferences.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/18-Bootstrap.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

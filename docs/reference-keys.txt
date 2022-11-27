@@ -86,3 +86,7 @@ example-housing-price-data
 likelihood-based-inferences
 wald-tests-and-cis
 example-auto-insurance-claims
+bootstrap
+intro-to-the-bootstrap
+bootstrap-confidence-intervals
+bootstrapping-linear-models
