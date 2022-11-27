@@ -90,3 +90,8 @@ bootstrap
 intro-to-the-bootstrap
 bootstrap-confidence-intervals
 bootstrapping-linear-models
+bayesian-statistics
+introduction
+bayesian-methods-in-general
+bayesian-methods-for-a-single-normal-population
+example

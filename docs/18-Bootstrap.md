@@ -56,7 +56,7 @@ quantile(rt(100000,9), 0.975)
 
 ```
 ##    97.5% 
-## 2.262892
+## 2.271685
 ```
 
 Of course, we (usually) cannot simulate from $F$ because it is unknown (depends on unknown parameters).  <br><br>

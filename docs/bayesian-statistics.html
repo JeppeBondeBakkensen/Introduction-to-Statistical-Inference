@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 10 Likelihood-Based Inferences | A First Course in Probability and Statistics</title>
+  <title>Chapter 12 Bayesian Statistics | A First Course in Probability and Statistics</title>
   <meta name="description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 10 Likelihood-Based Inferences | A First Course in Probability and Statistics" />
+  <meta property="og:title" content="Chapter 12 Bayesian Statistics | A First Course in Probability and Statistics" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 10 Likelihood-Based Inferences | A First Course in Probability and Statistics" />
+  <meta name="twitter:title" content="Chapter 12 Bayesian Statistics | A First Course in Probability and Statistics" />
   
   <meta name="twitter:description" content="These are a collection of notes related to STAT 588 and 341/342 at Iowa State University. This is a work in progress." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="multiple-linear-regression.html"/>
-<link rel="next" href="bootstrap.html"/>
+<link rel="prev" href="bootstrap.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -311,171 +311,63 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="likelihood-based-inferences" class="section level1 hasAnchor" number="10">
-<h1><span class="header-section-number">Chapter 10</span> Likelihood-Based Inferences<a href="likelihood-based-inferences.html#likelihood-based-inferences" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Previously, we discussed approximate sampling distribution theory for maximum likelihood estimators. Recall that if <span class="math inline">\(\hat\theta\)</span> is the MLE of <span class="math inline">\(\theta\)</span>, the parameter of a distribution family <span class="math inline">\(P_\theta\)</span>, then (under some technical conditions)
-<span class="math display">\[\hat\theta \stackrel{\cdot}{\sim} N(\theta, I(\theta)^{-1})\]</span>
-for large <span class="math inline">\(n\)</span> where <span class="math inline">\(I(\theta)\)</span> is the Fisher information
-<span class="math display">\[I(\theta) = -E\left[\frac{\partial^2}{\partial \theta} \ell(\theta;X_1, \ldots, X_n)\right]\]</span>
-for a random sample <span class="math inline">\(X_1,\ldots, X_n\)</span> from <span class="math inline">\(P_\theta\)</span>.</p>
+<div id="bayesian-statistics" class="section level1 hasAnchor" number="12">
+<h1><span class="header-section-number">Chapter 12</span> Bayesian Statistics<a href="bayesian-statistics.html#bayesian-statistics" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introduction" class="section level2 hasAnchor" number="12.1">
+<h2><span class="header-section-number">12.1</span> Introduction<a href="bayesian-statistics.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>All of the statistical methods we have discussed so far could be rightly described as “frequentist” in nature. Frequentist statistics, broadly speaking, is concerned with the random behavior of statistics (functions of randomly sampled data) over repeated sampling from the population under study. In frequentist statistics probability is used to describe random behavior induced by random sampling. And, by and large, the effectiveness of frequentist methods—like tests and confidence intervals—is judged by their random behaviors over repeated sampling; e.g., by the type 1 error and power of tests, and the coverage probability of interval estimators.<br><br></p>
+<p>In contrast, Bayesian statistics uses probability in two distinct ways: to describe random sampling variability in much the same way as frequentist statistics, and to characterize the uncertainty in unknown parameters. This second use of probability is novel, compared to frequentist statistics (although Bayesian statistics came first chronologically). In frequentist statistics unknown parameters—like the unknown mean <span class="math inline">\(\mu\)</span> of a normal population—are treated as unknown constant variables. In Bayesian statistics, unknown parameters are (mostly) treated as random variables—but, users of Bayesian statistics do not necessarily believe them to be random variables. <br><br></p>
+<p>There are some interesting consequences of treating parameters as a random variables. For one, information or assumptions about the parameters apart from the data can be used to assign a <em>prior probability distribution</em> to the parameters, effectively describing their random behavior, or, the beliefs about likely values of those parameters before any data from the population is collected. Second, treating the parameters as random variables allows one to assign probabilities to assertions about the parameters, e.g., <span class="math inline">\(P(\mu \leq 2)\)</span> where <span class="math inline">\(\mu\)</span> is the unknown mean of a normal population under study. In frequentist statistics, no such (non-trivial) probability makes sense. However, the interpretation of such <em>Bayesian</em> probabilities is somewhat unclear—they are not frequentist probabilities describing behavior of the parameter with respect to repeated sampling because the parameter has no random sampling distribution.</p>
+</div>
+<div id="bayesian-methods-in-general" class="section level2 hasAnchor" number="12.2">
+<h2><span class="header-section-number">12.2</span> Bayesian methods in general<a href="bayesian-statistics.html#bayesian-methods-in-general" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Bayesian statistics is similar to frequentist likelihood-based inference in that both start with a likelihood describing the sampling distribution of the data, say, <span class="math inline">\(f(x;\theta)\)</span>. For iid data we have <span class="math inline">\(L(\theta) = \prod_{i=1}^n f(x_i;\theta)\)</span> as usual. Bayesian statistics, however, requires an additional ingredient, the prior distribution mentioned above, denoted <span class="math inline">\(\pi(\theta)\)</span>. Recall that the likelihood is the joint distribution of the data given the parameter value <span class="math inline">\(\theta\)</span>. But, now regard the parameter as a random variable, and see that the likelihood is the conditional distribution of the data given the random parameter takes on a certain value. Since the joint distribution of random variables (denoted <span class="math inline">\(g\)</span> below) is equal to the product of their conditional and marginal distributions, we have
+<span class="math display">\[g(X_1, \ldots, X_n, \theta) = f(X_1, \ldots, X_n| \theta)\pi(\theta) = L(\theta)\pi(\theta).\]</span>
+All Bayesian inference (and prediction) is based on the <em>posterior distribution</em> <span class="math inline">\(\Pi_n(\theta)\)</span>, which is the conditional distribution of the parameter <span class="math inline">\(\theta\)</span> given the observed data, and is derived using Bayes’ Rule:
+<span class="math display">\[\Pi_n(\theta) = \frac{L(\theta)\pi(\theta)}{\int L(\vartheta)\pi(\vartheta)d\vartheta }\]</span>
+where the denominator is the marginal density of the data, <span class="math inline">\(f(x_1, \ldots, x_n) = \int f(x_1, \ldots, x_n,\vartheta)d\vartheta\)</span>, obtained by integration in the usual manner.
+<br><br></p>
+<p>If the prior distribution represents what is known (or assumed) about the parameter <strong>before</strong> data is observed, then the posterior distribution represents the up-to-date knowledge (or beliefs) about the parameter <strong>after</strong> data is observed.<br><br></p>
+<p>The posterior distribution for a parameter can usually be used to recreate methods analogous to frequentist ones. For example, suppose <span class="math inline">\(\theta\)</span> is a scalar parameter so that <span class="math inline">\(\Pi_n(\theta)\)</span> is a univariate density. We could define a <span class="math inline">\(100(1-\alpha)\%\)</span> <strong>credible interval</strong> for <span class="math inline">\(\theta\)</span> as the interval of values between the <span class="math inline">\(\alpha/2\)</span> and <span class="math inline">\(1-\alpha/2\)</span> quantiles of <span class="math inline">\(\Pi_n(\theta)\)</span>. One might expect that since the Bayesian posterior is based on the likelihood that such an interval would be similar to a confidence interval constructed using a frequentist likelihood-based technique, like a Wald or likelihood ratio-based interval. Usually, that is the case. Hypothesis testing is less straightforward in Bayesian statistics. For example, consider the point null hypothesis <span class="math inline">\(H_0:\mu = \mu_0\)</span> about a normal population mean. The posterior will be a continuous distribution for <span class="math inline">\(\mu\)</span>, and as such, the posterior probability of the null hypothesis will be <span class="math inline">\(P(\mu = \mu_0) = 0\)</span>. Therefore, it wouldn’t make much sense to <strong>accept</strong> null hypotheses with large posterior probabilities, because point nulls will always have zero probability under continuous posteriors. Alternatively, one might define a testing rule in reference to the posterior credible interval above, e.g., reject the null if <span class="math inline">\(\mu_0\)</span> is not in the <span class="math inline">\(100(1-\alpha)\%\)</span> credible interval for some specific choice of <span class="math inline">\(\alpha\)</span>. In many cases, such a test behave similarly to frequentist-based hypothesis tests.</p>
+</div>
+<div id="bayesian-methods-for-a-single-normal-population" class="section level2 hasAnchor" number="12.3">
+<h2><span class="header-section-number">12.3</span> Bayesian methods for a single normal population<a href="bayesian-statistics.html#bayesian-methods-for-a-single-normal-population" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Suppose <span class="math inline">\(X_i \stackrel{iid}{\sim}N(\mu, \sigma^2)\)</span>, which represents a normal population with an unknown mean and a known variance. Also, suppose the prior distribution <span class="math inline">\(\pi(\mu)\)</span> is chosen to be <span class="math inline">\(N(\mu_0, \sigma_0^2)\)</span> for known values <span class="math inline">\((\mu_0, \sigma_0^2)\)</span>—these are often called <strong>hyperparameters</strong>.<br><br></p>
+<p>The posterior distribution for <span class="math inline">\(\mu\)</span> is proportional to <span class="math inline">\(L(\mu)\pi(\mu)\)</span>, treating the denominator as a proportionality constant. Multiplying the likelihood and prior, we have
+<span class="math display">\[\begin{align*}
+\Pi_n(\mu)\propto L(\mu)\pi(\mu)\\
+&amp; = (2\pi\sigma^2)^{-n/2}(2\pi\sigma_0^2)^{-1/2}\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i - \mu)^2 - \frac{1}{2\sigma^2}(\mu - \mu_0)^2\right\}
+\end{align*}\]</span>
+Look only at the expression in the exponent, and complete the square in <span class="math inline">\(\mu\)</span> to get
+<span class="math display">\[\begin{align*}
+-\frac{1}{2\sigma^2}&amp;\sum_{x_i - \mu}^2 - \frac{1}{2\sigma_0^2}(\mu - \mu_0)^2\\
+&amp; = \mu^2\left[-\frac{n}{2\sigma^2}-\frac{1}{2\sigma_0^2}\right] + \mu\left[\frac{n\bar x}{\sigma^2} + \frac{\mu_0}{\sigma_0^2}\right] - \frac{1}{2\sigma^2}\sum x_i^2 - \frac{\mu_0^2}{2\sigma_0^2}\\
+&amp; = -\frac{1}{2\left[\frac{1}{\frac{n}{\sigma^2} + \frac{1}{\sigma_0^2}}\right]}\left(\mu^2 - 2\mu \frac{\frac{n\bar x}{\sigma^2} + \frac{\mu_0}{\sigma_0^2}}{\frac{n}{\sigma^2} + \frac{1}{\sigma_0^2}} - \left[\frac{\frac{n\bar x}{\sigma^2} + \frac{\mu_0}{\sigma_0^2}}{\frac{n}{\sigma^2} + \frac{1}{\sigma_0^2}}\right]^2\right) - \frac{1}{2\sigma^2}\sum x_i^2 - \frac{\mu_0^2}{2\sigma_0^2} - \frac{1}{2}\frac{\left[\frac{n\bar x}{\sigma^2} + \frac{\mu_0}{\sigma_0^2}\right]^2}{\frac{n}{\sigma^2} + \frac{1}{\sigma_0^2}}\\
+&amp; =  -\frac{1}{2\left[\frac{1}{\frac{n}{\sigma^2} + \frac{1}{\sigma_0^2}}\right]}\left(\mu - \frac{\frac{n\bar x}{\sigma^2} + \frac{\mu_0}{\sigma_0^2}}{\frac{n}{\sigma^2} + \frac{1}{\sigma_0^2}}\right)^2 + (\text{constants in }\mu).
+\end{align*}\]</span>
+The above calculation shows that the part of likelihood<span class="math inline">\(\times\)</span>prior depending on <span class="math inline">\(\mu\)</span> appears to be a normal density function. Therefore, since the posterior must be a proper density function (integrating to 1) it follows that
+<span class="math display">\[\Pi_n(\mu) \text{ is }N\left(\text{mean }= \frac{\frac{n\bar x}{\sigma^2} + \frac{\mu_0}{\sigma_0^2}}{\frac{n}{\sigma^2} + \frac{1}{\sigma_0^2}}, \,\,\text{variance }=\frac{1}{\frac{n}{\sigma^2} + \frac{1}{\sigma_0^2}}\right).\]</span></p>
 <p><br><br></p>
-<p>In this chapter we discuss how to use this (and other) approximate (large sample) sampling distributions to make inferences about population parameters.</p>
-<div id="wald-tests-and-cis" class="section level2 hasAnchor" number="10.1">
-<h2><span class="header-section-number">10.1</span> Wald tests and CIs<a href="likelihood-based-inferences.html#wald-tests-and-cis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>A <span class="math inline">\(100(1-\alpha)\%\)</span> Wald approximate CI for a scalar parameter <span class="math inline">\(\theta\)</span> has the form
-<span class="math display">\[\left(\hat\theta \pm z_{1-\alpha/2}\sqrt{I(\hat\theta)^{-1}}\right)\]</span></p>
-<p>This CI is straightforward to obtain by the same argument we have used before. Start with the identity
-<span class="math display">\[1-\alpha \approx P\left(z_{\alpha/2} &lt; \frac{\hat\theta - \theta}{\sqrt{I(\theta)^{-1}}} &lt; z_{1-\alpha/2}\right)\]</span>
-which follows from the approximate pivot discussed above, and in Chapter 2. Then, simply multiply by the standard error <span class="math inline">\(\sqrt{I(\theta)^{-1}}\)</span>, subtract <span class="math inline">\(\hat\theta\)</span> from both sides, and multiply by <span class="math inline">\(-1\)</span> to get
-<span class="math display">\[1-\alpha \approx P\left(\hat\theta - z_{1-\alpha/2}\sqrt{I(\theta)^{-1}} &lt; \theta &lt; \hat\theta + z_{1-\alpha/2}\sqrt{I(\theta)^{-1}}\right)\]</span>
-Finally, since <span class="math inline">\(\theta\)</span> is unknown, replace <span class="math inline">\(\theta\)</span> by <span class="math inline">\(\hat\theta\)</span> in the standard error to yield the so-called Wald type CI
-<span class="math display">\[\left(\hat\theta \pm z_{1-\alpha/2}\sqrt{I(\hat\theta)^{-1}}\right).\]</span></p>
-<p>If <span class="math inline">\(\theta = (\theta_1, \ldots, \theta_p)\)</span> is a vector, then, the marginal Wald approximate CI for <span class="math inline">\(\theta_j\)</span> is given by
-<span class="math display">\[\left(\hat\theta_j \pm z_{1-\alpha/2}\sqrt{I(\hat\theta)_{j,j}^{-1}}\right).\]</span>
-where <span class="math inline">\(I(\theta)\)</span> is the Fisher information <em>matrix</em> and <span class="math inline">\(I(\theta)_{j,j}\)</span> is the <span class="math inline">\(j^{th}\)</span> diagonal entry of the Fisher information matrix.</p>
-<p><br><br></p>
-<p>Besides CIs, the approximate pivot may be used for hypothesis tests as well. To test <span class="math inline">\(H_0:\theta = \theta_0\)</span> versus <span class="math inline">\(H_a: \theta\ne \theta_0\)</span> for a scalar parameter <span class="math inline">\(\theta\)</span>, reject the null hypothesis if <span class="math inline">\(|z| &gt; z_{1-\alpha/2}\)</span> where
-<span class="math display">\[z=\frac{\hat\theta - \theta_0}{\sqrt{I(\theta_0)^{-1}}}.\]</span>
-(Alternatively, one may use <span class="math inline">\(\hat\theta\)</span> in the standard error rather than <span class="math inline">\(\theta_0\)</span>. Under the null hypothesis, there is little difference.)</p>
-<p><br><br></p>
-<p>For a vector parameter <span class="math inline">\(\theta\)</span> let
-<span class="math display">\[W = (\hat\theta - \theta_0)^\top I(\theta_0)^{-1}(\hat\theta - \theta_0).\]</span>
-Under <span class="math inline">\(H_0:\theta = \theta_0\)</span>, <span class="math inline">\(W\stackrel{\cdot}{\sim}\chi^2(p)\)</span>. And, if we use the estimated covariance:
-<span class="math display">\[V = (\hat\theta - \theta_0)^\top I(\hat\theta)^{-1}(\hat\theta - \theta_0),\]</span>
-then, <span class="math inline">\(V\stackrel{\cdot}{\sim} F(p, n-p)\)</span>. So, we get either a Chi-Squared or F-based test for a vector parameter.</p>
-<div id="example-auto-insurance-claims" class="section level3 hasAnchor" number="10.1.1">
-<h3><span class="header-section-number">10.1.1</span> Example: Auto insurance claims<a href="likelihood-based-inferences.html#example-auto-insurance-claims" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>We have the following data on 100 auto insurance claims:</p>
-<p><img src="17-LikelihoodInference_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>Given the auto claims are positively skewed, we will assume a Gamma distribution reasonably models the population and fit a Gamma to the data by maximum likelihood.<br><br></p>
-<p>The Gamma density has form
-<span class="math display">\[f(x;\alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-x\beta}, \quad x,\alpha, \beta&gt;0\]</span>
-where <span class="math inline">\((\alpha, \beta)\)</span> are shape and rate parameters. The likelihood for a random sample of size <span class="math inline">\(n\)</span> is
-<span class="math display">\[L(\alpha, \beta; X_1, \ldots, X_n) = \left(\frac{\beta^\alpha}{\Gamma(\alpha)}\right)^n \prod_{i=1}^n (x_i)^{\alpha - 1} e^{-\beta\sum_{i=1}^n x_i}.\]</span>
-Taking the log, we have the loglikelihood function (suppressing dependence on data)
-<span class="math display">\[\ell(\alpha, \beta) = n\alpha\log \beta - n\log \Gamma(\alpha) + (\alpha - 1)\sum_{i=1}^n \log(x_i) - \beta\sum_{i=1}^n x_i.\]</span>
-Next, we need the gradient (the first derivatives) w.r.t. the parameters <span class="math inline">\((\alpha,\beta)\)</span>:
-<span class="math display">\[\frac{\partial \ell}{\partial \alpha} = n\log\beta - \text{DiGamma}(\alpha) + \sum_{i=1}^n \log(x_i)\]</span>
-where the function DiGamma<span class="math inline">\((\alpha)\)</span> is the logarithmic derivative of the Gamma function. Next, we have
-<span class="math display">\[\frac{\partial \ell}{\partial \beta} = \frac{n\alpha}{\beta} - \sum_{i=1}^n x_i.\]</span></p>
-<p>We also need the second derivatives in order to compute the Fisher information:
-<span class="math display">\[\frac{\partial^2 \ell}{\partial \alpha^2} = -\text{TriGamma}(\alpha)\]</span>
-where the TriGamma function is (you guessed it!) the second logarithmic derivative fo the Gamma function <span class="math inline">\(\Gamma(\alpha)\)</span>.<br />
-<span class="math display">\[\frac{\partial^2 \ell}{\partial \alpha\partial\beta} = n/\beta.\]</span>
-<span class="math display">\[\frac{\partial^2 \ell}{\partial \beta^2} = -\frac{n\alpha}{\beta^2}.\]</span>
-<br></p>
-<p>You may have guessed we will not be able to compute the MLEs by hand by solving <span class="math inline">\(\frac{\partial \ell}{\partial \alpha}=0\)</span> and <span class="math inline">\(\frac{\partial \ell}{\partial \beta} = 0\)</span>. Instead, we need an iterative solver (an algorithm). In R we can use <em>optim</em> to solve for the MLEs. Or, we can code our own version of Newton’s method…</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="likelihood-based-inferences.html#cb198-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(data)</span>
-<span id="cb198-2"><a href="likelihood-based-inferences.html#cb198-2" aria-hidden="true" tabindex="-1"></a>loglik <span class="ot">&lt;-</span> <span class="cf">function</span>(param){</span>
-<span id="cb198-3"><a href="likelihood-based-inferences.html#cb198-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">dgamma</span>(data, <span class="at">shape =</span> param[<span class="dv">1</span>], <span class="at">rate =</span> param[<span class="dv">2</span>], <span class="at">log =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb198-4"><a href="likelihood-based-inferences.html#cb198-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb198-5"><a href="likelihood-based-inferences.html#cb198-5" aria-hidden="true" tabindex="-1"></a>grad <span class="ot">&lt;-</span> <span class="cf">function</span>(param){</span>
-<span id="cb198-6"><a href="likelihood-based-inferences.html#cb198-6" aria-hidden="true" tabindex="-1"></a>  g1 <span class="ot">&lt;-</span> n<span class="sc">*</span><span class="fu">log</span>(param[<span class="dv">2</span>]) <span class="sc">-</span> n<span class="sc">*</span><span class="fu">digamma</span>(param[<span class="dv">1</span>]) <span class="sc">+</span> <span class="fu">sum</span>(<span class="fu">log</span>(data))</span>
-<span id="cb198-7"><a href="likelihood-based-inferences.html#cb198-7" aria-hidden="true" tabindex="-1"></a>  g2 <span class="ot">&lt;-</span> n<span class="sc">*</span>param[<span class="dv">1</span>]<span class="sc">/</span>param[<span class="dv">2</span>] <span class="sc">-</span> <span class="fu">sum</span>(data)</span>
-<span id="cb198-8"><a href="likelihood-based-inferences.html#cb198-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(g1,g2))</span>
-<span id="cb198-9"><a href="likelihood-based-inferences.html#cb198-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb198-10"><a href="likelihood-based-inferences.html#cb198-10" aria-hidden="true" tabindex="-1"></a>H <span class="ot">&lt;-</span> <span class="cf">function</span>(param){</span>
-<span id="cb198-11"><a href="likelihood-based-inferences.html#cb198-11" aria-hidden="true" tabindex="-1"></a>  h1 <span class="ot">&lt;-</span> <span class="sc">-</span>n<span class="sc">*</span><span class="fu">trigamma</span>(param[<span class="dv">1</span>])</span>
-<span id="cb198-12"><a href="likelihood-based-inferences.html#cb198-12" aria-hidden="true" tabindex="-1"></a>  h2 <span class="ot">&lt;-</span> n<span class="sc">/</span>param[<span class="dv">2</span>]</span>
-<span id="cb198-13"><a href="likelihood-based-inferences.html#cb198-13" aria-hidden="true" tabindex="-1"></a>  h3 <span class="ot">&lt;-</span> <span class="sc">-</span>n<span class="sc">*</span>param[<span class="dv">1</span>]<span class="sc">/</span>(param[<span class="dv">2</span>]<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb198-14"><a href="likelihood-based-inferences.html#cb198-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(h1,h2,h2,h3),<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb198-15"><a href="likelihood-based-inferences.html#cb198-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb198-16"><a href="likelihood-based-inferences.html#cb198-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb198-17"><a href="likelihood-based-inferences.html#cb198-17" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">mean</span>(data)</span>
-<span id="cb198-18"><a href="likelihood-based-inferences.html#cb198-18" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">var</span>(data)</span>
-<span id="cb198-19"><a href="likelihood-based-inferences.html#cb198-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb198-20"><a href="likelihood-based-inferences.html#cb198-20" aria-hidden="true" tabindex="-1"></a>beta0 <span class="ot">&lt;-</span> m<span class="sc">/</span>v</span>
-<span id="cb198-21"><a href="likelihood-based-inferences.html#cb198-21" aria-hidden="true" tabindex="-1"></a>alpha0 <span class="ot">&lt;-</span> m<span class="sc">*</span>beta0</span>
-<span id="cb198-22"><a href="likelihood-based-inferences.html#cb198-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb198-23"><a href="likelihood-based-inferences.html#cb198-23" aria-hidden="true" tabindex="-1"></a>delta <span class="ot">&lt;-</span> <span class="fl">0.00001</span></span>
-<span id="cb198-24"><a href="likelihood-based-inferences.html#cb198-24" aria-hidden="true" tabindex="-1"></a>diff.step <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb198-25"><a href="likelihood-based-inferences.html#cb198-25" aria-hidden="true" tabindex="-1"></a>par.old <span class="ot">&lt;-</span> <span class="fu">c</span>(alpha0, beta0)</span>
-<span id="cb198-26"><a href="likelihood-based-inferences.html#cb198-26" aria-hidden="true" tabindex="-1"></a>steps <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb198-27"><a href="likelihood-based-inferences.html#cb198-27" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>((diff.step <span class="sc">&gt;</span> delta) <span class="sc">&amp;</span> (steps <span class="sc">&lt;</span> <span class="dv">100</span>)){</span>
-<span id="cb198-28"><a href="likelihood-based-inferences.html#cb198-28" aria-hidden="true" tabindex="-1"></a>  par.new <span class="ot">&lt;-</span> par.old <span class="sc">-</span> <span class="fu">solve</span>(<span class="fu">H</span>(par.old))<span class="sc">%*%</span><span class="fu">matrix</span>(<span class="fu">grad</span>(par.old),<span class="dv">2</span>,<span class="dv">1</span>) </span>
-<span id="cb198-29"><a href="likelihood-based-inferences.html#cb198-29" aria-hidden="true" tabindex="-1"></a>  diff.step <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">abs</span>(par.new <span class="sc">-</span> par.old))</span>
-<span id="cb198-30"><a href="likelihood-based-inferences.html#cb198-30" aria-hidden="true" tabindex="-1"></a>  steps <span class="ot">&lt;-</span> steps <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb198-31"><a href="likelihood-based-inferences.html#cb198-31" aria-hidden="true" tabindex="-1"></a>  par.old <span class="ot">&lt;-</span> par.new</span>
-<span id="cb198-32"><a href="likelihood-based-inferences.html#cb198-32" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb198-33"><a href="likelihood-based-inferences.html#cb198-33" aria-hidden="true" tabindex="-1"></a>par.old</span></code></pre></div>
-<pre><code>##             [,1]
-## [1,] 1.966640491
-## [2,] 0.001948425</code></pre>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="likelihood-based-inferences.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">loglik</span>(par.old)</span></code></pre></div>
-<pre><code>## [1] -780.5969</code></pre>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="likelihood-based-inferences.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">H</span>(par.old)</span></code></pre></div>
-<pre><code>##             [,1]         [,2]
-## [1,]   -65.86955     51323.52
-## [2,] 51323.51588 -51803341.74</code></pre>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="likelihood-based-inferences.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(<span class="fu">H</span>(par.old))</span></code></pre></div>
-<pre><code>##               [,1]          [,2]
-## [1,] -6.657160e-02 -6.595499e-05
-## [2,] -6.595499e-05 -8.464786e-08</code></pre>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="likelihood-based-inferences.html#cb206-1" aria-hidden="true" tabindex="-1"></a>mle.optim <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="fu">c</span>(alpha0, beta0), loglik, <span class="at">gr =</span> grad, <span class="at">control =</span> <span class="fu">list</span>(<span class="at">fnscale =</span> <span class="sc">-</span><span class="dv">1</span>), <span class="at">method =</span> <span class="st">&#39;BFGS&#39;</span>, <span class="at">hessian =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
-## produced
-
-## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
-## produced
-
-## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
-## produced
-
-## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
-## produced
-
-## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
-## produced
-
-## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
-## produced
-
-## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
-## produced
-
-## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
-## produced
-
-## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
-## produced
-
-## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
-## produced
-
-## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
-## produced
-
-## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
-## produced
-
-## Warning in dgamma(data, shape = param[1], rate = param[2], log = TRUE): NaNs
-## produced</code></pre>
-<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="likelihood-based-inferences.html#cb208-1" aria-hidden="true" tabindex="-1"></a>mle.optim</span></code></pre></div>
-<pre><code>## $par
-## [1] 1.966641732 0.001948426
-## 
-## $value
-## [1] -780.5969
-## 
-## $counts
-## function gradient 
-##       34        4 
-## 
-## $convergence
-## [1] 0
-## 
-## $message
-## NULL
-## 
-## $hessian
-##             [,1]         [,2]
-## [1,]   -65.86951     54017.32
-## [2,] 54017.31581 -70328540.92</code></pre>
-<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="likelihood-based-inferences.html#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(mle.optim<span class="sc">$</span>hessian)</span></code></pre></div>
-<pre><code>##               [,1]          [,2]
-## [1,] -4.101660e-02 -3.150366e-05
-## [2,] -3.150366e-05 -3.841603e-08</code></pre>
-<p><img src="17-LikelihoodInference_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Two remarks about the posterior distribution are quite important. First, notice that the posterior mean may be rewritten as the following weighted average:
+<span class="math display">\[\frac{\frac{n\bar x}{\sigma^2} + \frac{\mu_0}{\sigma_0^2}}{\frac{n}{\sigma^2} + \frac{1}{\sigma_0^2}} = \bar x \frac{\frac{\sigma^2}{n\sigma_0^2}}{1+\frac{\sigma^2}{n\sigma_0^2}} + \mu_0\frac{1}{1+\frac{\sigma^2}{n\sigma_0^2}}.\]</span>
+And, when <span class="math inline">\(n\)</span> is large, the posterior mean is approximately <span class="math inline">\(\bar x\)</span> because the weight on <span class="math inline">\(\bar x\)</span> approaches 1 while the weight on <span class="math inline">\(\mu_0\)</span> approaches 0. The posterior variance may be rewritten as
+<span class="math display">\[\frac{1}{\frac{n}{\sigma^2} + \frac{1}{\sigma_0^2}} = \frac{\sigma^2}{n+\sigma^2/\sigma_0^2}\approx \sigma^2/n\]</span>
+where the approximation holds for large <span class="math inline">\(n\)</span>. The upshot is that the posterior is almost the same as the sampling distribution of <span class="math inline">\(\overline X\)</span> when <span class="math inline">\(n\)</span> is large. Consequently, frequentist and Bayesian inferences (e.g. <span class="math inline">\(95\%\)</span> confidence/credible intervals for <span class="math inline">\(\mu\)</span>) will agree when the sample size is large. The second remark is that the posterior distribution turned out to be the same kind of distribution as the prior distribution. The relationship between the prior, likelihood, and posterior in which the prior and posterior are the same type of distribution is called <em>conjugacy</em>. In general, the prior and posterior are only conjugate for certain choices of prior for certain likelihood—conjugacy is the exception, not the rule.</p>
+<div id="example" class="section level3 hasAnchor" number="12.3.1">
+<h3><span class="header-section-number">12.3.1</span> Example<a href="bayesian-statistics.html#example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A certain transformation of iron levels in water sampled from sites in the Mississippi river is well-modeled by a normal distribution. Previous studies suggest mean iron level around 1.5 (on the transformed scale) with standard deviation 0.05—so the prior distribution is set to be <span class="math inline">\(N(\mu_0 =1.5,\sigma_0^2=0.05^2)\)</span>. 108 iron readings are obtained in a new experiment with a mean of 1.277. Assuming a normal variance of <span class="math inline">\(\sigma^2 = 0.05^2\)</span> the posterior is <span class="math inline">\(N(1.279, 0.05^2/109)\)</span>. The sampling distribution of <span class="math inline">\(\overline X\)</span>, on the other hand, is <span class="math inline">\(N(1.277, 0.05^2/108)\)</span>. The two are plotted below in red and blue, respectively. The <span class="math inline">\(95\%\)</span> confidence interval for <span class="math inline">\(\mu\)</span> is <span class="math inline">\((1.2675,\,1.2864)\)</span> while the corresponding credible interval is <span class="math inline">\((1.2696, \,1.2884)\)</span>.</p>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="bayesian-statistics.html#cb265-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SASmixed)</span>
+<span id="cb265-2"><a href="bayesian-statistics.html#cb265-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> (Multilocation<span class="sc">$</span>Fe<span class="sc">^</span>{<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>}<span class="sc">-</span><span class="dv">1</span>)<span class="sc">/</span>(<span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb265-3"><a href="bayesian-statistics.html#cb265-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(y)</span></code></pre></div>
+<p><img src="19-BayesianStatistics_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="bayesian-statistics.html#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y)</span></code></pre></div>
+<pre><code>## [1] 1.276776</code></pre>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="bayesian-statistics.html#cb268-1" aria-hidden="true" tabindex="-1"></a>dnormx1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">dnorm</span>(x, <span class="fl">1.279</span>,<span class="fu">sqrt</span>(<span class="fl">0.05</span><span class="sc">*</span><span class="fl">0.05</span><span class="sc">/</span><span class="dv">109</span>))</span>
+<span id="cb268-2"><a href="bayesian-statistics.html#cb268-2" aria-hidden="true" tabindex="-1"></a>dnormx2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">dnorm</span>(x, <span class="fl">1.277</span>,<span class="fu">sqrt</span>(<span class="fl">0.05</span><span class="sc">*</span><span class="fl">0.05</span><span class="sc">/</span><span class="dv">108</span>))</span>
+<span id="cb268-3"><a href="bayesian-statistics.html#cb268-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb268-4"><a href="bayesian-statistics.html#cb268-4" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(dnormx1, <span class="fl">1.25</span>,<span class="fl">1.3</span>, <span class="at">col =</span> <span class="st">&#39;red&#39;</span>)</span>
+<span id="cb268-5"><a href="bayesian-statistics.html#cb268-5" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(dnormx2, <span class="fl">1.25</span>,<span class="fl">1.3</span>, <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="19-BayesianStatistics_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 
 </div>
 </div>
@@ -485,8 +377,8 @@ where the TriGamma function is (you guessed it!) the second logarithmic derivati
           </div>
         </div>
       </div>
-<a href="multiple-linear-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="bootstrap.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="bootstrap.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -517,7 +409,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/17-LikelihoodInference.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/19-BayesianStatistics.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -111,7 +111,7 @@ sum(res<0.05)/10000
 ```
 
 ```
-## [1] 0.6619
+## [1] 0.6614
 ```
 
 ### Test for a normal population variance

@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="likelihood-based-inferences.html"/>
-
+<link rel="next" href="bayesian-statistics.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -278,9 +278,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="11" data-path="bootstrap.html"><a href="bootstrap.html"><i class="fa fa-check"></i><b>11</b> Bootstrap</a>
 <ul>
-<li class="chapter" data-level="11.0.1" data-path="bootstrap.html"><a href="bootstrap.html#intro-to-the-bootstrap"><i class="fa fa-check"></i><b>11.0.1</b> Intro to the bootstrap</a></li>
-<li class="chapter" data-level="11.0.2" data-path="bootstrap.html"><a href="bootstrap.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>11.0.2</b> Bootstrap Confidence Intervals</a></li>
-<li class="chapter" data-level="11.0.3" data-path="bootstrap.html"><a href="bootstrap.html#bootstrapping-linear-models"><i class="fa fa-check"></i><b>11.0.3</b> Bootstrapping linear models</a></li>
+<li class="chapter" data-level="11.1" data-path="bootstrap.html"><a href="bootstrap.html#intro-to-the-bootstrap"><i class="fa fa-check"></i><b>11.1</b> Intro to the bootstrap</a></li>
+<li class="chapter" data-level="11.2" data-path="bootstrap.html"><a href="bootstrap.html#bootstrap-confidence-intervals"><i class="fa fa-check"></i><b>11.2</b> Bootstrap Confidence Intervals</a></li>
+<li class="chapter" data-level="11.3" data-path="bootstrap.html"><a href="bootstrap.html#bootstrapping-linear-models"><i class="fa fa-check"></i><b>11.3</b> Bootstrapping linear models</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html"><i class="fa fa-check"></i><b>12</b> Bayesian Statistics</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#introduction"><i class="fa fa-check"></i><b>12.1</b> Introduction</a></li>
+<li class="chapter" data-level="12.2" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bayesian-methods-in-general"><i class="fa fa-check"></i><b>12.2</b> Bayesian methods in general</a></li>
+<li class="chapter" data-level="12.3" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bayesian-methods-for-a-single-normal-population"><i class="fa fa-check"></i><b>12.3</b> Bayesian methods for a single normal population</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#example"><i class="fa fa-check"></i><b>12.3.1</b> Example</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -304,8 +313,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="bootstrap" class="section level1 hasAnchor" number="11">
 <h1><span class="header-section-number">Chapter 11</span> Bootstrap<a href="bootstrap.html#bootstrap" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="intro-to-the-bootstrap" class="section level3 hasAnchor" number="11.0.1">
-<h3><span class="header-section-number">11.0.1</span> Intro to the bootstrap<a href="bootstrap.html#intro-to-the-bootstrap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="intro-to-the-bootstrap" class="section level2 hasAnchor" number="11.1">
+<h2><span class="header-section-number">11.1</span> Intro to the bootstrap<a href="bootstrap.html#intro-to-the-bootstrap" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>For hypothesis testing and confidence intervals, there is a “statistic” whose sampling distribution is required<br><br></p>
 <p>For example, to test <span class="math inline">\(H_0:\mu = \mu_0\)</span> using a normal random sample <span class="math inline">\(X_1, ..., X_n\)</span> with <span class="math inline">\(X_i \stackrel{iid}{\sim}N(\mu, \sigma^2)\)</span> the test statistic
 <span class="math display">\[T = \frac{\bar X - \mu_0}{S/\sqrt{n}}\]</span>
@@ -333,7 +342,7 @@ A natural estimate of <span class="math inline">\(\theta\)</span> is the “plug
 <pre><code>## [1] 2.262157</code></pre>
 <div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="bootstrap.html#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(<span class="fu">rt</span>(<span class="dv">100000</span>,<span class="dv">9</span>), <span class="fl">0.975</span>)</span></code></pre></div>
 <pre><code>##    97.5% 
-## 2.265622</code></pre>
+## 2.260443</code></pre>
 <p>Of course, we (usually) cannot simulate from <span class="math inline">\(F\)</span> because it is unknown (depends on unknown parameters). <br><br></p>
 <p>Bootstrap idea: Replace simulation from <span class="math inline">\(F\)</span> with simulation from <span class="math inline">\(\hat F\)</span>! <br><br></p>
 <p>Note: it is easy to simulate from <span class="math inline">\(\hat F\)</span>, it’s just simulation from a discrete uniform distribution with probabilities <span class="math inline">\(1/n\)</span> on each data point.<br></p>
@@ -386,8 +395,8 @@ A natural estimate of <span class="math inline">\(\theta\)</span> is the “plug
 <span id="cb233-4"><a href="bootstrap.html#cb233-4" aria-hidden="true" tabindex="-1"></a>approx.p.value </span></code></pre></div>
 <pre><code>## [1] 0.9726</code></pre>
 </div>
-<div id="bootstrap-confidence-intervals" class="section level3 hasAnchor" number="11.0.2">
-<h3><span class="header-section-number">11.0.2</span> Bootstrap Confidence Intervals<a href="bootstrap.html#bootstrap-confidence-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="bootstrap-confidence-intervals" class="section level2 hasAnchor" number="11.2">
+<h2><span class="header-section-number">11.2</span> Bootstrap Confidence Intervals<a href="bootstrap.html#bootstrap-confidence-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>A variety of methods are used to construct confidence intervals using the bootstrap distribution of an estimator. We’ll discuss the percentile, basic, and Studentized methods, although several others are available, including the bias-corrected and accelerated (BCa) intervals computed by default in R’s boot package.</p>
 <p><br><br></p>
 <p>Suppose the bootstrap samples <span class="math inline">\(\hat\theta_1, \ldots, \hat\theta_B\)</span> are available. The simplest bootstrap interval estimate is given by the percentile method, which defines the <span class="math inline">\(100(1-\alpha)\%\)</span> CI to be the <span class="math inline">\(\alpha/2\)</span> to <span class="math inline">\((1-\alpha/2)\)</span> sample quantiles of <span class="math inline">\(\hat\theta_1, \ldots, \hat\theta_B\)</span>. There are good arguments against the percentile method, but we won’t wade into the details presently. Those arguments tend to favor the basic bootstrap method, which defines the <span class="math inline">\(100(1-\alpha)\%\)</span> CI to be the interval <span class="math inline">\((2\overline \theta - \hat\theta_{1-\alpha/2}, \, 2\overline \theta - \hat\theta_{\alpha/2})\)</span>, which is twise the sample mean of the bootstrapped estimates minus the <span class="math inline">\((1-\alpha/2)\)</span> and <span class="math inline">\(\alpha/2\)</span> sample quantiles of those bootstrapped estimates <span class="math inline">\(\hat\theta_1, \ldots, \hat\theta_B\)</span>.</p>
@@ -435,8 +444,8 @@ where <span class="math inline">\(q_\alpha\)</span> is the <span class="math inl
 <span id="cb239-24"><a href="bootstrap.html#cb239-24" aria-hidden="true" tabindex="-1"></a><span class="fu">my.boot</span>(x,y,<span class="dv">1000</span>,<span class="dv">50</span>,<span class="fl">0.05</span>)</span></code></pre></div>
 <pre><code>## [1] -0.6147748  0.8576096</code></pre>
 </div>
-<div id="bootstrapping-linear-models" class="section level3 hasAnchor" number="11.0.3">
-<h3><span class="header-section-number">11.0.3</span> Bootstrapping linear models<a href="bootstrap.html#bootstrapping-linear-models" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="bootstrapping-linear-models" class="section level2 hasAnchor" number="11.3">
+<h2><span class="header-section-number">11.3</span> Bootstrapping linear models<a href="bootstrap.html#bootstrapping-linear-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>When we have only one sample of iid data, bootstrapping is straightforward: simply sample with replacement n times from the original data to obtain a single bootstrap-resampled data set. Repeat many times, recording the estimate corresponding to each resampled set. When there is more “structure” present in the data we need to think carefully about how that structure should be treated by the resampling procedure.<br />
 <br><br>
 In linear models, i.e., the Gauss-Markov model, for each response <span class="math inline">\(Y_i\)</span> there is a corresponding covariate vector <span class="math inline">\(X_i\)</span>. How should these pairs <span class="math inline">\((Y_i, X_i)\)</span> be treated by the resampling procedure?
@@ -539,8 +548,8 @@ Example: Consider the following experiment to evaluate the effect of a bacterial
           </div>
         </div>
       </div>
-<a href="likelihood-based-inferences.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="likelihood-based-inferences.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bayesian-statistics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
